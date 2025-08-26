@@ -8,7 +8,7 @@
 ## 📖 Sobre o Projeto
 Este repositório contém o **Projeto Integrador 2025** do **Instituto Federal de Educação, Ciência e Tecnologia do Estado de São Paulo – Campus São Paulo**.  
 
-O trabalho foi desenvolvido ao longo de 4 meses por um grupo de 4 integrantes, com o tema central de uma **locadora de veículos fictícia**. O projeto busca unir **design, banco de dados, segurança da informação, acessibilidade digital e desenvolvimento web**.
+O trabalho será desenvolvido ao longo de 4 meses por um grupo de 4 integrantes, com o tema central de uma **locadora de veículos fictícia**. O projeto busca unir **design, banco de dados, segurança da informação, acessibilidade digital e desenvolvimento web**.
 
 **Integrantes:**
 - Ana Julia Cardoso Moser  

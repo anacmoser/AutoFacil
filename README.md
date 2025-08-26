@@ -91,8 +91,7 @@ O sistema contará ainda com uma **barra de acessibilidade** para facilitar ajus
 ---
 
 ## 📐 Wireframe
-> *(Inserir aqui imagens ou links dos wireframes do projeto)*  
-
+> ![Banner 3](https://github.com/ifsp-dev-projects/AutoFacil/blob/main/static/img/banner3.png) 
 ---
 
 ## 📚 Referências

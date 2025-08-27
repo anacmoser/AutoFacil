@@ -9,6 +9,7 @@
 Este repositório contém o **Projeto Integrador 2025** do **Instituto Federal de Educação, Ciência e Tecnologia do Estado de São Paulo – Campus São Paulo**.  
 
 O trabalho será desenvolvido ao longo de 4 meses por um grupo de 4 integrantes, com o tema central de uma **locadora de veículos fictícia**. O projeto busca unir **design, banco de dados, segurança da informação, acessibilidade digital e desenvolvimento web**.
+O trabalho será desenvolvido ao longo de 4 meses por um grupo de 4 integrantes, com o tema central de uma **locadora de veículos fictícia**. O projeto busca unir **design, banco de dados, segurança da informação, acessibilidade digital e desenvolvimento web**.
 
 **Integrantes:**
 - Ana Julia Cardoso Moser  
@@ -91,8 +92,9 @@ O sistema contará ainda com uma **barra de acessibilidade** para facilitar ajus
 ---
 
 ## 📐 Wireframe
-> ![Banner 2](https://github.com/ifsp-dev-projects/AutoFacil/blob/main/static/img/banner2.png)
-
+![Banner 3](https://github.com/ifsp-dev-projects/AutoFacil/blob/main/static/img/banner%203.png)
+![Banner 4](https://github.com/ifsp-dev-projects/AutoFacil/blob/main/static/img/banner%202.png)
+![Banner 5](https://github.com/ifsp-dev-projects/AutoFacil/blob/main/static/img/aluguel%20mensal.png)
 
 ---
 

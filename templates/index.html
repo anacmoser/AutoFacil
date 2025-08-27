@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoFácil</title>
+
+    <!-- csss link -->
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Favicons links -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+    <!-- Google Fonts link -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <!-- ======= NAVBAR ======= -->
+    <header class="topbar">
+        <nav class="nav">
+            <div class="nav-left">
+                <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+                <a class="logo" href="/" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <a href="#" class="nav-btn">Alugar agora</a>
+                <a href="#" class="nav-btn">Aluguel mensal</a>
+                <a href="#" class="nav-btn">Para empresas</a>
+                <a href="#" class="nav-btn">Minhas reservas</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="#">
+                    <img src="../static/img/pergunta.png" alt="Botão de dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="../static/img/login2.png" alt="Botão de login" class="icon-btn">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Barra de pesquisa -->
+    <div class="searchbar">
+        <form>
+            <div class="search-item">
+                <span class="icon"><img src="../static/img/desconto.png" alt=""></span>
+                <input type="text" placeholder="Digite a marca ou modelo" class="marca">
+            </div>
+            <div class="search-item">
+                <span class="icon"><img src="../static/img/localizacao.png" alt=""></span>
+                <input type="text" placeholder="Local" class="local">
+            </div>
+            <div class="search-item">
+                <span class="icon"><img src="../static/img/calendario.png" alt=""></span>
+                <input type="text" placeholder="Data" onfocus="(this.type='date')" onblur="(this.type='text')" class="date">
+            </div>
+        </form>
+    </div>
+    <!-- ======= CARROSSEL ======= -->
+    <section class="carousel">
+        <div class="carousel-container">
+            <img src="../static/img/Design sem nome (1)_page-0001.jpg" class="active">
+            <img src="../static/img/banner2.jpg">
+            <img src="../static/img/banner3.jpg">
+        </div>
+
+        <!-- Botões de navegação -->
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+        <div class="carousel-indicators">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>

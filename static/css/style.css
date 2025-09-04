@@ -14,10 +14,12 @@ body {
 /* ======= HEADER ======= */
 header {
     border-bottom: 1px solid #dcdcdc;
-    padding: 10px 20px;
+    padding: 5px 40px 15px 40px;
     display: flex;
     justify-content: center;
 }
+
+/*deixar o nav responsivo para os botoes irem pro menu laterial em telas menores*/
 
 a {
     text-decoration: none;
@@ -32,22 +34,90 @@ a {
 }
 
 .nav-left,
-.nav-center,
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .nav-right {
     display: flex;
     align-items: center;
+    flex: 0 0 auto;
 }
 
+/* logo responsiva e progressiva */
 .logo-img {
-    width: 150px;
+    width: clamp(100px, 12vw, 150px);
     height: auto;
     margin: 0 20px;
+}
+
+
+/* ---- NAV: trigger / painel ---- */
+.menu-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 #menu {
     width: 30px;
     height: 40px;
     cursor: pointer;
+}
+
+.menu-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 280px;
+    max-width: 360px;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+    padding: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity .2s ease, transform .2s ease, visibility .2s;
+    z-index: 3000;
+}
+
+/* “Setinha” do balão */
+.menu-panel::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 18px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+    filter: drop-shadow(0 -1px 0 #e6e6e6);
+}
+
+/* Listas internas */
+.menu-panel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-panel li {
+    margin: 0;
+}
+
+.menu-panel a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #002f5f;
+    font-size: 14px;
+}
+
+.menu-panel a:hover {
+    background: #f5f8fc;
 }
 
 /* Botões do menu */
@@ -61,72 +131,45 @@ a {
     font-size: 14px;
     font-weight: 500;
     margin: 15px;
-    margin-bottom:0px;
+    margin-bottom: 0px;
     text-align: center;
     transition: 0.3s;
 }
 
 .nav-btn:hover {
-    background-color:#ff8c14;
+    background-color: #ff8c14;
     color: #fff;
 }
 
 /* Ícones da direita */
+/* sempre responsivo */
 .icon-btn {
-    width: 40px;
-    height: 40px;
-    margin: 0 10px;
+    width: clamp(24px, 2.8vw, 40px);
+    height: clamp(24px, 2.8vw, 40px);
+    margin: -20px 10px;
 }
 
-/*SEARCHBAR*/
+
+/* ======= SEARCHBAR ======= */
 .searchbar {
     position: absolute;
-    /* sobrepõe no carrossel */
-    top: 8, 5%;
-    /* distância do topo da imagem */
+    top: 11.5%;
     left: 50%;
-    transform: translateX(-45%);
-    /* centraliza horizontalmente */
+    transform: translateX(-50%);
     width: 100%;
     max-width: 900px;
     z-index: 10;
-    /* garante que fique acima das imagens */
-}
-
-/* SEARCHBAR - tamanhos diferentes */
-.marca{
-    width: 200px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    background-color: #ffffff00;
-
-}
-.local {
-    width: 100px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    background-color: #ffffff00;
-
-}
-
-.date {
-    width: 50px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    background-color: #ffffff00;
+    padding: 0 10px;
 }
 
 .searchbar form {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 15px;
     background: #00305f77;
-    padding: 15px 135px;
-    border-radius: 2px;
-    width: 95%;
+    padding: 12px 20px;
+    border-radius: 3px;
+    width: 100%;
 }
 
 .search-item {
@@ -135,15 +178,27 @@ a {
     background: #ffffffa3;
     border-radius: 8px;
     padding: 10px 15px;
+    flex: 1;
+    min-width: 0;
 }
 
-.search-item .icon {
+.search-item .icon img {
+    width: 18px;
+    height: 18px;
     margin-right: 8px;
-    font-size: 18px;
-    color: #00305f;
+
 }
 
-
+.marca,
+.local,
+.date {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+    min-width: 0;
+}
 
 
 /* ======= CARROSSEL ======= */
@@ -219,7 +274,79 @@ a {
     background: #002f5f;
 }
 
+/* ====== Seção Vantagens ====== */
+.vantagens {
+  padding: 60px 20px;
+  background-color: #f4f8fb; /* tom claro de fundo */
+  text-align: center;
+}
 
+.vantagens h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #111;
+  text-align: left;
+  max-width: 1100px;   
+  margin: 0 auto 40px auto; 
+  padding: 0 20px; 
+}
+
+.vantagens h2 .destaque {
+  background-color: #ff9100; /* laranja da marca */
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 25px;
+  font-weight: 700;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover{
+  transform: scale(1.05); 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card-text {
+  padding: 16px;
+}
+
+.card-text h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.card-text p {
+  font-size: 14px;
+  color: #555;
+}
+
+
+/*deixar o carrossel responsivo para que ele suma em telas muito pequenas tipo abaixo de 600x800*/
 
 /* ======= FOOTER ======= */
 footer {
@@ -227,24 +354,128 @@ footer {
     padding: 20px;
     background-color: #f1f1f1;
     font-size: 14px;
+    margin-top: 40px;
+}
+
+footer hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 15px auto;
+    width: 80%;
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.footer-social a img {
+    width: 28px;
+    height: 28px;
+    transition: 0.3s;
+}
+
+.footer-social a img:hover {
+    transform: scale(1.1);
 }
 
 /* ======= RESPONSIVIDADE ======= */
-@media (max-width: 768px) {
-    .nav-center {
-        display: none;
-        /* esconde menu em telas pequenas (pode virar menu hambúrguer dps) */
+@media (max-width: 1000px) {
+
+    /* mantém responsivo também abaixo de 1000px */
+    .icon-btn {
+        width: clamp(22px, 6vw, 32px);
+        height: clamp(22px, 6vw, 32px);
     }
 
-    .icon-btn {
-        width: 32px;
-        height: 32px;
+    .nav-center {
+        display: none;
     }
+
+    .menu-panel {
+        min-width: 85vw;
+        max-width: 90vw;
+    }
+
+    .menu-panel a {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+
+    /* fica no nav sem sobrepor outros elementos; JS ajusta o top exato */
+    .searchbar {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+        /* diminui gradualmente: nunca menor que 180px nem maior que 340px */
+        width: clamp(180px, 70vw, 340px);
+        margin: 0;
+        z-index: 10;
+        padding: 0 8px;
+    }
+
+    .searchbar form {
+        justify-content: center;
+        padding: 8px 12px;
+        gap: 0;
+        background-color: transparent;
+    }
+
+    /* esconde campos extras */
+    .local,
+    .date,
+    .search-item:nth-child(2),
+    .search-item:nth-child(3) {
+        display: none;
+    }
+
+    /* o primeiro campo ocupa tudo */
+    .search-item {
+        flex: 1;
+        padding: 8px 10px;
+        background-color: #f4f6f9;
+        border: 1px solid rgb(230, 230, 230);
+    }
+
+    .search-item .icon img {
+        content: url("../img/lupa.png");
+        /* troca para o ícone de lupa */
+    }
+
+    .marca {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    /* muda placeholder */
+    .marca::placeholder {
+        content: "Pesquisar";
+    }
+
+    .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+@media (max-width:569px) {
+    .carousel {
+        display: none;
+    }
+    .cards {
+    grid-template-columns: 1fr;
+  }
+
 }
 
 @media (max-width: 480px) {
+
+    /* mantém menor ainda em telas muito pequenas */
     .logo-img {
-        width: 100px;
+        width: clamp(80px, 22vw, 110px);
     }
 
     .nav-btn {
@@ -264,5 +495,46 @@ footer {
         width: 10px;
     }
 
+    .searchbar {
+    width: clamp(160px, 80vw, 280px);
+    }
 
+    .searchbar form {
+        gap: 10px;
+        padding: 10px 15px;
+        background-color: transparent;
+
+    }
+
+    .search-item {
+        padding: 8px 10px;
+        background-color: #f4f6f9;
+        border: 1px solid rgb(230, 230, 230);
+    }
+
+    .marca,
+    .local,
+    .date {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 1001px) {
+    .menu-trigger:hover .menu-panel {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    /* no desktop, não duplicar os itens do nav-center dentro do painel */
+    .menu-panel .panel-nav {
+        display: none;
+    }
+}
+
+/* Mobile/tablet – abre por clique via classe .open */
+.menu-trigger.open .menu-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }

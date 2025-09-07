@@ -135,3 +135,106 @@ window.addEventListener('resize', ()=>{
     if (window.innerWidth > 1000) positionSearchbar();
   });
 })();
+
+
+/* ====== Destinos dinâmicos (categorias -> cidades) ====== */
+(function(){
+  const destinosData = {
+    ferias: [
+      "Porto Seguro, BA","Maceió, AL","João Pessoa, PB","Ubatuba, SP",
+      "Cabo Frio, RJ","Natal, RN","Ilhéus, BA","Florianópolis, SC"
+    ],
+    roteiros: [
+      "São Paulo, SP","Campinas, SP","Curitiba, PR","Recife, PE",
+      "Brasília, DF","Goiânia, GO","Belo Horizonte, MG","Porto Alegre, RS"
+    ],
+    moto: [
+      "Chapada Diamantina, BA","Serra do Rio do Rastro, SC","São Thomé das Letras, MG","Estrada Real, MG",
+      "Petrópolis, RJ","Serra da Canastra, MG","Alto Paraíso, GO","Carrancas, MG"
+    ],
+    natureza: [
+      "Brotas, SP","Itacaré, BA","Bonito, MS","Bonito (MS) - roteiros",
+      "Alto Paraíso, GO","Carrancas, MG","Recife, PE","Nova Friburgo, RJ"
+    ],
+    familia: [
+      "Caldas Novas, GO","Foz do Iguaçu, PR","Balneário Camboriú, SC","Poços de Caldas, MG",
+      "Ólimpia, SP","Praia do Forte, BA","Canela, RS","Beto Carrero (Penha, SC)"
+    ]
+  };
+
+  const grid = document.getElementById('destinosGrid');
+  const pills = Array.from(document.querySelectorAll('.destinos-filtros .pill'));
+
+  function splitColumns(items, cols = 4){
+    const perCol = Math.ceil(items.length / cols);
+    const columns = [];
+    for(let i=0;i<cols;i++){
+      columns.push(items.slice(i*perCol, (i+1)*perCol));
+    }
+    return columns;
+  }
+
+  function renderCategoria(cat){
+    const items = destinosData[cat] || [];
+    const cols = window.innerWidth <= 680 ? 2 : (window.innerWidth <= 1000 ? 3 : 4);
+    const columns = splitColumns(items, cols);
+
+    grid.innerHTML = ''; // limpa
+    columns.forEach(col => {
+      const ul = document.createElement('ul');
+      ul.className = 'destinos-col';
+      if(col.length === 0){
+        const li = document.createElement('li');
+        li.textContent = '';
+        ul.appendChild(li);
+      } else {
+        col.forEach(name => {
+          const li = document.createElement('li');
+          li.textContent = name;
+          ul.appendChild(li);
+        });
+      }
+      grid.appendChild(ul);
+    });
+  }
+
+  // eventos dos botões (pills)
+  pills.forEach(btn => {
+    btn.addEventListener('click', function(){
+      const active = document.querySelector('.destinos-filtros .pill.active');
+      if(active) {
+        active.classList.remove('active');
+        active.setAttribute('aria-pressed','false');
+      }
+      this.classList.add('active');
+      this.setAttribute('aria-pressed','true');
+
+      const cat = this.dataset.cat;
+      renderCategoria(cat);
+    });
+
+    // acessibilidade teclado
+    btn.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
+    });
+  });
+
+  // render inicial (cat ativa padrão)
+  const defaultBtn = document.querySelector('.destinos-filtros .pill.active') || pills[0];
+  if(defaultBtn) {
+    renderCategoria(defaultBtn.dataset.cat);
+  }
+
+  // re-render em resize para ajustar colunas
+  let resizeTimer = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const active = document.querySelector('.destinos-filtros .pill.active');
+      if(active) renderCategoria(active.dataset.cat);
+    }, 120);
+  });
+})();

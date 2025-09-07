@@ -276,85 +276,287 @@ a {
 
 /* ====== Seção Vantagens ====== */
 .vantagens {
-  padding: 60px 20px;
-  background-color: #f4f8fb; /* tom claro de fundo */
-  text-align: center;
+    padding: 60px 20px;
+    background-color: #f4f8fb;
+    /* tom claro de fundo */
+    text-align: center;
 }
 
 .vantagens h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 40px;
-  color: #111;
-  text-align: left;
-  max-width: 1100px;   
-  margin: 0 auto 40px auto; 
-  padding: 0 20px; 
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #111;
+    text-align: left;
+    max-width: 1100px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px;
 }
 
 .vantagens h2 .destaque {
-  background-color: #ff9100; /* laranja da marca */
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 25px;
-  font-weight: 700;
+    background-color: #ff9100;
+    /* laranja da marca */
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 25px;
+    font-weight: 700;
 }
 
 .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  max-width: 1100px;
-  margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+    cursor: pointer;
 }
 
 .card {
-  background: #fff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  text-align: left;
-  display: flex;
-  flex-direction: column;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 
-.card:hover{
-  transform: scale(1.05); 
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
 }
 
 .card-text {
-  padding: 16px;
+    padding: 16px;
 }
 
 .card-text h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #000;
 }
 
 .card-text p {
-  font-size: 14px;
-  color: #555;
+    font-size: 14px;
+    color: #555;
 }
 
 
-/*deixar o carrossel responsivo para que ele suma em telas muito pequenas tipo abaixo de 600x800*/
+/* ======= DESTINOS ======= */
+.destinos {
+    padding: 60px 20px;
+    background: #fff;
+    color: #222;
+}
+
+.destinos-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.destinos-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 14px;
+}
+
+.destinos-logo {
+    width: 30px;
+    height: auto;
+    margin-bottom: 25px;
+    margin-right: -20px;
+}
+
+.destinos-title {
+    font-size: 28px;
+    line-height: 1.05;
+    font-weight: 700;
+    margin: 0;
+    color: #222;
+}
+
+.destinos-desc {
+    max-width: 1000px;
+    margin: 18px 0 32px 0;
+    color: #555;
+    font-size: 16px;
+    text-align: left;
+}
+
+/* filtros (pills) */
+.destinos-filtros {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+    align-items: center;
+}
+
+.pill {
+    background: #ff8d14a8;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #fff;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.05);
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    transition: transform .15s ease, box-shadow .15s ease;
+    font-family: "Montserrat", sans-serif;
+}
+
+.pill .pill-ico {
+    width: 18px;
+    display: inline-block;
+}
+
+.pill:hover {
+    transform: translateY(-2px);
+}
+
+.pill.active {
+    background: #ff8c14;
+    box-shadow: 0 8px 20px rgba(255, 140, 20, 0.12);
+    font-weight: 700;
+}
+
+/* grid de cidades */
+.destinos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px 30px;
+    align-items: start;
+    margin-bottom: 40px;
+}
+
+/* cada coluna com lista */
+.destinos-col {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.destinos-col li {
+    padding: 14px 12px;
+    border-radius: 8px;
+    color: #2a2a2a;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+/* espaçamento visual entre itens */
+.destinos-col li+li {
+    margin-top: 8px;
+    color: #4d4d4d;
+    font-weight: 400;
+}
+
+
+/* ===== PRÉ-FOOTER ===== */
+.pre-footer {
+  background-color: #f3f7fb;
+  padding: 60px 20px 20px;
+  margin-bottom: 0px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+
+.pre-footer .footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.pre-footer .footer-column {
+  flex: 1;
+  min-width: 220px;
+  margin: 20px;
+}
+
+.pre-footer .footer-column h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #000;
+}
+
+.pre-footer .footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.pre-footer .footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.pre-footer .footer-column ul li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.pre-footer .footer-column ul li a:hover {
+  text-decoration: underline;
+}
+
+.pre-footer .footer-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.pre-footer .footer-decoration img {
+  width: 280px;  /* ajuste até ficar parecido com o Canva */
+  height: auto;
+  display: block;
+}
+
+
+.pre-footer .footer-decoration2 {
+  width: 100%;
+  text-align: center; /* centraliza a imagem */
+  margin-top: 30px;
+}
+
+.pre-footer .footer-decoration2 img {
+  width: 200px;   /* controla o tamanho */
+  height: auto;   /* mantém proporção */
+  display: inline-block;
+}
+
+.pre-footer .footer-decoration span {
+  display: block;
+  width: 60px;
+  height: 6px;
+  background-color: #ff8000;
+  margin: 0 auto;
+  border-radius: 3px;
+}
+
 
 /* ======= FOOTER ======= */
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #f1f1f1;
+    background-color: #f3f7fb;
     font-size: 14px;
-    margin-top: 40px;
+    margin-top: 0px;
 }
 
 footer hr {
@@ -456,8 +658,16 @@ footer hr {
     }
 
     .cards {
-    grid-template-columns: 1fr 1fr;
-  }
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .destinos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .destinos-title {
+        font-size: 28px;
+    }
 }
 
 
@@ -465,9 +675,10 @@ footer hr {
     .carousel {
         display: none;
     }
+
     .cards {
-    grid-template-columns: 1fr;
-  }
+        grid-template-columns: 1fr;
+    }
 
 }
 
@@ -481,6 +692,16 @@ footer hr {
     .nav-btn {
         font-size: 11px;
         padding: 8px 10px;
+    }
+
+    .destinos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .destinos-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
 }
 
@@ -496,7 +717,7 @@ footer hr {
     }
 
     .searchbar {
-    width: clamp(160px, 80vw, 280px);
+        width: clamp(160px, 80vw, 280px);
     }
 
     .searchbar form {
@@ -516,6 +737,28 @@ footer hr {
     .local,
     .date {
         font-size: 12px;
+    }
+
+    .destinos-top {
+        gap: 12px;
+    }
+
+    .destinos-title {
+        font-size: 22px;
+    }
+
+    .destinos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .destinos-desc {
+        font-size: 14px;
+    }
+
+    .pill {
+        padding: 8px 12px;
+        font-size: 14px;
     }
 }
 

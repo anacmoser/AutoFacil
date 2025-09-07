@@ -50,7 +50,7 @@
 
                 </div>
 
-                <a class="logo" href="/" aria-label="AutoFácil - Início">
+                <a class="logo" href="#" aria-label="AutoFácil - Início">
                     <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
                 </a>
             </div>
@@ -109,7 +109,7 @@
         </div>
     </section>
 
-    <!-- quadro de vamtagens -->
+    <!-- quadro de vantagens -->
     <section class="vantagens">
   <h2>
     Vantagens de alugar na 
@@ -143,11 +143,88 @@
   </div>
 </section>
 
+<!-- ======= DESTINOS (categorias + cidades) ======= -->
+<section class="destinos">
+  <div class="destinos-inner">
+    <div class="destinos-top">
+      <img src="../static/img/logo2.png" alt="logo" class="destinos-logo">
+      <h2 class="destinos-title">
+        AutoFácil na Estrada: destinos que nossos <br>clientes adoram
+      </h2>
+    </div>
 
+    <p class="destinos-desc">
+      Descubra os lugares que mais fazem sucesso entre quem aluga com a AutoFácil.
+      Seja para curtir as férias, visitar a família ou explorar novos cantos do Brasil,
+      temos o veículo certo pra te acompanhar.
+    </p>
+
+    <!-- filtros / categories -->
+    <div class="destinos-filtros" role="tablist" aria-label="Categorias de destinos">
+      <button class="pill active" data-cat="ferias" aria-pressed="true"> Férias com liberdade <img class="pill-ico" src="../static/img/coqueiro.png" alt="Coqueiro"></img></button> 
+      <button class="pill" data-cat="roteiros"> Roteiros urbanos <img class="pill-ico" src="../static/img/terra.png" alt="Planeta Terra com pin em cima"></button>
+      <button class="pill" data-cat="moto"> Viagens de moto <img class="pill-ico" src="../static/img/capacete.png" alt="Capacete"></button>
+      <button class="pill" data-cat="natureza"> Escapadas na natureza <img class="pill-ico" src="../static/img/montanha.png" alt="Montanha"></button>
+      <button class="pill" data-cat="familia">Passeios em família <img class="pill-ico" src="../static/img/familia.png" alt="Varias pessoas juntas"></button>
+    </div>
+
+    <!-- grid de cidades (preenchido via JS) -->
+    <div id="destinosGrid" class="destinos-grid" aria-live="polite"></div>
+  </div>
+</section>
+<!-- ======= FIM DESTINOS ======= -->
+
+<!-- NOVO FOOTER (fica acima) -->
+<section class="pre-footer">
+  <div class="footer-container">
+    <div class="footer-decoration">
+        <img src="../static/img/item-decoracao.png" alt="Decoração footer">
+    </div>
+    <div class="footer-column">
+      <h3>Institucional</h3>
+      <ul>
+        <li><a href="#">Sobre a AutoFácil</a></li>
+        <li><a href="#">Trabalhe conosco</a></li>
+        <li><a href="#">Política de Privacidade</a></li>
+        <li><a href="#">Termos e Condições</a></li>
+        <li><a href="#">Política de Cookies</a></li>
+        <li><a href="#">Código de Conduta</a></li>
+        <li><a href="#">Política Antidiscriminatória</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Para você</h3>
+      <ul>
+        <li><a href="#">Minhas reservas</a></li>
+        <li><a href="#">Categorias de veículos</a></li>
+        <li><a href="#">Promoções e descontos</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Suporte ao cliente</h3>
+      <ul>
+        <li><a href="#">Central de ajuda</a></li>
+        <li><a href="#">Dúvidas frequentes</a></li>
+        <li><a href="#">Requisitos para locação</a></li>
+        <li><a href="#">Gerenciar minha reserva</a></li>
+        <li><a href="#">Fale conosco</a></li>
+        <li><a href="#">Atendimento via WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Faixa decorativa -->
+  <div class="footer-decoration2">
+    <img src="../static/img/item-decoracao(2)].png" alt="decoração footer" >
+  </div>
+
+  
+</section>
 <!-- ======= FOOTER ======= -->
 <footer>
     <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
-    <hr>
     <div class="footer-social">
         <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"></a>
         <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"></a>

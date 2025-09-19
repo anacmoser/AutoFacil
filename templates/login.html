@@ -7,222 +7,6 @@
     <title>AutoFácil - Login</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos específicos para a página de login */
-        .login-hero {
-            background: linear-gradient(rgba(54, 105, 164, 0.9), rgba(54, 105, 164, 0.7)), url('../static/img/login-bg.jpg') center/cover no-repeat;
-            padding: 60px 20px 40px;
-            color: white;
-            text-align: center;
-        }
-        
-        .login-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .login-hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px 80px;
-        }
-        
-        .login-box {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            padding: 40px;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-        }
-        
-        .login-box h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #002f5f;
-        }
-        
-        .login-box .subtitle {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 30px;
-        }
-        
-        .login-box form {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-        
-        .login-box label {
-            font-size: 14px;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: #333;
-        }
-        
-        .login-box input {
-            border: 1px solid #ddd;
-            padding: 14px 16px;
-            margin-bottom: 20px;
-            font-size: 15px;
-            border-radius: 6px;
-            background: #f9f9f9;
-            transition: all 0.3s;
-        }
-        
-        .login-box input:focus {
-            border-color: #3669a4;
-            box-shadow: 0 0 0 2px rgba(54, 105, 164, 0.2);
-            background: white;
-            outline: none;
-        }
-        
-        .password-wrapper {
-            position: relative;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        
-        .password-wrapper input {
-            width: 100%;
-            padding-right: 45px;
-            margin-bottom: 0;
-        }
-        
-        .toggle-password {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 22px;
-            height: 22px;
-            background: url("../img/ocultar.png") no-repeat center;
-            background-size: contain;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-        
-        .toggle-password:hover {
-            opacity: 1;
-        }
-        
-        .toggle-password.active {
-            background-image: url("../img/eye-open.png");
-        }
-        
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-        
-        .options label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            margin-bottom: 0;
-            font-weight: 400;
-        }
-        
-        .options input[type="checkbox"] {
-            margin: 0;
-            width: 16px;
-            height: 16px;
-        }
-        
-        .options a {
-            color: #3669a4;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .options a:hover {
-            text-decoration: underline;
-        }
-        
-        .btn-login {
-            background: #ff8c14;
-            color: white;
-            padding: 16px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-        }
-        
-        .btn-login:hover {
-            background: #e67e0f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
-        }
-        
-        .signup {
-            font-size: 15px;
-            color: #555;
-        }
-        
-        .signup a {
-            color: #3669a4;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        .signup a:hover {
-            text-decoration: underline;
-        }
-        
-        @media (max-width: 768px) {
-            .login-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .login-hero p {
-                font-size: 1rem;
-            }
-            
-            .login-box {
-                padding: 30px 25px;
-            }
-            
-            .options {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .options a {
-                margin-left: auto;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .login-box {
-                padding: 25px 20px;
-            }
-            
-            .login-box h2 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -337,6 +121,17 @@
             }
         });
     </script>
+  
+<!-- ======= FOOTER ======= -->
+<footer>
+    <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+    <div class="footer-social">
+        <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"></a>
+        <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"></a>
+        <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"></a>
+        <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email"></a>
+    </div>
+</footer>
 </body>
 
 </html>

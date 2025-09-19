@@ -117,29 +117,52 @@ a {
 }
 
 .menu-panel a:hover {
-    background: #f5f8fc; 
+    background: #f5f8fc;
 }
 
-/* Botões do menu */
+/* Navbar redesign */
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 .nav-btn {
-    background-color: #3669a484;
-    width: 150px;
-    height: 45px;
-    padding: 14px 17px;
-    border-radius: 5px;
+    background: transparent;
     color: #002f5f;
-    font-size: 14px;
+    padding: 12px 18px;
+    border-radius: 8px;
     font-weight: 500;
-    margin: 15px;
-    margin-bottom: 0px;
-    text-align: center;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    font-size: 15px;
+}
+
+.nav-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ff8c14;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
 }
 
 .nav-btn:hover {
-    background-color: #ff8c14;
-    color: #fff;
+    color: #ff8c14;
+    background: rgba(255, 140, 20, 0.05);
 }
+
+.nav-btn:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
 
 /* Ícones da direita */
 /* sempre responsivo */
@@ -148,265 +171,277 @@ a {
     height: clamp(24px, 2.8vw, 40px);
     margin: -20px 10px;
 }
-/* ======= LOGIN ======= */
+
+/* Estilos específicos para a página de login */
+.login-hero {
+    background: linear-gradient(rgba(54, 105, 164, 0.9), rgba(54, 105, 164, 0.7)), url('../static/img/login-bg.jpg') center/cover no-repeat;
+    padding: 60px 20px 40px;
+    color: white;
+    text-align: center;
+}
+
+.login-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.login-hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px 80px;
 }
 
 .login-box {
-  background: rgba(255, 255, 255, 0.85); /* fundo branco com transparência */
-  padding: 40px 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  max-width: 380px;
-  width: 100%;
-  text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
 }
 
 .login-box h2 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 6px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #002f5f;
 }
 
 .login-box .subtitle {
-  font-size: 13px;
-  color: #555;
-  margin-bottom: 20px;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 30px;
 }
 
-/* ======= FORM ======= */
 .login-box form {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
 
 .login-box label {
-  font-size: 13px;
-  margin-bottom: 4px;
-  font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
 }
 
-/* inputs só com linha inferior */
 .login-box input {
-  border: none;
-  border-bottom: 1px solid #ccc;
-  padding: 10px 4px;
-  margin-bottom: 18px;
-  font-size: 14px;
-  background: transparent;
-  outline: none;
+    border: 1px solid #ddd;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    background: #f9f9f9;
+    transition: all 0.3s;
 }
 
 .login-box input:focus {
-  border-bottom: 1px solid #3669a4; /* cor azul já usada no site */
+    border-color: #3669a4;
+    box-shadow: 0 0 0 2px rgba(54, 105, 164, 0.2);
+    background: white;
+    outline: none;
 }
 
-/* Wrapper da senha */
 .password-wrapper {
-  position: relative;
-  width: 100%;
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-/* Input ocupa toda a largura */
 .password-wrapper input {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  padding: 10px 35px 10px 4px; /* espaço extra à direita pro ícone */
-  font-size: 14px;
-  background: transparent;
-  outline: none;
+    width: 100%;
+    padding-right: 45px;
+    margin-bottom: 0;
 }
 
-.password-wrapper input:focus {
-  border-bottom: 1px solid #3669a4;
-}
-
-/* Ícone olho */
 .toggle-password {
-  position: absolute;
-  right: 10px;
-  top: 45%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  background: url("../img/ocultar.png") no-repeat center;
-  background-size: contain;
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-.toggle-password.active {
-  background-image: url("../img/eye-open.png");
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    background: url("../img/ocultar.png") no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s;
 }
 
 .toggle-password:hover {
-  opacity: 1;
-  background-image: url("../img/eye-open.png");
-  opacity: 0.7;
+    opacity: 1;
 }
 
-
-
-.login-box .options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center; /* garante alinhamento vertical */
-  margin-bottom: 18px;
-  font-size: 13px;
+.toggle-password.active {
+    background-image: url("../img/eye-open.png");
 }
 
-.login-box .options label {
-  display: flex;          /* coloca checkbox e texto na mesma linha */
-  align-items: center;    /* alinha verticalmente no meio */
-  gap: 6px;               /* espaço entre o quadradinho e o texto */
-  cursor: pointer;
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 14px;
 }
 
-.login-box .options input[type="checkbox"] {
-  margin: 0; /* remove espaçamento padrão que bagunça o alinhamento */
+.options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 0;
+    font-weight: 400;
 }
 
-
-.login-box .options a {
-  color: #3669a4;
-  text-decoration: none;
-  font-weight: 500;
+.options input[type="checkbox"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
 }
 
-.login-box .options a:hover {
-  text-decoration: underline;
+.options a {
+    color: #3669a4;
+    text-decoration: none;
+    font-weight: 500;
 }
 
+.options a:hover {
+    text-decoration: underline;
+}
 
-/* botão entrar */
 .btn-login {
-  background-color: #3669a4;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .3s;
-  margin-top: 5px;
+    background: #ff8c14;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
 }
 
 .btn-login:hover {
-  background-color: #ff8c14;
+    background: #e67e0f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
 }
 
-/* link de cadastro */
 .signup {
-  font-size: 13px;
-  margin-top: 18px;
+    font-size: 15px;
+    color: #555;
 }
 
 .signup a {
-  color: #3669a4;
-  font-weight: 600;
-  text-decoration: none;
+    color: #3669a4;
+    font-weight: 600;
+    text-decoration: none;
 }
 
 .signup a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 
 /* ====== CADASTRO ====== */
 .cadastro-container {
-  max-width: 1000px;
-  margin: 50px auto;
-  padding: 20px;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
 }
 
 .cadastro-container h1 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 8px;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .cadastro-container .subtitle {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 30px;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 30px;
 }
 
 .form-cadastro h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 30px 0 15px;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 30px 0 15px;
 }
 
 .form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-  margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-bottom: 20px;
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group label {
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
 }
 
 .form-group input {
-  border: none;
-  border-bottom: 1px solid #aaa;
-  padding: 8px 4px;
-  font-size: 15px;
-  background: transparent;
-  outline: none;
-  transition: border-color 0.3s;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    padding: 8px 4px;
+    font-size: 15px;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
 .form-group input:focus {
-  border-bottom: 2px solid #ff8c14;
+    border-bottom: 2px solid #ff8c14;
 }
 
 .consentimentos {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 30px;
 }
 
 .consentimentos label {
-  font-size: 14px;
-  color: #333;
+    font-size: 14px;
+    color: #333;
 }
 
 .consentimentos a {
-  color: #1a4d8c;
-  text-decoration: underline;
+    color: #1a4d8c;
+    text-decoration: underline;
 }
 
 .btn-cadastrar {
-  background: #2f5ca8;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s;
+    background: #2f5ca8;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
 .btn-cadastrar:hover {
-  background: #ff8c14;
+    background: #ff8c14;
 }
 
 /* ======= SEARCHBAR ======= */
@@ -722,90 +757,371 @@ a {
 }
 
 
+/* ======= FILTROS ======= */
+.filtros-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.filtros-title {
+    font-size: 1.5rem;
+    color: #002f5f;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.filtros-categorias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.filtro-btn {
+    background: #ff8d14a8;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.filtro-btn.active,
+.filtro-btn:hover {
+    background: #ff8c14;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
+}
+
+.filtros-avancados {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.filtro-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filtro-group label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #002f5f;
+}
+
+.filtro-group select,
+.filtro-group input {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f9f9f9;
+}
+
+.btn-aplicar {
+    background: #002f5f;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.btn-aplicar:hover {
+    background: #ff8c14;
+    transform: translateY(-2px);
+}
+
+/* ======= FROTA ======= */
+.frota-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.veiculos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.veiculos-titulo {
+    font-size: 1.8rem;
+    color: #002f5f;
+    font-weight: 700;
+}
+
+.ordenacao select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.veiculos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.veiculo-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+}
+
+.veiculo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.veiculo-imagem {
+    height: 180px;
+    overflow: hidden;
+}
+
+.veiculo-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.veiculo-card:hover .veiculo-imagem img {
+    transform: scale(1.05);
+}
+
+.veiculo-info {
+    padding: 20px;
+}
+
+.veiculo-categoria {
+    font-size: 12px;
+    color: #ff8c14;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.veiculo-nome {
+    font-size: 1.3rem;
+    color: #002f5f;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.veiculo-detalhes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.veiculo-detalhe {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.veiculo-detalhe i {
+    color: #002f5f;
+}
+
+.veiculo-preco {
+    font-size: 1.5rem;
+    color: #002f5f;
+    font-weight: 700;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.veiculo-preco span {
+    font-size: 14px;
+    color: #777;
+    font-weight: 400;
+}
+
+.btn-alugar {
+    background: #ff8c14;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-alugar:hover {
+    background: #e67e0f;
+}
+
+/* ======= BENEFICIOS ======= */
+.beneficios {
+    background: #f4f8fb;
+    padding: 60px 20px;
+    margin-top: 60px;
+}
+
+.beneficios-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.beneficios-titulo {
+    font-size: 2rem;
+    color: #002f5f;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.beneficio-item {
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.beneficio-icon {
+    font-size: 2.5rem;
+    color: #ff8c14;
+    margin-bottom: 15px;
+}
+
+.beneficio-titulo {
+    font-size: 1.2rem;
+    color: #002f5f;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.beneficio-desc {
+    font-size: 14px;
+    color: #555;
+}
+
+
+
 /* ===== PRÉ-FOOTER ===== */
 .pre-footer {
-  background-color: #f3f7fb;
-  padding: 60px 20px 20px;
-  margin-bottom: 0px;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid rgb(231, 231, 231);
+    background-color: #f3f7fb;
+    padding: 60px 20px 20px;
+    margin-bottom: 0px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(231, 231, 231);
 }
 
 
 .pre-footer .footer-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  max-width: 1100px;
-  margin: 0 auto;
-  text-align: left;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: left;
 }
 
 .pre-footer .footer-column {
-  flex: 1;
-  min-width: 220px;
-  margin: 20px;
+    flex: 1;
+    min-width: 220px;
+    margin: 20px;
 }
 
 .pre-footer .footer-column h3 {
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  font-weight: 600;
-  color: #000;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #000;
 }
 
 .pre-footer .footer-column ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 
 .pre-footer .footer-column ul li {
-  margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .pre-footer .footer-column ul li a {
-  color: #333;
-  text-decoration: none;
-  font-size: 0.95rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.95rem;
 }
 
 .pre-footer .footer-column ul li a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .pre-footer .footer-decoration {
-  position: absolute;
-  top: 0;
-  right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .pre-footer .footer-decoration img {
-  width: 280px;  /* ajuste até ficar parecido com o Canva */
-  height: auto;
-  display: block;
+    width: 280px;
+    /* ajuste até ficar parecido com o Canva */
+    height: auto;
+    display: block;
 }
 
 
 .pre-footer .footer-decoration2 {
-  width: 100%;
-  text-align: center; /* centraliza a imagem */
-  margin-top: 30px;
+    width: 100%;
+    text-align: center;
+    /* centraliza a imagem */
+    margin-top: 30px;
 }
 
 .pre-footer .footer-decoration2 img {
-  width: 200px;   /* controla o tamanho */
-  height: auto;   /* mantém proporção */
-  display: inline-block;
+    width: 200px;
+    /* controla o tamanho */
+    height: auto;
+    /* mantém proporção */
+    display: inline-block;
 }
 
 .pre-footer .footer-decoration span {
-  display: block;
-  width: 60px;
-  height: 6px;
-  background-color: #ff8000;
-  margin: 0 auto;
-  border-radius: 3px;
+    display: block;
+    width: 60px;
+    height: 6px;
+    background-color: #ff8000;
+    margin: 0 auto;
+    border-radius: 3px;
 }
 
 
@@ -926,6 +1242,15 @@ footer hr {
 
     .destinos-title {
         font-size: 28px;
+
+    }
+
+    .nav-center {
+        display: none;
+    }
+
+    .filtros-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -961,6 +1286,26 @@ footer hr {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
+    }
+
+    .login-box {
+        padding: 25px 20px;
+    }
+
+    .login-box h2 {
+        font-size: 1.5rem;
+    }
+
+    .filtros-categorias {
+        justify-content: center;
+    }
+
+    .frota-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .frota-hero p {
+        font-size: 1rem;
     }
 }
 
@@ -1019,24 +1364,37 @@ footer hr {
         padding: 8px 12px;
         font-size: 14px;
     }
-}
 
-@media (min-width: 1001px) {
-    .menu-trigger:hover .menu-panel {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+    .login-box {
+        padding: 30px 25px;
     }
 
-    /* no desktop, não duplicar os itens do nav-center dentro do painel */
-    .menu-panel .panel-nav {
-        display: none;
+    .options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
-}
 
-/* Mobile/tablet – abre por clique via classe .open */
-.menu-trigger.open .menu-panel {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    .options a {
+        margin-left: auto;
+    }
+
+
+    .filtros-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .veiculos-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .veiculos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .beneficios-grid {
+        grid-template-columns: 1fr;
+    }
 }

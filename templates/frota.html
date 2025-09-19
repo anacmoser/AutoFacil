@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frota - AutoFácil</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+
+<body>
+    <header class="topbar">
+        <nav class="nav">
+            <div class="nav-left">
+                <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+                    <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+                    <!-- Painel do menu -->
+                    <div class="menu-panel" id="menuPanel">
+                        <!-- Opções extras (sempre no painel) -->
+                        <ul class="panel-main">
+                            <li><a href="#">Promoções</a></li>
+                            <li><a href="#">Atendimento</a></li>
+                            <li><a href="#">Agências</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                        <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
+                        <ul class="panel-nav">
+                            <li><a href="frota.html">Alugar agora</a></li>
+                            <li><a href="#">Aluguel mensal</a></li>
+                            <li><a href="#">Para empresas</a></li>
+                            <li><a href="#">Minhas reservas</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <a class="logo" href="index.html" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <a href="frota.html" class="nav-btn">Alugar agora</a>
+                <a href="#" class="nav-btn">Aluguel mensal</a>
+                <a href="#" class="nav-btn">Para empresas</a>
+                <a href="#" class="nav-btn">Minhas reservas</a>
+            </div>
+
+            <div class="nav-right"> 
+                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" class="icon-btn"> </a> 
+                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" class="icon-btn"> </a> 
+                <a href="login.html"> <img src="../static/img/login2.png" alt="Botão de login" class="icon-btn"> </a> 
+            </div>
+
+        </nav>
+    </header>
+
+
+    <!-- Filtros -->
+    <section class="filtros-container">
+        <h2 class="filtros-title">Filtrar por categoria</h2>
+        <div class="filtros-categorias">
+            <button class="filtro-btn active"><i class="fas fa-car"></i> Todos</button>
+            <button class="filtro-btn"><i class="fas fa-car-side"></i> Econômicos</button>
+            <button class="filtro-btn"><i class="fas fa-sedan"></i> Sedans</button>
+            <button class="filtro-btn"><i class="fas fa-shuttle-van"></i> SUVs</button>
+            <button class="filtro-btn"><i class="fas fa-car-alt"></i> Luxo</button>
+            <button class="filtro-btn"><i class="fas fa-truck-pickup"></i> Pick-ups</button>
+        </div>
+
+        <div class="filtros-avancados">
+            <h3>Filtros avançados</h3>
+            <div class="filtros-grid">
+                <div class="filtro-group">
+                    <label for="marca">Marca</label>
+                    <select id="marca">
+                        <option value="">Todas as marcas</option>
+                        <option value="chevrolet">Chevrolet</option>
+                        <option value="fiat">Fiat</option>
+                        <option value="volkswagen">Volkswagen</option>
+                        <option value="toyota">Toyota</option>
+                        <option value="honda">Honda</option>
+                    </select>
+                </div>
+                <div class="filtro-group">
+                    <label for="modelo">Modelo</label>
+                    <select id="modelo">
+                        <option value="">Todos os modelos</option>
+                        <option value="onix">Onix</option>
+                        <option value="hb20">HB20</option>
+                        <option value="argo">Argo</option>
+                        <option value="ka">Ka</option>
+                    </select>
+                </div>
+                <div class="filtro-group">
+                    <label for="transmissao">Transmissão</label>
+                    <select id="transmissao">
+                        <option value="">Qualquer</option>
+                        <option value="automatico">Automático</option>
+                        <option value="manual">Manual</option>
+                    </select>
+                </div>
+                <div class="filtro-group">
+                    <label for="preco">Preço máximo/dia</label>
+                    <input type="number" id="preco" placeholder="R$ 200,00">
+                </div>
+            </div>
+            <button class="btn-aplicar">Aplicar Filtros</button>
+        </div>
+    </section>
+
+    <!-- Frota de Veículos -->
+    <section class="frota-container">
+        <div class="veiculos-header">
+            <h2 class="veiculos-titulo">Carros disponíveis</h2>
+            <div class="ordenacao">
+                <select>
+                    <option>Ordenar por: Menor preço</option>
+                    <option>Ordenar por: Maior preço</option>
+                    <option>Ordenar por: Nome A-Z</option>
+                    <option>Ordenar por: Maior desconto</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="veiculos-grid">
+            <!-- Veículo 1 -->
+            <div class="veiculo-card">
+                <div class="veiculo-imagem">
+                    <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+                        alt="Chevrolet Onix">
+                </div>
+                <div class="veiculo-info">
+                    <div class="veiculo-categoria">Econômico</div>
+                    <h3 class="veiculo-nome">Chevrolet Onix</h3>
+                    <div class="veiculo-detalhes">
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-user"></i> 5 passageiros
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-suitcase"></i> 2 malas
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-cog"></i> Manual
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-gas-pump"></i> Flex
+                        </div>
+                    </div>
+                    <div class="veiculo-preco">
+                        R$ 120 <span>/dia</span>
+                    </div>
+                    <button class="btn-alugar">Alugar agora</button>
+                </div>
+            </div>
+
+            <!-- Veículo 2 -->
+            <div class="veiculo-card">
+                <div class="veiculo-imagem">
+                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+                        alt="Toyota Corolla">
+                </div>
+                <div class="veiculo-info">
+                    <div class="veiculo-categoria">Sedan</div>
+                    <h3 class="veiculo-nome">Toyota Corolla</h3>
+                    <div class="veiculo-detalhes">
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-user"></i> 5 passageiros
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-suitcase"></i> 3 malas
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-cog"></i> Automático
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-gas-pump"></i> Flex
+                        </div>
+                    </div>
+                    <div class="veiculo-preco">
+                        R$ 180 <span>/dia</span>
+                    </div>
+                    <button class="btn-alugar">Alugar agora</button>
+                </div>
+            </div>
+
+            <!-- Veículo 3 -->
+            <div class="veiculo-card">
+                <div class="veiculo-imagem">
+                    <img src="https://images.unsplash.com/photo-1507136566006-cfc505b114fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=821&q=80"
+                        alt="Jeep Compass">
+                </div>
+                <div class="veiculo-info">
+                    <div class="veiculo-categoria">SUV</div>
+                    <h3 class="veiculo-nome">Jeep Compass</h3>
+                    <div class="veiculo-detalhes">
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-user"></i> 5 passageiros
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-suitcase"></i> 4 malas
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-cog"></i> Automático
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-gas-pump"></i> Diesel
+                        </div>
+                    </div>
+                    <div class="veiculo-preco">
+                        R$ 250 <span>/dia</span>
+                    </div>
+                    <button class="btn-alugar">Alugar agora</button>
+                </div>
+            </div>
+
+            <!-- Veículo 4 -->
+            <div class="veiculo-card">
+                <div class="veiculo-imagem">
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
+                        alt="BMW Série 3">
+                </div>
+                <div class="veiculo-info">
+                    <div class="veiculo-categoria">Luxo</div>
+                    <h3 class="veiculo-nome">BMW Série 3</h3>
+                    <div class="veiculo-detalhes">
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-user"></i> 5 passageiros
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-suitcase"></i> 3 malas
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-cog"></i> Automático
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-gas-pump"></i> Gasolina
+                        </div>
+                    </div>
+                    <div class="veiculo-preco">
+                        R$ 380 <span>/dia</span>
+                    </div>
+                    <button class="btn-alugar">Alugar agora</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section class="beneficios">
+        <div class="beneficios-container">
+            <h2 class="beneficios-titulo">Por que alugar na AutoFácil?</h2>
+            <div class="beneficios-grid">
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Proteção Total</h3>
+                    <p class="beneficio-desc">Seguro completo incluso em todos os aluguéis para sua tranquilidade.</p>
+                </div>
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Manutenção Regular</h3>
+                    <p class="beneficio-desc">Todos os veículos passam por revisões periódicas para sua segurança.</p>
+                </div>
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Suporte 24h</h3>
+                    <p class="beneficio-desc">Estamos disponíveis a qualquer hora para ajudar no que precisar.</p>
+                </div>
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Melhor Preço</h3>
+                    <p class="beneficio-desc">Garantimos o melhor preço do mercado com descontos exclusivos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+        <div class="footer-social">
+            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"></a>
+            <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email"></a>
+        </div>
+    </footer>
+
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>
+
+<script>
+    // Script para funcionalidade dos filtros
+    document.addEventListener('DOMContentLoaded', function () {
+        // Filtros de categoria
+        const filtroBtns = document.querySelectorAll('.filtro-btn');
+
+        filtroBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                // Remove a classe active de todos os botões
+                filtroBtns.forEach(b => b.classList.remove('active'));
+                // Adiciona a classe active apenas ao botão clicado
+                this.classList.add('active');
+            });
+        });
+
+        // Funcionalidade do botão de alugar
+        const alugarBtns = document.querySelectorAll('.btn-alugar');
+
+        alugarBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                alert('Veículo adicionado ao processo de reserva! Em breve você será redirecionado.');
+                // Aqui viria a lógica para redirecionar para a página de reserva
+            });
+        });
+
+        // Funcionalidade do botão aplicar filtros
+        const aplicarBtn = document.querySelector('.btn-aplicar');
+
+        aplicarBtn.addEventListener('click', function () {
+            alert('Filtros aplicados com sucesso!');
+            // Aqui viria a lógica para filtrar os veículos
+        });
+    });
+</script>
+
+</body>
+
+</html>

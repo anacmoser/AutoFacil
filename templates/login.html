@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoFácil - Login</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para a página de login */
+        .login-hero {
+            background: linear-gradient(rgba(54, 105, 164, 0.9), rgba(54, 105, 164, 0.7)), url('../static/img/login-bg.jpg') center/cover no-repeat;
+            padding: 60px 20px 40px;
+            color: white;
+            text-align: center;
+        }
+        
+        .login-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .login-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px 80px;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        
+        .login-box h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #002f5f;
+        }
+        
+        .login-box .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .login-box form {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        
+        .login-box label {
+            font-size: 14px;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .login-box input {
+            border: 1px solid #ddd;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            border-radius: 6px;
+            background: #f9f9f9;
+            transition: all 0.3s;
+        }
+        
+        .login-box input:focus {
+            border-color: #3669a4;
+            box-shadow: 0 0 0 2px rgba(54, 105, 164, 0.2);
+            background: white;
+            outline: none;
+        }
+        
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 45px;
+            margin-bottom: 0;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            background: url("../img/ocultar.png") no-repeat center;
+            background-size: contain;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        
+        .toggle-password:hover {
+            opacity: 1;
+        }
+        
+        .toggle-password.active {
+            background-image: url("../img/eye-open.png");
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+        
+        .options input[type="checkbox"] {
+            margin: 0;
+            width: 16px;
+            height: 16px;
+        }
+        
+        .options a {
+            color: #3669a4;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .options a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-login {
+            background: #ff8c14;
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .btn-login:hover {
+            background: #e67e0f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
+        }
+        
+        .signup {
+            font-size: 15px;
+            color: #555;
+        }
+        
+        .signup a {
+            color: #3669a4;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .signup a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .login-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .login-hero p {
+                font-size: 1rem;
+            }
+            
+            .login-box {
+                padding: 30px 25px;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .options a {
+                margin-left: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 25px 20px;
+            }
+            
+            .login-box h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <nav class="nav">
+            <div class="nav-left">
+                <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+                    <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+                    <!-- Painel do menu -->
+                    <div class="menu-panel" id="menuPanel">
+                        <!-- Opções extras (sempre no painel) -->
+                        <ul class="panel-main">
+                            <li><a href="#">Promoções</a></li>
+                            <li><a href="#">Atendimento</a></li>
+                            <li><a href="#">Agências</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                        <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
+                        <ul class="panel-nav">
+                            <li><a href="#">Alugar agora</a></li>
+                            <li><a href="#">Aluguel mensal</a></li>
+                            <li><a href="#">Para empresas</a></li>
+                            <li><a href="#">Minhas reservas</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a class="logo" href="index.html" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" class="icon-btn"> </a>
+                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" class="icon-btn"> </a>
+                <a href="login.html"> <img src="../static/img/login2.png" alt="Botão de login" class="icon-btn"> </a>
+            </div>
+        </nav>
+    </header>
+
+
+    <main class="login-container">
+        <div class="login-box">
+            <h2>Bem-vindo de volta</h2>
+            <p class="subtitle">Faça login para acessar sua conta</p>
+
+            <form>
+                <label for="user">E-mail ou CPF</label>
+                <input type="text" id="user" placeholder="Digite seu e-mail ou CPF" required>
+
+                <label for="password">Senha</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Digite sua senha" required>
+                    <span class="toggle-password" id="togglePassword"></span>
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox"> 
+                        Lembrar-me
+                    </label>
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Entrar</button>
+            </form>
+
+            <p class="signup">Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+        </div>
+    </main>
+
+    <script>
+        // Funcionalidade para mostrar/ocultar senha
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            
+            if (togglePassword && password) {
+                togglePassword.addEventListener('click', function() {
+                    // Alternar entre texto e password
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    
+                    // Alternar a classe para mudar o ícone
+                    this.classList.toggle('active');
+                });
+            }
+            
+            // Validação básica do formulário
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const user = document.getElementById('user').value;
+                    const password = document.getElementById('password').value;
+                    
+                    if (!user) {
+                        alert('Por favor, informe seu e-mail ou CPF');
+                        return;
+                    }
+                    
+                    if (!password) {
+                        alert('Por favor, informe sua senha');
+                        return;
+                    }
+                    
+                    // Aqui viria a lógica real de autenticação
+                    alert('Login realizado com sucesso!');
+                    // form.submit(); // Descomente para envio real
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -148,7 +148,266 @@ a {
     height: clamp(24px, 2.8vw, 40px);
     margin: -20px 10px;
 }
+/* ======= LOGIN ======= */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+}
 
+.login-box {
+  background: rgba(255, 255, 255, 0.85); /* fundo branco com transparência */
+  padding: 40px 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-box h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.login-box .subtitle {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ======= FORM ======= */
+.login-box form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.login-box label {
+  font-size: 13px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+/* inputs só com linha inferior */
+.login-box input {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 4px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  background: transparent;
+  outline: none;
+}
+
+.login-box input:focus {
+  border-bottom: 1px solid #3669a4; /* cor azul já usada no site */
+}
+
+/* Wrapper da senha */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Input ocupa toda a largura */
+.password-wrapper input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 35px 10px 4px; /* espaço extra à direita pro ícone */
+  font-size: 14px;
+  background: transparent;
+  outline: none;
+}
+
+.password-wrapper input:focus {
+  border-bottom: 1px solid #3669a4;
+}
+
+/* Ícone olho */
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background: url("../img/ocultar.png") no-repeat center;
+  background-size: contain;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.toggle-password.active {
+  background-image: url("../img/eye-open.png");
+}
+
+.toggle-password:hover {
+  opacity: 1;
+  background-image: url("../img/eye-open.png");
+  opacity: 0.7;
+}
+
+
+
+.login-box .options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* garante alinhamento vertical */
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+
+.login-box .options label {
+  display: flex;          /* coloca checkbox e texto na mesma linha */
+  align-items: center;    /* alinha verticalmente no meio */
+  gap: 6px;               /* espaço entre o quadradinho e o texto */
+  cursor: pointer;
+}
+
+.login-box .options input[type="checkbox"] {
+  margin: 0; /* remove espaçamento padrão que bagunça o alinhamento */
+}
+
+
+.login-box .options a {
+  color: #3669a4;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-box .options a:hover {
+  text-decoration: underline;
+}
+
+
+/* botão entrar */
+.btn-login {
+  background-color: #3669a4;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .3s;
+  margin-top: 5px;
+}
+
+.btn-login:hover {
+  background-color: #ff8c14;
+}
+
+/* link de cadastro */
+.signup {
+  font-size: 13px;
+  margin-top: 18px;
+}
+
+.signup a {
+  color: #3669a4;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.signup a:hover {
+  text-decoration: underline;
+}
+
+
+/* ====== CADASTRO ====== */
+.cadastro-container {
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.cadastro-container h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.cadastro-container .subtitle {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.form-cadastro h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 30px 0 15px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input {
+  border: none;
+  border-bottom: 1px solid #aaa;
+  padding: 8px 4px;
+  font-size: 15px;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-bottom: 2px solid #ff8c14;
+}
+
+.consentimentos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.consentimentos label {
+  font-size: 14px;
+  color: #333;
+}
+
+.consentimentos a {
+  color: #1a4d8c;
+  text-decoration: underline;
+}
+
+.btn-cadastrar {
+  background: #2f5ca8;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-cadastrar:hover {
+  background: #ff8c14;
+}
 
 /* ======= SEARCHBAR ======= */
 .searchbar {

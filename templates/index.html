@@ -23,7 +23,7 @@
 
 </head>
 
-<body>
+<body data-page='index'>
     <!-- ======= NAVBAR ======= -->
     <header class="topbar">
         <nav class="nav">
@@ -41,7 +41,7 @@
                         </ul>
                         <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
                         <ul class="panel-nav">
-                            <li><a href="frota.html">Alugar agora</a></li>
+                            <li><a href="/frota">Alugar agora</a></li>
                             <li><a href="#">Aluguel mensal</a></li>
                             <li><a href="#">Para empresas</a></li>
                             <li><a href="#">Minhas reservas</a></li>
@@ -51,21 +51,21 @@
                 </div>
 
                 <a class="logo" href="#" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos" class="logo-img">
                 </a>
             </div>
 
             <div class="nav-center">
-                <a href="frota.html" class="nav-btn">Alugar agora</a>
+                <a href="/frota" class="nav-btn">Alugar agora</a>
                 <a href="#" class="nav-btn">Aluguel mensal</a>
                 <a href="#" class="nav-btn">Para empresas</a>
                 <a href="#" class="nav-btn">Minhas reservas</a>
             </div>
 
             <div class="nav-right"> 
-                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" class="icon-btn"> </a> 
-                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" class="icon-btn"> </a> 
-                <a href="login.html"> <img src="../static/img/login2.png" alt="Botão de login" class="icon-btn"> </a> 
+                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas" class="icon-btn"> </a> 
+                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" title="Acessibilidade" class="icon-btn"> </a> 
+                <a href="/login"> <img src="../static/img/login2.png" alt="Botão de login" title="Login" class="icon-btn"> </a> 
             </div>
 
         </nav>
@@ -95,13 +95,13 @@
     <section class="carousel">
         <div class="carousel-container">
             <img src="../static/img/Design sem nome (1)_page-0001.jpg" class="active">
-            <img src="../static/img/banner2.jpg">
+            <img src="../static/img/banner2.jpg" >
             <img src="../static/img/banner3.jpg">
         </div>
 
         <!-- Botões de navegação -->
-        <button class="carousel-btn prev">&#10094;</button>
-        <button class="carousel-btn next">&#10095;</button>
+        <button class="carousel-btn prev" title="Banner anterior">&#10094;</button>
+        <button class="carousel-btn next" title="Próximo banner">&#10095;</button>
         <div class="carousel-indicators">
             <span class="dot active"></span>
             <span class="dot"></span>
@@ -118,7 +118,7 @@
 
   <div class="cards">
     <div class="card">
-      <img src="../static/img/dog-car.jpg" alt="Cachorro no carro">
+      <img src="../static/img/dog-car.jpg" alt="Cachorro no carro" title="Cachorro no carro">
       <div class="card-text">
         <h3>Viaje com quem você ama</h3>
         <p>Liberdade e conforto para todos.</p>
@@ -126,7 +126,7 @@
     </div>
 
     <div class="card">
-      <img src="../static/img/moto3.jpg" alt="Pessoa na moto">
+      <img src="../static/img/moto3.jpg" alt="Pessoa na moto" title="Pessoa na moto">
       <div class="card-text">
         <h3>Mobilidade sem limites.</h3>
         <p>Carros ou motos, a escolha é sua.</p>
@@ -134,7 +134,7 @@
     </div>
 
     <div class="card">
-      <img src="../static/img/mulher-carro.jpeg" alt="Mulher no carro">
+      <img src="../static/img/mulher-carro.jpeg" alt="Mulher no carro" title="Mulher no carro">
       <div class="card-text">
         <h3>Seu caminho, sua escolha.</h3>
         <p>Flexibilidade, segurança e tranquilidade em cada curva.</p>
@@ -161,11 +161,11 @@
 
     <!-- filtros / categories -->
     <div class="destinos-filtros" role="tablist" aria-label="Categorias de destinos">
-      <button class="pill active" data-cat="ferias" aria-pressed="true"> Férias com liberdade <img class="pill-ico" src="../static/img/coqueiro.png" alt="Coqueiro"></img></button> 
-      <button class="pill" data-cat="roteiros"> Roteiros urbanos <img class="pill-ico" src="../static/img/terra.png" alt="Planeta Terra com pin em cima"></button>
-      <button class="pill" data-cat="moto"> Viagens de moto <img class="pill-ico" src="../static/img/capacete.png" alt="Capacete"></button>
-      <button class="pill" data-cat="natureza"> Escapadas na natureza <img class="pill-ico" src="../static/img/montanha.png" alt="Montanha"></button>
-      <button class="pill" data-cat="familia">Passeios em família <img class="pill-ico" src="../static/img/familia.png" alt="Varias pessoas juntas"></button>
+      <button class="pill active" data-cat="ferias" aria-pressed="true" title="Férias com liberdade"> Férias com liberdade <img class="pill-ico" src="../static/img/coqueiro.png" alt="Coqueiro"></img></button> 
+      <button class="pill" data-cat="roteiros" title="Roteiros urbanos"> Roteiros urbanos <img class="pill-ico" src="../static/img/terra.png" alt="Planeta Terra com pin em cima"></button>
+      <button class="pill" data-cat="moto" title="Viagens de moto"> Viagens de moto <img class="pill-ico" src="../static/img/capacete.png" alt="Capacete"></button>
+      <button class="pill" data-cat="natureza" title="Escapadas na natureza"> Escapadas na natureza <img class="pill-ico" src="../static/img/montanha.png" alt="Montanha"></button>
+      <button class="pill" data-cat="familia" title="Passeios em família">Passeios em família <img class="pill-ico" src="../static/img/familia.png" alt="Varias pessoas juntas"></button>
     </div>
 
     <!-- grid de cidades (preenchido via JS) -->
@@ -226,10 +226,10 @@
 <footer>
     <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
     <div class="footer-social">
-        <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"></a>
-        <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"></a>
-        <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"></a>
-        <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email"></a>
+        <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp" title="Whatsapp"></a>
+        <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook" title="Facebook"></a>
+        <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram" title="Instagram"></a>
+        <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="Email"></a>
     </div>
 </footer>
 

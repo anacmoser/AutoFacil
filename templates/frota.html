@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../static/js/script.js"></script>
 
 </head>
 
-<body>
+<body data-page='frota'>
     <header class="topbar">
         <nav class="nav">
             <div class="nav-left">
@@ -113,142 +114,57 @@
     </section>
 
     <!-- Frota de Veículos -->
-    <section class="frota-container">
-        <div class="veiculos-header">
-            <h2 class="veiculos-titulo">Carros disponíveis</h2>
-            <div class="ordenacao">
-                <select>
-                    <option>Ordenar por: Menor preço</option>
-                    <option>Ordenar por: Maior preço</option>
-                    <option>Ordenar por: Nome A-Z</option>
-                    <option>Ordenar por: Maior desconto</option>
-                </select>
+    <!-- Frota de Veículos -->
+<section class="frota-container">
+    <div class="veiculos-header">
+        <h2 class="veiculos-titulo">Carros disponíveis</h2>
+        <div class="ordenacao">
+            <select id="ordenacao">
+                <option value="preco_asc">Ordenar por: Menor preço</option>
+                <option value="preco_desc">Ordenar por: Maior preço</option>
+                <option value="nome_asc">Ordenar por: Nome A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="veiculos-grid">
+        {% for veiculo in veiculos %}
+        <!-- Veículo {{ veiculo.id }} -->
+        <div class="veiculo-card">
+            <div class="veiculo-imagem">
+                <img src="{{ veiculo.imagem }}" alt="{{ veiculo.nome }}">
+            </div>
+            <div class="veiculo-info">
+                <div class="veiculo-categoria">{{ veiculo.categoria }}</div>
+                <h3 class="veiculo-nome">{{ veiculo.nome }}</h3>
+                <div class="veiculo-detalhes">
+                    <div class="veiculo-detalhe">
+                        <i class="fas fa-user"></i> {{ veiculo.passageiros }} passageiros
+                    </div>
+                    <div class="veiculo-detalhe">
+                        <i class="fas fa-suitcase"></i> {{ veiculo.malas }} malas
+                    </div>
+                    <div class="veiculo-detalhe">
+                        <i class="fas fa-cog"></i> 
+                        {% if veiculo.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
+                    </div>
+                    <div class="veiculo-detalhe">
+                        <i class="fas fa-gas-pump"></i> {{ veiculo.combustivel }}
+                    </div>
+                </div>
+                <div class="veiculo-preco">
+                    R$ {{ veiculo.preco }} <span>/dia</span>
+                </div>
+                <button class="btn-alugar">Alugar agora</button>
             </div>
         </div>
-
-        <div class="veiculos-grid">
-            <!-- Veículo 1 -->
-            <div class="veiculo-card">
-                <div class="veiculo-imagem">
-                    <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
-                        alt="Chevrolet Onix">
-                </div>
-                <div class="veiculo-info">
-                    <div class="veiculo-categoria">Econômico</div>
-                    <h3 class="veiculo-nome">Chevrolet Onix</h3>
-                    <div class="veiculo-detalhes">
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-user"></i> 5 passageiros
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-suitcase"></i> 2 malas
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-cog"></i> Manual
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-gas-pump"></i> Flex
-                        </div>
-                    </div>
-                    <div class="veiculo-preco">
-                        R$ 120 <span>/dia</span>
-                    </div>
-                    <button class="btn-alugar">Alugar agora</button>
-                </div>
-            </div>
-
-            <!-- Veículo 2 -->
-            <div class="veiculo-card">
-                <div class="veiculo-imagem">
-                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
-                        alt="Toyota Corolla">
-                </div>
-                <div class="veiculo-info">
-                    <div class="veiculo-categoria">Sedan</div>
-                    <h3 class="veiculo-nome">Toyota Corolla</h3>
-                    <div class="veiculo-detalhes">
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-user"></i> 5 passageiros
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-suitcase"></i> 3 malas
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-cog"></i> Automático
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-gas-pump"></i> Flex
-                        </div>
-                    </div>
-                    <div class="veiculo-preco">
-                        R$ 180 <span>/dia</span>
-                    </div>
-                    <button class="btn-alugar">Alugar agora</button>
-                </div>
-            </div>
-
-            <!-- Veículo 3 -->
-            <div class="veiculo-card">
-                <div class="veiculo-imagem">
-                    <img src="https://images.unsplash.com/photo-1507136566006-cfc505b114fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=821&q=80"
-                        alt="Jeep Compass">
-                </div>
-                <div class="veiculo-info">
-                    <div class="veiculo-categoria">SUV</div>
-                    <h3 class="veiculo-nome">Jeep Compass</h3>
-                    <div class="veiculo-detalhes">
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-user"></i> 5 passageiros
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-suitcase"></i> 4 malas
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-cog"></i> Automático
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-gas-pump"></i> Diesel
-                        </div>
-                    </div>
-                    <div class="veiculo-preco">
-                        R$ 250 <span>/dia</span>
-                    </div>
-                    <button class="btn-alugar">Alugar agora</button>
-                </div>
-            </div>
-
-            <!-- Veículo 4 -->
-            <div class="veiculo-card">
-                <div class="veiculo-imagem">
-                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80"
-                        alt="BMW Série 3">
-                </div>
-                <div class="veiculo-info">
-                    <div class="veiculo-categoria">Luxo</div>
-                    <h3 class="veiculo-nome">BMW Série 3</h3>
-                    <div class="veiculo-detalhes">
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-user"></i> 5 passageiros
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-suitcase"></i> 3 malas
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-cog"></i> Automático
-                        </div>
-                        <div class="veiculo-detalhe">
-                            <i class="fas fa-gas-pump"></i> Gasolina
-                        </div>
-                    </div>
-                    <div class="veiculo-preco">
-                        R$ 380 <span>/dia</span>
-                    </div>
-                    <button class="btn-alugar">Alugar agora</button>
-                </div>
-            </div>
+        {% else %}
+        <div class="nenhum-veiculo">
+            <p>Nenhum veículo encontrado com os filtros selecionados.</p>
         </div>
-    </section>
-
+        {% endfor %}
+    </div>
+</section>
     <!-- Benefícios -->
     <section class="beneficios">
         <div class="beneficios-container">

@@ -59,31 +59,45 @@ window.addEventListener("load", updatePlaceholder);
 
 // Dropdown do hambúrguer: clique (mobile) e acessibilidade
 const menuTrigger = document.getElementById('menuTrigger');
-const menuBtn     = document.getElementById('menu');
-const menuPanel   = document.getElementById('menuPanel');
+const menuPanel = document.getElementById('menuPanel');
 
-function closeMenu(){ menuTrigger.classList.remove('open'); menuTrigger.setAttribute('aria-expanded','false'); }
-function openMenu(){ menuTrigger.classList.add('open'); menuTrigger.setAttribute('aria-expanded','true'); }
+function closeMenu() { 
+    menuTrigger.classList.remove('open'); 
+    menuTrigger.setAttribute('aria-expanded','false');
+    menuPanel.style.display = 'none';
+}
 
-// Toggle no clique (especialmente útil < 1000px)
-menuBtn.addEventListener('click', (e)=>{
-  e.stopPropagation();
-  if(menuTrigger.classList.contains('open')) closeMenu(); else openMenu();
+function openMenu() { 
+    menuTrigger.classList.add('open'); 
+    menuTrigger.setAttribute('aria-expanded','true');
+    menuPanel.style.display = 'block';
+}
+
+// Toggle no clique no trigger (área clicável completa)
+menuTrigger.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(menuTrigger.classList.contains('open')) {
+        closeMenu();
+    } else {
+        openMenu();
+    }
 });
 
 // Fecha ao clicar fora
 document.addEventListener('click', (e)=>{
-  if(!menuTrigger.contains(e.target)) closeMenu();
+    if(!menuTrigger.contains(e.target)) closeMenu();
 });
 
 // Fecha no ESC
 document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape') closeMenu();
+    if(e.key === 'Escape') closeMenu();
 });
 
 // Se voltar para desktop, garante estado fechado
 window.addEventListener('resize', ()=>{
-  if(window.innerWidth > 1000) closeMenu();
+    if(window.innerWidth > 1000) {
+        closeMenu();
+    }
 });
 
 

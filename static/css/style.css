@@ -60,7 +60,6 @@ a {
     display: flex;
     align-items: center;
 }
-
 #menu {
     width: 30px;
     height: 40px;
@@ -71,6 +70,7 @@ a {
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
+    display: none;
     min-width: 280px;
     max-width: 360px;
     background: #fff;

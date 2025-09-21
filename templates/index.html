@@ -2,238 +2,266 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoFácil</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoFácil</title>
 
-    <!-- csss link -->
-    <link rel="stylesheet" href="../static/css/style.css">
+  <!-- csss link -->
+  <link rel="stylesheet" href="../static/css/style.css">
 
-    <!-- Favicons links -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+  <!-- Favicons links -->
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
 
-    <!-- Google Fonts link -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
-        rel="stylesheet">
+  <!-- Google Fonts link -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+    rel="stylesheet">
 
 </head>
 
 <body data-page='index'>
-    <!-- ======= NAVBAR ======= -->
-    <header class="topbar">
-        <nav class="nav">
-            <div class="nav-left">
-                <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
-                    <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
-                    <!-- Painel do menu -->
-                    <div class="menu-panel" id="menuPanel">
-                        <!-- Opções extras (sempre no painel) -->
-                        <ul class="panel-main">
-                            <li><a href="#">Promoções</a></li>
-                            <li><a href="#">Atendimento</a></li>
-                            <li><a href="#">Agências</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                        <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
-                        <ul class="panel-nav">
-                            <li><a href="/frota">Alugar agora</a></li>
-                            <li><a href="#">Aluguel mensal</a></li>
-                            <li><a href="#">Para empresas</a></li>
-                            <li><a href="#">Minhas reservas</a></li>
-                        </ul>
-                    </div>
+  <!-- ======= NAVBAR ======= -->
+  <header class="topbar">
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+          <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+          <!-- Painel do menu -->
+          <div class="menu-panel" id="menuPanel">
+            <!-- Opções extras (sempre no painel) -->
+            <ul class="panel-main">
+              <li><a href="#">Promoções</a></li>
+              <li><a href="#">Atendimento</a></li>
+              <li><a href="#">Agências</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+            <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
+            <ul class="panel-nav">
+              <li><a href="/frota">Alugar agora</a></li>
+              <li><a href="#">Aluguel mensal</a></li>
+              <li><a href="#">Para empresas</a></li>
+              <li><a href="#">Minhas reservas</a></li>
+            </ul>
+          </div>
 
-                </div>
-
-                <a class="logo" href="#" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos" class="logo-img">
-                </a>
-            </div>
-
-            <div class="nav-center">
-                <a href="/frota" class="nav-btn">Alugar agora</a>
-                <a href="#" class="nav-btn">Aluguel mensal</a>
-                <a href="#" class="nav-btn">Para empresas</a>
-                <a href="#" class="nav-btn">Minhas reservas</a>
-            </div>
-
-            <div class="nav-right"> 
-                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas" class="icon-btn"> </a> 
-                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" title="Acessibilidade" class="icon-btn"> </a> 
-                <a href="/login"> <img src="../static/img/login2.png" alt="Botão de login" title="Login" class="icon-btn"> </a> 
-            </div>
-
-        </nav>
-    </header>
-
-    <!-- Barra de pesquisa -->
-    <div class="searchbar">
-        <form>
-            <div class="search-item">
-                <span class="icon"><img src="../static/img/desconto.png" alt=""></span>
-                <input type="text" placeholder="Digite a marca ou modelo" class="marca">
-            </div>
-            <div class="search-item">
-                <span class="icon"><img src="../static/img/localizacao.png" alt=""></span>
-                <input type="text" placeholder="Local" class="local">
-            </div>
-            <div class="search-item">
-                <span class="icon"><img src="../static/img/calendario.png" alt=""></span>
-                <input type="text" placeholder="Data" onfocus="(this.type='date')" onblur="(this.type='text')"
-                    class="date">
-            </div>
-        </form>
-    </div>
-
-
-    <!-- ======= CARROSSEL ======= -->
-    <section class="carousel">
-        <div class="carousel-container">
-            <img src="../static/img/Design sem nome (1)_page-0001.jpg" class="active">
-            <img src="../static/img/banner2.jpg" >
-            <img src="../static/img/banner3.jpg">
         </div>
 
-        <!-- Botões de navegação -->
-        <button class="carousel-btn prev" title="Banner anterior">&#10094;</button>
-        <button class="carousel-btn next" title="Próximo banner">&#10095;</button>
-        <div class="carousel-indicators">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+        <a class="logo" href="#" aria-label="AutoFácil - Início">
+          <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+            class="logo-img">
+        </a>
+      </div>
+
+      <div class="nav-center">
+        <a href="/frota" class="nav-btn">Alugar agora</a>
+        <a href="#" class="nav-btn">Aluguel mensal</a>
+        <a href="#" class="nav-btn">Para empresas</a>
+        <a href="#" class="nav-btn">Minhas reservas</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
+            class="icon-btn">
+        </a>
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+            title="Acessibilidade" class="icon-btn">
+        </a>
+
+        {% if session.get('usuario_logado') %}
+        <!-- Se usuário estiver logado, mostra logout -->
+        <a href="{{ url_for('logout') }}">
+          <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"> <!--Precisa adicionar a img sair2 no static/img -->
+            class="icon-btn">
+        </a>
+        {% else %}
+        <!-- Se não estiver logado, mostra login -->
+        <a href="{{ url_for('mudarLogin') }}">
+          <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+            class="icon-btn">
+        </a>
+        {% endif %}
+      </div>
+
+
+    </nav>
+  </header>
+
+  <!-- Barra de pesquisa -->
+  <div class="searchbar">
+    <form>
+      <div class="search-item">
+        <span class="icon"><img src="../static/img/desconto.png" alt=""></span>
+        <input type="text" placeholder="Digite a marca ou modelo" class="marca">
+      </div>
+      <div class="search-item">
+        <span class="icon"><img src="../static/img/localizacao.png" alt=""></span>
+        <input type="text" placeholder="Local" class="local">
+      </div>
+      <div class="search-item">
+        <span class="icon"><img src="../static/img/calendario.png" alt=""></span>
+        <input type="text" placeholder="Data" onfocus="(this.type='date')" onblur="(this.type='text')" class="date">
+      </div>
+    </form>
+  </div>
+
+
+  <!-- ======= CARROSSEL ======= -->
+  <section class="carousel">
+    <div class="carousel-container">
+      <img src="../static/img/Design sem nome (1)_page-0001.jpg" class="active">
+      <img src="../static/img/banner2.jpg">
+      <img src="../static/img/banner3.jpg">
+    </div>
+
+    <!-- Botões de navegação -->
+    <button class="carousel-btn prev" title="Banner anterior">&#10094;</button>
+    <button class="carousel-btn next" title="Próximo banner">&#10095;</button>
+    <div class="carousel-indicators">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- quadro de vantagens -->
+  <section class="vantagens">
+    <h2>
+      Vantagens de alugar na
+      <span class="destaque">AutoFácil</span>
+    </h2>
+
+    <div class="cards">
+      <div class="card">
+        <img src="../static/img/dog-car.jpg" alt="Cachorro no carro" title="Cachorro no carro">
+        <div class="card-text">
+          <h3>Viaje com quem você ama</h3>
+          <p>Liberdade e conforto para todos.</p>
         </div>
-    </section>
+      </div>
 
-    <!-- quadro de vantagens -->
-    <section class="vantagens">
-  <h2>
-    Vantagens de alugar na 
-    <span class="destaque">AutoFácil</span>
-  </h2>
+      <div class="card">
+        <img src="../static/img/moto3.jpg" alt="Pessoa na moto" title="Pessoa na moto">
+        <div class="card-text">
+          <h3>Mobilidade sem limites.</h3>
+          <p>Carros ou motos, a escolha é sua.</p>
+        </div>
+      </div>
 
-  <div class="cards">
-    <div class="card">
-      <img src="../static/img/dog-car.jpg" alt="Cachorro no carro" title="Cachorro no carro">
-      <div class="card-text">
-        <h3>Viaje com quem você ama</h3>
-        <p>Liberdade e conforto para todos.</p>
+      <div class="card">
+        <img src="../static/img/mulher-carro.jpeg" alt="Mulher no carro" title="Mulher no carro">
+        <div class="card-text">
+          <h3>Seu caminho, sua escolha.</h3>
+          <p>Flexibilidade, segurança e tranquilidade em cada curva.</p>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="card">
-      <img src="../static/img/moto3.jpg" alt="Pessoa na moto" title="Pessoa na moto">
-      <div class="card-text">
-        <h3>Mobilidade sem limites.</h3>
-        <p>Carros ou motos, a escolha é sua.</p>
+  <!-- ======= DESTINOS (categorias + cidades) ======= -->
+  <section class="destinos">
+    <div class="destinos-inner">
+      <div class="destinos-top">
+        <img src="../static/img/logo2.png" alt="logo" class="destinos-logo">
+        <h2 class="destinos-title">
+          AutoFácil na Estrada: destinos que nossos <br>clientes adoram
+        </h2>
       </div>
-    </div>
 
-    <div class="card">
-      <img src="../static/img/mulher-carro.jpeg" alt="Mulher no carro" title="Mulher no carro">
-      <div class="card-text">
-        <h3>Seu caminho, sua escolha.</h3>
-        <p>Flexibilidade, segurança e tranquilidade em cada curva.</p>
+      <p class="destinos-desc">
+        Descubra os lugares que mais fazem sucesso entre quem aluga com a AutoFácil.
+        Seja para curtir as férias, visitar a família ou explorar novos cantos do Brasil,
+        temos o veículo certo pra te acompanhar.
+      </p>
+
+      <!-- filtros / categories -->
+      <div class="destinos-filtros" role="tablist" aria-label="Categorias de destinos">
+        <button class="pill active" data-cat="ferias" aria-pressed="true" title="Férias com liberdade"> Férias com
+          liberdade <img class="pill-ico" src="../static/img/coqueiro.png" alt="Coqueiro"></img></button>
+        <button class="pill" data-cat="roteiros" title="Roteiros urbanos"> Roteiros urbanos <img class="pill-ico"
+            src="../static/img/terra.png" alt="Planeta Terra com pin em cima"></button>
+        <button class="pill" data-cat="moto" title="Viagens de moto"> Viagens de moto <img class="pill-ico"
+            src="../static/img/capacete.png" alt="Capacete"></button>
+        <button class="pill" data-cat="natureza" title="Escapadas na natureza"> Escapadas na natureza <img
+            class="pill-ico" src="../static/img/montanha.png" alt="Montanha"></button>
+        <button class="pill" data-cat="familia" title="Passeios em família">Passeios em família <img class="pill-ico"
+            src="../static/img/familia.png" alt="Varias pessoas juntas"></button>
       </div>
+
+      <!-- grid de cidades (preenchido via JS) -->
+      <div id="destinosGrid" class="destinos-grid" aria-live="polite"></div>
     </div>
-  </div>
-</section>
+  </section>
+  <!-- ======= FIM DESTINOS ======= -->
 
-<!-- ======= DESTINOS (categorias + cidades) ======= -->
-<section class="destinos">
-  <div class="destinos-inner">
-    <div class="destinos-top">
-      <img src="../static/img/logo2.png" alt="logo" class="destinos-logo">
-      <h2 class="destinos-title">
-        AutoFácil na Estrada: destinos que nossos <br>clientes adoram
-      </h2>
-    </div>
-
-    <p class="destinos-desc">
-      Descubra os lugares que mais fazem sucesso entre quem aluga com a AutoFácil.
-      Seja para curtir as férias, visitar a família ou explorar novos cantos do Brasil,
-      temos o veículo certo pra te acompanhar.
-    </p>
-
-    <!-- filtros / categories -->
-    <div class="destinos-filtros" role="tablist" aria-label="Categorias de destinos">
-      <button class="pill active" data-cat="ferias" aria-pressed="true" title="Férias com liberdade"> Férias com liberdade <img class="pill-ico" src="../static/img/coqueiro.png" alt="Coqueiro"></img></button> 
-      <button class="pill" data-cat="roteiros" title="Roteiros urbanos"> Roteiros urbanos <img class="pill-ico" src="../static/img/terra.png" alt="Planeta Terra com pin em cima"></button>
-      <button class="pill" data-cat="moto" title="Viagens de moto"> Viagens de moto <img class="pill-ico" src="../static/img/capacete.png" alt="Capacete"></button>
-      <button class="pill" data-cat="natureza" title="Escapadas na natureza"> Escapadas na natureza <img class="pill-ico" src="../static/img/montanha.png" alt="Montanha"></button>
-      <button class="pill" data-cat="familia" title="Passeios em família">Passeios em família <img class="pill-ico" src="../static/img/familia.png" alt="Varias pessoas juntas"></button>
-    </div>
-
-    <!-- grid de cidades (preenchido via JS) -->
-    <div id="destinosGrid" class="destinos-grid" aria-live="polite"></div>
-  </div>
-</section>
-<!-- ======= FIM DESTINOS ======= -->
-
-<!-- NOVO FOOTER (fica acima) -->
-<section class="pre-footer">
-  <div class="footer-container">
-    <div class="footer-decoration">
+  <!-- NOVO FOOTER (fica acima) -->
+  <section class="pre-footer">
+    <div class="footer-container">
+      <div class="footer-decoration">
         <img src="../static/img/item-decoracao.png" alt="Decoração footer">
-    </div>
-    <div class="footer-column">
-      <h3>Institucional</h3>
-      <ul>
-        <li><a href="#">Sobre a AutoFácil</a></li>
-        <li><a href="#">Trabalhe conosco</a></li>
-        <li><a href="#">Política de Privacidade</a></li>
-        <li><a href="#">Termos e Condições</a></li>
-        <li><a href="#">Política de Cookies</a></li>
-        <li><a href="#">Código de Conduta</a></li>
-        <li><a href="#">Política Antidiscriminatória</a></li>
-      </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Institucional</h3>
+        <ul>
+          <li><a href="#">Sobre a AutoFácil</a></li>
+          <li><a href="#">Trabalhe conosco</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos e Condições</a></li>
+          <li><a href="#">Política de Cookies</a></li>
+          <li><a href="#">Código de Conduta</a></li>
+          <li><a href="#">Política Antidiscriminatória</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Para você</h3>
+        <ul>
+          <li><a href="#">Minhas reservas</a></li>
+          <li><a href="#">Categorias de veículos</a></li>
+          <li><a href="#">Promoções e descontos</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Suporte ao cliente</h3>
+        <ul>
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Dúvidas frequentes</a></li>
+          <li><a href="#">Requisitos para locação</a></li>
+          <li><a href="#">Gerenciar minha reserva</a></li>
+          <li><a href="#">Fale conosco</a></li>
+          <li><a href="#">Atendimento via WhatsApp</a></li>
+        </ul>
+      </div>
     </div>
 
-    <div class="footer-column">
-      <h3>Para você</h3>
-      <ul>
-        <li><a href="#">Minhas reservas</a></li>
-        <li><a href="#">Categorias de veículos</a></li>
-        <li><a href="#">Promoções e descontos</a></li>
-      </ul>
+    <!-- Faixa decorativa -->
+    <div class="footer-decoration2">
+      <img src="../static/img/item-decoracao(2)].png" alt="decoração footer">
     </div>
 
-    <div class="footer-column">
-      <h3>Suporte ao cliente</h3>
-      <ul>
-        <li><a href="#">Central de ajuda</a></li>
-        <li><a href="#">Dúvidas frequentes</a></li>
-        <li><a href="#">Requisitos para locação</a></li>
-        <li><a href="#">Gerenciar minha reserva</a></li>
-        <li><a href="#">Fale conosco</a></li>
-        <li><a href="#">Atendimento via WhatsApp</a></li>
-      </ul>
-    </div>
-  </div>
 
-  <!-- Faixa decorativa -->
-  <div class="footer-decoration2">
-    <img src="../static/img/item-decoracao(2)].png" alt="decoração footer" >
-  </div>
-
-  
-</section>
-<!-- ======= FOOTER ======= -->
-<footer>
+  </section>
+  <!-- ======= FOOTER ======= -->
+  <footer>
     <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
     <div class="footer-social">
-        <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp" title="Whatsapp"></a>
-        <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook" title="Facebook"></a>
-        <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram" title="Instagram"></a>
-        <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="Email"></a>
+      <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"
+          title="Whatsapp"></a>
+      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"
+          title="Facebook"></a>
+      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"
+          title="Instagram"></a>
+      <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="Email"></a>
     </div>
-</footer>
+  </footer>
 
-    <script src="../static/js/script.js"></script>
+  <script src="../static/js/script.js"></script>
 </body>
 
 </html>

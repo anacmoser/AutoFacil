@@ -6,27 +6,336 @@ app = Flask(__name__)
 app.secret_key = 'chave_secreta_autofacil'
 
 # "Banco de dados" em memória (dicionário)
-usuarios = [{'id': 1,
-             'nome': 'teste', 
-             'nascimento': '1111-11-11', 
-             'cpf': '00000000000', 
-             'celular': '22222222', 
-             'email': 'teste@gmail.com', 
-             'cep': '333333', 
-             'logradouro': 'testeLogradouro', 
-             'numero': '444', 
-             'complemento': 'testeComplemento', 
-             'bairro': 'testeBairro', 
-             'estado': 'testeEstado', 
-             'cidade': 'testeCidade', 
-             'senha': '1234'}]
+veiculos_locacao = [
+    # ---------------- ECONÔMICO ----------------
+    {
+        "id": 1,
+        "tipo": "econômico",
+        "categoria": "Econômico",
+        "marca": "Fiat",
+        "modelo": "Mobi",
+        "transmissao": "manual",
+        "preco_diario": 95.00,
+        "nome": "Fiat Mobi",
+        "imagem": "https://production.autoforce.com/uploads/version/profile_image/10921/model_main_webp_comprar-like-1-0_9eee82ebb4.png.webp",
+        "numero_malas": 2,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 2,
+        "tipo": "econômico",
+        "categoria": "Econômico",
+        "marca": "Renault",
+        "modelo": "Kwid",
+        "transmissao": "manual",
+        "preco_diario": 100.00,
+        "nome": "Renault Kwid",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348031/RENAULT_KWID_1.0_12V_SCE_FLEX_OUTSIDER_MANUAL_34803110315083122.webp",
+        "numero_malas": 2,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 3,
+        "tipo": "econômico",
+        "categoria": "Econômico",
+        "marca": "Hyundai",
+        "modelo": "HB20",
+        "transmissao": "manual",
+        "preco_diario": 110.00,
+        "nome": "Hyundai HB20",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/379453/HYUNDAI_HB20_1.0_TGDI_FLEX_PLATINUM_SAFETY_AUTOMATICO_3794531645596726.webp",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 4,
+        "tipo": "econômico",
+        "categoria": "Econômico",
+        "marca": "Chevrolet",
+        "modelo": "Onix",
+        "transmissao": "manual",
+        "preco_diario": 115.00,
+        "nome": "Chevrolet Onix",
+        "imagem": "https://www.chevrolet.com.br/content/dam/chevrolet/south-america/brazil/portuguese/index/portable-navigation/jellys/02-images/onix-plus-premiere-prata.jpg?imwidth=1200",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 5,
+        "tipo": "econômico",
+        "categoria": "Econômico",
+        "marca": "Volkswagen",
+        "modelo": "Gol",
+        "transmissao": "manual",
+        "preco_diario": 105.00,
+        "nome": "Volkswagen Gol",
+        "imagem": "https://cdn.motor1.com/images/mgl/YAAopq/s3/volkswagen-gol-1.0-2023.jpg",
+        "numero_malas": 2,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
 
-# Variável global para IDs - usar com cuidado em produção
-id_counter = 2
+    # ---------------- SEDAN ----------------
+    {
+        "id": 6,
+        "tipo": "sedan",
+        "categoria": "Sedan",
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "transmissao": "automático",
+        "preco_diario": 180.00,
+        "nome": "Toyota Corolla",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/379444/TOYOTA_COROLLA_1.8_VVTI_HYBRID_FLEX_ALTIS_PREMIUM_CVT_37944417132188584.webp",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Gasolina",
+        "status": "disponível"
+    },
+    {
+        "id": 7,
+        "tipo": "sedan",
+        "categoria": "Sedan",
+        "marca": "Honda",
+        "modelo": "Civic",
+        "transmissao": "automático",
+        "preco_diario": 185.00,
+        "nome": "Honda Civic",
+        "imagem": "https://di-uploads-pod33.dealerinspire.com/hendrickhondacharlotte/uploads/2021/03/mlp-img-top-2021-civic.png",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Gasolina",
+        "status": "disponível"
+    },
+    {
+        "id": 8,
+        "tipo": "sedan",
+        "categoria": "Sedan",
+        "marca": "Nissan",
+        "modelo": "Sentra",
+        "transmissao": "automático",
+        "preco_diario": 170.00,
+        "nome": "Nissan Sentra",
+        "imagem": "https://www.nissan-cdn.net/content/dam/Nissan/br/site/veiculos/sentra-my25/thumbs/sentra_exclusive_int_premium.png",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 9,
+        "tipo": "sedan",
+        "categoria": "Sedan",
+        "marca": "Chevrolet",
+        "modelo": "Cruze",
+        "transmissao": "automático",
+        "preco_diario": 175.00,
+        "nome": "Chevrolet Cruze",
+        "imagem": "https://revistacarro.com.br/wp-content/uploads/2018/05/chevrolet_cruze_sport6_ltz.png",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 10,
+        "tipo": "sedan",
+        "categoria": "Sedan",
+        "marca": "Volkswagen",
+        "modelo": "Virtus",
+        "transmissao": "automático",
+        "preco_diario": 165.00,
+        "nome": "Volkswagen Virtus",
+        "imagem": "https://cadastro.motorleads.co/public/images/20240130022136-v5.png",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
 
-veiculos = [
-    # ... (seus veículos permanecem iguais)
+    # ---------------- SUV ----------------
+    {
+        "id": 11,
+        "tipo": "suv",
+        "categoria": "SUV",
+        "marca": "Jeep",
+        "modelo": "Compass",
+        "transmissao": "automático",
+        "preco_diario": 220.00,
+        "nome": "Jeep Compass",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348683/JEEP_COMPASS_1.3_T270_TURBO_FLEX_S_AT6_3486831606189095.webp?s=fill&w=170&h=125&t=true",
+        "numero_malas": 4,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Diesel",
+        "status": "disponível"
+    },
+    {
+        "id": 12,
+        "tipo": "suv",
+        "categoria": "SUV",
+        "marca": "Hyundai",
+        "modelo": "Creta",
+        "transmissao": "automático",
+        "preco_diario": 200.00,
+        "nome": "Hyundai Creta",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348376/HYUNDAI_CRETA_1.6_16V_FLEX_ACTION_AUTOMATICO_34837618173811432.webp",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 13,
+        "tipo": "suv",
+        "categoria": "SUV",
+        "marca": "Honda",
+        "modelo": "HR-V",
+        "transmissao": "automático",
+        "preco_diario": 210.00,
+        "nome": "Honda HR-V",
+        "imagem": "https://production.autoforce.com/uploads/version/profile_image/9408/comprar-exl-honda-sensing_f6ae5428c9.png",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Gasolina",
+        "status": "disponível"
+    },
+    {
+        "id": 14,
+        "tipo": "suv",
+        "categoria": "SUV",
+        "marca": "Nissan",
+        "modelo": "Kicks",
+        "transmissao": "automático",
+        "preco_diario": 195.00,
+        "nome": "Nissan Kicks",
+        "imagem": "https://www.nissan.com.br/content/dam/Nissan/br/site/veiculos/kicks-play/360/advance/branco-diamond/01.png.ximg.c1h.360.png",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+    {
+        "id": 15,
+        "tipo": "suv",
+        "categoria": "SUV",
+        "marca": "Chevrolet",
+        "modelo": "Tracker",
+        "transmissao": "automático",
+        "preco_diario": 205.00,
+        "nome": "Chevrolet Tracker",
+        "imagem": "https://www.autoclachevrolet.com.br/content/dam/chevrolet/sa/br/pt/master/home/suvs/tracker/tracker-myr-2026/2-colorizer/lt-at-turbo/chevrolet-tracker-lt-preto-ouro-negro.jpg?imwidth=1920",
+        "numero_malas": 3,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Flex",
+        "status": "disponível"
+    },
+
+    # ---------------- LUXO ----------------
+    {
+        "id": 16,
+        "tipo": "luxo",
+        "categoria": "Luxo",
+        "marca": "BMW",
+        "modelo": "Série 3",
+        "transmissao": "automático",
+        "preco_diario": 450.00,
+        "nome": "BMW Série 3",
+        "imagem": "https://www.bmw.com.br/content/dam/bmw/common/all-models/3-series/sedan/2024/navigation/bmw-3-series-ice-lci-modelfinder.png",
+        "numero_malas": 4,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Gasolina",
+        "status": "disponível"
+    },
+    {
+        "id": 17,
+        "tipo": "luxo",
+        "categoria": "Luxo",
+        "marca": "Audi",
+        "modelo": "A4",
+        "transmissao": "automático",
+        "preco_diario": 460.00,
+        "nome": "Audi A4",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/379665/AUDI_A4_2.0_TFSI_MHEV_S_LINE_QUATTRO_S_TRONIC_37966510582707039.webp",
+        "numero_malas": 4,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Gasolina",
+        "status": "disponível"
+    },
+    {
+        "id": 18,
+        "tipo": "luxo",
+        "categoria": "Luxo",
+        "marca": "Mercedes-Benz",
+        "modelo": "C180",
+        "transmissao": "automático",
+        "preco_diario": 480.00,
+        "nome": "Mercedes-Benz C180",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/347940/MERCEDESBENZ_C_180_1.6_CGI_GASOLINA_SPORT_COUPE_9GTRONIC_34794009590838032.webp",
+        "numero_malas": 4,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Gasolina",
+        "status": "disponível"
+    },
+    {
+        "id": 19,
+        "tipo": "luxo",
+        "categoria": "Luxo",
+        "marca": "Volvo",
+        "modelo": "XC60",
+        "transmissao": "automático",
+        "preco_diario": 500.00,
+        "nome": "Volvo XC60",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348860/VOLVO_XC60_2.0_T8_RECHARGE_POLESTAR_ENGINEERED_AWD_GEARTRONIC_34886011041803311.webp",
+        "numero_malas": 4,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Híbrido",
+        "status": "disponível"
+    },
+    {
+        "id": 20,
+        "tipo": "luxo",
+        "categoria": "Luxo",
+        "marca": "Jaguar",
+        "modelo": "XE",
+        "transmissao": "automático",
+        "preco_diario": 520.00,
+        "nome": "Jaguar XE",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348195/JAGUAR_XE_2.0_16V_INGENIUM_P250_GASOLINA_RDYNAMIC_S_4P_AUTOMATICO_34819510562480227.webp",
+        "numero_malas": 4,
+        "numero_passageiros": 5,
+        "numero_portas": 4,
+        "combustivel": "Gasolina",
+        "status": "disponível"
+    }
 ]
+
 
 # Função para validar CPF (formato apenas)
 def validar_cpf(cpf):
@@ -124,9 +433,89 @@ def mudarLogin():
 
 @app.route('/frota', methods=['GET'])
 def mudarFrota():
-    if 'usuario_logado' not in session:
-        return redirect(url_for('login'))
-    return render_template('frota.html')
+    # Obter parâmetros de filtro da URL
+    categoria = request.args.get('categoria', '')
+    marca = request.args.get('marca', '')
+    modelo = request.args.get('modelo', '')
+    transmissao = request.args.get('transmissao', '')
+    combustivel = request.args.get('combustivel', '')
+    preco_maximo = request.args.get('preco_maximo', '')
+    malas_min = request.args.get('malas_min', '')
+    passageiros_min = request.args.get('passageiros_min', '')
+    portas_min = request.args.get('portas_min', '')
+    
+    # Filtrar veículos
+    veiculos_filtrados = veiculos_locacao.copy()
+    
+    # Aplicar filtros apenas se os valores não estiverem vazios
+    if categoria and categoria != 'todos':
+        veiculos_filtrados = [v for v in veiculos_filtrados if v['categoria'].lower() == categoria.lower()]
+    
+    if marca:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v['marca'].lower() == marca.lower()]
+    
+    if modelo:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v['modelo'].lower() == modelo.lower()]
+    
+    if transmissao:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v['transmissao'].lower() == transmissao.lower()]
+    
+    if combustivel:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.get('combustivel', '').lower() == combustivel.lower()]
+    
+    if preco_maximo:
+        try:
+            preco = float(preco_maximo)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v['preco_diario'] <= preco]
+        except ValueError:
+            pass
+    
+    if malas_min:
+        try:
+            min_malas = int(malas_min)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v['numero_malas'] >= min_malas]
+        except ValueError:
+            pass
+    
+    if passageiros_min:
+        try:
+            min_passageiros = int(passageiros_min)
+            # Ordenar por proximidade ao número solicitado (exato primeiro)
+            veiculos_filtrados = sorted(
+                [v for v in veiculos_filtrados if v['numero_passageiros'] >= min_passageiros],
+                key=lambda x: (x['numero_passageiros'] == min_passageiros, x['numero_passageiros']),
+                reverse=True
+            )
+        except ValueError:
+            pass
+    
+    if portas_min:
+        try:
+            min_portas = int(portas_min)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v['numero_portas'] >= min_portas]
+        except ValueError:
+            pass
+    
+    # Formatar os dados para o template
+    veiculos_formatados = []
+    for veiculo in veiculos_filtrados:
+        veiculos_formatados.append({
+            'id': veiculo.get('id', 0),
+            'categoria': veiculo['categoria'],
+            'marca': veiculo['marca'],
+            'modelo': veiculo['modelo'],
+            'transmissao': veiculo['transmissao'],
+            'preco': f"{veiculo['preco_diario']:.2f}",
+            'nome': veiculo['nome'],
+            'imagem': veiculo['imagem'],
+            'malas': veiculo['numero_malas'],
+            'passageiros': veiculo['numero_passageiros'],
+            'portas': veiculo['numero_portas'],
+            'combustivel': veiculo.get('combustivel', 'Flex'),
+            'status': veiculo['status']
+        })
+    
+    return render_template('frota.html', veiculos=veiculos_formatados)
 
 @app.route('/cadastrar', methods=['POST'])
 def cadastro():
@@ -230,7 +619,6 @@ def cadastro():
     return redirect(url_for('login'))
 
 
-
 @app.route('/logar', methods=['GET', 'POST']) #Completo
 def login():
     if request.method == 'POST':
@@ -263,41 +651,97 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/filtrar')
-def frota():
-    # Verificar se o usuário está logado
+@app.route('/api/filtrar', methods=['POST'])
+def api_filtrar():
+    try:
+        # Obter dados do JSON
+        data = request.get_json()
+        
+        categoria = data.get('categoria', '')
+        marca = data.get('marca', '')
+        modelo = data.get('modelo', '')
+        transmissao = data.get('transmissao', '')
+        combustivel = data.get('combustivel', '')
+        preco_maximo = data.get('preco_maximo', '')
+        malas_min = data.get('malas_min', '')
+        passageiros_min = data.get('passageiros_min', '')
+        portas_min = data.get('portas_min', '')
+        
+        # Filtrar veículos
+        veiculos_filtrados = veiculos_locacao.copy()
+        
+        # Aplicar filtros
+        if categoria and categoria != 'todos':
+            veiculos_filtrados = [v for v in veiculos_filtrados if v['categoria'].lower() == categoria.lower()]
+        
+        if marca:
+            veiculos_filtrados = [v for v in veiculos_filtrados if v['marca'].lower() == marca.lower()]
+        
+        if modelo:
+            veiculos_filtrados = [v for v in veiculos_filtrados if v['modelo'].lower() == modelo.lower()]
+        
+        if transmissao:
+            veiculos_filtrados = [v for v in veiculos_filtrados if v['transmissao'].lower() == transmissao.lower()]
+        
+        if combustivel:
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.get('combustivel', '').lower() == combustivel.lower()]
+        
+        if preco_maximo:
+            try:
+                preco = float(preco_maximo)
+                veiculos_filtrados = [v for v in veiculos_filtrados if v['preco_diario'] <= preco]
+            except ValueError:
+                pass
+        
+        if malas_min:
+            try:
+                min_malas = int(malas_min)
+                veiculos_filtrados = [v for v in veiculos_filtrados if v['numero_malas'] >= min_malas]
+            except ValueError:
+                pass
+        
+        if passageiros_min:
+            try:
+                min_passageiros = int(passageiros_min)
+                # Ordenar por proximidade ao número solicitado (exato primeiro)
+                veiculos_filtrados = sorted(
+                    [v for v in veiculos_filtrados if v['numero_passageiros'] >= min_passageiros],
+                    key=lambda x: (x['numero_passageiros'] == min_passageiros, x['numero_passageiros']),
+                    reverse=True
+                )
+            except ValueError:
+                pass
+        
+        if portas_min:
+            try:
+                min_portas = int(portas_min)
+                veiculos_filtrados = [v for v in veiculos_filtrados if v['numero_portas'] >= min_portas]
+            except ValueError:
+                pass
+        
+        # Formatar resposta
+        resposta = []
+        for veiculo in veiculos_filtrados:
+            resposta.append({
+                'id': veiculo.get('id', 0),
+                'categoria': veiculo['categoria'],
+                'marca': veiculo['marca'],
+                'modelo': veiculo['modelo'],
+                'transmissao': veiculo['transmissao'],
+                'preco': f"{veiculo['preco_diario']:.2f}",
+                'nome': veiculo['nome'],
+                'imagem': veiculo['imagem'],
+                'malas': veiculo['numero_malas'],
+                'passageiros': veiculo['numero_passageiros'],
+                'portas': veiculo['numero_portas'],
+                'combustivel': veiculo.get('combustivel', 'Flex'),
+                'status': veiculo['status']
+            })
+        
+        return jsonify(resposta)
     
-    
-    # Obter parâmetros de filtro da URL
-    categoria = request.args.get('categoria', '')
-    marca = request.args.get('marca', '')
-    modelo = request.args.get('modelo', '')
-    transmissao = request.args.get('transmissao', '')
-    preco_max = request.args.get('preco_max', '')
-    
-    # Filtrar veículos
-    veiculos_filtrados = veiculos
-    
-    if categoria and categoria != 'Todos':
-        veiculos_filtrados = [v for v in veiculos_filtrados if v['categoria'].lower() == categoria.lower()]
-    
-    if marca:
-        veiculos_filtrados = [v for v in veiculos_filtrados if v['marca'] == marca]
-    
-    if modelo:
-        veiculos_filtrados = [v for v in veiculos_filtrados if v['modelo'] == modelo]
-    
-    if transmissao:
-        veiculos_filtrados = [v for v in veiculos_filtrados if v['transmissao'] == transmissao]
-    
-    if preco_max:
-        try:
-            preco_max = float(preco_max)
-            veiculos_filtrados = [v for v in veiculos_filtrados if v['preco'] <= preco_max]
-        except ValueError:
-            pass
-    
-    return render_template('frota.html', veiculos=veiculos_filtrados)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/logout')
 def logout():

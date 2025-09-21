@@ -76,7 +76,7 @@
         {% if session.get('usuario_logado') %}
         <!-- Se usuário estiver logado, mostra logout -->
         <a href="{{ url_for('logout') }}">
-          <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"> <!--Precisa adicionar a img sair2 no static/img -->
+          <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
             class="icon-btn">
         </a>
         {% else %}

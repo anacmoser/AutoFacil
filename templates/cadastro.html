@@ -5,41 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - AutoFácil</title>
+    <!-- csss link -->
     <link rel="stylesheet" href="../static/css/style.css">
-    <script src="../static/js/script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos para mensagens de erro */
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            margin: 20px 0;
-            font-size: 14px;
-        }
-        
-        .alert-danger ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-        
-        .alert-danger li {
-            margin: 5px 0;
-        }
-        
-        .mensagem-erro {
-            color: #dc3545;
-            font-size: 12px;
-            margin-top: 5px;
-            display: block;
-        }
-        
-        .erro {
-            border-color: #dc3545 !important;
-        }
-    </style>
+
+    <!-- Favicons links -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+    <!-- Google Fonts link -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
 </head>
 
 <body data-page='cadastro'>
@@ -64,15 +44,35 @@
                     </div>
                 </div>
 
-                <a class="logo" href="/" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img" title="AutoFácil, aluguel de veículos">
+                <a class="logo" href="{{ url_for('index') }}" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img"
+                        title="AutoFácil, aluguel de veículos">
                 </a>
             </div>
 
             <div class="nav-right">
-                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas" class="icon-btn"> </a>
-                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" title="Acessibilidade" class="icon-btn"> </a>
-                <a href="/login" id="loginLink"> <img src="../static/img/login2.png" alt="Botão de login" title="Login" class="icon-btn"> </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
+                        title="Dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+                        title="Acessibilidade" class="icon-btn">
+                </a>
+
+                {% if session.get('usuario_logado') %}
+                <!-- Se usuário estiver logado, mostra logout -->
+                <a href="{{ url_for('logout') }}">
+                    <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
+                        class="icon-btn">
+                </a>
+                {% else %}
+                <!-- Se não estiver logado, mostra login -->
+                <a href="{{ url_for('mudarLogin') }}">
+                    <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                        class="icon-btn">
+                </a>
+                {% endif %}
             </div>
         </nav>
     </header>
@@ -89,9 +89,9 @@
         <div class="alert alert-danger">
             <strong>Por favor, corrija os seguintes erros:</strong>
             <ul>
-            {% for erro in erros %}
+                {% for erro in erros %}
                 <li>{{ erro }}</li>
-            {% endfor %}
+                {% endfor %}
             </ul>
         </div>
         {% endif %}
@@ -102,15 +102,18 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="nome">Nome Completo*</label>
-                    <input type="text" id="nome" name="nome" required placeholder="Seu nome completo" value="{{ request.form.nome if request.form }}">
+                    <input type="text" id="nome" name="nome" required placeholder="Seu nome completo"
+                        value="{{ request.form.nome if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="nascimento">Data de nascimento*</label>
-                    <input type="date" id="nascimento" name="nascimento" required value="{{ request.form.nascimento if request.form }}">
+                    <input type="date" id="nascimento" name="nascimento" required
+                        value="{{ request.form.nascimento if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="cpf">CPF*</label>
-                    <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00" value="{{ request.form.cpf if request.form }}">
+                    <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00"
+                        value="{{ request.form.cpf if request.form }}">
                 </div>
             </div>
 
@@ -119,11 +122,13 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="celular">Celular*</label>
-                    <input type="tel" id="celular" name="celular" required placeholder="(00) 00000-0000" value="{{ request.form.celular if request.form }}">
+                    <input type="tel" id="celular" name="celular" required placeholder="(00) 00000-0000"
+                        value="{{ request.form.celular if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail*</label>
-                    <input type="email" id="email" name="email" required placeholder="seu@email.com" value="{{ request.form.email if request.form }}">
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com"
+                        value="{{ request.form.email if request.form }}">
                 </div>
             </div>
 
@@ -132,63 +137,73 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="cep">CEP*</label>
-                    <input type="text" id="cep" name="cep" required placeholder="00000-000" value="{{ request.form.cep if request.form }}">
+                    <input type="text" id="cep" name="cep" required placeholder="00000-000"
+                        value="{{ request.form.cep if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="logradouro">Logradouro*</label>
-                    <input type="text" id="logradouro" name="logradouro" required placeholder="Rua, Avenida, etc." value="{{ request.form.logradouro if request.form }}">
+                    <input type="text" id="logradouro" name="logradouro" required placeholder="Rua, Avenida, etc."
+                        value="{{ request.form.logradouro if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="numero">Número</label>
-                    <input type="text" id="numero" name="numero" placeholder="123" value="{{ request.form.numero if request.form }}">
+                    <input type="text" id="numero" name="numero" placeholder="123"
+                        value="{{ request.form.numero if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="complemento">Complemento</label>
-                    <input type="text" id="complemento" name="complemento" placeholder="Apartamento, bloco, etc." value="{{ request.form.complemento if request.form }}">
+                    <input type="text" id="complemento" name="complemento" placeholder="Apartamento, bloco, etc."
+                        value="{{ request.form.complemento if request.form }}">
                 </div>
             </div>
 
             <div class="form-grid">
                 <div class="form-group">
                     <label for="bairro">Bairro*</label>
-                    <input type="text" id="bairro" name="bairro" required value="{{ request.form.bairro if request.form }}">
+                    <input type="text" id="bairro" name="bairro" required
+                        value="{{ request.form.bairro if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="estado">Estado*</label>
                     <select id="estado" name="estado" required>
                         <option value="">Selecione</option>
-                        <option value="AC" {% if request.form.estado == 'AC' %}selected{% endif %}>Acre</option>
-                        <option value="AL" {% if request.form.estado == 'AL' %}selected{% endif %}>Alagoas</option>
-                        <option value="AP" {% if request.form.estado == 'AP' %}selected{% endif %}>Amapá</option>
-                        <option value="AM" {% if request.form.estado == 'AM' %}selected{% endif %}>Amazonas</option>
-                        <option value="BA" {% if request.form.estado == 'BA' %}selected{% endif %}>Bahia</option>
-                        <option value="CE" {% if request.form.estado == 'CE' %}selected{% endif %}>Ceará</option>
-                        <option value="DF" {% if request.form.estado == 'DF' %}selected{% endif %}>Distrito Federal</option>
-                        <option value="ES" {% if request.form.estado == 'ES' %}selected{% endif %}>Espírito Santo</option>
-                        <option value="GO" {% if request.form.estado == 'GO' %}selected{% endif %}>Goiás</option>
-                        <option value="MA" {% if request.form.estado == 'MA' %}selected{% endif %}>Maranhão</option>
-                        <option value="MT" {% if request.form.estado == 'MT' %}selected{% endif %}>Mato Grosso</option>
-                        <option value="MS" {% if request.form.estado == 'MS' %}selected{% endif %}>Mato Grosso do Sul</option>
-                        <option value="MG" {% if request.form.estado == 'MG' %}selected{% endif %}>Minas Gerais</option>
-                        <option value="PA" {% if request.form.estado == 'PA' %}selected{% endif %}>Pará</option>
-                        <option value="PB" {% if request.form.estado == 'PB' %}selected{% endif %}>Paraíba</option>
-                        <option value="PR" {% if request.form.estado == 'PR' %}selected{% endif %}>Paraná</option>
-                        <option value="PE" {% if request.form.estado == 'PE' %}selected{% endif %}>Pernambuco</option>
-                        <option value="PI" {% if request.form.estado == 'PI' %}selected{% endif %}>Piauí</option>
-                        <option value="RJ" {% if request.form.estado == 'RJ' %}selected{% endif %}>Rio de Janeiro</option>
-                        <option value="RN" {% if request.form.estado == 'RN' %}selected{% endif %}>Rio Grande do Norte</option>
-                        <option value="RS" {% if request.form.estado == 'RS' %}selected{% endif %}>Rio Grande do Sul</option>
-                        <option value="RO" {% if request.form.estado == 'RO' %}selected{% endif %}>Rondônia</option>
-                        <option value="RR" {% if request.form.estado == 'RR' %}selected{% endif %}>Roraima</option>
-                        <option value="SC" {% if request.form.estado == 'SC' %}selected{% endif %}>Santa Catarina</option>
-                        <option value="SP" {% if request.form.estado == 'SP' %}selected{% endif %}>São Paulo</option>
-                        <option value="SE" {% if request.form.estado == 'SE' %}selected{% endif %}>Sergipe</option>
-                        <option value="TO" {% if request.form.estado == 'TO' %}selected{% endif %}>Tocantís</option>
+                        <option value="AC" {% if request.form.estado=='AC' %}selected{% endif %}>Acre</option>
+                        <option value="AL" {% if request.form.estado=='AL' %}selected{% endif %}>Alagoas</option>
+                        <option value="AP" {% if request.form.estado=='AP' %}selected{% endif %}>Amapá</option>
+                        <option value="AM" {% if request.form.estado=='AM' %}selected{% endif %}>Amazonas</option>
+                        <option value="BA" {% if request.form.estado=='BA' %}selected{% endif %}>Bahia</option>
+                        <option value="CE" {% if request.form.estado=='CE' %}selected{% endif %}>Ceará</option>
+                        <option value="DF" {% if request.form.estado=='DF' %}selected{% endif %}>Distrito Federal
+                        </option>
+                        <option value="ES" {% if request.form.estado=='ES' %}selected{% endif %}>Espírito Santo</option>
+                        <option value="GO" {% if request.form.estado=='GO' %}selected{% endif %}>Goiás</option>
+                        <option value="MA" {% if request.form.estado=='MA' %}selected{% endif %}>Maranhão</option>
+                        <option value="MT" {% if request.form.estado=='MT' %}selected{% endif %}>Mato Grosso</option>
+                        <option value="MS" {% if request.form.estado=='MS' %}selected{% endif %}>Mato Grosso do Sul
+                        </option>
+                        <option value="MG" {% if request.form.estado=='MG' %}selected{% endif %}>Minas Gerais</option>
+                        <option value="PA" {% if request.form.estado=='PA' %}selected{% endif %}>Pará</option>
+                        <option value="PB" {% if request.form.estado=='PB' %}selected{% endif %}>Paraíba</option>
+                        <option value="PR" {% if request.form.estado=='PR' %}selected{% endif %}>Paraná</option>
+                        <option value="PE" {% if request.form.estado=='PE' %}selected{% endif %}>Pernambuco</option>
+                        <option value="PI" {% if request.form.estado=='PI' %}selected{% endif %}>Piauí</option>
+                        <option value="RJ" {% if request.form.estado=='RJ' %}selected{% endif %}>Rio de Janeiro</option>
+                        <option value="RN" {% if request.form.estado=='RN' %}selected{% endif %}>Rio Grande do Norte
+                        </option>
+                        <option value="RS" {% if request.form.estado=='RS' %}selected{% endif %}>Rio Grande do Sul
+                        </option>
+                        <option value="RO" {% if request.form.estado=='RO' %}selected{% endif %}>Rondônia</option>
+                        <option value="RR" {% if request.form.estado=='RR' %}selected{% endif %}>Roraima</option>
+                        <option value="SC" {% if request.form.estado=='SC' %}selected{% endif %}>Santa Catarina</option>
+                        <option value="SP" {% if request.form.estado=='SP' %}selected{% endif %}>São Paulo</option>
+                        <option value="SE" {% if request.form.estado=='SE' %}selected{% endif %}>Sergipe</option>
+                        <option value="TO" {% if request.form.estado=='TO' %}selected{% endif %}>Tocantís</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="cidade">Cidade*</label>
-                    <input type="text" id="cidade" name="cidade" required value="{{ request.form.cidade if request.form }}">
+                    <input type="text" id="cidade" name="cidade" required
+                        value="{{ request.form.cidade if request.form }}">
                 </div>
             </div>
 
@@ -201,7 +216,8 @@
                 </div>
                 <div class="form-group">
                     <label for="confirmar">Confirme sua senha*</label>
-                    <input type="password" id="confirmar" name="confirmar" required placeholder="Digite novamente sua senha">
+                    <input type="password" id="confirmar" name="confirmar" required
+                        placeholder="Digite novamente sua senha">
                 </div>
             </div>
 
@@ -209,18 +225,21 @@
             <h2 class="form-section-title">Termos e consentimentos</h2>
             <div class="consentimentos">
                 <label>
-                    <input type="checkbox" id="termos" name="termos" required {% if request.form.termos %}checked{% endif %}>
-                    <span>Declaro que li e estou ciente dos <a href="#">Termos de Uso e Política de Privacidade</a></span>
+                    <input type="checkbox" id="termos" name="termos" required {% if request.form.termos %}checked{%
+                        endif %}>
+                    <span>Declaro que li e estou ciente dos <a href="#">Termos de Uso e Política de
+                            Privacidade</a></span>
                 </label>
                 <label>
-                    <input type="checkbox" id="newsletter" name="newsletter" {% if request.form.newsletter %}checked{% endif %}>
+                    <input type="checkbox" id="newsletter" name="newsletter" {% if request.form.newsletter %}checked{%
+                        endif %}>
                     <span>Quero receber ofertas e novidades por e-mail</span>
                 </label>
             </div>
 
             <!-- BOTÃO -->
             <button type="submit" class="btn-cadastrar" title="Enviar">Criar conta</button>
-            
+
             <div class="login-redirect">
                 Já tem uma conta? <a href="/login">Faça login aqui</a>
             </div>
@@ -231,97 +250,16 @@
     <footer>
         <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
         <div class="footer-social">
-            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp" title="Whatsapp"></a>
-            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook" title="Facebook"></a>
-            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram" title="Instagram"></a>
+            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"
+                    title="Whatsapp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"
+                    title="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"
+                    title="Instagram"></a>
             <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="E-mail"></a>
         </div>
     </footer>
-
-    <script>
-        // Adicionar validação em tempo real
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputs = document.querySelectorAll('input');
-            
-            inputs.forEach(input => {
-                input.addEventListener('blur', function() {
-                    validarCampo(this);
-                });
-            });
-            
-            // Preencher dados se houver erro no formulário
-            `{% if erros and request.form %}
-                // Scroll para o topo para mostrar os erros
-                window.scrollTo(0, 0);
-            {% endif %}`
-        });
-        
-        function validarCampo(campo) {
-            const valor = campo.value.trim();
-            let erro = '';
-            
-            switch(campo.id) {
-                case 'nome':
-                    if (!valor) erro = 'Nome completo é obrigatório.';
-                    break;
-                case 'nascimento':
-                    if (!valor) {
-                        erro = 'Data de nascimento é obrigatória.';
-                    } else {
-                        const dataNasc = new Date(valor);
-                        const hoje = new Date();
-                        const idade = hoje.getFullYear() - dataNasc.getFullYear();
-                        
-                        if (idade < 18) {
-                            erro = 'É necessário ter pelo menos 18 anos.';
-                        }
-                    }
-                    break;
-                case 'cpf':
-                    const cpfNumeros = valor.replace(/\D/g, '');
-                    if (cpfNumeros.length !== 11) erro = 'CPF deve conter 11 dígitos.';
-                    break;
-                case 'celular':
-                    const celularNumeros = valor.replace(/\D/g, '');
-                    if (celularNumeros.length < 10 || celularNumeros.length > 11) {
-                        erro = 'Número de celular inválido.';
-                    }
-                    break;
-                case 'email':
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(valor)) erro = 'E-mail inválido.';
-                    break;
-                case 'cep':
-                    const cepNumeros = valor.replace(/\D/g, '');
-                    if (cepNumeros.length !== 8) erro = 'CEP deve conter 8 dígitos.';
-                    break;
-                case 'senha':
-                    if (valor.length < 8) erro = 'Senha deve ter pelo menos 8 caracteres.';
-                    break;
-                case 'confirmar':
-                    const senha = document.getElementById('senha').value;
-                    if (valor !== senha) erro = 'As senhas não coincidem.';
-                    break;
-            }
-            
-            // Mostrar mensagem de erro
-            let mensagemErro = campo.parentNode.querySelector('.mensagem-erro');
-            
-            if (erro) {
-                if (!mensagemErro) {
-                    mensagemErro = document.createElement('div');
-                    mensagemErro.className = 'mensagem-erro';
-                    campo.parentNode.appendChild(mensagemErro);
-                }
-                mensagemErro.textContent = erro;
-                campo.classList.add('erro');
-            } else {
-                if (mensagemErro) {
-                    mensagemErro.remove();
-                }
-                campo.classList.remove('erro');
-            }
-        }
-    </script>
+    <script src="../static/js/script.js"></script>
 </body>
+
 </html>

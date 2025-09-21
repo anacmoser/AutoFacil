@@ -45,12 +45,12 @@ mostrarSlide(index);
 
 
 function updatePlaceholder() {
-    const input = document.querySelector(".marca");
-    if (window.innerWidth <= 1000) {
-        input.placeholder = "Pesquisar";
-    } else {
-        input.placeholder = "Digite a marca ou modelo";
-    }
+  const input = document.querySelector(".marca");
+  if (window.innerWidth <= 1000) {
+    input.placeholder = "Pesquisar";
+  } else {
+    input.placeholder = "Digite a marca ou modelo";
+  }
 }
 
 window.addEventListener("resize", updatePlaceholder);
@@ -59,39 +59,54 @@ window.addEventListener("load", updatePlaceholder);
 
 // Dropdown do hambúrguer: clique (mobile) e acessibilidade
 const menuTrigger = document.getElementById('menuTrigger');
-const menuBtn     = document.getElementById('menu');
-const menuPanel   = document.getElementById('menuPanel');
+const menuPanel = document.getElementById('menuPanel');
 
-function closeMenu(){ menuTrigger.classList.remove('open'); menuTrigger.setAttribute('aria-expanded','false'); }
-function openMenu(){ menuTrigger.classList.add('open'); menuTrigger.setAttribute('aria-expanded','true'); }
+function closeMenu() {
+  menuTrigger.classList.remove('open');
+  menuTrigger.setAttribute('aria-expanded', 'false');
+  menuPanel.classList.remove('open');
+}
 
-// Toggle no clique (especialmente útil < 1000px)
-menuBtn.addEventListener('click', (e)=>{
+function openMenu() {
+  menuTrigger.classList.add('open');
+  menuTrigger.setAttribute('aria-expanded', 'true');
+  menuPanel.classList.add('open');
+}
+
+
+// Toggle no clique no trigger (área clicável completa)
+menuTrigger.addEventListener('click', (e) => {
   e.stopPropagation();
-  if(menuTrigger.classList.contains('open')) closeMenu(); else openMenu();
+  if (menuTrigger.classList.contains('open')) {
+    closeMenu();
+  } else {
+    openMenu();
+  }
 });
 
 // Fecha ao clicar fora
-document.addEventListener('click', (e)=>{
-  if(!menuTrigger.contains(e.target)) closeMenu();
+document.addEventListener('click', (e) => {
+  if (!menuTrigger.contains(e.target)) closeMenu();
 });
 
 // Fecha no ESC
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape') closeMenu();
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMenu();
 });
 
 // Se voltar para desktop, garante estado fechado
-window.addEventListener('resize', ()=>{
-  if(window.innerWidth > 1000) closeMenu();
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 1000) {
+    closeMenu();
+  }
 });
 
 
 // === Ajuste fino do posicionamento da searchbar (desktop/tablet e mobile) ===
 (function () {
   const searchbar = document.querySelector('.searchbar');
-  const header    = document.querySelector('header');
-  const carousel  = document.querySelector('.carousel');
+  const header = document.querySelector('header');
+  const carousel = document.querySelector('.carousel');
 
   if (!searchbar || !header || !carousel) return;
 
@@ -108,21 +123,21 @@ window.addEventListener('resize', ()=>{
       const cRect = carousel.getBoundingClientRect();
       const topAbs = cRect.top + docTop; // topo exato do carousel na página
 
-      searchbar.style.position  = 'absolute';
-      searchbar.style.top       = `${topAbs}px`;
-      searchbar.style.left      = '50%';
+      searchbar.style.position = 'absolute';
+      searchbar.style.top = `${topAbs}px`;
+      searchbar.style.left = '50%';
       searchbar.style.transform = 'translateX(-50%)';
     } else {
       // (4) Mobile: centralizada verticalmente no header, sem sobrepor
       const hRect = header.getBoundingClientRect();
-      const sbH   = searchbar.offsetHeight || 44;
+      const sbH = searchbar.offsetHeight || 44;
 
       // centraliza a barra dentro da altura disponível do header
       const topAbs = hRect.top + docTop + Math.max(4, (header.offsetHeight - sbH) / 2);
 
-      searchbar.style.position  = 'absolute';
-      searchbar.style.top       = `${topAbs}px`;
-      searchbar.style.left      = '50%';
+      searchbar.style.position = 'absolute';
+      searchbar.style.top = `${topAbs}px`;
+      searchbar.style.left = '50%';
       searchbar.style.transform = 'translateX(-50%)';
     }
   }
@@ -138,43 +153,43 @@ window.addEventListener('resize', ()=>{
 
 
 /* ====== Destinos dinâmicos (categorias -> cidades) ====== */
-(function(){
+(function () {
   const destinosData = {
     ferias: [
-      "Porto Seguro, BA","Maceió, AL","João Pessoa, PB","Ubatuba, SP",
-      "Cabo Frio, RJ","Natal, RN","Ilhéus, BA","Florianópolis, SC"
+      "Porto Seguro, BA", "Maceió, AL", "João Pessoa, PB", "Ubatuba, SP",
+      "Cabo Frio, RJ", "Natal, RN", "Ilhéus, BA", "Florianópolis, SC"
     ],
     roteiros: [
-      "São Paulo, SP","Campinas, SP","Curitiba, PR","Recife, PE",
-      "Brasília, DF","Goiânia, GO","Belo Horizonte, MG","Porto Alegre, RS"
+      "São Paulo, SP", "Campinas, SP", "Curitiba, PR", "Recife, PE",
+      "Brasília, DF", "Goiânia, GO", "Belo Horizonte, MG", "Porto Alegre, RS"
     ],
     moto: [
-      "Chapada Diamantina, BA","Serra do Rio do Rastro, SC","São Thomé das Letras, MG","Estrada Real, MG",
-      "Petrópolis, RJ","Serra da Canastra, MG","Alto Paraíso, GO","Carrancas, MG"
+      "Chapada Diamantina, BA", "Serra do Rio do Rastro, SC", "São Thomé das Letras, MG", "Estrada Real, MG",
+      "Petrópolis, RJ", "Serra da Canastra, MG", "Alto Paraíso, GO", "Carrancas, MG"
     ],
     natureza: [
-      "Brotas, SP","Itacaré, BA","Bonito, MS","Bonito (MS) - roteiros",
-      "Alto Paraíso, GO","Carrancas, MG","Recife, PE","Nova Friburgo, RJ"
+      "Brotas, SP", "Itacaré, BA", "Bonito, MS", "Bonito (MS) - roteiros",
+      "Alto Paraíso, GO", "Carrancas, MG", "Recife, PE", "Nova Friburgo, RJ"
     ],
     familia: [
-      "Caldas Novas, GO","Foz do Iguaçu, PR","Balneário Camboriú, SC","Poços de Caldas, MG",
-      "Ólimpia, SP","Praia do Forte, BA","Canela, RS","Beto Carrero (Penha, SC)"
+      "Caldas Novas, GO", "Foz do Iguaçu, PR", "Balneário Camboriú, SC", "Poços de Caldas, MG",
+      "Ólimpia, SP", "Praia do Forte, BA", "Canela, RS", "Beto Carrero (Penha, SC)"
     ]
   };
 
   const grid = document.getElementById('destinosGrid');
   const pills = Array.from(document.querySelectorAll('.destinos-filtros .pill'));
 
-  function splitColumns(items, cols = 4){
+  function splitColumns(items, cols = 4) {
     const perCol = Math.ceil(items.length / cols);
     const columns = [];
-    for(let i=0;i<cols;i++){
-      columns.push(items.slice(i*perCol, (i+1)*perCol));
+    for (let i = 0; i < cols; i++) {
+      columns.push(items.slice(i * perCol, (i + 1) * perCol));
     }
     return columns;
   }
 
-  function renderCategoria(cat){
+  function renderCategoria(cat) {
     const items = destinosData[cat] || [];
     const cols = window.innerWidth <= 680 ? 2 : (window.innerWidth <= 1000 ? 3 : 4);
     const columns = splitColumns(items, cols);
@@ -183,7 +198,7 @@ window.addEventListener('resize', ()=>{
     columns.forEach(col => {
       const ul = document.createElement('ul');
       ul.className = 'destinos-col';
-      if(col.length === 0){
+      if (col.length === 0) {
         const li = document.createElement('li');
         li.textContent = '';
         ul.appendChild(li);
@@ -200,14 +215,14 @@ window.addEventListener('resize', ()=>{
 
   // eventos dos botões (pills)
   pills.forEach(btn => {
-    btn.addEventListener('click', function(){
+    btn.addEventListener('click', function () {
       const active = document.querySelector('.destinos-filtros .pill.active');
-      if(active) {
+      if (active) {
         active.classList.remove('active');
-        active.setAttribute('aria-pressed','false');
+        active.setAttribute('aria-pressed', 'false');
       }
       this.classList.add('active');
-      this.setAttribute('aria-pressed','true');
+      this.setAttribute('aria-pressed', 'true');
 
       const cat = this.dataset.cat;
       renderCategoria(cat);
@@ -215,7 +230,7 @@ window.addEventListener('resize', ()=>{
 
     // acessibilidade teclado
     btn.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' || e.key === ' ') {
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         btn.click();
       }
@@ -224,18 +239,135 @@ window.addEventListener('resize', ()=>{
 
   // render inicial (cat ativa padrão)
   const defaultBtn = document.querySelector('.destinos-filtros .pill.active') || pills[0];
-  if(defaultBtn) {
+  if (defaultBtn) {
     renderCategoria(defaultBtn.dataset.cat);
   }
 
   // re-render em resize para ajustar colunas
   let resizeTimer = null;
-  window.addEventListener('resize', function(){
+  window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       const active = document.querySelector('.destinos-filtros .pill.active');
-      if(active) renderCategoria(active.dataset.cat);
+      if (active) renderCategoria(active.dataset.cat);
     }, 120);
   });
 })();
 
+
+// Script para funcionalidade dos filtros
+document.addEventListener('DOMContentLoaded', function () {
+  // Filtros de categoria
+  const filtroBtns = document.querySelectorAll('.filtro-btn');
+
+  filtroBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      // Remove a classe active de todos os botões
+      filtroBtns.forEach(b => b.classList.remove('active'));
+      // Adiciona a classe active apenas ao botão clicado
+      this.classList.add('active');
+    });
+  });
+
+  // Funcionalidade do botão de alugar
+  const alugarBtns = document.querySelectorAll('.btn-alugar');
+
+  alugarBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      alert('Veículo adicionado ao processo de reserva! Em breve você será redirecionado.');
+      // Aqui viria a lógica para redirecionar para a página de reserva
+    });
+  });
+
+  // Funcionalidade do botão aplicar filtros
+  const aplicarBtn = document.querySelector('.btn-aplicar');
+
+  aplicarBtn.addEventListener('click', function () {
+    alert('Filtros aplicados com sucesso!');
+    // Aqui viria a lógica para filtrar os veículos
+  });
+});
+
+// Adicionar validação em tempo real
+document.addEventListener('DOMContentLoaded', function () {
+  const inputs = document.querySelectorAll('input');
+
+  inputs.forEach(input => {
+    input.addEventListener('blur', function () {
+      validarCampo(this);
+    });
+  });
+
+  // Preencher dados se houver erro no formulário
+  `{% if erros and request.form %}
+                // Scroll para o topo para mostrar os erros
+                window.scrollTo(0, 0);
+            {% endif %}`
+});
+
+function validarCampo(campo) {
+  const valor = campo.value.trim();
+  let erro = '';
+
+  switch (campo.id) {
+    case 'nome':
+      if (!valor) erro = 'Nome completo é obrigatório.';
+      break;
+    case 'nascimento':
+      if (!valor) {
+        erro = 'Data de nascimento é obrigatória.';
+      } else {
+        const dataNasc = new Date(valor);
+        const hoje = new Date();
+        const idade = hoje.getFullYear() - dataNasc.getFullYear();
+
+        if (idade < 18) {
+          erro = 'É necessário ter pelo menos 18 anos.';
+        }
+      }
+      break;
+    case 'cpf':
+      const cpfNumeros = valor.replace(/\D/g, '');
+      if (cpfNumeros.length !== 11) erro = 'CPF deve conter 11 dígitos.';
+      break;
+    case 'celular':
+      const celularNumeros = valor.replace(/\D/g, '');
+      if (celularNumeros.length < 10 || celularNumeros.length > 11) {
+        erro = 'Número de celular inválido.';
+      }
+      break;
+    case 'email':
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(valor)) erro = 'E-mail inválido.';
+      break;
+    case 'cep':
+      const cepNumeros = valor.replace(/\D/g, '');
+      if (cepNumeros.length !== 8) erro = 'CEP deve conter 8 dígitos.';
+      break;
+    case 'senha':
+      if (valor.length < 8) erro = 'Senha deve ter pelo menos 8 caracteres.';
+      break;
+    case 'confirmar':
+      const senha = document.getElementById('senha').value;
+      if (valor !== senha) erro = 'As senhas não coincidem.';
+      break;
+  }
+
+  // Mostrar mensagem de erro
+  let mensagemErro = campo.parentNode.querySelector('.mensagem-erro');
+
+  if (erro) {
+    if (!mensagemErro) {
+      mensagemErro = document.createElement('div');
+      mensagemErro.className = 'mensagem-erro';
+      campo.parentNode.appendChild(mensagemErro);
+    }
+    mensagemErro.textContent = erro;
+    campo.classList.add('erro');
+  } else {
+    if (mensagemErro) {
+      mensagemErro.remove();
+    }
+    campo.classList.remove('erro');
+  }
+}

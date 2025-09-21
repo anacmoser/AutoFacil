@@ -5,41 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoFácil - Login</title>
+    <!-- csss link -->
     <link rel="stylesheet" href="../static/css/style.css">
-    <script src="../static/js/script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos para mensagens de erro */
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            margin: 20px 0;
-            font-size: 14px;
-        }
-        
-        .alert-danger ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-        
-        .alert-danger li {
-            margin: 5px 0;
-        }
-        
-        .mensagem-erro {
-            color: #dc3545;
-            font-size: 12px;
-            margin-top: 5px;
-            display: block;
-        }
-        
-        .erro {
-            border-color: #dc3545 !important;
-        }
-    </style>
+
+    <!-- Favicons links -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+    <!-- Google Fonts link -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
 </head>
 
 <body data-page='login'>
@@ -67,7 +47,7 @@
                     </div>
                 </div>
 
-                <a class="logo" href="/" aria-label="AutoFácil - Início">
+                <a class="logo" href="{{ url_for('index') }}" aria-label="AutoFácil - Início">
                     <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img" title="AutoFácil, aluguel de veículos">
                 </a>
             </div>

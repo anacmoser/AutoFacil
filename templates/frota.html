@@ -5,10 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frota - AutoFácil</title>
+    <!-- csss link -->
     <link rel="stylesheet" href="../static/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="../static/js/script.js"></script>
+
+    <!-- Favicons links -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+    <!-- Google Fonts link -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
 
 </head>
 
@@ -38,8 +48,8 @@
 
                 </div>
 
-                <a class="logo" href="/" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img" title="AutoFácil, aluguel de veículos">
+                <a class="logo" href="{{ url_for('index') }}" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
                 </a>
             </div>
 
@@ -49,27 +59,28 @@
                 <a href="#" class="nav-btn">Para empresas</a>
                 <a href="#" class="nav-btn">Minhas reservas</a>
             </div>
+            
+            <div class="nav-right">
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
+                        title="Dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+                        title="Acessibilidade" class="icon-btn">
+                </a>
 
-            <div class="nav-right"> 
-                <a href="#">
-                <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
-                    class="icon-btn">
-                </a>
-                <a href="#">
-                <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-                    title="Acessibilidade" class="icon-btn">
-                </a>
                 {% if session.get('usuario_logado') %}
                 <!-- Se usuário estiver logado, mostra logout -->
                 <a href="{{ url_for('logout') }}">
-                <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
-                    class="icon-btn">
+                    <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
+                        class="icon-btn">
                 </a>
                 {% else %}
                 <!-- Se não estiver logado, mostra login -->
                 <a href="{{ url_for('mudarLogin') }}">
-                <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-                    class="icon-btn">
+                    <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                        class="icon-btn">
                 </a>
                 {% endif %}
             </div>
@@ -178,56 +189,56 @@
 
     <!-- Frota de Veículos -->
     <!-- Frota de Veículos -->
-<section class="frota-container">
-    <div class="veiculos-header">
-        <h2 class="veiculos-titulo">Carros disponíveis</h2>
-        <div class="ordenacao">
-            <select id="ordenacao">
-                <option value="preco_asc">Ordenar por: Menor preço</option>
-                <option value="preco_desc">Ordenar por: Maior preço</option>
-                <option value="nome_asc">Ordenar por: Nome A-Z</option>
-            </select>
+    <section class="frota-container">
+        <div class="veiculos-header">
+            <h2 class="veiculos-titulo">Carros disponíveis</h2>
+            <div class="ordenacao">
+                <select id="ordenacao">
+                    <option value="preco_asc">Ordenar por: Menor preço</option>
+                    <option value="preco_desc">Ordenar por: Maior preço</option>
+                    <option value="nome_asc">Ordenar por: Nome A-Z</option>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="veiculos-grid">
-        {% for veiculo in veiculos %}
-        <!-- Veículo {{ veiculo.id }} -->
-        <div class="veiculo-card">
-            <div class="veiculo-imagem">
-                <img src="{{ veiculo.imagem }}" alt="{{ veiculo.nome }}">
-            </div>
-            <div class="veiculo-info">
-                <div class="veiculo-categoria">{{ veiculo.categoria }}</div>
-                <h3 class="veiculo-nome">{{ veiculo.nome }}</h3>
-                <div class="veiculo-detalhes">
-                    <div class="veiculo-detalhe">
-                        <i class="fas fa-user"></i> {{ veiculo.passageiros }} passageiros
-                    </div>
-                    <div class="veiculo-detalhe">
-                        <i class="fas fa-suitcase"></i> {{ veiculo.malas }} malas
-                    </div>
-                    <div class="veiculo-detalhe">
-                        <i class="fas fa-cog"></i> 
-                        {% if veiculo.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
-                    </div>
-                    <div class="veiculo-detalhe">
-                        <i class="fas fa-gas-pump"></i> {{ veiculo.combustivel }}
-                    </div>
+        <div class="veiculos-grid">
+            {% for veiculo in veiculos %}
+            <!-- Veículo {{ veiculo.id }} -->
+            <div class="veiculo-card">
+                <div class="veiculo-imagem">
+                    <img src="{{ veiculo.imagem }}" alt="{{ veiculo.nome }}">
                 </div>
-                <div class="veiculo-preco">
-                    R$ {{ veiculo.preco }} <span>/dia</span>
+                <div class="veiculo-info">
+                    <div class="veiculo-categoria">{{ veiculo.categoria }}</div>
+                    <h3 class="veiculo-nome">{{ veiculo.nome }}</h3>
+                    <div class="veiculo-detalhes">
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-user"></i> {{ veiculo.passageiros }} passageiros
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-suitcase"></i> {{ veiculo.malas }} malas
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-cog"></i>
+                            {% if veiculo.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
+                        </div>
+                        <div class="veiculo-detalhe">
+                            <i class="fas fa-gas-pump"></i> {{ veiculo.combustivel }}
+                        </div>
+                    </div>
+                    <div class="veiculo-preco">
+                        R$ {{ veiculo.preco }} <span>/dia</span>
+                    </div>
+                    <button class="btn-alugar">Alugar agora</button>
                 </div>
-                <button class="btn-alugar">Alugar agora</button>
             </div>
+            {% else %}
+            <div class="nenhum-veiculo">
+                <p>Nenhum veículo encontrado com os filtros selecionados.</p>
+            </div>
+            {% endfor %}
         </div>
-        {% else %}
-        <div class="nenhum-veiculo">
-            <p>Nenhum veículo encontrado com os filtros selecionados.</p>
-        </div>
-        {% endfor %}
-    </div>
-</section>
+    </section>
     <!-- Benefícios -->
     <section class="beneficios">
         <div class="beneficios-container">

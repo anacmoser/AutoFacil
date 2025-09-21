@@ -60,6 +60,7 @@ a {
     display: flex;
     align-items: center;
 }
+
 #menu {
     width: 30px;
     height: 40px;
@@ -85,6 +86,21 @@ a {
     z-index: 3000;
 }
 
+.menu-trigger:hover .menu-panel {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+.menu-panel.open {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 /* “Setinha” do balão */
 .menu-panel::before {
     content: "";
@@ -108,6 +124,10 @@ a {
     margin: 0;
 }
 
+.menu-panel li:hover{
+    background-color: #e3e3e3;
+}
+
 .menu-panel a {
     display: block;
     padding: 10px 12px;
@@ -116,9 +136,11 @@ a {
     font-size: 14px;
 }
 
-.menu-panel a:hover {
-    background: #f5f8fc;
+/* desktop: esconde as opções duplicadas */
+.panel-nav {
+    display: none;
 }
+
 
 /* Navbar redesign */
 .nav-center {
@@ -173,24 +195,6 @@ a {
 }
 
 /* Estilos específicos para a página de login */
-.login-hero {
-    background: linear-gradient(rgba(54, 105, 164, 0.9), rgba(54, 105, 164, 0.7)), url('../static/img/login-bg.jpg') center/cover no-repeat;
-    padding: 60px 20px 40px;
-    color: white;
-    text-align: center;
-}
-
-.login-hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    font-weight: 700;
-}
-
-.login-hero p {
-    font-size: 1.2rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
 
 .login-container {
     display: flex;
@@ -351,6 +355,37 @@ a {
 
 .signup a:hover {
     text-decoration: underline;
+}
+
+/* Estilos para mensagens de erro */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.alert-danger ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alert-danger li {
+    margin: 5px 0;
+}
+
+.mensagem-erro {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.erro {
+    border-color: #dc3545 !important;
 }
 
 
@@ -1252,6 +1287,10 @@ footer hr {
     .filtros-grid {
         grid-template-columns: 1fr 1fr;
     }
+
+    .panel-nav {
+        display: block;
+    }
 }
 
 
@@ -1400,198 +1439,200 @@ footer hr {
 }
 
 .cadastro-hero {
-            background: linear-gradient(rgba(54, 105, 164, 0.9), rgba(54, 105, 164, 0.7)), url('../static/img/cadastro-bg.jpg') center/cover no-repeat;
-            padding: 60px 20px 40px;
-            color: white;
-            text-align: center;
-        }
-        
-        .cadastro-hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .cadastro-hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .cadastro-container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .form-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .form-header h1 {
-            font-size: 2rem;
-            color: #002f5f;
-            margin-bottom: 10px;
-        }
-        
-        .form-header .subtitle {
-            font-size: 1.1rem;
-            color: #555;
-        }
-        
-        .form-cadastro {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .form-section-title {
-            color: #002f5f;
-            font-size: 1.3rem;
-            margin: 25px 0 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ff8c14;
-            display: inline-block;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .form-group label {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        .form-group input {
-            border: 1px solid #ddd;
-            padding: 12px 15px;
-            font-size: 15px;
-            border-radius: 6px;
-            background: #f9f9f9;
-            transition: all 0.3s;
-        }
+    background: linear-gradient(rgba(54, 105, 164, 0.9), rgba(54, 105, 164, 0.7)), url('../static/img/cadastro-bg.jpg') center/cover no-repeat;
+    padding: 60px 20px 40px;
+    color: white;
+    text-align: center;
+}
 
-        .form-group select {
-            border: 1px solid #ddd;
-            padding: 12px 15px;
-            font-size: 15px;
-            border-radius: 6px;
-            background: #f9f9f9;
-            transition: all 0.3s;
-        }
+.cadastro-hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
 
-        .form-group input:focus {
-            border-color: #3669a4;
-            box-shadow: 0 0 0 2px rgba(54, 105, 164, 0.2);
-            background: white;
-            outline: none;
-        }
-        .mensagem-erro {
-            color: #d32f2f;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
+.cadastro-hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
 
-        input.erro {
-            border-color: #d32f2f;
-        }
+.cadastro-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
 
-        .nenhum-veiculo {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 2rem;
-            font-size: 1.2rem;
-            color: #666;
-        }
-        .consentimentos {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin: 30px 0;
-            padding: 20px;
-            background: #f5f8fc;
-            border-radius: 8px;
-        }
-        
-        .consentimentos label {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 14px;
-            color: #333;
-            cursor: pointer;
-        }
-        
-        .consentimentos input[type="checkbox"] {
-            margin-top: 3px;
-        }
-        
-        .consentimentos a {
-            color: #3669a4;
-            font-weight: 600;
-        }
-        
-        .btn-cadastrar {
-            background: #ff8c14;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 14px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: block;
-            margin: 0 auto;
-            width: 200px;
-        }
-        
-        .btn-cadastrar:hover {
-            background: #e67e0f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
-        }
-        
-        .login-redirect {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 15px;
-            color: #555;
-        }
-        
-        .login-redirect a {
-            color: #3669a4;
-            font-weight: 600;
-        }
-        
-        @media (max-width: 768px) {
-            .cadastro-hero h1 {
-                font-size: 2rem;
-            }
-            
-            .cadastro-hero p {
-                font-size: 1rem;
-            }
-            
-            .form-cadastro {
-                padding: 20px;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h1 {
+    font-size: 2rem;
+    color: #002f5f;
+    margin-bottom: 10px;
+}
+
+.form-header .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.form-cadastro {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.form-section-title {
+    color: #002f5f;
+    font-size: 1.3rem;
+    margin: 25px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ff8c14;
+    display: inline-block;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    font-size: 15px;
+    border-radius: 6px;
+    background: #f9f9f9;
+    transition: all 0.3s;
+}
+
+.form-group select {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    font-size: 15px;
+    border-radius: 6px;
+    background: #f9f9f9;
+    transition: all 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #3669a4;
+    box-shadow: 0 0 0 2px rgba(54, 105, 164, 0.2);
+    background: white;
+    outline: none;
+}
+
+.mensagem-erro {
+    color: #d32f2f;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+input.erro {
+    border-color: #d32f2f;
+}
+
+.nenhum-veiculo {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.consentimentos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 30px 0;
+    padding: 20px;
+    background: #f5f8fc;
+    border-radius: 8px;
+}
+
+.consentimentos label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.consentimentos input[type="checkbox"] {
+    margin-top: 3px;
+}
+
+.consentimentos a {
+    color: #3669a4;
+    font-weight: 600;
+}
+
+.btn-cadastrar {
+    background: #ff8c14;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+}
+
+.btn-cadastrar:hover {
+    background: #e67e0f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
+}
+
+.login-redirect {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+    color: #555;
+}
+
+.login-redirect a {
+    color: #3669a4;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .cadastro-hero h1 {
+        font-size: 2rem;
+    }
+
+    .cadastro-hero p {
+        font-size: 1rem;
+    }
+
+    .form-cadastro {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

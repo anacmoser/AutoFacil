@@ -24,9 +24,277 @@ usuarios = [{'id': 1,
 # Variável global para IDs - usar com cuidado em produção
 id_counter = 2
 
+
 veiculos = [
-    # ... (seus veículos permanecem iguais)
+    # ---------------- ECONÔMICO ----------------
+    {
+        "id": 1,
+        "nome": "Fiat Mobi",
+        "categoria": "Econômico",
+        "marca": "fiat",
+        "modelo": "mobi",
+        "imagem": "https://production.autoforce.com/uploads/version/profile_image/10921/model_main_webp_comprar-like-1-0_9eee82ebb4.png.webp",
+        "passageiros": 5,
+        "malas": 2,
+        "transmissao": "manual",
+        "combustivel": "Flex",
+        "preco": 95
+    },
+    {
+        "id": 2,
+        "nome": "Renault Kwid",
+        "categoria": "Econômico",
+        "marca": "renault",
+        "modelo": "kwid",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348031/RENAULT_KWID_1.0_12V_SCE_FLEX_OUTSIDER_MANUAL_34803110315083122.webp",
+        "passageiros": 5,
+        "malas": 2,
+        "transmissao": "manual",
+        "combustivel": "Flex",
+        "preco": 100
+    },
+    {
+        "id": 3,
+        "nome": "Hyundai HB20",
+        "categoria": "Econômico",
+        "marca": "hyundai",
+        "modelo": "hb20",
+        "imagem": "/static/img/hb20.webp",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "manual",
+        "combustivel": "Flex",
+        "preco": 110
+    },
+    {
+        "id": 4,
+        "nome": "Chevrolet Onix",
+        "categoria": "Econômico",
+        "marca": "chevrolet",
+        "modelo": "onix",
+        "imagem": "/static/img/onix.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "manual",
+        "combustivel": "Flex",
+        "preco": 115
+    },
+    {
+        "id": 5,
+        "nome": "Volkswagen Gol",
+        "categoria": "Econômico",
+        "marca": "volkswagen",
+        "modelo": "gol",
+        "imagem": "https://cdn.motor1.com/images/mgl/YAAopq/s3/volkswagen-gol-1.0-2023.jpg",
+        "passageiros": 5,
+        "malas": 2,
+        "transmissao": "manual",
+        "combustivel": "Flex",
+        "preco": 105
+    },
+
+    # ---------------- SEDAN ----------------
+    {
+        "id": 6,
+        "nome": "Toyota Corolla",
+        "categoria": "Sedan",
+        "marca": "toyota",
+        "modelo": "corolla",
+        "imagem": "/static/img/corolla.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Gasolina",
+        "preco": 180
+    },
+    {
+        "id": 7,
+        "nome": "Honda Civic",
+        "categoria": "Sedan",
+        "marca": "honda",
+        "modelo": "civic",
+        "imagem": "https://di-uploads-pod33.dealerinspire.com/hendrickhondacharlotte/uploads/2021/03/mlp-img-top-2021-civic.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Gasolina",
+        "preco": 185
+    },
+    {
+        "id": 8,
+        "nome": "Nissan Sentra",
+        "categoria": "Sedan",
+        "marca": "nissan",
+        "modelo": "sentra",
+        "imagem": "https://www.nissan-cdn.net/content/dam/Nissan/br/site/veiculos/sentra-my25/thumbs/sentra_exclusive_int_premium.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Flex",
+        "preco": 170
+    },
+    {
+        "id": 9,
+        "nome": "Chevrolet Cruze",
+        "categoria": "Sedan",
+        "marca": "chevrolet",
+        "modelo": "cruze",
+        "imagem": "https://revistacarro.com.br/wp-content/uploads/2018/05/chevrolet_cruze_sport6_ltz.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Flex",
+        "preco": 175
+    },
+    {
+        "id": 10,
+        "nome": "Volkswagen Virtus",
+        "categoria": "Sedan",
+        "marca": "volkswagen",
+        "modelo": "virtus",
+        "imagem": "https://cadastro.motorleads.co/public/images/20240130022136-v5.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Flex",
+        "preco": 165
+    },
+
+    # ---------------- SUV ----------------
+    {
+        "id": 11,
+        "nome": "Jeep Compass",
+        "categoria": "SUV",
+        "marca": "jeep",
+        "modelo": "compass",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348683/JEEP_COMPASS_1.3_T270_TURBO_FLEX_S_AT6_3486831606189095.webp?s=fill&w=170&h=125&t=true",
+        "passageiros": 5,
+        "malas": 4,
+        "transmissao": "automatico",
+        "combustivel": "Diesel",
+        "preco": 220
+    },
+    {
+        "id": 12,
+        "nome": "Hyundai Creta",
+        "categoria": "SUV",
+        "marca": "hyundai",
+        "modelo": "creta",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348376/HYUNDAI_CRETA_1.6_16V_FLEX_ACTION_AUTOMATICO_34837618173811432.webp",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Flex",
+        "preco": 200
+    },
+    {
+        "id": 13,
+        "nome": "Honda HR-V",
+        "categoria": "SUV",
+        "marca": "honda",
+        "modelo": "hrv",
+        "imagem": "https://production.autoforce.com/uploads/version/profile_image/9408/comprar-exl-honda-sensing_f6ae5428c9.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Gasolina",
+        "preco": 210
+    },
+    {
+        "id": 14,
+        "nome": "Nissan Kicks",
+        "categoria": "SUV",
+        "marca": "nissan",
+        "modelo": "kicks",
+        "imagem": "https://www.nissan.com.br/content/dam/Nissan/br/site/veiculos/kicks-play/360/advance/branco-diamond/01.png.ximg.c1h.360.png",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Flex",
+        "preco": 195
+    },
+    {
+        "id": 15,
+        "nome": "Chevrolet Tracker",
+        "categoria": "SUV",
+        "marca": "chevrolet",
+        "modelo": "tracker",
+        "imagem": "https://www.autoclachevrolet.com.br/content/dam/chevrolet/sa/br/pt/master/home/suvs/tracker/tracker-myr-2026/2-colorizer/lt-at-turbo/chevrolet-tracker-lt-preto-ouro-negro.jpg?imwidth=1920",
+        "passageiros": 5,
+        "malas": 3,
+        "transmissao": "automatico",
+        "combustivel": "Flex",
+        "preco": 205
+    },
+
+    # ---------------- LUXO ----------------
+    {
+        "id": 16,
+        "nome": "BMW Série 3",
+        "categoria": "Luxo",
+        "marca": "bmw",
+        "modelo": "serie-3",
+        "imagem": "https://www.bmw.com.br/content/dam/bmw/common/all-models/3-series/sedan/2024/navigation/bmw-3-series-ice-lci-modelfinder.png",
+        "passageiros": 5,
+        "malas": 4,
+        "transmissao": "automatico",
+        "combustivel": "Gasolina",
+        "preco": 450
+    },
+    {
+        "id": 17,
+        "nome": "Audi A4",
+        "categoria": "Luxo",
+        "marca": "audi",
+        "modelo": "a4",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/379665/AUDI_A4_2.0_TFSI_MHEV_S_LINE_QUATTRO_S_TRONIC_37966510582707039.webp",
+        "passageiros": 5,
+        "malas": 4,
+        "transmissao": "automatico",
+        "combustivel": "Gasolina",
+        "preco": 460
+    },
+    {
+        "id": 18,
+        "nome": "Mercedes-Benz C180",
+        "categoria": "Luxo",
+        "marca": "mercedes",
+        "modelo": "c180",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/347940/MERCEDESBENZ_C_180_1.6_CGI_GASOLINA_SPORT_COUPE_9GTRONIC_34794009590838032.webp",
+        "passageiros": 5,
+        "malas": 4,
+        "transmissao": "automatico",
+        "combustivel": "Gasolina",
+        "preco": 480
+    },
+    {
+        "id": 19,
+        "nome": "Volvo XC60",
+        "categoria": "Luxo",
+        "marca": "volvo",
+        "modelo": "xc60",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348860/VOLVO_XC60_2.0_T8_RECHARGE_POLESTAR_ENGINEERED_AWD_GEARTRONIC_34886011041803311.webp",
+        "passageiros": 5,
+        "malas": 4,
+        "transmissao": "automatico",
+        "combustivel": "Híbrido",
+        "preco": 500
+    },
+    {
+        "id": 20,
+        "nome": "Jaguar XE",
+        "categoria": "Luxo",
+        "marca": "jaguar",
+        "modelo": "xe",
+        "imagem": "https://www.webmotors.com.br/imagens/prod/348195/JAGUAR_XE_2.0_16V_INGENIUM_P250_GASOLINA_RDYNAMIC_S_4P_AUTOMATICO_34819510562480227.webp",
+        "passageiros": 5,
+        "malas": 4,
+        "transmissao": "automatico",
+        "combustivel": "Gasolina",
+        "preco": 520
+    }
 ]
+
 
 # Função para validar CPF (formato apenas)
 def validar_cpf(cpf):
@@ -126,7 +394,7 @@ def mudarLogin():
 def mudarFrota():
     if 'usuario_logado' not in session:
         return redirect(url_for('login'))
-    return render_template('frota.html')
+    return render_template('frota.html', veiculos=veiculos)
 
 @app.route('/cadastrar', methods=['POST'])
 def cadastro():

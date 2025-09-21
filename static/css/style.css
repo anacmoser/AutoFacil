@@ -931,17 +931,25 @@ a {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
+/* Container da imagem do veículo */
 .veiculo-imagem {
-    height: 180px;
-    overflow: hidden;
+    width: 100%;           /* Ocupa toda a largura do card */
+    height: 200px;         /* Altura fixa para todos os carros */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9; /* fundo claro, opcional */
+    border-radius: 8px;    /* bordas arredondadas, opcional */
+    overflow: hidden;      /* esconde excesso da imagem */
 }
 
+/* Imagem do veículo */
 .veiculo-imagem img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
+    object-fit: contain;   /* Mantém proporção, sem cortar */
 }
+
 
 .veiculo-card:hover .veiculo-imagem img {
     transform: scale(1.05);

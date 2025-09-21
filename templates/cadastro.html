@@ -51,12 +51,28 @@
             </div>
 
             <div class="nav-right">
-                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas"
-                        class="icon-btn"> </a>
-                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade"
-                        title="Acessibilidade" class="icon-btn"> </a>
-                <a href="/login" id="loginLink"> <img src="../static/img/login2.png" alt="Botão de login" title="Login"
-                        class="icon-btn"> </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
+                        title="Dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+                        title="Acessibilidade" class="icon-btn">
+                </a>
+
+                {% if session.get('usuario_logado') %}
+                <!-- Se usuário estiver logado, mostra logout -->
+                <a href="{{ url_for('logout') }}">
+                    <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
+                        class="icon-btn">
+                </a>
+                {% else %}
+                <!-- Se não estiver logado, mostra login -->
+                <a href="{{ url_for('mudarLogin') }}">
+                    <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                        class="icon-btn">
+                </a>
+                {% endif %}
             </div>
         </nav>
     </header>

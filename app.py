@@ -4,6 +4,22 @@ import re
 
 app = Flask(__name__)
 app.secret_key = 'chave_secreta_autofacil'
+id_counter = 2
+
+usuarios = [{'id': 1,
+             'nome': 'teste', 
+             'nascimento': '1111-11-11', 
+             'cpf': '00000000000', 
+             'celular': '22222222', 
+             'email': 'teste@gmail.com', 
+             'cep': '333333', 
+             'logradouro': 'testeLogradouro', 
+             'numero': '444', 
+             'complemento': 'testeComplemento', 
+             'bairro': 'testeBairro', 
+             'estado': 'testeEstado', 
+             'cidade': 'testeCidade', 
+             'senha': '1234'}]
 
 # "Banco de dados" em memória (dicionário)
 veiculos_locacao = [

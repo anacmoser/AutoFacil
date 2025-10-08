@@ -1,3 +1,9 @@
+/*
+TAREFAS:
+  * Organizar código
+  * addEventListener('DOMContentLoaded') + verificação do id da página
+*/
+
 let index = 0;
 const imagens = document.querySelectorAll(".carousel img");
 const dots = document.querySelectorAll(".dot");

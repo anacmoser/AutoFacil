@@ -1,3 +1,12 @@
+<!-- 
+TAREFAS:
+    * Validação cliente (required, min, max, etc)
+    * Colocar o estilo no arquivo css
+    * Colocar script no arquivo js
+    * Reduzir o código com Django
+-->
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -102,7 +111,7 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="nome">Nome Completo*</label>
-                    <input type="text" id="nome" name="nome" required placeholder="Seu nome completo" value="{{ request.form.nome if request.form }}">
+                    <input type="text" id="nome" name="nome" required minlength="6" placeholder="Seu nome completo" value="{{ request.form.nome if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="nascimento">Data de nascimento*</label>

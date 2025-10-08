@@ -1,205 +1,305 @@
-#Criar o model de usuários
-    #funções: adicionar, excluir, pegar todos, pegar um.
-    #Para adicionar a validação continua no app.py, nesse arquivo fica somente o append
-#Criar o model de veículos
+#1. Criação do objeto usuário, com campos validados
+#2. Adiciona o objeto usuário em users
 
-#No sistema terá que constar quando o veículo está disponível com base nos campos de data de reserva
+#Fail-fast: Fazer validação específica para a inicialização do obj
+    #Criar métodos de validação e chamá-los no construtor e nos setters
 
-#Usar fetch para a frota
-#Criar id para as páginas html para jogar todo o js num arquivo só.
+#Verificar se o campo existe: Fazer isso no próprio app.py e no front
 
-#Fazer filtro de preços
+#nascimento
 
-"""
-@app.route('/filtrar')
-def frota():
-    # Obter parâmetros de filtro da URL
-    categoria = request.form.get('categoria', '')
-    marca = request.form.get('marca', '')
-    modelo = request.form.get('modelo', '')
-    transmissao = request.form.get('transmissao', '')
-    preco_maximo = request.form.get('preco_maximo', '')
-    malas_min = request.form.get('malas_min', '')
-    passageiros_min = request.form.get('passageiros_min', '')
-    portas_min = request.form.get('portas_min', '')
+import re
+from datetime import datetime, date
+
+class User: #retornará campos inválidos
+    def __init__(self, id, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
+
+        self.validacaoGeral(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro, numero, complemento)
+
+        self.__id = id
+        self.nome = nome
+        self.__nascimento = nascimento
+        self.__cpf = cpf
+        self.__celular = celular
+        self.__email = email
+        self.cep = cep
+        self.logradouro = logradouro
+        self.numero = numero
+        self.complemento = complemento
+        self.bairro = bairro
+        self.estado = estado
+        self.cidade = cidade
+        self.__senha = senha
+        
+    def validacaoGeral(self, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
+        validacoes = [
+            (self.validarNome(nome), 'Nome inválido'), 
+            (self.validarNascimento(nascimento), 'Nascimento inválido'),
+            (self.validarCpf(cpf), 'CPF inválido'),
+            (self.validarCelular(celular), 'Celular inválido'),
+            (self.validarEmail(email), 'Email inválido'),
+            (self.validarCep(cep), 'CEP inválido'),
+            (self.validarTxt(bairro), 'Bairro inválido'),
+            (self.validarTxt(estado), 'Estado inválido'),
+            (self.validarTxt(cidade), 'Cidade inválido'),
+            (self.validarSenha(senha), 'Senha inválida'),
+            (self.verificarSenha(senha, verificador), 'As senhas não coincidem')
+        ]
+
+        if logradouro:
+            validacoes.append((self.validarTxt(logradouro), 'Logradouro inválido'))
+        if numero:
+            validacoes.append((self.validarNum(numero), 'Número inválido'))
+        if complemento:
+            validacoes.append((self.validarTxt(complemento), 'Complemento inválido'))
+
+        for validade, mensagem in validacoes:
+            if not validade:
+                raise ValueError(mensagem)
     
-    # Filtrar veículos
-    veiculos_filtrados = veiculos_locacao
+    def validarNome(self, nome):
+        return (isinstance(nome, str) and len(nome.strip()) >= 5 and len(nome) <= 100)
 
-    filtros_aplicados = {'categoria': categoria, 'marca': marca, 'modelo': modelo, 'trnamissao': transmissao}
+    def validarCelular(self,cell):
+        cell_limpo = ''.join(filter(str.isdecimal, str(cell)))
+        return len(cell_limpo)==11 #contando DDD
 
-    for veiculo in veiculos_filtrados:
-        if veiculo['preco_diario'] > preco_maximo or veiculo["numero_malas"] < malas_min or veiculo['numero_assentos'] < passageiros_min or veiculo['numero_portas'] < portas_min:
-            veiculos_filtrados.remove(veiculo)
-            continue
+    def validarEmail(self,email):
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        return re.match(pattern, email) is not None
 
-        for filtro in filtros_aplicados:
-            if filtros_aplicados[filtro] != '':
-                if veiculo[filtro].lower() != filtros_aplicados[filtro].lower():
-                    veiculos_filtrados.remove(veiculo)
-                    break
+    def validarNascimento(self, nascimento):
+        try:
+            data_nasc = datetime.strptime(nascimento, '%Y-%m-%d').date()
+            hoje = date.today()
+            idade = hoje.year - data_nasc.year - ((hoje.month, hoje.day) < (data_nasc.month, data_nasc.day))
+            return 18 <= idade <= 120  # Exemplo: entre 13 e 120 anos
+        except ValueError:
+            return False
 
-    return render_template('frota.html', veiculos=veiculos_filtrados)
-"""
+    def validarCpf(self,cpf):
+        cpf_limpo = ''.join(filter(str.isdecimal, str(cpf))) #Verifica se é dígito, não se é int!
+        return len(cpf_limpo) == 11 and cpf_limpo != cpf_limpo[0] * 11
+    
+    def validarSenha(self,senha):
+        return len(senha)>=8
+    
+    def validarCep(self,cep):
+        cep_limpo = ''.join(filter(str.isdigit, str(cep)))
+        return len(cep_limpo)==8 
+    
+    def validarTxt(self,texto): #verifica se há somente letras na entrada
+        if not isinstance(texto, str) or not texto.strip():
+            return False
+        # Permite letras, espaços, hífens e acentos
+        pattern = r'^[a-zA-ZÀ-ÿ\s\-]+$'
+        return bool(re.match(pattern, texto.strip()))
 
-"""id_counter = 2
+    def validarNum(self,num):
+        return num.strip().isdecimal()
+    
+    def verificarSenha(self, senha, verificador):
+        return senha == verificador
 
-veiculos_locacao = [
-    {
-        "categoria": "econômico",
-        "marca": "Fiat",
-        "modelo": "Argo",
-        "transmissao": "manual",
-        "preco_diario": 89.90,
-        "nome": "Fiat Argo 1.0",
-        "imagem": "https://exemplo.com/imagens/fiat-argo.jpg",
-        "numero_malas": 1,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "econômico",
-        "marca": "Volkswagen",
-        "modelo": "Gol",
-        "transmissao": "automático",
-        "preco_diario": 99.90,
-        "nome": "VW Gol 1.0 Automatic",
-        "imagem": "https://exemplo.com/imagens/vw-gol.jpg",
-        "numero_malas": 1,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "sedan",
-        "marca": "Toyota",
-        "modelo": "Corolla",
-        "transmissao": "automático",
-        "preco_diario": 159.90,
-        "nome": "Toyota Corolla Altis",
-        "imagem": "https://exemplo.com/imagens/toyota-corolla.jpg",
-        "numero_malas": 2,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "sedan",
-        "marca": "Honda",
-        "modelo": "Civic",
-        "transmissao": "automático",
-        "preco_diario": 169.90,
-        "nome": "Honda Civic Touring",
-        "imagem": "https://exemplo.com/imagens/honda-civic.jpg",
-        "numero_malas": 2,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "indisponível"
-    },
-    {
-        "categoria": "suv",
-        "marca": "Jeep",
-        "modelo": "Compass",
-        "transmissao": "automático",
-        "preco_diario": 199.90,
-        "nome": "Jeep Compass Limited",
-        "imagem": "https://exemplo.com/imagens/jeep-compass.jpg",
-        "numero_malas": 2,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "suv",
-        "marca": "Toyota",
-        "modelo": "RAV4",
-        "transmissao": "automático",
-        "preco_diario": 219.90,
-        "nome": "Toyota RAV4 Hybrid",
-        "imagem": "https://exemplo.com/imagens/toyota-rav4.jpg",
-        "numero_malas": 3,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "luxo",
-        "marca": "BMW",
-        "modelo": "Série 3",
-        "transmissao": "automático",
-        "preco_diario": 349.90,
-        "nome": "BMW 320i Sport",
-        "imagem": "https://exemplo.com/imagens/bmw-serie3.jpg",
-        "numero_malas": 2,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "luxo",
-        "marca": "Mercedes-Benz",
-        "modelo": "Classe C",
-        "transmissao": "automático",
-        "preco_diario": 379.90,
-        "nome": "Mercedes C200 Exclusive",
-        "imagem": "https://exemplo.com/imagens/mercedes-classe-c.jpg",
-        "numero_malas": 2,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "indisponível"
-    },
-    {
-        "categoria": "pick-up",
-        "marca": "Toyota",
-        "modelo": "Hilux",
-        "transmissao": "manual",
-        "preco_diario": 189.90,
-        "nome": "Toyota Hilux CD 2.8",
-        "imagem": "https://exemplo.com/imagens/toyota-hilux.jpg",
-        "numero_malas": 1,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "pick-up",
-        "marca": "Ford",
-        "modelo": "Ranger",
-        "transmissao": "automático",
-        "preco_diario": 199.90,
-        "nome": "Ford Ranger XLT",
-        "imagem": "https://exemplo.com/imagens/ford-ranger.jpg",
-        "numero_malas": 1,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "econômico",
-        "marca": "Renault",
-        "modelo": "Kwid",
-        "transmissao": "manual",
-        "preco_diario": 79.90,
-        "nome": "Renault Kwid Zen",
-        "imagem": "https://exemplo.com/imagens/renault-kwid.jpg",
-        "numero_malas": 1,
-        "numero_passageiros": 4,
-        "numero_portas": 4,
-        "status": "disponível"
-    },
-    {
-        "categoria": "suv",
-        "marca": "Hyundai",
-        "modelo": "Creta",
-        "transmissao": "automático",
-        "preco_diario": 179.90,
-        "nome": "Hyundai Creta Pulse",
-        "imagem": "https://exemplo.com/imagens/hyundai-creta.jpg",
-        "numero_malas": 2,
-        "numero_passageiros": 5,
-        "numero_portas": 4,
-        "status": "disponível"
-    }
-]
-"""
+        
+    def setUserSenha(self, novaSenha):     #setters específicos para dados sensíveis
+        self.__senha = novaSenha
+    
+    def setUserNome(self, novoNome):
+        self.nome = novoNome
+
+    def setUserContato(self, **kwargs): #campo específico
+        for chave, valor in kwargs.items():
+            if chave == 'celular':
+                if self.validarCelular(valor):
+                    self.__celular = valor
+            elif chave == 'email':
+                if self.validarEmail(valor):
+                    self.__email = valor
+            else: 
+                raise ValueError('Campo inválido')
+
+    def setUserEndereco(self, **kwargs): #no endereço muda-se tudo, não um campo específico
+        for chave, valor in kwargs.items():
+            if chave == 'cep':
+                if self.validarCep(valor):
+                    self.cep = valor
+            elif chave == 'bairro':
+                if self.validarTxt(valor):
+                    self.bairro = valor
+            elif chave == 'cidade':
+                if self.validarTxt(valor):
+                    self.cidade = valor
+            elif chave == 'estado':
+                if self.validarTxt(valor):
+                    self.estado = valor
+            elif chave == 'logradouro':
+                if self.validarTxt(valor):
+                    self.logradouro = valor
+            elif chave == 'numero':
+                if self.validarNum(valor):
+                    self.numero = valor
+            elif chave == 'complemento':
+                if self.validarTxt(valor):
+                    self.complemento = valor
+            else:
+                raise ValueError('campo inexistente')
+        
+    @property
+    def user(self):
+        user = {'id': self.__id, 
+                 'senha': self.__senha,
+                 'endereco': {'cep': self.cep, 
+                               'bairro': self.bairro, 
+                               'estado': self.estado, 
+                               'cidade': self.cidade, 
+                               'logradouro': self.logradouro,
+                               'numero': self.numero,
+                               'complemento': self.complemento},
+                  'contato': {'celular': self.__celular, 
+                              'email': self.__email},
+                  'dadosPessoais': {'nome': self.nome, 
+                                     'nascimento': self.__nascimento, 
+                                     'cpf': self.__cpf}}
+        return user
+    
+    def getUserEndereco(self, campo=''):
+        if campo:
+            return getattr(self, campo)
+        return self.user['endereco']
+    
+    def getUserContato(self, campo=''):
+        if campo:
+            return getattr(self, campo)
+        return self.user['contato']
+    
+    def getUserDados(self, campo=''):
+        if campo:
+            return getattr(self, campo)
+        return self.user['dadosPessoais']
+    
+class Users: #retornará invalidade por duplicidade, return 'Usuário já existe', retornar como erro
+    def __init__(self, users):
+        self.users = users
+
+    #função para verificar duplicidade ds email e cpf antes do adicionar
+
+    def getUsers(self):
+        return self.users
+
+    def adicionar(self, novoUser): #novosser é um objeto da classe user
+        erros = self.verificarDuplicidade(novoUser)
+        
+        if erros:
+            raise ValueError(erros)  # Ou retornar False/lista de erros
+        
+        self.users.append(novoUser)
+        return True
+    
+    def verificarDuplicidade(self, novoUser):
+        erro = []
+        for user in self.users:
+            if user.getUserDados('cpf') == novoUser.getUserDados('cpf'):
+                erro.append('Este CPF já está em uso')
+            if user.getUserDados('email') == novoUser.getUserDados('email'):
+                erro.append('Este email já está em uso')
+        return erro
+
+    def excluir(self, cpf):
+        for user in self.users:
+            if user.getUserDados('cpf') == cpf:
+                self.users.remove(user)
+                return True
+        return False
+
+    def getUsers(self):
+        return self.users
+    
+    def getUserByCpf(self, cpf):
+        for user in self.users:
+            if user.getUserDados('cpf') == cpf:
+                return user
+        return None, 'Usuario não encontrado'
+    
+    def getUserByEmail(self, email):
+        for user in self.users:
+            if user.getUserDados('email') == email:
+                return user
+        return None, 'Usuário não encontrado'
+        
+class Veiculo:
+    def __init__(self, id, tipo, categoria, marca, modelo, transmissao, precoDiario, nome, imagem, nMalas, nPasageiros, nPortas, combustivel, status):
+        self.id = id
+        self.tipo = tipo
+        self.categoria= categoria
+        self.marca = marca
+        self.modelo = modelo
+        self.transmissao = transmissao
+        self.precoDiario = precoDiario
+        self.nome = nome
+        self.img = imagem
+        self.nMala = nMalas   
+        self.nPassageiros = nPasageiros
+        self.nPortas = nPortas
+        self.combustivel = combustivel
+        self.status = status  
+
+        self.veiculo = {"id": self.id,
+                        "tipo": self.tipo,
+                        "categoria": self.categoria,
+                        "marca": self.marca,
+                        "modelo": self.modelo,
+                        "transmissao": self.transmissao,
+                        "precoDiario": self.precoDiario,
+                        "nome": self.nome,
+                        "imagem": self.img,
+                        "nMalas": self.nMala,
+                        "nPassageiros": self.nPassageiros,
+                        "nPortas": self.nPortas,
+                        "combustivel": self.combustivel,
+                        "status": self.status}
+        
+        self.campos = ['id', 'tipo', 'categoria', 'marca', 'modelo', 'transmissao', 'precoDiario', 'nome', 'imagem', 'nMalas', 'nPassageiros', 'nPoetas', 'combustivel', 'status']
+
+    def getVeiculo(self):
+        return self.veiculo 
+
+    def getVeiculoStt(self):
+        return self.status
+    
+    def getVeiCampo(self, campo):
+        if campo in self.campos:
+            return getattr(self, campo)
+    
+    def setVeiAtt(self, campo, novoValor):
+        if campo in self.campos:
+            setattr(self, campo, novoValor)
+    
+class Veiculos:
+    def __init__(self):
+        self.veiculos = []
+
+    def getVeiculos(self):
+        return self.veiculos
+
+    def adicionar(self, veiculo): #Como em users, veículo é um objeto da classe veiculo
+        self.veiculos.append(veiculo)
+    
+    def remover(self, id):
+        for veiculo in self.veiculos:
+            if veiculo.id == id:
+                self.veiculos.remove(veiculo)
+            else:
+                return 'Veículo não encontrado'
+
+    def getVeiById(self, id):
+        for veiculo in self.veiculos:
+            if id == veiculo.id:
+                return veiculo
+        return 'Nenhum id correspondente'
+
+
+           
+
+    
+    

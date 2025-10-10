@@ -17,6 +17,8 @@ users = Users([])
 
 userTest = User(1, 'teste', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', '12345678', '12345678','teste logradouro', '2222', 'teste Complemento')
 
+users.adicionar(userTest)
+
 v1 = Veiculo(1, "econômico", "Econômico", "Fiat", "Mobi", "manual", 95.00, "Fiat Mobi", "https://production.autoforce.com/uploads/version/profile_image/10921/model_main_webp_comprar-like-1-0_9eee82ebb4.png.webp", 2, 5, 4, "Flex", "disponível")
 v2 = Veiculo(2, "econômico", "Econômico","Renault", "Kwid", "manual", 100.00,"Renault Kwid","https://www.webmotors.com.br/imagens/prod/348031/RENAULT_KWID_1.0_12V_SCE_FLEX_OUTSIDER_MANUAL_34803110315083122.webp", 2, 5, 4, "Flex","disponível")
 v3 = Veiculo(3, "econômico", "Econômico", "Hyundai", "HB20", "manual", 110.00, "Hyundai HB20", "/static/img/hb20.webp", 3, 5, 4, "Flex", "disponível")
@@ -178,31 +180,25 @@ def cadastro():
     campos_obrigatorios = [nome, nascimento, cpf, celular, email, cep, logradouro, bairro, estado, cidade, senha, confirmar_senha]
     for campo in campos_obrigatorios:
         if not campo:
-            return render_template('cadastro.html', erros='todos os campos obrigatórios devem ser preenchidos')
+            return render_template('cadastro.html', erros='Todos os campos obrigatórios devem ser preenchidos')
 
-    """campos_obrigatorios = ['nome', 'nascimento', 'cpf', 'celular', 'email', 'cep', 
-                          'logradouro', 'bairro', 'estado', 'cidade', 'senha']
-    
-   for campo in campos_obrigatorios:
-        if not request.form.get(campo):
-            erros.append(f'O campo {campo.replace("_", " ").title()} é obrigatório.')"""
     if not termos:
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
     try:
         novoUser = User(id_counter, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
         try: 
-            users.adicionar(novoUser) #Tem a verificação de existência do email e cpf
+            users.adicionar(novoUser) #Verificar por nome também (já existe por email e cpf)
             id_counter += 1
             return redirect(url_for('login'))
         except:
-            return render_template('cadastro.html', erros='CPF e/ou email já estão em uso')
+            return render_template('cadastro.html', erros=['CPF e/ou email já estão em uso'])
     except:
-        return render_template('cadastro.html', erros='Campo(s) inválido(s)')
-
+        return render_template('cadastro.html', erros=['Campo(s) inválido(s)'])
+ 
     
 
 
-@app.route('/logar', methods=['GET', 'POST']) #Completo
+@app.route('/logar', methods=['GET', 'POST']) #Modularizar as verificações
 def login():
     if request.method == 'POST':
         user = request.form.get('user')
@@ -213,9 +209,9 @@ def login():
             if not validar_email(user):
                 return render_template('login.html', erro = 'E-mail inválido')
             for usuario in users.getUsers():
-                if usuario['email'] == user :
-                    if usuario['senha'] == senha:
-                        session['usuario_logado'] = usuario
+                if usuario.getUserContato('email') == user :
+                    if usuario.senha == senha:
+                        session['usuario_logado'] = usuario.getUserDados('nome')
                         return render_template('index.html')
                     return render_template('login.html', erro = 'Senha incorreta')
             return render_template('login.html', erro = 'Usuário não encontrado')
@@ -225,8 +221,8 @@ def login():
             if not validar_cpf(cpf):
                 return render_template('login.html', erro = 'Digite e-mail ou CPF inválidos')
             for usuario in users.getUsers():
-                if usuario['cpf'] == cpf:
-                    if usuario['senha'] == senha:
+                if usuario.getUserDados('cpf') == cpf:
+                    if usuario.verificarSenha(usuario.senha, senha):
                         session['usuario_logado'] = usuario
                         return render_template('index.html')
                     return render_template('login.html', erro = 'Senha incorreta')
@@ -234,7 +230,7 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/api/filtrar', methods=['POST'])
+@app.route('/api/filtrar', methods=['POST']) #refazer
 def api_filtrar():
     try:
         # Obter dados do JSON

@@ -14,22 +14,22 @@ from datetime import datetime, date
 class User: #retornará campos inválidos
     def __init__(self, id, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
 
-        self.validacaoGeral(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro, numero, complemento)
+        if self.validacaoGeral(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro, numero, complemento):
 
-        self.__id = id
-        self.nome = nome
-        self.__nascimento = nascimento
-        self.__cpf = cpf
-        self.__celular = celular
-        self.__email = email
-        self.cep = cep
-        self.logradouro = logradouro
-        self.numero = numero
-        self.complemento = complemento
-        self.bairro = bairro
-        self.estado = estado
-        self.cidade = cidade
-        self.__senha = senha
+            self.__id = id
+            self.nome = nome
+            self.__nascimento = nascimento
+            self.__cpf = cpf
+            self.__celular = celular
+            self.__email = email
+            self.cep = cep
+            self.logradouro = logradouro
+            self.numero = numero
+            self.complemento = complemento
+            self.bairro = bairro
+            self.estado = estado
+            self.cidade = cidade
+            self.__senha = senha
         
     def validacaoGeral(self, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
         validacoes = [
@@ -98,8 +98,8 @@ class User: #retornará campos inválidos
     def validarNum(self,num):
         return num.strip().isdecimal()
     
-    def verificarSenha(self, senha, verificador):
-        return senha == verificador
+    def verificarSenha(self, senha, verificador):  #Não posso usar self.senha por que a função é executada antes do obj 
+        return senha == verificador                #ser instanciado, logo, self.senha ainda não existe
 
         
     def setUserSenha(self, novaSenha):     #setters específicos para dados sensíveis
@@ -163,19 +163,30 @@ class User: #retornará campos inválidos
                                      'cpf': self.__cpf}}
         return user
     
-    def getUserEndereco(self, campo=''):
+    @property
+    def senha(self):
+        return self.__senha
+    
+    
+    def getUserEndereco(self, campo=''): #Menos pythonico que o getattr, mas é mais seguro
         if campo:
-            return getattr(self, campo)
+            if campo in self.user['endereco']:
+                return self.user['endereco'][campo]
+            raise ValueError(f'Campo "{campo}" não existe no endereço')
         return self.user['endereco']
     
     def getUserContato(self, campo=''):
         if campo:
-            return getattr(self, campo)
+            if campo in self.user['contato']:
+                return self.user['contato'][campo]
+            raise ValueError(f'Campo {campo} não existe em contatos')
         return self.user['contato']
     
     def getUserDados(self, campo=''):
         if campo:
-            return getattr(self, campo)
+            if campo in self.user['dadosPessoais']:
+                return self.user['dadosPessoais'][campo]
+            raise ValueError(f'Campo {campo} não existe em dados pessoais')
         return self.user['dadosPessoais']
     
 class Users: #retornará invalidade por duplicidade, return 'Usuário já existe', retornar como erro
@@ -196,12 +207,12 @@ class Users: #retornará invalidade por duplicidade, return 'Usuário já existe
         self.users.append(novoUser)
         return True
     
-    def verificarDuplicidade(self, novoUser):
+    def verificarDuplicidade(self, novoUser): #Verificar por nome também
         erro = []
         for user in self.users:
             if user.getUserDados('cpf') == novoUser.getUserDados('cpf'):
                 erro.append('Este CPF já está em uso')
-            if user.getUserDados('email') == novoUser.getUserDados('email'):
+            if user.getUserContato('email') == novoUser.getUserContato('email'):
                 erro.append('Este email já está em uso')
         return erro
 

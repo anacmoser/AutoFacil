@@ -1,6 +1,7 @@
 /*
 TAREFAS:
   * Organizar código
+  * Validação do lado do cliente
   * addEventListener('DOMContentLoaded') + verificação do id da página
 */
 
@@ -49,7 +50,6 @@ setInterval(() => {
 // Mostrar primeiro ao carregar
 mostrarSlide(index);
 
-
 function updatePlaceholder() {
   const input = document.querySelector(".marca");
   if (window.innerWidth <= 1000) {
@@ -61,7 +61,6 @@ function updatePlaceholder() {
 
 window.addEventListener("resize", updatePlaceholder);
 window.addEventListener("load", updatePlaceholder);
-
 
 // Dropdown do hambúrguer: clique (mobile) e acessibilidade
 const menuTrigger = document.getElementById('menuTrigger');
@@ -78,7 +77,6 @@ function openMenu() {
   menuTrigger.setAttribute('aria-expanded', 'true');
   menuPanel.classList.add('open');
 }
-
 
 // Toggle no clique no trigger (área clicável completa)
 menuTrigger.addEventListener('click', (e) => {
@@ -106,7 +104,6 @@ window.addEventListener('resize', () => {
     closeMenu();
   }
 });
-
 
 // === Ajuste fino do posicionamento da searchbar (desktop/tablet e mobile) ===
 (function () {
@@ -156,7 +153,6 @@ window.addEventListener('resize', () => {
     if (window.innerWidth > 1000) positionSearchbar();
   });
 })();
-
 
 /* ====== Destinos dinâmicos (categorias -> cidades) ====== */
 (function () {
@@ -260,6 +256,7 @@ window.addEventListener('resize', () => {
   });
 })();
 
+/* ======  =================================  FROTA  ========================  ====== */
 
 // Script para funcionalidade dos filtros
 document.addEventListener('DOMContentLoaded', function () {
@@ -294,21 +291,75 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+
+/* ======  =================================  VALIDAÇÕES  ========================  ====== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Adicionar validação em tempo real
 document.addEventListener('DOMContentLoaded', function () {
-  const inputs = document.querySelectorAll('input');
+  page = document.body
 
-  inputs.forEach(input => {
-    input.addEventListener('blur', function () {
-      validarCampo(this);
+  if (page.getAttribute('data-page') == 'cadastro'){
+    formulario = document.getElementById('cadastroForm')
+
+    if (formulario.getAttribute('data-form') == 'PF'){  //Validação para para pessoa física
+    const inputs = document.querySelectorAll('input');
+
+    inputs.forEach(input => {
+      input.addEventListener('blur', function () { //blur é perder o foco, ou seja, o campo de input já não está sendo selecionado
+        validarCampo(this);
+      });
+      //input.addEventListener('input', () => {
+        //FUNÇÕES PARA FORMATAÇÃO AUTOMÁTICA DO CAMPO
+      //})
     });
-  });
+    // Preencher dados se houver erro no formulário
+    //Isso precisa ficar no python
+    `{% if erros and request.form %}
+          window.scrollTo(0, 0);
+    {% endif %}`
+    }
 
-  // Preencher dados se houver erro no formulário
-  `{% if erros and request.form %}
-                // Scroll para o topo para mostrar os erros
-                window.scrollTo(0, 0);
-            {% endif %}`
+  }
 });
 
 function validarCampo(campo) {
@@ -317,46 +368,68 @@ function validarCampo(campo) {
 
   switch (campo.id) {
     case 'nome':
-      if (!valor) erro = 'Nome completo é obrigatório.';
+      if (!valor) {
+        erro = 'Nome completo é obrigatório.'
+      } else { 
+        if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(valor)) erro = 'Nome deve possuir apenas letras'
+      }
       break;
+      
     case 'nascimento':
       if (!valor) {
         erro = 'Data de nascimento é obrigatória.';
       } else {
         const dataNasc = new Date(valor);
         const hoje = new Date();
-        const idade = hoje.getFullYear() - dataNasc.getFullYear();
+        let idade = hoje.getFullYear() - dataNasc.getFullYear();
+        
+        if (hoje.getMonth() < dataNasc.getMonth() || hoje.getMonth() === dataNasc.getMonth() && hoje.getDate() < dataNasc.getDate()){
+          idade --
+        }
 
         if (idade < 18) {
           erro = 'É necessário ter pelo menos 18 anos.';
         }
       }
       break;
+
     case 'cpf':
-      const cpfNumeros = valor.replace(/\D/g, '');
+      const cpfNumeros = valor.replace(/\D/g, ''); //Js faz só a validação básica, não vou colocar o cálculo do cpf aqui
       if (cpfNumeros.length !== 11) erro = 'CPF deve conter 11 dígitos.';
       break;
+
     case 'celular':
       const celularNumeros = valor.replace(/\D/g, '');
       if (celularNumeros.length < 10 || celularNumeros.length > 11) {
         erro = 'Número de celular inválido.';
       }
       break;
+
     case 'email':
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailRegex.test(valor)) erro = 'E-mail inválido.';
       break;
+
     case 'cep':
       const cepNumeros = valor.replace(/\D/g, '');
       if (cepNumeros.length !== 8) erro = 'CEP deve conter 8 dígitos.';
       break;
+
     case 'senha':
       if (valor.length < 8) erro = 'Senha deve ter pelo menos 8 caracteres.';
       break;
+
     case 'confirmar':
       const senha = document.getElementById('senha').value;
       if (valor !== senha) erro = 'As senhas não coincidem.';
       break;
+
+    case 'numero':
+      if (/\D/.test(value)) erro = 'Número inválido'
+      break;
+
+    default:
+      if (!/^[a-zA-ZÀ-ÿ\s\-]+$/.test(valor)) erro = 'O campo deve conter apenas letras'
   }
 
   // Mostrar mensagem de erro
@@ -376,4 +449,5 @@ function validarCampo(campo) {
     }
     campo.classList.remove('erro');
   }
+
 }

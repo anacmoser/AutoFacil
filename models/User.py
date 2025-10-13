@@ -1,21 +1,15 @@
-#1. Criação do objeto usuário, com campos validados
-#2. Adiciona o objeto usuário em users
-
-#Fail-fast: Fazer validação específica para a inicialização do obj
-    #Criar métodos de validação e chamá-los no construtor e nos setters
-
-#Verificar se o campo existe: Fazer isso no próprio app.py e no front
-
-#nascimento
+"""
+TAREFAS:
+    * Validações mais robustas
+"""
 
 import re
 from datetime import datetime, date
 
-class User: #retornará campos inválidos
-    def __init__(self, id, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
+class User: 
+    def __init__(self, id, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''): 
 
-        if self.validacaoGeral(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro, numero, complemento):
-
+        if self.validacaoGeral(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro, numero, complemento) == True: #Tive que especificar que é igual a True porque a função de validação geral sempre retornará algo (True ou lista de erros)
             self.__id = id
             self.nome = nome
             self.__nascimento = nascimento
@@ -30,7 +24,9 @@ class User: #retornará campos inválidos
             self.estado = estado
             self.cidade = cidade
             self.__senha = senha
-        
+
+########### VALIDAÇÕES
+
     def validacaoGeral(self, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
         validacoes = [
             (self.validarNome(nome), 'Nome inválido'), 
@@ -53,12 +49,21 @@ class User: #retornará campos inválidos
         if complemento:
             validacoes.append((self.validarTxt(complemento), 'Complemento inválido'))
 
+        erros = []
         for validade, mensagem in validacoes:
             if not validade:
-                raise ValueError(mensagem)
+                erros.append(mensagem)
+
+        if erros:
+            raise ValueError(erros)
+        return True
     
     def validarNome(self, nome):
-        return (isinstance(nome, str) and len(nome.strip()) >= 5 and len(nome) <= 100)
+        if not isinstance(nome, str) or len(nome.strip()) <= 5 or len(nome) >= 100:
+            return False
+        nome = nome.replace(' ', '')
+        pattern = r'^[a-zA-ZÀ-ÿ]+$'
+        return bool(re.match(pattern, nome.strip()))
 
     def validarCelular(self,cell):
         cell_limpo = ''.join(filter(str.isdecimal, str(cell)))
@@ -73,13 +78,30 @@ class User: #retornará campos inválidos
             data_nasc = datetime.strptime(nascimento, '%Y-%m-%d').date()
             hoje = date.today()
             idade = hoje.year - data_nasc.year - ((hoje.month, hoje.day) < (data_nasc.month, data_nasc.day))
-            return 18 <= idade <= 120  # Exemplo: entre 13 e 120 anos
+            return 18 <= idade <= 120  
         except ValueError:
             return False
 
     def validarCpf(self,cpf):
-        cpf_limpo = ''.join(filter(str.isdecimal, str(cpf))) #Verifica se é dígito, não se é int!
-        return len(cpf_limpo) == 11 and cpf_limpo != cpf_limpo[0] * 11
+        cpf_limpo = ''.join(filter(str.isdigit, str(cpf)))
+        if len(cpf_limpo) != 11:
+            return False
+        
+        if cpf_limpo == cpf_limpo[0] * 11:
+            return False
+        
+        soma = sum(int(cpf_limpo[i]) * (10 - i) for i in range(9))
+        resto = soma % 11
+        digito1 = 0 if resto < 2 else 11 - resto
+        
+        if int(cpf_limpo[9]) != digito1:
+            return False
+        
+        soma = sum(int(cpf_limpo[i]) * (11 - i) for i in range(10))
+        resto = soma % 11
+        digito2 = 0 if resto < 2 else 11 - resto
+        
+        return int(cpf_limpo[10]) == digito2
     
     def validarSenha(self,senha):
         return len(senha)>=8
@@ -101,7 +123,8 @@ class User: #retornará campos inválidos
     def verificarSenha(self, senha, verificador):  #Não posso usar self.senha por que a função é executada antes do obj 
         return senha == verificador                #ser instanciado, logo, self.senha ainda não existe
 
-        
+########### SETTERS
+
     def setUserSenha(self, novaSenha):     #setters específicos para dados sensíveis
         self.__senha = novaSenha
     
@@ -144,7 +167,9 @@ class User: #retornará campos inválidos
                     self.complemento = valor
             else:
                 raise ValueError('campo inexistente')
-        
+
+########### GETTERS
+
     @property
     def user(self):
         user = {'id': self.__id, 
@@ -167,6 +192,13 @@ class User: #retornará campos inválidos
     def senha(self):
         return self.__senha
     
+    @property
+    def cpf(self):
+        return self.__cpf
+
+    @property
+    def email(self):
+        return self.__email
     
     def getUserEndereco(self, campo=''): #Menos pythonico que o getattr, mas é mais seguro
         if campo:
@@ -188,129 +220,3 @@ class User: #retornará campos inválidos
                 return self.user['dadosPessoais'][campo]
             raise ValueError(f'Campo {campo} não existe em dados pessoais')
         return self.user['dadosPessoais']
-    
-class Users: #retornará invalidade por duplicidade, return 'Usuário já existe', retornar como erro
-    def __init__(self, users):
-        self.users = users
-
-    #função para verificar duplicidade ds email e cpf antes do adicionar
-
-    def getUsers(self):
-        return self.users
-
-    def adicionar(self, novoUser): #novosser é um objeto da classe user
-        erros = self.verificarDuplicidade(novoUser)
-        
-        if erros:
-            raise ValueError(erros)  # Ou retornar False/lista de erros
-        
-        self.users.append(novoUser)
-        return True
-    
-    def verificarDuplicidade(self, novoUser): #Verificar por nome também
-        erro = []
-        for user in self.users:
-            if user.getUserDados('cpf') == novoUser.getUserDados('cpf'):
-                erro.append('Este CPF já está em uso')
-            if user.getUserContato('email') == novoUser.getUserContato('email'):
-                erro.append('Este email já está em uso')
-        return erro
-
-    def excluir(self, cpf):
-        for user in self.users:
-            if user.getUserDados('cpf') == cpf:
-                self.users.remove(user)
-                return True
-        return False
-
-    def getUsers(self):
-        return self.users
-    
-    def getUserByCpf(self, cpf):
-        for user in self.users:
-            if user.getUserDados('cpf') == cpf:
-                return user
-        return None, 'Usuario não encontrado'
-    
-    def getUserByEmail(self, email):
-        for user in self.users:
-            if user.getUserDados('email') == email:
-                return user
-        return None, 'Usuário não encontrado'
-        
-class Veiculo:
-    def __init__(self, id, tipo, categoria, marca, modelo, transmissao, precoDiario, nome, imagem, nMalas, nPasageiros, nPortas, combustivel, status):
-        self.id = id
-        self.tipo = tipo
-        self.categoria= categoria
-        self.marca = marca
-        self.modelo = modelo
-        self.transmissao = transmissao
-        self.precoDiario = precoDiario
-        self.nome = nome
-        self.img = imagem
-        self.nMala = nMalas   
-        self.nPassageiros = nPasageiros
-        self.nPortas = nPortas
-        self.combustivel = combustivel
-        self.status = status  
-
-        self.veiculo = {"id": self.id,
-                        "tipo": self.tipo,
-                        "categoria": self.categoria,
-                        "marca": self.marca,
-                        "modelo": self.modelo,
-                        "transmissao": self.transmissao,
-                        "precoDiario": self.precoDiario,
-                        "nome": self.nome,
-                        "imagem": self.img,
-                        "nMalas": self.nMala,
-                        "nPassageiros": self.nPassageiros,
-                        "nPortas": self.nPortas,
-                        "combustivel": self.combustivel,
-                        "status": self.status}
-        
-        self.campos = ['id', 'tipo', 'categoria', 'marca', 'modelo', 'transmissao', 'precoDiario', 'nome', 'imagem', 'nMalas', 'nPassageiros', 'nPoetas', 'combustivel', 'status']
-
-    def getVeiculo(self):
-        return self.veiculo 
-
-    def getVeiculoStt(self):
-        return self.status
-    
-    def getVeiCampo(self, campo):
-        if campo in self.campos:
-            return getattr(self, campo)
-    
-    def setVeiAtt(self, campo, novoValor):
-        if campo in self.campos:
-            setattr(self, campo, novoValor)
-    
-class Veiculos:
-    def __init__(self):
-        self.veiculos = []
-
-    def getVeiculos(self):
-        return self.veiculos
-
-    def adicionar(self, veiculo): #Como em users, veículo é um objeto da classe veiculo
-        self.veiculos.append(veiculo)
-    
-    def remover(self, id):
-        for veiculo in self.veiculos:
-            if veiculo.id == id:
-                self.veiculos.remove(veiculo)
-            else:
-                return 'Veículo não encontrado'
-
-    def getVeiById(self, id):
-        for veiculo in self.veiculos:
-            if id == veiculo.id:
-                return veiculo
-        return 'Nenhum id correspondente'
-
-
-           
-
-    
-    

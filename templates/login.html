@@ -9,7 +9,7 @@ TAREFAS:
 
 
 <!DOCTYPE html>
-<html lang="pt-BR"> 
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
@@ -58,14 +58,18 @@ TAREFAS:
                 </div>
 
                 <a class="logo" href="{{ url_for('index') }}" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img" title="AutoFácil, aluguel de veículos">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img"
+                        title="AutoFácil, aluguel de veículos">
                 </a>
             </div>
 
             <div class="nav-right">
-                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" class="icon-btn" title="Dúvidas"> </a>
-                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" class="icon-btn" title="Acessibilidade"> </a>
-                <a href="/login"> <img src="../static/img/login2.png" alt="Botão de login" class="icon-btn" title="Login"> </a>
+                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" class="icon-btn"
+                        title="Dúvidas"> </a>
+                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" class="icon-btn"
+                        title="Acessibilidade"> </a>
+                <a href="/login"> <img src="../static/img/login2.png" alt="Botão de login" class="icon-btn"
+                        title="Login"> </a>
             </div>
         </nav>
     </header>
@@ -75,7 +79,7 @@ TAREFAS:
         <div class="login-box">
             <h2>Bem-vindo de volta</h2>
             <p class="subtitle">Faça login para acessar sua conta</p>
-            
+
             <!-- Área de mensagens de erro -->
             {% if erro %}
             <div class="alert-danger">
@@ -85,7 +89,8 @@ TAREFAS:
 
             <form action="/logar" method="POST">
                 <label for="user">E-mail ou CPF</label>
-                <input type="text" id="user" name="user" placeholder="Digite seu e-mail ou CPF" required value="{{ request.form.user if request.form }}">
+                <input type="text" id="user" name="user" placeholder="Digite seu e-mail ou CPF" required
+                    value="{{ request.form.user if request.form }}">
 
                 <label for="password">Senha</label>
                 <div class="password-wrapper">
@@ -95,7 +100,7 @@ TAREFAS:
 
                 <div class="options">
                     <label>
-                        <input type="checkbox" name="lembrar"> 
+                        <input type="checkbox" name="lembrar">
                         Lembrar-me
                     </label>
                     <a href="#">Esqueceu a senha?</a>
@@ -107,36 +112,21 @@ TAREFAS:
             <p class="signup">Não tem uma conta? <a href="/cadastro">Cadastre-se</a></p>
         </div>
     </main>
-  
+
     <!-- ======= FOOTER ======= -->
     <footer>
         <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
         <div class="footer-social">
-            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp" title="WhatsApp"></a>
-            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook" title="Facebook"></a>
-            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram" title="Instagram"></a>
+            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"
+                    title="WhatsApp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"
+                    title="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"
+                    title="Instagram"></a>
             <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="E-mail"></a>
         </div>
     </footer>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const togglePassword = document.getElementById('togglePassword');
-            const password = document.getElementById('password');
-            
-            if (togglePassword && password) {
-                togglePassword.addEventListener('click', function() {
-                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                    password.setAttribute('type', type);
-                    this.classList.toggle('active');
-                });
-            }
-            
-            // Scroll para o topo se houver erro
-            {% if erro %}
-                window.scrollTo(0, 0);
-            {% endif %}
-        });
-    </script>
+    <script src="../static/js/script.js"></script>
 </body>
+
 </html>

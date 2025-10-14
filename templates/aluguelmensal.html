@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aluguel Mensal - AutoFácil</title>
+
+  <!-- csss link -->
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <!-- Favicons links -->
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+  <!-- Google Fonts link -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body data-page='aluguel-mensal'>
+  <!-- ======= NAVBAR ======= -->
+  <header class="topbar">
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+          <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+          <!-- Painel do menu -->
+          <div class="menu-panel" id="menuPanel">
+            <!-- Opções extras (sempre no painel) -->
+            <ul class="panel-main">
+              <li><a href="#">Promoções</a></li>
+              <li><a href="#">Atendimento</a></li>
+              <li><a href="#">Agências</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+            <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
+            <ul class="panel-nav">
+              <li><a href="/frota">Alugar agora</a></li>
+              <li><a href="#" class="active">Aluguel mensal</a></li>
+              <li><a href="#">Para empresas</a></li>
+              <li><a href="#">Minhas reservas</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <a class="logo" href="#" aria-label="AutoFácil - Início">
+          <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+            class="logo-img">
+        </a>
+      </div>
+
+      <div class="nav-center">
+        <a href="/frota" class="nav-btn">Alugar agora</a>
+        <a href="#" class="nav-btn active">Aluguel mensal</a>
+        <a href="#" class="nav-btn">Para empresas</a>
+        <a href="#" class="nav-btn">Minhas reservas</a>
+      </div>
+
+      <div class="nav-right">
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
+            class="icon-btn">
+        </a>
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+            title="Acessibilidade" class="icon-btn">
+        </a>
+
+        {% if session.get('usuario_logado') %}
+        <!-- Se usuário estiver logado, mostra logout -->
+        <a href="{{ url_for('logout') }}">
+          <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
+            class="icon-btn">
+        </a>
+        {% else %}
+        <!-- Se não estiver logado, mostra login -->
+        <a href="{{ url_for('mudarLogin') }}">
+          <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+            class="icon-btn">
+        </a>
+        {% endif %}
+      </div>
+
+
+    </nav>
+  </header>
+
+  <!-- ======= HERO SECTION ======= -->
+  <section class="hero-aluguel-mensal">
+    <div class="hero-content">
+      <h1>Mais tempo com seu veículo, menos peso no orçamento</h1>
+      <p>Economia com o aluguel mensal</p>
+      <div class="hero-buttons">
+        <a href="#planos" class="btn-primary">Ver planos</a>
+        <a href="#simulador" class="btn-secondary">Simular aluguel</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="../static/img/carro-aluguel-mensal.jpg" alt="Carro para aluguel mensal">
+    </div>
+  </section>
+
+  <!-- ======= VANTAGENS ======= -->
+  <section class="vantagens-mensal">
+    <div class="container">
+      <h2>Por que escolher o aluguel mensal da AutoFácil?</h2>
+      <div class="vantagens-grid">
+        <div class="vantagem-item">
+          <div class="vantagem-icon">
+            <img src="../static/img/icon-economia.png" alt="Ícone de economia">
+          </div>
+          <h3>Economia</h3>
+          <p>Descontos progressivos conforme a duração do aluguel. Quanto mais tempo, mais você economiza.</p>
+        </div>
+        <div class="vantagem-item">
+          <div class="vantagem-icon">
+            <img src="../static/img/icon-flexibilidade.png" alt="Ícone de flexibilidade">
+          </div>
+          <h3>Flexibilidade</h3>
+          <p>Planos de 1 a 12 meses com possibilidade de renovação ou devolução antecipada sem multas.</p>
+        </div>
+        <div class="vantagem-item">
+          <div class="vantagem-icon">
+            <img src="../static/img/icon-manutencao.png" alt="Ícone de manutenção">
+          </div>
+          <h3>Manutenção inclusa</h3>
+          <p>Todas as revisões e manutenções preventivas estão incluídas no valor do aluguel.</p>
+        </div>
+        <div class="vantagem-item">
+          <div class="vantagem-icon">
+            <img src="../static/img/icon-seguro.png" alt="Ícone de seguro">
+          </div>
+          <h3>Seguro completo</h3>
+          <p>Proteção total para você e para o veículo, sem custos adicionais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= PLANOS E DESCONTOS ======= -->
+  <section class="planos-mensal" id="planos">
+    <div class="container">
+      <h2>Planos e descontos progressivos</h2>
+      <p class="subtitle">Na AutoFácil, a partir de 1 mês, sua mobilidade fica mais leve e econômica.</p>
+      
+      <div class="planos-grid">
+        <div class="plano-item">
+          <div class="plano-header">
+            <h3>1 mês</h3>
+            <div class="desconto">30% OFF</div>
+          </div>
+          <div class="plano-preco">
+            <span class="valor">R$ 89</span>
+            <span class="periodo">/dia</span>
+          </div>
+          <ul class="plano-vantagens">
+            <li>Veículo 0km ou seminovo</li>
+            <li>Manutenção inclusa</li>
+            <li>Seguro completo</li>
+            <li>Assistência 24h</li>
+          </ul>
+          <a href="#" class="btn-plano">Contratar</a>
+        </div>
+        
+        <div class="plano-item destaque">
+          <div class="plano-header">
+            <h3>3 meses</h3>
+            <div class="desconto">50% OFF</div>
+          </div>
+          <div class="plano-preco">
+            <span class="valor">R$ 69</span>
+            <span class="periodo">/dia</span>
+          </div>
+          <ul class="plano-vantagens">
+            <li>Veículo 0km ou seminovo</li>
+            <li>Manutenção inclusa</li>
+            <li>Seguro completo</li>
+            <li>Assistência 24h</li>
+            <li>Troca grátis do veículo</li>
+          </ul>
+          <a href="#" class="btn-plano destaque">Contratar</a>
+        </div>
+        
+        <div class="plano-item">
+          <div class="plano-header">
+            <h3>6 meses</h3>
+            <div class="desconto">60% OFF</div>
+          </div>
+          <div class="plano-preco">
+            <span class="valor">R$ 49</span>
+            <span class="periodo">/dia</span>
+          </div>
+          <ul class="plano-vantagens">
+            <li>Veículo 0km ou seminovo</li>
+            <li>Manutenção inclusa</li>
+            <li>Seguro completo</li>
+            <li>Assistência 24h</li>
+            <li>Troca grátis do veículo</li>
+            <li>Seguro contra terceiros</li>
+          </ul>
+          <a href="#" class="btn-plano">Contratar</a>
+        </div>
+      </div>
+      
+      <div class="planos-observacao">
+        <p>* Descontos aplicados sobre o valor da diária padrão. Consulte condições e disponibilidade.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= SIMULADOR ======= -->
+  <section class="simulador-mensal" id="simulador">
+    <div class="container">
+      <h2>Simule seu aluguel mensal</h2>
+      <div class="simulador-content">
+        <div class="simulador-form">
+          <form>
+            <div class="form-group">
+              <label for="categoria">Categoria do veículo</label>
+              <select id="categoria" name="categoria">
+                <option value="">Selecione uma categoria</option>
+                <option value="economico">Econômico</option>
+                <option value="intermediario">Intermediário</option>
+                <option value="suv">SUV</option>
+                <option value="luxo">Luxo</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="periodo">Período de locação</label>
+              <select id="periodo" name="periodo">
+                <option value="">Selecione o período</option>
+                <option value="1">1 mês</option>
+                <option value="3">3 meses</option>
+                <option value="6">6 meses</option>
+                <option value="12">12 meses</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="local">Local de retirada</label>
+              <select id="local" name="local">
+                <option value="">Selecione uma cidade</option>
+                <option value="sao-paulo">São Paulo</option>
+                <option value="rio-de-janeiro">Rio de Janeiro</option>
+                <option value="belo-horizonte">Belo Horizonte</option>
+                <option value="brasilia">Brasília</option>
+              </select>
+            </div>
+            
+            <button type="button" class="btn-simular">Simular</button>
+          </form>
+        </div>
+        
+        <div class="simulador-resultado">
+          <div class="resultado-placeholder">
+            <p>Preencha os dados ao lado para ver a simulação</p>
+          </div>
+          <div class="resultado-conteudo" style="display: none;">
+            <h3>Resumo da simulação</h3>
+            <div class="resultado-detalhes">
+              <div class="detalhe-item">
+                <span class="label">Categoria:</span>
+                <span class="valor" id="cat-resultado">-</span>
+              </div>
+              <div class="detalhe-item">
+                <span class="label">Período:</span>
+                <span class="valor" id="periodo-resultado">-</span>
+              </div>
+              <div class="detalhe-item">
+                <span class="label">Valor diário:</span>
+                <span class="valor" id="diaria-resultado">-</span>
+              </div>
+              <div class="detalhe-item total">
+                <span class="label">Valor mensal:</span>
+                <span class="valor" id="mensal-resultado">-</span>
+              </div>
+            </div>
+            <a href="#" class="btn-reservar">Reservar agora</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= PERGUNTAS FREQUENTES ======= -->
+  <section class="faq-mensal">
+    <div class="container">
+      <h2>Perguntas frequentes sobre aluguel mensal</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-pergunta">
+            <h3>Quais documentos são necessários para alugar?</h3>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-resposta">
+            <p>Para alugar um veículo por período mensal, você precisará de: CNH dentro do prazo de validade, CPF, comprovante de residência e cartão de crédito em nome do locatário.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-pergunta">
+            <h3>Posso renovar o contrato antes do término?</h3>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-resposta">
+            <p>Sim, é possível renovar o contrato antes do término. Entre em contato com nossa central de atendimento com pelo menos 15 dias de antecedência para garantir a renovação nas mesmas condições.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-pergunta">
+            <h3>O que está incluso no valor do aluguel mensal?</h3>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-resposta">
+            <p>O valor inclui: seguro completo, manutenção preventiva, assistência 24h, licenciamento e documentação. Combustível e estacionamento são de responsabilidade do cliente.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-pergunta">
+            <h3>Posso devolver o veículo antes do prazo?</h3>
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-resposta">
+            <p>Sim, é possível devolver o veículo antecipadamente. Consulte nossas condições específicas, pois podem ser aplicadas taxas administrativas dependendo do período contratado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= CTA FINAL ======= -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>Pronto para ter mais liberdade e economia?</h2>
+      <p>Entre em contato com nossa equipe e descubra o plano ideal para suas necessidades.</p>
+      <div class="cta-buttons">
+        <a href="tel:+5511999999999" class="btn-tel">
+          <img src="../static/img/icon-telefone.png" alt="Ícone de telefone">
+          (11) 99999-9999
+        </a>
+        <a href="https://wa.me/5511999999999" class="btn-whatsapp" target="_blank">
+          <img src="../static/img/wpp.png" alt="Ícone do WhatsApp">
+          Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+    <div class="footer-social">
+      <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"
+          title="Whatsapp"></a>
+      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"
+          title="Facebook"></a>
+      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"
+          title="Instagram"></a>
+      <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="Email"></a>
+    </div>
+  </footer>
+
+  <script src="../static/js/script.js"></script>
+</body>
+
+</html>

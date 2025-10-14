@@ -1,25 +1,15 @@
-<!-- 
-TAREFAS:
-    * Validação cliente (required, min, max, etc)
-    * Colocar o estilo no arquivo css
-    * Colocar script no arquivo js
-    * Reduzir o código com Django
--->
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <title>Cadastro - AutoFácil</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-
 </head>
 
-<body>
+<body data-page='cadastro'>
     <header class="topbar">
         <nav class="nav">
             <div class="nav-left">
@@ -53,10 +43,9 @@ TAREFAS:
             </div>
         </nav>
     </header>
-    
+
     <!-- Formulário de Cadastro -->
     <main class="cadastro-container">
-        
         <div class="form-header">
             <h1>Crie sua conta</h1>
             <p class="subtitle">Preencha seus dados abaixo para começar</p>
@@ -110,7 +99,7 @@ TAREFAS:
             <div class="form-grid">
                 <div class="form-group">
                     <label for="nome">Nome Completo*</label>
-                    <input type="text" id="nome" name="nome" required minlength="5" maxlength="100" placeholder="Seu nome completo" value="{{ request.form.nome if request.form }}">
+                    <input type="text" id="nome" name="nome" required minlength="6" placeholder="Seu nome completo" value="{{ request.form.nome if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="nascimento">Data de nascimento*</label>
@@ -118,8 +107,8 @@ TAREFAS:
                 </div>
                 <div class="form-group">
                     <label for="cpf">CPF*</label>
-                    <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00" minlength="11" value="{{ request.form.cpf if request.form }}">
-                </div> <!-- Coloquei somente minlenght e não maxlength porque a pessoa pode digital os pontos e hifen do cpf, se não escrevê-los, o cpf deverá conter ao menos 11 caracteres-->
+                    <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00" value="{{ request.form.cpf if request.form }}">
+                </div>
             </div>
 
             <!-- CONTATO -->
@@ -127,7 +116,7 @@ TAREFAS:
             <div class="form-grid">
                 <div class="form-group">
                     <label for="celular">Celular*</label>
-                    <input type="tel" id="celular" name="celular" required placeholder="(00) 00000-0000" minlength="10" value="{{ request.form.celular if request.form }}">
+                    <input type="tel" id="celular" name="celular" required placeholder="(00) 00000-0000" value="{{ request.form.celular if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail*</label>
@@ -438,6 +427,6 @@ TAREFAS:
         </div>
     </footer>
 
-  <script src="../static/js/script.js"></script>
+<script src="../static/js/script.js"></script>
 </body>
 </html>

@@ -6,6 +6,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const currentPage = document.body.dataset.page;
 
+    // Inicializar formatação de campos para todas as páginas
+    initFormatacaoCampos();
+
     // ====== CARROSSEL ======
     if (currentPage === 'index') {
         initCarousel();
@@ -33,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         initAluguelMensal();
     }
 
-    // Scroll para topo se houver erro
+    // Scroll para topo se houver erro (para páginas com Flask)
     if (typeof erro !== 'undefined' && erro) {
         window.scrollTo(0, 0);
     }
@@ -49,6 +52,7 @@ function initCarousel() {
     if (!imagens.length || !prevBtn || !nextBtn) return;
 
     let index = 0;
+    let carouselInterval;
 
     function mostrarSlide(n) {
         if (n >= imagens.length) index = 0;
@@ -57,32 +61,44 @@ function initCarousel() {
         imagens.forEach(img => img.classList.remove("active"));
         dots.forEach(dot => dot.classList.remove("active"));
 
-        imagens[index].classList.add("active");
-        dots[index].classList.add("active");
+        if (imagens[index]) {
+            imagens[index].classList.add("active");
+            dots[index].classList.add("active");
+        }
+    }
+
+    function avancarSlide() {
+        index++;
+        mostrarSlide(index);
+    }
+
+    function reiniciarIntervalo() {
+        clearInterval(carouselInterval);
+        carouselInterval = setInterval(avancarSlide, 5000);
     }
 
     prevBtn.addEventListener("click", () => {
         index--;
         mostrarSlide(index);
+        reiniciarIntervalo();
     });
 
     nextBtn.addEventListener("click", () => {
         index++;
         mostrarSlide(index);
+        reiniciarIntervalo();
     });
 
     dots.forEach((dot, i) => {
         dot.addEventListener("click", () => {
             index = i;
             mostrarSlide(index);
+            reiniciarIntervalo();
         });
     });
 
-    setInterval(() => {
-        index++;
-        mostrarSlide(index);
-    }, 5000);
-
+    // Iniciar carrossel automático
+    carouselInterval = setInterval(avancarSlide, 5000);
     mostrarSlide(index);
 }
 
@@ -95,10 +111,6 @@ function initSearchbar() {
         }
     }
 
-    window.addEventListener("resize", updatePlaceholder);
-    window.addEventListener("load", updatePlaceholder);
-    updatePlaceholder();
-
     // Posicionamento da searchbar
     const searchbar = document.querySelector('.searchbar');
     const header = document.querySelector('header');
@@ -107,10 +119,6 @@ function initSearchbar() {
     if (!searchbar || !header || !carousel) return;
 
     function positionSearchbar() {
-        searchbar.style.top = '';
-        searchbar.style.left = '';
-        searchbar.style.transform = '';
-
         const docTop = window.pageYOffset || document.documentElement.scrollTop;
 
         if (window.innerWidth > 1000) {
@@ -133,11 +141,16 @@ function initSearchbar() {
         }
     }
 
-    window.addEventListener('load', positionSearchbar);
-    window.addEventListener('resize', positionSearchbar);
+    // Event listeners
+    window.addEventListener("resize", updatePlaceholder);
+    window.addEventListener("resize", positionSearchbar);
     window.addEventListener('scroll', function () {
         if (window.innerWidth > 1000) positionSearchbar();
     });
+
+    // Inicializar
+    updatePlaceholder();
+    positionSearchbar();
 }
 
 // ====== MENU MOBILE ======
@@ -159,9 +172,17 @@ function initMenuMobile() {
         menuPanel.classList.add('open');
     }
 
+    function toggleMenu() {
+        if (menuTrigger.classList.contains('open')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+
     menuTrigger.addEventListener('click', (e) => {
         e.stopPropagation();
-        menuTrigger.classList.contains('open') ? closeMenu() : openMenu();
+        toggleMenu();
     });
 
     document.addEventListener('click', (e) => {
@@ -225,47 +246,48 @@ function initDestinos() {
         columns.forEach(col => {
             const ul = document.createElement('ul');
             ul.className = 'destinos-col';
-            if (col.length === 0) {
+            col.forEach(name => {
                 const li = document.createElement('li');
-                li.textContent = '';
+                li.textContent = name;
                 ul.appendChild(li);
-            } else {
-                col.forEach(name => {
-                    const li = document.createElement('li');
-                    li.textContent = name;
-                    ul.appendChild(li);
-                });
-            }
+            });
             grid.appendChild(ul);
         });
     }
 
+    function ativarPill(pill) {
+        // Desativar todas as pills
+        pills.forEach(p => {
+            p.classList.remove('active');
+            p.setAttribute('aria-pressed', 'false');
+        });
+
+        // Ativar pill clicada
+        pill.classList.add('active');
+        pill.setAttribute('aria-pressed', 'true');
+        renderCategoria(pill.dataset.cat);
+    }
+
     pills.forEach(btn => {
         btn.addEventListener('click', function () {
-            const active = document.querySelector('.destinos-filtros .pill.active');
-            if (active) {
-                active.classList.remove('active');
-                active.setAttribute('aria-pressed', 'false');
-            }
-            this.classList.add('active');
-            this.setAttribute('aria-pressed', 'true');
-
-            renderCategoria(this.dataset.cat);
+            ativarPill(this);
         });
 
         btn.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                btn.click();
+                ativarPill(btn);
             }
         });
     });
 
+    // Render inicial
     const defaultBtn = document.querySelector('.destinos-filtros .pill.active') || pills[0];
     if (defaultBtn) {
         renderCategoria(defaultBtn.dataset.cat);
     }
 
+    // Re-render em resize
     let resizeTimer = null;
     window.addEventListener('resize', function () {
         clearTimeout(resizeTimer);
@@ -278,13 +300,21 @@ function initDestinos() {
 
 // ====== FORMULÁRIOS ======
 function initFormularios() {
-    // Validação em tempo real
-    const inputs = document.querySelectorAll('input');
+    // Validação em tempo real para todos os inputs
+    const inputs = document.querySelectorAll('input:not([type="submit"]):not([type="button"])');
 
     inputs.forEach(input => {
         input.addEventListener('blur', function () {
             validarCampo(this);
         });
+
+        // Validação também no input para campos formatados
+        if (input.id.includes('cpf') || input.id.includes('cnpj') || input.id.includes('cep') || input.type === 'tel') {
+            input.addEventListener('input', function () {
+                // Pequeno delay para permitir a formatação
+                setTimeout(() => validarCampo(this), 100);
+            });
+        }
     });
 
     // Toggle password visibility
@@ -296,6 +326,18 @@ function initFormularios() {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
             this.classList.toggle('active');
+
+            // Alterar ícone/texto se necessário
+            const icon = this.querySelector('img, i');
+            if (icon) {
+                if (type === 'text') {
+                    icon.alt = 'Ocultar senha';
+                    icon.title = 'Ocultar senha';
+                } else {
+                    icon.alt = 'Mostrar senha';
+                    icon.title = 'Mostrar senha';
+                }
+            }
         });
     }
 
@@ -304,7 +346,10 @@ function initFormularios() {
 
     radios.forEach(radio => {
         radio.addEventListener('change', function () {
-            if (this.form) this.form.submit();
+            if (this.form) {
+                // Pequeno delay para melhor UX
+                setTimeout(() => this.form.submit(), 100);
+            }
         });
     });
 }
@@ -342,7 +387,7 @@ function validarCampo(campo) {
 
             // Verificar limites de ano
             if (anoNasc < 1900) return 'Data de nascimento inválida.';
-            if (anoNasc > anoAtual) return 'Data de nascimento inválida.';
+            if (anoNasc > anoAtual) return 'Data de nascimento não pode ser no futuro.';
 
             // Calcular idade precisa (considerando mês e dia)
             let idade = anoAtual - anoNasc;
@@ -367,97 +412,27 @@ function validarCampo(campo) {
 
         'cnpj': () => validarCNPJ(valor),
 
-        'celular': () => {
-            const celularNumeros = valor.replace(/\D/g, '');
-            if (celularNumeros.length < 10 || celularNumeros.length > 11) {
-                return 'Número de celular inválido.';
-            }
-            if (!/^[1-9]{2}9?[6-9][0-9]{7,8}$/.test(celularNumeros)) {
-                return 'Número de celular inválido.';
-            }
-            return '';
-        },
+        'celular': () => validarTelefone(valor, 'celular'),
+        'celular_empresa': () => validarTelefone(valor, 'celular'),
+        'telefone_empresa': () => validarTelefone(valor, 'fixo'),
 
-        'celular_empresa': () => {
-            const celularNumeros = valor.replace(/\D/g, '');
-            if (celularNumeros.length < 10 || celularNumeros.length > 11) {
-                return 'Número de celular inválido.';
-            }
-            if (!/^[1-9]{2}9?[6-9][0-9]{7,8}$/.test(celularNumeros)) {
-                return 'Número de celular inválido.';
-            }
-            return '';
-        },
+        'email': () => validarEmail(valor),
+        'email_empresa': () => validarEmail(valor),
 
-        'telefone_empresa': () => {
-            const telefoneNumeros = valor.replace(/\D/g, '');
-            if (telefoneNumeros.length !== 10) {
-                return 'Número de telefone comercial inválido.';
-            }
-            if (!/^[1-9]{2}[2-5][0-9]{7}$/.test(telefoneNumeros)) {
-                return 'Número de telefone comercial inválido.';
-            }
-            return '';
-        },
+        'cep': () => validarCEP(valor),
+        'cep_empresa': () => validarCEP(valor),
 
-        'email': () => {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!valor) return 'E-mail é obrigatório.';
-            if (!emailRegex.test(valor)) return 'E-mail inválido.';
-            if (valor.length > 100) return 'E-mail muito longo.';
-            return '';
-        },
-
-        'email_empresa': () => {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!valor) return 'E-mail é obrigatório.';
-            if (!emailRegex.test(valor)) return 'E-mail inválido.';
-            if (valor.length > 100) return 'E-mail muito longo.';
-            return '';
-        },
-
-        'cep': () => {
-            const cepNumeros = valor.replace(/\D/g, '');
-            if (cepNumeros.length !== 8) return 'CEP deve conter 8 dígitos.';
-            if (!/^[0-9]{8}$/.test(cepNumeros)) return 'CEP inválido.';
-            return '';
-        },
-
-        'cep_empresa': () => {
-            const cepNumeros = valor.replace(/\D/g, '');
-            if (cepNumeros.length !== 8) return 'CEP deve conter 8 dígitos.';
-            if (!/^[0-9]{8}$/.test(cepNumeros)) return 'CEP inválido.';
-            return '';
-        },
-
-        'senha': () => {
-            if (!valor) return 'Senha é obrigatória.';
-            if (valor.length < 8) return 'Senha deve ter pelo menos 8 caracteres.';
-            if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(valor)) {
-                return 'Senha deve conter letras maiúsculas, minúsculas e números.';
-            }
-            return '';
-        },
-
-        'senha_empresa': () => {
-            if (!valor) return 'Senha é obrigatória.';
-            if (valor.length < 8) return 'Senha deve ter pelo menos 8 caracteres.';
-            if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(valor)) {
-                return 'Senha deve conter letras maiúsculas, minúsculas e números.';
-            }
-            return '';
-        },
+        'senha': () => validarSenha(valor),
+        'senha_empresa': () => validarSenha(valor),
 
         'confirmar': () => {
-            const senha = document.getElementById('senha').value;
-            if (valor !== senha) return 'As senhas não coincidem.';
-            return '';
+            const senha = document.getElementById('senha')?.value || '';
+            return valor !== senha ? 'As senhas não coincidem.' : '';
         },
 
         'confirmar_empresa': () => {
-            const senha = document.getElementById('senha_empresa').value;
-            if (valor !== senha) return 'As senhas não coincidem.';
-            return '';
+            const senha = document.getElementById('senha_empresa')?.value || '';
+            return valor !== senha ? 'As senhas não coincidem.' : '';
         },
 
         'razao_social': () => {
@@ -488,24 +463,17 @@ function validarCampo(campo) {
     mostrarMensagemErro(campo, erro);
 }
 
-// ====== VALIDAÇÃO DE CPF ======
+// ====== VALIDAÇÕES ESPECÍFICAS ======
 function validarCPF(cpf) {
     if (!cpf) return 'CPF é obrigatório.';
 
-    // Remove caracteres não numéricos
     cpf = cpf.replace(/\D/g, '');
-
-    // Verifica se tem 11 dígitos
     if (cpf.length !== 11) return 'CPF deve conter 11 dígitos.';
-
-    // Verifica se não é uma sequência de números iguais
     if (/^(\d)\1+$/.test(cpf)) return 'CPF inválido.';
 
     // Validação dos dígitos verificadores
-    let soma = 0;
-    let resto;
+    let soma = 0, resto;
 
-    // Primeiro dígito verificador
     for (let i = 1; i <= 9; i++) {
         soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
     }
@@ -513,7 +481,6 @@ function validarCPF(cpf) {
     if ((resto === 10) || (resto === 11)) resto = 0;
     if (resto !== parseInt(cpf.substring(9, 10))) return 'CPF inválido.';
 
-    // Segundo dígito verificador
     soma = 0;
     for (let i = 1; i <= 10; i++) {
         soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
@@ -525,17 +492,11 @@ function validarCPF(cpf) {
     return '';
 }
 
-// ====== VALIDAÇÃO DE CNPJ ======
 function validarCNPJ(cnpj) {
     if (!cnpj) return 'CNPJ é obrigatório.';
 
-    // Remove caracteres não numéricos
     cnpj = cnpj.replace(/\D/g, '');
-
-    // Verifica se tem 14 dígitos
     if (cnpj.length !== 14) return 'CNPJ deve conter 14 dígitos.';
-
-    // Verifica se não é uma sequência de números iguais
     if (/^(\d)\1+$/.test(cnpj)) return 'CNPJ inválido.';
 
     // Validação dos dígitos verificadores
@@ -545,27 +506,70 @@ function validarCNPJ(cnpj) {
     let soma = 0;
     let pos = tamanho - 7;
 
-    // Primeiro dígito verificador
     for (let i = tamanho; i >= 1; i--) {
-        soma += numeros.charAt(tamanho - i) * pos--;
+        soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
         if (pos < 2) pos = 9;
     }
     let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado !== parseInt(digitos.charAt(0))) return 'CNPJ inválido.';
 
-    // Segundo dígito verificador
     tamanho = tamanho + 1;
     numeros = cnpj.substring(0, tamanho);
     soma = 0;
     pos = tamanho - 7;
 
     for (let i = tamanho; i >= 1; i--) {
-        soma += numeros.charAt(tamanho - i) * pos--;
+        soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
         if (pos < 2) pos = 9;
     }
     resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado !== parseInt(digitos.charAt(1))) return 'CNPJ inválido.';
 
+    return '';
+}
+
+function validarTelefone(telefone, tipo) {
+    if (!telefone) return tipo === 'celular' ? 'Celular é obrigatório.' : 'Telefone é obrigatório.';
+
+    const numeros = telefone.replace(/\D/g, '');
+
+    if (tipo === 'celular') {
+        if (numeros.length < 10 || numeros.length > 11) return 'Número de celular inválido.';
+        if (!/^[1-9]{2}9?[6-9][0-9]{7,8}$/.test(numeros)) return 'Número de celular inválido.';
+    } else {
+        if (numeros.length !== 10) return 'Número de telefone comercial inválido.';
+        if (!/^[1-9]{2}[2-5][0-9]{7}$/.test(numeros)) return 'Número de telefone comercial inválido.';
+    }
+
+    return '';
+}
+
+function validarEmail(email) {
+    if (!email) return 'E-mail é obrigatório.';
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return 'E-mail inválido.';
+    if (email.length > 100) return 'E-mail muito longo.';
+
+    return '';
+}
+
+function validarCEP(cep) {
+    if (!cep) return 'CEP é obrigatório.';
+
+    const cepNumeros = cep.replace(/\D/g, '');
+    if (cepNumeros.length !== 8) return 'CEP deve conter 8 dígitos.';
+    if (!/^[0-9]{8}$/.test(cepNumeros)) return 'CEP inválido.';
+
+    return '';
+}
+
+function validarSenha(senha) {
+    if (!senha) return 'Senha é obrigatória.';
+    if (senha.length < 8) return 'Senha deve ter pelo menos 8 caracteres.';
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(senha)) {
+        return 'Senha deve conter letras maiúsculas, minúsculas e números.';
+    }
     return '';
 }
 
@@ -594,158 +598,117 @@ function initFormatacaoCampos() {
     // Formatação de CPF
     const cpfs = document.querySelectorAll('input[id*="cpf"]');
     cpfs.forEach(cpf => {
-        cpf.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.substring(0, 11);
-
-            if (value.length <= 11) {
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            }
-
-            e.target.value = value;
-        });
+        cpf.addEventListener('input', formatarCPF);
     });
 
     // Formatação de CNPJ
     const cnpjs = document.querySelectorAll('input[id="cnpj"]');
     cnpjs.forEach(cnpj => {
-        cnpj.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 14) value = value.substring(0, 14);
-
-            if (value.length <= 14) {
-                value = value.replace(/(\d{2})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1.$2');
-                value = value.replace(/(\d{3})(\d)/, '$1/$2');
-                value = value.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
-            }
-
-            e.target.value = value;
-        });
+        cnpj.addEventListener('input', formatarCNPJ);
     });
 
     // Formatação de CEP
     const ceps = document.querySelectorAll('input[id*="cep"]');
     ceps.forEach(cep => {
-        cep.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 8) value = value.substring(0, 8);
-
-            if (value.length > 5) {
-                value = value.replace(/(\d{5})(\d)/, '$1-$2');
-            }
-
-            e.target.value = value;
-        });
+        cep.addEventListener('input', formatarCEP);
     });
 
     // Formatação de telefone/celular
     const telefones = document.querySelectorAll('input[type="tel"]');
     telefones.forEach(tel => {
-        tel.addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '');
-
-            if (value.length === 11) { // Celular com DDD + 9 dígitos
-                value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-            } else if (value.length === 10) { // Telefone fixo
-                value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-            } else if (value.length > 6) {
-                value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-            } else if (value.length > 2) {
-                value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
-            } else if (value.length > 0) {
-                value = value.replace(/(\d{0,2})/, '($1');
-            }
-
-            e.target.value = value;
-        });
+        tel.addEventListener('input', formatarTelefone);
     });
 }
 
-// Inicializar formatação quando a página carregar
-document.addEventListener('DOMContentLoaded', function () {
-    initFormatacaoCampos();
-});
+function formatarCPF(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 11) value = value.substring(0, 11);
+
+    if (value.length <= 11) {
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    }
+
+    e.target.value = value;
+}
+
+function formatarCNPJ(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 14) value = value.substring(0, 14);
+
+    if (value.length <= 14) {
+        value = value.replace(/(\d{2})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        value = value.replace(/(\d{3})(\d)/, '$1/$2');
+        value = value.replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+    }
+
+    e.target.value = value;
+}
+
+function formatarCEP(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 8) value = value.substring(0, 8);
+
+    if (value.length > 5) {
+        value = value.replace(/(\d{5})(\d)/, '$1-$2');
+    }
+
+    e.target.value = value;
+}
+
+function formatarTelefone(e) {
+    let value = e.target.value.replace(/\D/g, '');
+
+    if (value.length === 11) {
+        value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    } else if (value.length === 10) {
+        value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    } else if (value.length > 6) {
+        value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    } else if (value.length > 2) {
+        value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+    } else if (value.length > 0) {
+        value = value.replace(/(\d{0,2})/, '($1');
+    }
+
+    e.target.value = value;
+}
 
 // ====== PÁGINA DE FROTA ======
 function initFrota() {
     const filtroBtns = document.querySelectorAll('.filtro-btn');
     const aplicarBtn = document.getElementById('aplicar-filtros');
     const limparBtn = document.getElementById('limpar-filtros');
-    const veiculosGrid = document.querySelector('.veiculos-grid');
 
-    if (!filtroBtns.length || !aplicarBtn || !limparBtn || !veiculosGrid) return;
+    if (!filtroBtns.length || !aplicarBtn || !limparBtn) return;
 
     filtroBtns.forEach(btn => {
         btn.addEventListener('click', function () {
             filtroBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            aplicarFiltros();
         });
     });
 
-    aplicarBtn.addEventListener('click', aplicarFiltros);
-    limparBtn.addEventListener('click', limparFiltros);
-
-    // Event listeners para inputs de filtro
-    ['marca', 'modelo', 'transmissao', 'combustivel'].forEach(id => {
-        const element = document.getElementById(id);
-        if (element) element.addEventListener('change', aplicarFiltros);
+    aplicarBtn.addEventListener('click', function () {
+        alert('Filtros aplicados com sucesso!');
+        // Em produção, aqui viria a lógica de filtragem
     });
 
-    ['preco', 'malas', 'passageiros', 'portas'].forEach(id => {
-        const element = document.getElementById(id);
-        if (element) element.addEventListener('input', aplicarFiltros);
-    });
-
-    function aplicarFiltros() {
-        const categoriaAtiva = document.querySelector('.filtro-btn.active')?.dataset.categoria || 'todos';
-        const marca = document.getElementById('marca')?.value || '';
-        const modelo = document.getElementById('modelo')?.value || '';
-        const transmissao = document.getElementById('transmissao')?.value || '';
-        const combustivel = document.getElementById('combustivel')?.value || '';
-        const preco = document.getElementById('preco')?.value || '';
-        const malas = document.getElementById('malas')?.value || '';
-        const passageiros = document.getElementById('passageiros')?.value || '';
-        const portas = document.getElementById('portas')?.value || '';
-
-        // Simulação de filtragem - em produção isso viria do backend
-        simularFiltragem({
-            categoria: categoriaAtiva,
-            marca, modelo, transmissao, combustivel,
-            preco_maximo: preco,
-            malas_min: malas,
-            passageiros_min: passageiros,
-            portas_min: portas
-        });
-    }
-
-    function limparFiltros() {
+    limparBtn.addEventListener('click', function () {
         filtroBtns.forEach(btn => btn.classList.remove('active'));
         document.querySelector('[data-categoria="todos"]')?.classList.add('active');
 
-        ['marca', 'modelo', 'transmissao', 'combustivel'].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) element.value = '';
-        });
+        // Limpar outros filtros se existirem
+        ['marca', 'modelo', 'transmissao', 'combustivel', 'preco', 'malas', 'passageiros', 'portas']
+            .forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.value = '';
+            });
 
-        ['preco', 'malas', 'passageiros', 'portas'].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) element.value = '';
-        });
-
-        aplicarFiltros();
-    }
-
-    function simularFiltragem(filtros) {
-        // Em produção, isso seria uma requisição para o backend
-        console.log('Aplicando filtros:', filtros);
-        // Aqui você faria a requisição fetch para a API
-    }
-
-    aplicarFiltros();
+        alert('Filtros limpos!');
+    });
 }
 
 // ====== PÁGINA ALUGUEL MENSAL ======
@@ -785,13 +748,19 @@ function initAluguelMensal() {
             const precoDiario = precos[categoria]?.[periodo] || 0;
             const precoMensal = precoDiario * 30;
 
-            document.getElementById('cat-resultado').textContent = categoriasNomes[categoria] || '';
-            document.getElementById('periodo-resultado').textContent = periodosNomes[periodo] || '';
-            document.getElementById('diaria-resultado').textContent = `R$ ${precoDiario}`;
-            document.getElementById('mensal-resultado').textContent = `R$ ${precoMensal}`;
+            // Atualizar resultados
+            const resultado = document.querySelector('.resultado-conteudo');
+            const placeholder = document.querySelector('.resultado-placeholder');
 
-            document.querySelector('.resultado-placeholder').style.display = 'none';
-            document.querySelector('.resultado-conteudo').style.display = 'block';
+            if (resultado && placeholder) {
+                document.getElementById('cat-resultado').textContent = categoriasNomes[categoria] || '';
+                document.getElementById('periodo-resultado').textContent = periodosNomes[periodo] || '';
+                document.getElementById('diaria-resultado').textContent = `R$ ${precoDiario}`;
+                document.getElementById('mensal-resultado').textContent = `R$ ${precoMensal}`;
+
+                placeholder.style.display = 'none';
+                resultado.style.display = 'block';
+            }
         });
     }
 
@@ -802,13 +771,16 @@ function initAluguelMensal() {
             const resposta = this.nextElementSibling;
             const toggle = this.querySelector('.faq-toggle');
 
+            // Fechar outras respostas
             document.querySelectorAll('.faq-resposta').forEach(item => {
                 if (item !== resposta) {
                     item.style.display = 'none';
-                    item.previousElementSibling.querySelector('.faq-toggle').textContent = '+';
+                    const otherToggle = item.previousElementSibling.querySelector('.faq-toggle');
+                    if (otherToggle) otherToggle.textContent = '+';
                 }
             });
 
+            // Alternar resposta atual
             if (resposta.style.display === 'block') {
                 resposta.style.display = 'none';
                 toggle.textContent = '+';

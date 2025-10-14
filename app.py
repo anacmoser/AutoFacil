@@ -1,13 +1,19 @@
 """
 TAREFAS:
-    * Arquitetura / organização MVC
+    * Arquitetura / organização MVC                      COMPLETO
     * Páginas de erro (404, 403, 401)
-    * Arquivo para APIs
+        *Definir a quais páginas o user tem acesso sem estar logado
+    * Arquivo para APIs (Para diminuir a quantidade de html)
+    * Api de CEP para pré-preenchimento do formulário
+    * Lógica da página específica igual ao do exercício do agostinho (PRODUTOS)
 """
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import re
-from models import User, Users, Veiculo, Veiculos
+from models.User import User
+from models.Users import Users
+from models.Veiculo import Veiculo
+from models.Veiculos import Veiculos
 
 app = Flask(__name__)
 app.secret_key = 'chave_secreta_autofacil'
@@ -15,7 +21,7 @@ id_counter = 2
 users = Users([])
 #UserTest == usuarios
 
-userTest = User(1, 'teste', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', '12345678', '12345678','teste logradouro', '2222', 'teste Complemento')
+userTest = User(1, 'teste da silva', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', '12345678', '12345678','teste logradouro', '2222', 'teste Complemento')
 
 users.adicionar(userTest)
 
@@ -81,7 +87,7 @@ def mudarFrota():
     portas_min = request.args.get('portas_min', '')
     
     # Filtrar veículos
-    veiculos_filtrados = veiculos_locacao.copy()
+    veiculos_filtrados = veiculos.copy()
     
     # Aplicar filtros apenas se os valores não estiverem vazios
     if categoria and categoria != 'todos':
@@ -161,7 +167,7 @@ def cadastro():
     nome = request.form.get('nome', '').strip()
     nascimento = request.form.get('nascimento', '')
     cpf = request.form.get('cpf', '')
-    cpf = re.sub(r'[^0-9]', '', cpf)
+    cpf = re.sub(r'[^0-9]', '', cpf) #Acho que não há necessidade, porque eu limpo o cpf na validação em User
     celular = request.form.get('celular', '')
     celular = re.sub(r'[^0-9]', '', celular)
     email = request.form.get('email', '').strip()
@@ -186,17 +192,19 @@ def cadastro():
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
     try:
         novoUser = User(id_counter, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
-        try: 
-            users.adicionar(novoUser) #Verificar por nome também (já existe por email e cpf)
+        adicao = users.adicionar(novoUser) #Verificar por nome também (já existe por email e cpf)
+        if adicao == True: #Se não for true será a lista de erros
             id_counter += 1
             return redirect(url_for('login'))
-        except:
-            return render_template('cadastro.html', erros=['CPF e/ou email já estão em uso'])
-    except:
-        return render_template('cadastro.html', erros=['Campo(s) inválido(s)'])
- 
-    
-
+        else:
+            return render_template('cadastro.html', erros=adicao)
+    except ValueError as e:
+        if isinstance(e.args[0], list):
+            erros = e.args[0]
+        else:
+            erros = [str(e)]
+        
+        return render_template('cadastro.html', erros=erros)
 
 @app.route('/logar', methods=['GET', 'POST']) #Modularizar as verificações
 def login():

@@ -1,6 +1,6 @@
 """
 TAREFAS:
-    * Validações mais robustas
+    * Validações mais robustas, principalmente de senha
 """
 
 import re
@@ -220,3 +220,42 @@ class User:
                 return self.user['dadosPessoais'][campo]
             raise ValueError(f'Campo {campo} não existe em dados pessoais')
         return self.user['dadosPessoais']
+
+USERS = []
+
+def addUser(novoUser): #novosser é um objeto da classe user
+        erros = verificarDuplicidade(novoUser)
+        
+        if erros:
+            return erros  # Ou retornar False/lista de erros
+        
+        USERS.append(novoUser)
+        return True
+
+def verificarDuplicidade(novoUser):
+        erro = []
+        for user in USERS:
+            if user.cpf == novoUser.cpf:  
+                erro.append('Este CPF já está em uso')
+            if user.email == novoUser.email:
+                erro.append('Este email já está em uso')
+        return erro
+
+def delUser(cpf):
+        for user in USERS:
+            if user.cpf == cpf:
+                USERS.remove(user)
+                return True
+        return False
+
+def getUserByCpf(cpf):
+        for user in USERS:
+            if user.cpf == cpf:
+                return user
+        return None, 'Usuario não encontrado'
+
+def getUserByEmail(email):
+        for user in USERS:
+            if user.email == email:
+                return user
+        return None, 'Usuário não encontrado'

@@ -6,23 +6,23 @@ TAREFAS:
 import re
 from datetime import datetime, date
 
-class User: 
+class UserPf: 
     def __init__(self, id, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''): 
 
         if self.validacaoGeral(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro, numero, complemento) == True: #Tive que especificar que é igual a True porque a função de validação geral sempre retornará algo (True ou lista de erros)
             self.__id = id
-            self.nome = nome
+            self._nome = nome
             self.__nascimento = nascimento
             self.__cpf = cpf
             self.__celular = celular
             self.__email = email
-            self.cep = cep
-            self.logradouro = logradouro
-            self.numero = numero
-            self.complemento = complemento
-            self.bairro = bairro
-            self.estado = estado
-            self.cidade = cidade
+            self._cep = cep
+            self._logradouro = logradouro
+            self._numero = numero
+            self._complemento = complemento
+            self._bairro = bairro
+            self._estado = estado
+            self._cidade = cidade
             self.__senha = senha
 
 ########### VALIDAÇÕES
@@ -129,7 +129,7 @@ class User:
         self.__senha = novaSenha
     
     def setUserNome(self, novoNome):
-        self.nome = novoNome
+        self._nome = novoNome
 
     def setUserContato(self, **kwargs): #campo específico
         for chave, valor in kwargs.items():
@@ -146,25 +146,25 @@ class User:
         for chave, valor in kwargs.items():
             if chave == 'cep':
                 if self.validarCep(valor):
-                    self.cep = valor
+                    self._cep = valor
             elif chave == 'bairro':
                 if self.validarTxt(valor):
-                    self.bairro = valor
+                    self._bairro = valor
             elif chave == 'cidade':
                 if self.validarTxt(valor):
-                    self.cidade = valor
+                    self._cidade = valor
             elif chave == 'estado':
                 if self.validarTxt(valor):
-                    self.estado = valor
+                    self._estado = valor
             elif chave == 'logradouro':
                 if self.validarTxt(valor):
-                    self.logradouro = valor
+                    self._logradouro = valor
             elif chave == 'numero':
                 if self.validarNum(valor):
-                    self.numero = valor
+                    self._numero = valor
             elif chave == 'complemento':
                 if self.validarTxt(valor):
-                    self.complemento = valor
+                    self._complemento = valor
             else:
                 raise ValueError('campo inexistente')
 
@@ -174,16 +174,16 @@ class User:
     def user(self):
         user = {'id': self.__id, 
                  'senha': self.__senha,
-                 'endereco': {'cep': self.cep, 
-                               'bairro': self.bairro, 
-                               'estado': self.estado, 
-                               'cidade': self.cidade, 
-                               'logradouro': self.logradouro,
-                               'numero': self.numero,
-                               'complemento': self.complemento},
+                 'endereco': {'cep': self._cep, 
+                               'bairro': self._bairro, 
+                               'estado': self._estado, 
+                               'cidade': self._cidade, 
+                               'logradouro': self._logradouro,
+                               'numero': self._numero,
+                               'complemento': self._complemento},
                   'contato': {'celular': self.__celular, 
                               'email': self.__email},
-                  'dadosPessoais': {'nome': self.nome, 
+                  'dadosPessoais': {'nome': self._nome, 
                                      'nascimento': self.__nascimento, 
                                      'cpf': self.__cpf}}
         return user
@@ -221,7 +221,9 @@ class User:
             raise ValueError(f'Campo {campo} não existe em dados pessoais')
         return self.user['dadosPessoais']
 
-USERS = []
+
+
+USERSpf = []
 
 def addUser(novoUser): #novosser é um objeto da classe user
         erros = verificarDuplicidade(novoUser)
@@ -229,12 +231,12 @@ def addUser(novoUser): #novosser é um objeto da classe user
         if erros:
             return erros  # Ou retornar False/lista de erros
         
-        USERS.append(novoUser)
+        USERSpf.append(novoUser)
         return True
 
 def verificarDuplicidade(novoUser):
         erro = []
-        for user in USERS:
+        for user in USERSpf:
             if user.cpf == novoUser.cpf:  
                 erro.append('Este CPF já está em uso')
             if user.email == novoUser.email:
@@ -242,20 +244,24 @@ def verificarDuplicidade(novoUser):
         return erro
 
 def delUser(cpf):
-        for user in USERS:
+        for user in USERSpf:
             if user.cpf == cpf:
-                USERS.remove(user)
+                USERSpf.remove(user)
                 return True
         return False
 
 def getUserByCpf(cpf):
-        for user in USERS:
+        for user in USERSpf:
             if user.cpf == cpf:
                 return user
         return None, 'Usuario não encontrado'
 
 def getUserByEmail(email):
-        for user in USERS:
+        for user in USERSpf:
             if user.email == email:
                 return user
         return None, 'Usuário não encontrado'
+
+
+userTest = UserPf(1, 'teste da silva', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', '12345678', '12345678','teste logradouro', '2222', 'teste Complemento')
+addUser(userTest)

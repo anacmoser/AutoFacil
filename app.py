@@ -10,17 +10,13 @@ TAREFAS:
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import re
-from models.User import User, USERS, addUser, delUser, getUserByCpf, getUserByEmail, verificarDuplicidade
+from models.UserPf import UserPf, USERSpf, addUser, delUser, getUserByCpf, getUserByEmail, verificarDuplicidade
 from models.Veiculo import Veiculo, VEICULOS, addVeiculo, removerVeiculo, getVeiById
 
 app = Flask(__name__)
 app.secret_key = 'chave_secreta_autofacil'
-id_counter = 2
-#users = USERS
-
-userTest = User(1, 'teste da silva', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', '12345678', '12345678','teste logradouro', '2222', 'teste Complemento')
-
-addUser(userTest)
+id_counter = 2     #vai pro cotroller
+id_counter_pj = 2  #vai pro controller
 
 def validar_email(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -43,9 +39,10 @@ def mudarCadastro():
 def mudarLogin():
     return render_template('login.html')
 
-@app.route('/frota', methods=['GET'])  #Modularizar esta frota criando funções
+"""@app.route('/frota', methods=['GET'])  #Modularizar esta frota criando funções
 def mudarFrota():  #adicionar o filtro de preço menor para maior
-    # Obter parâmetros de filtro da URL
+
+    #Entender este código, aplicar os filtros no html
     categoria = request.args.get('categoria', '')
     marca = request.args.get('marca', '')
     modelo = request.args.get('modelo', '')
@@ -127,9 +124,9 @@ def mudarFrota():  #adicionar o filtro de preço menor para maior
             'status': veiculo.status
         })
     
-    return render_template('frota.html', veiculos=veiculos_formatados)
+    return render_template('frota.html', veiculos=veiculos_formatados)"""
 
-@app.route('/cadastrar', methods=['POST'])
+@app.route('/cadastrarPf', methods=['POST'])
 def cadastro():
     global id_counter  # Usar a variável global
     
@@ -161,7 +158,7 @@ def cadastro():
     if not termos:
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
     try:
-        novoUser = User(id_counter, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
+        novoUser = UserPf(id_counter, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
         adicao = addUser(novoUser) #Verificar por nome também (já existe por email e cpf)
         if adicao == True: #Se não for true será a lista de erros
             id_counter += 1
@@ -176,8 +173,8 @@ def cadastro():
         
         return render_template('cadastro.html', erros=erros)
  
-"""@app.route('/cadastrar-empresa', methods=['POST'])
-def cadastroEmpresa():"""
+#@app.route('/cadastrarPj', methods=['POST'])
+#def cadastroEmpresa():
     
 
 @app.route('/logar', methods=['GET', 'POST']) #Modularizar as verificações
@@ -190,7 +187,7 @@ def login():
             #verificação por email
             if not validar_email(user):
                 return render_template('login.html', erro = 'E-mail inválido')
-            for usuario in USERS:
+            for usuario in USERSpf:
                 if usuario.getUserContato('email') == user :
                     if usuario.senha == senha:
                         session['usuario_logado'] = usuario.getUserDados('nome')
@@ -202,7 +199,7 @@ def login():
             cpf = re.sub(r'[^0-9]', '', user)
             if not validar_cpf(cpf):
                 return render_template('login.html', erro = 'Digite e-mail ou CPF inválidos')
-            for usuario in USERS:
+            for usuario in USERSpf:
                 if usuario.cpf == cpf:
                     if usuario.senha == senha:
                         session['usuario_logado'] = usuario.getUserDados('nome')
@@ -308,6 +305,22 @@ def api_filtrar():
 def logout():
     session.pop('usuario_logado', None)
     return redirect(url_for('index'))
+
+@app.errorhandler(401)
+def nao_autorizado(error):
+    return render_template('errors/401.html'), 401
+
+@app.errorhandler(403)
+def acesso_proibido(error):
+    return render_template('errors/403.html'), 403
+
+@app.errorhandler(404)
+def pagina_nao_encontrada(error):
+    return render_template('errors/404.html'), 404
+
+@app.errorhandler(500)
+def erro_interno_servidor(error):
+    return render_template('errors/500.html'), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

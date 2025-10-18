@@ -132,7 +132,7 @@ def removerVeiculo(id):
                 return 'Veículo não encontrado'
             
 def getVeiById(id):
-        for veiculo in  VEICULOS:
+        for veiculo in VEICULOS:
             if id == veiculo.id:
                 return veiculo
-        return 'Nenhum id correspondente'
+        return None

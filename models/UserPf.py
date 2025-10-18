@@ -104,7 +104,7 @@ class UserPf:
         return int(cpf_limpo[10]) == digito2
     
     def validarSenha(self,senha):
-        return len(senha)>=8
+        return len(senha)>=8 and re.search(r'(?=.*[a-z])(?=.*[A-Z])(?=.*\d)', senha)
     
     def validarCep(self,cep):
         cep_limpo = ''.join(filter(str.isdigit, str(cep)))
@@ -200,6 +200,10 @@ class UserPf:
     def email(self):
         return self.__email
     
+    @property
+    def nome(self):
+        return self._nome
+    
     def getUserEndereco(self, campo=''): #Menos pythonico que o getattr, mas é mais seguro
         if campo:
             if campo in self.user['endereco']:
@@ -241,6 +245,8 @@ def verificarDuplicidade(novoUser):
                 erro.append('Este CPF já está em uso')
             if user.email == novoUser.email:
                 erro.append('Este email já está em uso')
+            if user.nome == novoUser.nome:
+                erro.append('Este nome já está em uso')
         return erro
 
 def delUser(cpf):
@@ -263,5 +269,5 @@ def getUserByEmail(email):
         return None, 'Usuário não encontrado'
 
 
-userTest = UserPf(1, 'teste da silva', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', '12345678', '12345678','teste logradouro', '2222', 'teste Complemento')
+userTest = UserPf(1, 'teste da silva', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', 'Senha123', 'Senha123','teste logradouro', '2222', 'teste Complemento')
 addUser(userTest)

@@ -32,14 +32,18 @@
                 </div>
 
                 <a class="logo" href="/" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img" title="AutoFácil, aluguel de veículos">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img"
+                        title="AutoFácil, aluguel de veículos">
                 </a>
             </div>
 
             <div class="nav-right">
-                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas" class="icon-btn"> </a>
-                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" title="Acessibilidade" class="icon-btn"> </a>
-                <a href="/login" id="loginLink"> <img src="../static/img/login2.png" alt="Botão de login" title="Login" class="icon-btn"> </a>
+                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas"
+                        class="icon-btn"> </a>
+                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade"
+                        title="Acessibilidade" class="icon-btn"> </a>
+                <a href="/login" id="loginLink"> <img src="../static/img/login2.png" alt="Botão de login" title="Login"
+                        class="icon-btn"> </a>
             </div>
         </nav>
     </header>
@@ -56,9 +60,9 @@
         <div class="alert alert-danger">
             <strong>Por favor, corrija os seguintes erros:</strong>
             <ul>
-            {% for erro in erros %}
+                {% for erro in erros %}
                 <li>{{ erro }}</li>
-            {% endfor %}
+                {% endfor %}
             </ul>
         </div>
         {% endif %}
@@ -69,16 +73,18 @@
             <form method="GET" action="/cadastro">
                 <div class="tipo-conta-opcoes">
                     <div class="tipo-conta-opcao">
-                        <input type="radio" id="pessoa-fisica" name="tipo_conta" value="fisica" class="tipo-conta-radio" 
-                               {% if not request.args.get('tipo_conta') or request.args.get('tipo_conta') == 'fisica' %}checked{% endif %}>
+                        <input type="radio" id="pessoa-fisica" name="tipo_conta" value="fisica" class="tipo-conta-radio"
+                            {% if not request.args.get('tipo_conta') and not request.form.get('tipo_conta')=='juridica'
+                            or request.args.get('tipo_conta')=='fisica' %}checked{% endif %}>
                         <label for="pessoa-fisica" class="tipo-conta-label">
                             <img src="../static/img/pessoa-fisica.png" alt="Pessoa Física" class="tipo-conta-icon">
                             Pessoa Física
                         </label>
                     </div>
                     <div class="tipo-conta-opcao">
-                        <input type="radio" id="pessoa-juridica" name="tipo_conta" value="juridica" class="tipo-conta-radio"
-                               {% if request.args.get('tipo_conta') == 'juridica' %}checked{% endif %}>
+                        <input type="radio" id="pessoa-juridica" name="tipo_conta" value="juridica"
+                            class="tipo-conta-radio" {% if request.args.get('tipo_conta')=='juridica' or
+                            request.form.get('tipo_conta')=='juridica' %}checked{% endif %}>
                         <label for="pessoa-juridica" class="tipo-conta-label">
                             <img src="../static/img/pessoa-juridica.png" alt="Pessoa Jurídica" class="tipo-conta-icon">
                             Pessoa Jurídica
@@ -90,24 +96,28 @@
         </div>
 
         <!-- FORMULÁRIO PESSOA FÍSICA -->
-        {% if not request.args.get('tipo_conta') or request.args.get('tipo_conta') == 'fisica' %}
+        {% if not request.args.get('tipo_conta') and not request.form.get('tipo_conta') == 'juridica' or
+        request.args.get('tipo_conta') == 'fisica' %}
         <form class="form-cadastro" id="cadastroPessoaForm" method="POST" action="/cadastrarPf">
             <input type="hidden" name="tipo_conta" value="fisica">
-            
+
             <!-- DADOS BÁSICOS -->
             <h2 class="form-section-title">Dados básicos</h2>
             <div class="form-grid">
                 <div class="form-group">
                     <label for="nome">Nome Completo*</label>
-                    <input type="text" id="nome" name="nome" required minlength="6" placeholder="Seu nome completo" value="{{ request.form.nome if request.form }}">
+                    <input type="text" id="nome" name="nome" required minlength="6" placeholder="Seu nome completo"
+                        value="{{ request.form.nome if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="nascimento">Data de nascimento*</label>
-                    <input type="date" id="nascimento" name="nascimento" required value="{{ request.form.nascimento if request.form }}">
+                    <input type="date" id="nascimento" name="nascimento" required
+                        value="{{ request.form.nascimento if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="cpf">CPF*</label>
-                    <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00" value="{{ request.form.cpf if request.form }}">
+                    <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00"
+                        value="{{ request.form.cpf if request.form }}">
                 </div>
             </div>
 
@@ -116,11 +126,13 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="celular">Celular*</label>
-                    <input type="tel" id="celular" name="celular" required placeholder="(00) 00000-0000" value="{{ request.form.celular if request.form }}">
+                    <input type="tel" id="celular" name="celular" required placeholder="(00) 00000-0000"
+                        value="{{ request.form.celular if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail*</label>
-                    <input type="email" id="email" name="email" required placeholder="seu@email.com" value="{{ request.form.email if request.form }}">
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com"
+                        value="{{ request.form.email if request.form }}">
                 </div>
             </div>
 
@@ -129,63 +141,73 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="cep">CEP*</label>
-                    <input type="text" id="cep" name="cep" required placeholder="00000-000" value="{{ request.form.cep if request.form }}">
+                    <input type="text" id="cep" name="cep" required placeholder="00000-000"
+                        value="{{ request.form.cep if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="logradouro">Logradouro*</label>
-                    <input type="text" id="logradouro" name="logradouro" required placeholder="Rua, Avenida, etc." value="{{ request.form.logradouro if request.form }}">
+                    <input type="text" id="logradouro" name="logradouro" required placeholder="Rua, Avenida, etc."
+                        value="{{ request.form.logradouro if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="numero">Número</label>
-                    <input type="text" id="numero" name="numero" placeholder="123" value="{{ request.form.numero if request.form }}">
+                    <input type="text" id="numero" name="numero" placeholder="123"
+                        value="{{ request.form.numero if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="complemento">Complemento</label>
-                    <input type="text" id="complemento" name="complemento" placeholder="Apartamento, bloco, etc." value="{{ request.form.complemento if request.form }}">
+                    <input type="text" id="complemento" name="complemento" placeholder="Apartamento, bloco, etc."
+                        value="{{ request.form.complemento if request.form }}">
                 </div>
             </div>
 
             <div class="form-grid">
                 <div class="form-group">
                     <label for="bairro">Bairro*</label>
-                    <input type="text" id="bairro" name="bairro" required value="{{ request.form.bairro if request.form }}">
+                    <input type="text" id="bairro" name="bairro" required
+                        value="{{ request.form.bairro if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="estado">Estado*</label>
                     <select id="estado" name="estado" required>
                         <option value="">Selecione</option>
-                        <option value="AC" {% if request.form.estado == 'AC' %}selected{% endif %}>Acre</option>
-                        <option value="AL" {% if request.form.estado == 'AL' %}selected{% endif %}>Alagoas</option>
-                        <option value="AP" {% if request.form.estado == 'AP' %}selected{% endif %}>Amapá</option>
-                        <option value="AM" {% if request.form.estado == 'AM' %}selected{% endif %}>Amazonas</option>
-                        <option value="BA" {% if request.form.estado == 'BA' %}selected{% endif %}>Bahia</option>
-                        <option value="CE" {% if request.form.estado == 'CE' %}selected{% endif %}>Ceará</option>
-                        <option value="DF" {% if request.form.estado == 'DF' %}selected{% endif %}>Distrito Federal</option>
-                        <option value="ES" {% if request.form.estado == 'ES' %}selected{% endif %}>Espírito Santo</option>
-                        <option value="GO" {% if request.form.estado == 'GO' %}selected{% endif %}>Goiás</option>
-                        <option value="MA" {% if request.form.estado == 'MA' %}selected{% endif %}>Maranhão</option>
-                        <option value="MT" {% if request.form.estado == 'MT' %}selected{% endif %}>Mato Grosso</option>
-                        <option value="MS" {% if request.form.estado == 'MS' %}selected{% endif %}>Mato Grosso do Sul</option>
-                        <option value="MG" {% if request.form.estado == 'MG' %}selected{% endif %}>Minas Gerais</option>
-                        <option value="PA" {% if request.form.estado == 'PA' %}selected{% endif %}>Pará</option>
-                        <option value="PB" {% if request.form.estado == 'PB' %}selected{% endif %}>Paraíba</option>
-                        <option value="PR" {% if request.form.estado == 'PR' %}selected{% endif %}>Paraná</option>
-                        <option value="PE" {% if request.form.estado == 'PE' %}selected{% endif %}>Pernambuco</option>
-                        <option value="PI" {% if request.form.estado == 'PI' %}selected{% endif %}>Piauí</option>
-                        <option value="RJ" {% if request.form.estado == 'RJ' %}selected{% endif %}>Rio de Janeiro</option>
-                        <option value="RN" {% if request.form.estado == 'RN' %}selected{% endif %}>Rio Grande do Norte</option>
-                        <option value="RS" {% if request.form.estado == 'RS' %}selected{% endif %}>Rio Grande do Sul</option>
-                        <option value="RO" {% if request.form.estado == 'RO' %}selected{% endif %}>Rondônia</option>
-                        <option value="RR" {% if request.form.estado == 'RR' %}selected{% endif %}>Roraima</option>
-                        <option value="SC" {% if request.form.estado == 'SC' %}selected{% endif %}>Santa Catarina</option>
-                        <option value="SP" {% if request.form.estado == 'SP' %}selected{% endif %}>São Paulo</option>
-                        <option value="SE" {% if request.form.estado == 'SE' %}selected{% endif %}>Sergipe</option>
-                        <option value="TO" {% if request.form.estado == 'TO' %}selected{% endif %}>Tocantís</option>
+                        <option value="AC" {% if request.form.estado=='AC' %}selected{% endif %}>Acre</option>
+                        <option value="AL" {% if request.form.estado=='AL' %}selected{% endif %}>Alagoas</option>
+                        <option value="AP" {% if request.form.estado=='AP' %}selected{% endif %}>Amapá</option>
+                        <option value="AM" {% if request.form.estado=='AM' %}selected{% endif %}>Amazonas</option>
+                        <option value="BA" {% if request.form.estado=='BA' %}selected{% endif %}>Bahia</option>
+                        <option value="CE" {% if request.form.estado=='CE' %}selected{% endif %}>Ceará</option>
+                        <option value="DF" {% if request.form.estado=='DF' %}selected{% endif %}>Distrito Federal
+                        </option>
+                        <option value="ES" {% if request.form.estado=='ES' %}selected{% endif %}>Espírito Santo</option>
+                        <option value="GO" {% if request.form.estado=='GO' %}selected{% endif %}>Goiás</option>
+                        <option value="MA" {% if request.form.estado=='MA' %}selected{% endif %}>Maranhão</option>
+                        <option value="MT" {% if request.form.estado=='MT' %}selected{% endif %}>Mato Grosso</option>
+                        <option value="MS" {% if request.form.estado=='MS' %}selected{% endif %}>Mato Grosso do Sul
+                        </option>
+                        <option value="MG" {% if request.form.estado=='MG' %}selected{% endif %}>Minas Gerais</option>
+                        <option value="PA" {% if request.form.estado=='PA' %}selected{% endif %}>Pará</option>
+                        <option value="PB" {% if request.form.estado=='PB' %}selected{% endif %}>Paraíba</option>
+                        <option value="PR" {% if request.form.estado=='PR' %}selected{% endif %}>Paraná</option>
+                        <option value="PE" {% if request.form.estado=='PE' %}selected{% endif %}>Pernambuco</option>
+                        <option value="PI" {% if request.form.estado=='PI' %}selected{% endif %}>Piauí</option>
+                        <option value="RJ" {% if request.form.estado=='RJ' %}selected{% endif %}>Rio de Janeiro</option>
+                        <option value="RN" {% if request.form.estado=='RN' %}selected{% endif %}>Rio Grande do Norte
+                        </option>
+                        <option value="RS" {% if request.form.estado=='RS' %}selected{% endif %}>Rio Grande do Sul
+                        </option>
+                        <option value="RO" {% if request.form.estado=='RO' %}selected{% endif %}>Rondônia</option>
+                        <option value="RR" {% if request.form.estado=='RR' %}selected{% endif %}>Roraima</option>
+                        <option value="SC" {% if request.form.estado=='SC' %}selected{% endif %}>Santa Catarina</option>
+                        <option value="SP" {% if request.form.estado=='SP' %}selected{% endif %}>São Paulo</option>
+                        <option value="SE" {% if request.form.estado=='SE' %}selected{% endif %}>Sergipe</option>
+                        <option value="TO" {% if request.form.estado=='TO' %}selected{% endif %}>Tocantís</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="cidade">Cidade*</label>
-                    <input type="text" id="cidade" name="cidade" required value="{{ request.form.cidade if request.form }}">
+                    <input type="text" id="cidade" name="cidade" required
+                        value="{{ request.form.cidade if request.form }}">
                 </div>
             </div>
 
@@ -194,11 +216,18 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="senha">Senha*</label>
-                    <input type="password" id="senha" name="senha" required placeholder="Mínimo de 8 caracteres">
+                    <div class="password-wrapper">
+                        <input type="password" id="senha" name="senha" required placeholder="Mínimo de 8 caracteres">
+                        <span class="toggle-password" data-target="senha"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="confirmar">Confirme sua senha*</label>
-                    <input type="password" id="confirmar" name="confirmar" required placeholder="Digite novamente sua senha">
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmar" name="confirmar" required
+                            placeholder="Digite novamente sua senha">
+                        <span class="toggle-password" data-target="confirmar"></span>
+                    </div>
                 </div>
             </div>
 
@@ -206,18 +235,21 @@
             <h2 class="form-section-title">Termos e consentimentos</h2>
             <div class="consentimentos">
                 <label>
-                    <input type="checkbox" id="termos" name="termos" required {% if request.form.termos %}checked{% endif %}>
-                    <span>Declaro que li e estou ciente dos <a href="#">Termos de Uso e Política de Privacidade</a></span>
+                    <input type="checkbox" id="termos" name="termos" required {% if request.form.termos %}checked{%
+                        endif %}>
+                    <span>Declaro que li e estou ciente dos <a href="#">Termos de Uso e Política de
+                            Privacidade</a></span>
                 </label>
                 <label>
-                    <input type="checkbox" id="newsletter" name="newsletter" {% if request.form.newsletter %}checked{% endif %}>
+                    <input type="checkbox" id="newsletter" name="newsletter" {% if request.form.newsletter %}checked{%
+                        endif %}>
                     <span>Quero receber ofertas e novidades por e-mail</span>
                 </label>
             </div>
 
             <!-- BOTÃO -->
             <button type="submit" class="btn-cadastrar" title="Enviar">Criar conta</button>
-            
+
             <div class="login-redirect">
                 Já tem uma conta? <a href="/login">Faça login aqui</a>
             </div>
@@ -225,54 +257,71 @@
         {% endif %}
 
         <!-- FORMULÁRIO PESSOA JURÍDICA -->
-        {% if request.args.get('tipo_conta') == 'juridica' %}
+        {% if request.args.get('tipo_conta') == 'juridica' or request.form.get('tipo_conta') == 'juridica' %}
         <form class="form-cadastro" id="cadastroEmpresaForm" method="POST" action="/cadastrarPj">
             <input type="hidden" name="tipo_conta" value="juridica">
-            
+
             <!-- DADOS DA EMPRESA -->
             <h2 class="form-section-title">Dados da empresa</h2>
             <div class="form-grid">
                 <div class="form-group">
                     <label for="razao_social">Razão Social*</label>
-                    <input type="text" id="razao_social" name="razao_social" required placeholder="Nome completo da empresa" value="{{ request.form.razao_social if request.form }}">
+                    <input type="text" id="razao_social" name="razao_social" required
+                        placeholder="Nome completo da empresa" value="{{ request.form.razao_social if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="nome_fantasia">Nome Fantasia*</label>
-                    <input type="text" id="nome_fantasia" name="nome_fantasia" required placeholder="Nome comercial da empresa" value="{{ request.form.nome_fantasia if request.form }}">
+                    <input type="text" id="nome_fantasia" name="nome_fantasia" required
+                        placeholder="Nome comercial da empresa"
+                        value="{{ request.form.nome_fantasia if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="cnpj">CNPJ*</label>
-                    <input type="text" id="cnpj" name="cnpj" required placeholder="00.000.000/0000-00" value="{{ request.form.cnpj if request.form }}">
+                    <input type="text" id="cnpj" name="cnpj" required placeholder="00.000.000/0000-00"
+                        value="{{ request.form.cnpj if request.form }}">
                 </div>
             </div>
 
             <div class="form-grid">
                 <div class="form-group">
                     <label for="inscricao_estadual">Inscrição Estadual</label>
-                    <input type="text" id="inscricao_estadual" name="inscricao_estadual" placeholder="000.000.000.000" value="{{ request.form.inscricao_estadual if request.form }}">
+                    <input type="text" id="inscricao_estadual" name="inscricao_estadual" placeholder="000.000.000.000"
+                        value="{{ request.form.inscricao_estadual if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="ramo_atividade">Ramo de Atividade*</label>
                     <select id="ramo_atividade" name="ramo_atividade" required>
                         <option value="">Selecione</option>
-                        <option value="comercio" {% if request.form.ramo_atividade == 'comercio' %}selected{% endif %}>Comércio</option>
-                        <option value="industria" {% if request.form.ramo_atividade == 'industria' %}selected{% endif %}>Indústria</option>
-                        <option value="servicos" {% if request.form.ramo_atividade == 'servicos' %}selected{% endif %}>Serviços</option>
-                        <option value="construcao" {% if request.form.ramo_atividade == 'construcao' %}selected{% endif %}>Construção Civil</option>
-                        <option value="tecnologia" {% if request.form.ramo_atividade == 'tecnologia' %}selected{% endif %}>Tecnologia</option>
-                        <option value="saude" {% if request.form.ramo_atividade == 'saude' %}selected{% endif %}>Saúde</option>
-                        <option value="educacao" {% if request.form.ramo_atividade == 'educacao' %}selected{% endif %}>Educação</option>
-                        <option value="outro" {% if request.form.ramo_atividade == 'outro' %}selected{% endif %}>Outro</option>
+                        <option value="comercio" {% if request.form.ramo_atividade=='comercio' %}selected{% endif %}>
+                            Comércio</option>
+                        <option value="industria" {% if request.form.ramo_atividade=='industria' %}selected{% endif %}>
+                            Indústria</option>
+                        <option value="servicos" {% if request.form.ramo_atividade=='servicos' %}selected{% endif %}>
+                            Serviços</option>
+                        <option value="construcao" {% if request.form.ramo_atividade=='construcao' %}selected{% endif
+                            %}>Construção Civil</option>
+                        <option value="tecnologia" {% if request.form.ramo_atividade=='tecnologia' %}selected{% endif
+                            %}>Tecnologia</option>
+                        <option value="saude" {% if request.form.ramo_atividade=='saude' %}selected{% endif %}>Saúde
+                        </option>
+                        <option value="educacao" {% if request.form.ramo_atividade=='educacao' %}selected{% endif %}>
+                            Educação</option>
+                        <option value="outro" {% if request.form.ramo_atividade=='outro' %}selected{% endif %}>Outro
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="tamanho_empresa">Tamanho da Empresa*</label>
                     <select id="tamanho_empresa" name="tamanho_empresa" required>
                         <option value="">Selecione</option>
-                        <option value="micro" {% if request.form.tamanho_empresa == 'micro' %}selected{% endif %}>Microempresa</option>
-                        <option value="pequena" {% if request.form.tamanho_empresa == 'pequena' %}selected{% endif %}>Pequena Empresa</option>
-                        <option value="media" {% if request.form.tamanho_empresa == 'media' %}selected{% endif %}>Média Empresa</option>
-                        <option value="grande" {% if request.form.tamanho_empresa == 'grande' %}selected{% endif %}>Grande Empresa</option>
+                        <option value="micro" {% if request.form.tamanho_empresa=='micro' %}selected{% endif %}>
+                            Microempresa</option>
+                        <option value="pequena" {% if request.form.tamanho_empresa=='pequena' %}selected{% endif %}>
+                            Pequena Empresa</option>
+                        <option value="media" {% if request.form.tamanho_empresa=='media' %}selected{% endif %}>Média
+                            Empresa</option>
+                        <option value="grande" {% if request.form.tamanho_empresa=='grande' %}selected{% endif %}>Grande
+                            Empresa</option>
                     </select>
                 </div>
             </div>
@@ -282,15 +331,19 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="nome_representante">Nome Completo*</label>
-                    <input type="text" id="nome_representante" name="nome_representante" required placeholder="Nome do representante legal" value="{{ request.form.nome_representante if request.form }}">
+                    <input type="text" id="nome_representante" name="nome_representante" required
+                        placeholder="Nome do representante legal"
+                        value="{{ request.form.nome_representante if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="cpf_representante">CPF*</label>
-                    <input type="text" id="cpf_representante" name="cpf_representante" required placeholder="000.000.000-00" value="{{ request.form.cpf_representante if request.form }}">
+                    <input type="text" id="cpf_representante" name="cpf_representante" required
+                        placeholder="000.000.000-00" value="{{ request.form.cpf_representante if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="cargo_representante">Cargo*</label>
-                    <input type="text" id="cargo_representante" name="cargo_representante" required placeholder="Cargo na empresa" value="{{ request.form.cargo_representante if request.form }}">
+                    <input type="text" id="cargo_representante" name="cargo_representante" required
+                        placeholder="Cargo na empresa" value="{{ request.form.cargo_representante if request.form }}">
                 </div>
             </div>
 
@@ -299,15 +352,18 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="telefone_empresa">Telefone Comercial*</label>
-                    <input type="tel" id="telefone_empresa" name="telefone_empresa" required placeholder="(00) 0000-0000" value="{{ request.form.telefone_empresa if request.form }}">
+                    <input type="tel" id="telefone_empresa" name="telefone_empresa" required
+                        placeholder="(00) 0000-0000" value="{{ request.form.telefone_empresa if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="celular_empresa">Celular</label>
-                    <input type="tel" id="celular_empresa" name="celular_empresa" placeholder="(00) 00000-0000" value="{{ request.form.celular_empresa if request.form }}">
+                    <input type="tel" id="celular_empresa" name="celular_empresa" placeholder="(00) 00000-0000"
+                        value="{{ request.form.celular_empresa if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="email_empresa">E-mail Corporativo*</label>
-                    <input type="email" id="email_empresa" name="email_empresa" required placeholder="empresa@email.com" value="{{ request.form.email_empresa if request.form }}">
+                    <input type="email" id="email_empresa" name="email_empresa" required placeholder="empresa@email.com"
+                        value="{{ request.form.email_empresa if request.form }}">
                 </div>
             </div>
 
@@ -316,63 +372,88 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="cep_empresa">CEP*</label>
-                    <input type="text" id="cep_empresa" name="cep_empresa" required placeholder="00000-000" value="{{ request.form.cep_empresa if request.form }}">
+                    <input type="text" id="cep_empresa" name="cep_empresa" required placeholder="00000-000"
+                        value="{{ request.form.cep_empresa if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="logradouro_empresa">Logradouro*</label>
-                    <input type="text" id="logradouro_empresa" name="logradouro_empresa" required placeholder="Rua, Avenida, etc." value="{{ request.form.logradouro_empresa if request.form }}">
+                    <input type="text" id="logradouro_empresa" name="logradouro_empresa" required
+                        placeholder="Rua, Avenida, etc." value="{{ request.form.logradouro_empresa if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="numero_empresa">Número*</label>
-                    <input type="text" id="numero_empresa" name="numero_empresa" required placeholder="123" value="{{ request.form.numero_empresa if request.form }}">
+                    <input type="text" id="numero_empresa" name="numero_empresa" required placeholder="123"
+                        value="{{ request.form.numero_empresa if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="complemento_empresa">Complemento</label>
-                    <input type="text" id="complemento_empresa" name="complemento_empresa" placeholder="Sala, andar, etc." value="{{ request.form.complemento_empresa if request.form }}">
+                    <input type="text" id="complemento_empresa" name="complemento_empresa"
+                        placeholder="Sala, andar, etc." value="{{ request.form.complemento_empresa if request.form }}">
                 </div>
             </div>
 
             <div class="form-grid">
                 <div class="form-group">
                     <label for="bairro_empresa">Bairro*</label>
-                    <input type="text" id="bairro_empresa" name="bairro_empresa" required value="{{ request.form.bairro_empresa if request.form }}">
+                    <input type="text" id="bairro_empresa" name="bairro_empresa" required
+                        value="{{ request.form.bairro_empresa if request.form }}">
                 </div>
                 <div class="form-group">
                     <label for="estado_empresa">Estado*</label>
                     <select id="estado_empresa" name="estado_empresa" required>
                         <option value="">Selecione</option>
-                        <option value="AC" {% if request.form.estado_empresa == 'AC' %}selected{% endif %}>Acre</option>
-                        <option value="AL" {% if request.form.estado_empresa == 'AL' %}selected{% endif %}>Alagoas</option>
-                        <option value="AP" {% if request.form.estado_empresa == 'AP' %}selected{% endif %}>Amapá</option>
-                        <option value="AM" {% if request.form.estado_empresa == 'AM' %}selected{% endif %}>Amazonas</option>
-                        <option value="BA" {% if request.form.estado_empresa == 'BA' %}selected{% endif %}>Bahia</option>
-                        <option value="CE" {% if request.form.estado_empresa == 'CE' %}selected{% endif %}>Ceará</option>
-                        <option value="DF" {% if request.form.estado_empresa == 'DF' %}selected{% endif %}>Distrito Federal</option>
-                        <option value="ES" {% if request.form.estado_empresa == 'ES' %}selected{% endif %}>Espírito Santo</option>
-                        <option value="GO" {% if request.form.estado_empresa == 'GO' %}selected{% endif %}>Goiás</option>
-                        <option value="MA" {% if request.form.estado_empresa == 'MA' %}selected{% endif %}>Maranhão</option>
-                        <option value="MT" {% if request.form.estado_empresa == 'MT' %}selected{% endif %}>Mato Grosso</option>
-                        <option value="MS" {% if request.form.estado_empresa == 'MS' %}selected{% endif %}>Mato Grosso do Sul</option>
-                        <option value="MG" {% if request.form.estado_empresa == 'MG' %}selected{% endif %}>Minas Gerais</option>
-                        <option value="PA" {% if request.form.estado_empresa == 'PA' %}selected{% endif %}>Pará</option>
-                        <option value="PB" {% if request.form.estado_empresa == 'PB' %}selected{% endif %}>Paraíba</option>
-                        <option value="PR" {% if request.form.estado_empresa == 'PR' %}selected{% endif %}>Paraná</option>
-                        <option value="PE" {% if request.form.estado_empresa == 'PE' %}selected{% endif %}>Pernambuco</option>
-                        <option value="PI" {% if request.form.estado_empresa == 'PI' %}selected{% endif %}>Piauí</option>
-                        <option value="RJ" {% if request.form.estado_empresa == 'RJ' %}selected{% endif %}>Rio de Janeiro</option>
-                        <option value="RN" {% if request.form.estado_empresa == 'RN' %}selected{% endif %}>Rio Grande do Norte</option>
-                        <option value="RS" {% if request.form.estado_empresa == 'RS' %}selected{% endif %}>Rio Grande do Sul</option>
-                        <option value="RO" {% if request.form.estado_empresa == 'RO' %}selected{% endif %}>Rondônia</option>
-                        <option value="RR" {% if request.form.estado_empresa == 'RR' %}selected{% endif %}>Roraima</option>
-                        <option value="SC" {% if request.form.estado_empresa == 'SC' %}selected{% endif %}>Santa Catarina</option>
-                        <option value="SP" {% if request.form.estado_empresa == 'SP' %}selected{% endif %}>São Paulo</option>
-                        <option value="SE" {% if request.form.estado_empresa == 'SE' %}selected{% endif %}>Sergipe</option>
-                        <option value="TO" {% if request.form.estado_empresa == 'TO' %}selected{% endif %}>Tocantís</option>
+                        <option value="AC" {% if request.form.estado_empresa=='AC' %}selected{% endif %}>Acre</option>
+                        <option value="AL" {% if request.form.estado_empresa=='AL' %}selected{% endif %}>Alagoas
+                        </option>
+                        <option value="AP" {% if request.form.estado_empresa=='AP' %}selected{% endif %}>Amapá</option>
+                        <option value="AM" {% if request.form.estado_empresa=='AM' %}selected{% endif %}>Amazonas
+                        </option>
+                        <option value="BA" {% if request.form.estado_empresa=='BA' %}selected{% endif %}>Bahia</option>
+                        <option value="CE" {% if request.form.estado_empresa=='CE' %}selected{% endif %}>Ceará</option>
+                        <option value="DF" {% if request.form.estado_empresa=='DF' %}selected{% endif %}>Distrito
+                            Federal</option>
+                        <option value="ES" {% if request.form.estado_empresa=='ES' %}selected{% endif %}>Espírito Santo
+                        </option>
+                        <option value="GO" {% if request.form.estado_empresa=='GO' %}selected{% endif %}>Goiás</option>
+                        <option value="MA" {% if request.form.estado_empresa=='MA' %}selected{% endif %}>Maranhão
+                        </option>
+                        <option value="MT" {% if request.form.estado_empresa=='MT' %}selected{% endif %}>Mato Grosso
+                        </option>
+                        <option value="MS" {% if request.form.estado_empresa=='MS' %}selected{% endif %}>Mato Grosso do
+                            Sul</option>
+                        <option value="MG" {% if request.form.estado_empresa=='MG' %}selected{% endif %}>Minas Gerais
+                        </option>
+                        <option value="PA" {% if request.form.estado_empresa=='PA' %}selected{% endif %}>Pará</option>
+                        <option value="PB" {% if request.form.estado_empresa=='PB' %}selected{% endif %}>Paraíba
+                        </option>
+                        <option value="PR" {% if request.form.estado_empresa=='PR' %}selected{% endif %}>Paraná</option>
+                        <option value="PE" {% if request.form.estado_empresa=='PE' %}selected{% endif %}>Pernambuco
+                        </option>
+                        <option value="PI" {% if request.form.estado_empresa=='PI' %}selected{% endif %}>Piauí</option>
+                        <option value="RJ" {% if request.form.estado_empresa=='RJ' %}selected{% endif %}>Rio de Janeiro
+                        </option>
+                        <option value="RN" {% if request.form.estado_empresa=='RN' %}selected{% endif %}>Rio Grande do
+                            Norte</option>
+                        <option value="RS" {% if request.form.estado_empresa=='RS' %}selected{% endif %}>Rio Grande do
+                            Sul</option>
+                        <option value="RO" {% if request.form.estado_empresa=='RO' %}selected{% endif %}>Rondônia
+                        </option>
+                        <option value="RR" {% if request.form.estado_empresa=='RR' %}selected{% endif %}>Roraima
+                        </option>
+                        <option value="SC" {% if request.form.estado_empresa=='SC' %}selected{% endif %}>Santa Catarina
+                        </option>
+                        <option value="SP" {% if request.form.estado_empresa=='SP' %}selected{% endif %}>São Paulo
+                        </option>
+                        <option value="SE" {% if request.form.estado_empresa=='SE' %}selected{% endif %}>Sergipe
+                        </option>
+                        <option value="TO" {% if request.form.estado_empresa=='TO' %}selected{% endif %}>Tocantís
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="cidade_empresa">Cidade*</label>
-                    <input type="text" id="cidade_empresa" name="cidade_empresa" required value="{{ request.form.cidade_empresa if request.form }}">
+                    <input type="text" id="cidade_empresa" name="cidade_empresa" required
+                        value="{{ request.form.cidade_empresa if request.form }}">
                 </div>
             </div>
 
@@ -381,11 +462,19 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label for="senha_empresa">Senha*</label>
-                    <input type="password" id="senha_empresa" name="senha_empresa" required placeholder="Mínimo de 8 caracteres">
+                    <div class="password-wrapper">
+                        <input type="password" id="senha_empresa" name="senha_empresa" required
+                            placeholder="Mínimo de 8 caracteres">
+                        <span class="toggle-password" data-target="senha_empresa"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="confirmar_empresa">Confirme sua senha*</label>
-                    <input type="password" id="confirmar_empresa" name="confirmar_empresa" required placeholder="Digite novamente sua senha">
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmar_empresa" name="confirmar_empresa" required
+                            placeholder="Digite novamente sua senha">
+                        <span class="toggle-password" data-target="confirmar_empresa"></span>
+                    </div>
                 </div>
             </div>
 
@@ -393,22 +482,27 @@
             <h2 class="form-section-title">Termos e consentimentos</h2>
             <div class="consentimentos">
                 <label>
-                    <input type="checkbox" id="termos_empresa" name="termos" required {% if request.form.termos %}checked{% endif %}>
-                    <span>Declaro que li e estou ciente dos <a href="#">Termos de Uso e Política de Privacidade</a></span>
+                    <input type="checkbox" id="termos_empresa" name="termos" required {% if request.form.termos
+                        %}checked{% endif %}>
+                    <span>Declaro que li e estou ciente dos <a href="#">Termos de Uso e Política de
+                            Privacidade</a></span>
                 </label>
                 <label>
-                    <input type="checkbox" id="newsletter_empresa" name="newsletter" {% if request.form.newsletter %}checked{% endif %}>
+                    <input type="checkbox" id="newsletter_empresa" name="newsletter" {% if request.form.newsletter
+                        %}checked{% endif %}>
                     <span>Quero receber ofertas e novidades por e-mail</span>
                 </label>
                 <label>
-                    <input type="checkbox" id="autorizacao_empresa" name="autorizacao" required {% if request.form.autorizacao %}checked{% endif %}>
-                    <span>Declaro que sou representante legal autorizado a firmar este contrato em nome da empresa</span>
+                    <input type="checkbox" id="autorizacao_empresa" name="autorizacao" required {% if
+                        request.form.autorizacao %}checked{% endif %}>
+                    <span>Declaro que sou representante legal autorizado a firmar este contrato em nome da
+                        empresa</span>
                 </label>
             </div>
 
             <!-- BOTÃO -->
             <button type="submit" class="btn-cadastrar" title="Enviar">Criar conta empresarial</button>
-            
+
             <div class="login-redirect">
                 Já tem uma conta? <a href="/login">Faça login aqui</a>
             </div>
@@ -420,13 +514,17 @@
     <footer>
         <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
         <div class="footer-social">
-            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp" title="Whatsapp"></a>
-            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook" title="Facebook"></a>
-            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram" title="Instagram"></a>
-            <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="E-mail"></a>
+            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
+                    title="Whatsapp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
+                    title="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
+                    title="Instagram"></a>
+            <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
         </div>
     </footer>
 
-<script src="../static/js/script.js"></script>
+    <script src="../static/js/script.js"></script>
 </body>
+
 </html>

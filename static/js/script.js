@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
         initFrota();
     }
 
+    // ====== PÁGINA DE FROTA ======
+    if (currentPage === 'frota') {
+        initFrota();
+    }
+
     // ====== PÁGINA ALUGUEL MENSAL ======
     if (currentPage === 'aluguel-mensal') {
         initAluguelMensal();
@@ -147,6 +152,9 @@ function initMenuMobile() {
 
     if (!menuTrigger || !menuPanel) return;
 
+    let hoverTimer;
+    let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     function closeMenu() {
         menuTrigger.classList.remove('open');
         menuTrigger.setAttribute('aria-expanded', 'false');
@@ -159,13 +167,40 @@ function initMenuMobile() {
         menuPanel.classList.add('open');
     }
 
+    // Para dispositivos com mouse (hover)
+    if (!isTouchDevice) {
+        menuTrigger.addEventListener('mouseenter', () => {
+            clearTimeout(hoverTimer);
+            hoverTimer = setTimeout(openMenu, 200); // Pequeno delay para evitar aberturas acidentais
+        });
+
+        menuTrigger.addEventListener('mouseleave', () => {
+            clearTimeout(hoverTimer);
+            hoverTimer = setTimeout(closeMenu, 300); // Delay para permitir que o usuário mova para o menu
+        });
+
+        menuPanel.addEventListener('mouseenter', () => {
+            clearTimeout(hoverTimer);
+        });
+
+        menuPanel.addEventListener('mouseleave', () => {
+            hoverTimer = setTimeout(closeMenu, 200);
+        });
+    }
+
+    // Para dispositivos touch (clique) - mantém a funcionalidade original
     menuTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menuTrigger.classList.contains('open') ? closeMenu() : openMenu();
+        if (isTouchDevice) {
+            e.stopPropagation();
+            menuTrigger.classList.contains('open') ? closeMenu() : openMenu();
+        }
     });
 
+    // Fecha ao clicar fora (para ambos os casos)
     document.addEventListener('click', (e) => {
-        if (!menuTrigger.contains(e.target)) closeMenu();
+        if (!menuTrigger.contains(e.target) && !menuPanel.contains(e.target)) {
+            closeMenu();
+        }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -287,17 +322,21 @@ function initFormularios() {
         });
     });
 
-    // Toggle password visibility
-    const togglePassword = document.getElementById('togglePassword');
-    const password = document.getElementById('password');
+    // Toggle password visibility para TODOS os formulários
+    const togglePasswords = document.querySelectorAll('.toggle-password');
 
-    if (togglePassword && password) {
-        togglePassword.addEventListener('click', function () {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            this.classList.toggle('active');
+    togglePasswords.forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            const passwordField = document.getElementById(targetId);
+
+            if (passwordField) {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                this.classList.toggle('active');
+            }
         });
-    }
+    });
 
     // Seleção automática de tipo de conta
     const radios = document.querySelectorAll('.tipo-conta-radio');
@@ -307,6 +346,77 @@ function initFormularios() {
             if (this.form) this.form.submit();
         });
     });
+}
+
+// ====== PÁGINA DE LOGIN ======
+function initLogin() {
+    // Seleção automática de tipo de conta
+    const radios = document.querySelectorAll('.tipo-conta-radio');
+    
+    radios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.form) {
+                this.form.submit();
+            }
+        });
+    });
+
+    // Validação em tempo real para os campos de login
+    const inputs = document.querySelectorAll('#user_pf, #user_pj, #password_pf, #password_pj');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validarCampoLogin(this);
+        });
+    });
+}
+
+// ====== VALIDAÇÃO DE CAMPOS DE LOGIN ======
+function validarCampoLogin(campo) {
+    const valor = campo.value.trim();
+    let erro = '';
+
+    const validacoes = {
+        'user_pf': () => {
+            if (!valor) return 'E-mail ou CPF é obrigatório.';
+            const isCPF = /^\d{11}$/.test(valor.replace(/\D/g, ''));
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+            
+            if (!isCPF && !isEmail) {
+                return 'Digite um e-mail válido ou CPF com 11 dígitos.';
+            }
+            return '';
+        },
+
+        'user_pj': () => {
+            if (!valor) return 'E-mail ou CNPJ é obrigatório.';
+            const isCNPJ = /^\d{14}$/.test(valor.replace(/\D/g, ''));
+            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+            
+            if (!isCNPJ && !isEmail) {
+                return 'Digite um e-mail válido ou CNPJ com 14 dígitos.';
+            }
+            return '';
+        },
+
+        'password_pf': () => {
+            if (!valor) return 'Senha é obrigatória.';
+            if (valor.length < 6) return 'Senha deve ter pelo menos 6 caracteres.';
+            return '';
+        },
+
+        'password_pj': () => {
+            if (!valor) return 'Senha é obrigatória.';
+            if (valor.length < 6) return 'Senha deve ter pelo menos 6 caracteres.';
+            return '';
+        }
+    };
+
+    if (validacoes[campo.id]) {
+        erro = validacoes[campo.id]();
+    }
+
+    mostrarMensagemErro(campo, erro);
 }
 
 // ====== VALIDAÇÃO DE CAMPOS ======
@@ -671,36 +781,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // ====== PÁGINA DE FROTA ======
 function initFrota() {
+    console.log('🚗 Inicializando filtros da frota...');
+
     const filtroBtns = document.querySelectorAll('.filtro-btn');
     const aplicarBtn = document.getElementById('aplicar-filtros');
     const limparBtn = document.getElementById('limpar-filtros');
-    const veiculosGrid = document.querySelector('.veiculos-grid');
 
-    if (!filtroBtns.length || !aplicarBtn || !limparBtn || !veiculosGrid) return;
+    if (!filtroBtns.length || !aplicarBtn || !limparBtn) {
+        console.error('Elementos não encontrados!');
+        return;
+    }
 
+    // Variável para controlar se os filtros foram alterados
+    let filtrosAlterados = false;
+
+    // Filtros de categoria
     filtroBtns.forEach(btn => {
         btn.addEventListener('click', function () {
+            console.log('Categoria clicada:', this.dataset.categoria);
             filtroBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            aplicarFiltros();
+            filtrosAlterados = true;
         });
     });
 
-    aplicarBtn.addEventListener('click', aplicarFiltros);
-    limparBtn.addEventListener('click', limparFiltros);
-
-    // Event listeners para inputs de filtro
-    ['marca', 'modelo', 'transmissao', 'combustivel'].forEach(id => {
-        const element = document.getElementById(id);
-        if (element) element.addEventListener('change', aplicarFiltros);
+    // Botão aplicar filtros - SOMENTE ELE recarrega a página
+    aplicarBtn.addEventListener('click', function () {
+        if (filtrosAlterados) {
+            aplicarFiltros();
+            filtrosAlterados = false;
+        }
     });
 
-    ['preco', 'malas', 'passageiros', 'portas'].forEach(id => {
-        const element = document.getElementById(id);
-        if (element) element.addEventListener('input', aplicarFiltros);
+    // Botão limpar filtros
+    limparBtn.addEventListener('click', function () {
+        limparFiltros();
+        filtrosAlterados = false;
     });
 
+    // Aplicar filtros quando valores mudam - apenas marca como alterado
+    const marcaSelect = document.getElementById('marca');
+    const modeloSelect = document.getElementById('modelo');
+    const transmissaoSelect = document.getElementById('transmissao');
+    const combustivelSelect = document.getElementById('combustivel');
+    const precoInput = document.getElementById('preco');
+    const malasInput = document.getElementById('malas');
+    const passageirosInput = document.getElementById('passageiros');
+    const portasInput = document.getElementById('portas');
+
+    if (marcaSelect) marcaSelect.addEventListener('change', () => filtrosAlterados = true);
+    if (modeloSelect) modeloSelect.addEventListener('change', () => filtrosAlterados = true);
+    if (transmissaoSelect) transmissaoSelect.addEventListener('change', () => filtrosAlterados = true);
+    if (combustivelSelect) combustivelSelect.addEventListener('change', () => filtrosAlterados = true);
+    if (precoInput) precoInput.addEventListener('input', () => filtrosAlterados = true);
+    if (malasInput) malasInput.addEventListener('input', () => filtrosAlterados = true);
+    if (passageirosInput) passageirosInput.addEventListener('input', () => filtrosAlterados = true);
+    if (portasInput) portasInput.addEventListener('input', () => filtrosAlterados = true);
+
+    // Função para aplicar filtros (só é chamada pelo botão)
     function aplicarFiltros() {
+        console.log('Aplicando filtros...');
+
         const categoriaAtiva = document.querySelector('.filtro-btn.active')?.dataset.categoria || 'todos';
         const marca = document.getElementById('marca')?.value || '';
         const modelo = document.getElementById('modelo')?.value || '';
@@ -711,41 +852,79 @@ function initFrota() {
         const passageiros = document.getElementById('passageiros')?.value || '';
         const portas = document.getElementById('portas')?.value || '';
 
-        // Simulação de filtragem - em produção isso viria do backend
-        simularFiltragem({
+        console.log('Filtros selecionados:', {
             categoria: categoriaAtiva,
             marca, modelo, transmissao, combustivel,
+            preco, malas, passageiros, portas
+        });
+
+        // Criar URL com parâmetros de filtro
+        const url = new URL(window.location.href);
+
+        // Limpar parâmetros existentes
+        url.search = '';
+
+        // Adicionar novos parâmetros
+        const params = {
+            categoria: categoriaAtiva,
+            marca: marca,
+            modelo: modelo,
+            transmissao: transmissao,
+            combustivel: combustivel,
             preco_maximo: preco,
             malas_min: malas,
             passageiros_min: passageiros,
             portas_min: portas
+        };
+
+        Object.keys(params).forEach(key => {
+            if (params[key]) {
+                url.searchParams.set(key, params[key]);
+            }
         });
+
+        console.log('Redirecionando para:', url.toString());
+
+        // Fazer a requisição para o servidor Flask
+        window.location.href = url.toString();
     }
 
+    // Função para limpar filtros
     function limparFiltros() {
+        console.log('Limpando filtros...');
+
+        // Resetar botões de categoria
         filtroBtns.forEach(btn => btn.classList.remove('active'));
-        document.querySelector('[data-categoria="todos"]')?.classList.add('active');
+        const todosBtn = document.querySelector('[data-categoria="todos"]');
+        if (todosBtn) todosBtn.classList.add('active');
 
-        ['marca', 'modelo', 'transmissao', 'combustivel'].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) element.value = '';
-        });
+        // Resetar selects
+        const marca = document.getElementById('marca');
+        const modelo = document.getElementById('modelo');
+        const transmissao = document.getElementById('transmissao');
+        const combustivel = document.getElementById('combustivel');
 
-        ['preco', 'malas', 'passageiros', 'portas'].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) element.value = '';
-        });
+        if (marca) marca.value = '';
+        if (modelo) modelo.value = '';
+        if (transmissao) transmissao.value = '';
+        if (combustivel) combustivel.value = '';
 
-        aplicarFiltros();
+        // Resetar inputs
+        const preco = document.getElementById('preco');
+        const malas = document.getElementById('malas');
+        const passageiros = document.getElementById('passageiros');
+        const portas = document.getElementById('portas');
+
+        if (preco) preco.value = '';
+        if (malas) malas.value = '';
+        if (passageiros) passageiros.value = '';
+        if (portas) portas.value = '';
+
+        // Não recarrega automaticamente - usuário precisa clicar em "Aplicar Filtros"
+        console.log('Filtros limpos. Clique em "Aplicar Filtros" para atualizar.');
     }
 
-    function simularFiltragem(filtros) {
-        // Em produção, isso seria uma requisição para o backend
-        console.log('Aplicando filtros:', filtros);
-        // Aqui você faria a requisição fetch para a API
-    }
-
-    aplicarFiltros();
+    console.log('Filtros inicializados com sucesso!');
 }
 
 // ====== PÁGINA ALUGUEL MENSAL ======

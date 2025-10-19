@@ -50,7 +50,7 @@
 
         </div>
 
-        <a class="logo" href="#" aria-label="AutoFácil - Início">
+        <a class="logo" href="/" aria-label="AutoFácil - Início">
           <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
             class="logo-img">
         </a>
@@ -76,7 +76,7 @@
         {% if session.get('usuario_logado') %}
         <!-- Se usuário estiver logado, mostra logout -->
         <a href="{{ url_for('logout') }}">
-          <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
+          <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Botão de logout" title="Logout"
             class="icon-btn">
         </a>
         {% else %}
@@ -92,7 +92,7 @@
     </nav>
   </header>
 
-  <!-- ======= HERO SECTION ======= -->
+  <!-- ======= HERO SECTION ======= -- >
   <section class="hero-aluguel-mensal">
     <div class="hero-content">
       <h1>Mais tempo com seu veículo, menos peso no orçamento</h1>
@@ -102,10 +102,14 @@
         <a href="#simulador" class="btn-secondary">Simular aluguel</a>
       </div>
     </div>
-    <div class="hero-image">
-      <img src="../static/img/carro-aluguel-mensal.jpg" alt="Carro para aluguel mensal">
+  </section> -->
+
+  <!-- ======= banner ======= -->
+  <section class="banner">
+    <div class="banner-container">
+      <img src="../static/img/Mais.png">
     </div>
-  </section>
+  </section> 
 
   <!-- ======= VANTAGENS ======= -->
   <section class="vantagens-mensal">
@@ -280,7 +284,7 @@
               </div>
               <div class="detalhe-item total">
                 <span class="label">Valor mensal:</span>
-                <span class="valor" id="mensal-resultado">-</span>
+                <span class="valortotal" id="mensal-resultado">-</span>
               </div>
             </div>
             <a href="#" class="btn-reservar">Reservar agora</a>
@@ -338,35 +342,18 @@
     </div>
   </section>
 
-  <!-- ======= CTA FINAL ======= -->
-  <section class="cta-final">
-    <div class="container">
-      <h2>Pronto para ter mais liberdade e economia?</h2>
-      <p>Entre em contato com nossa equipe e descubra o plano ideal para suas necessidades.</p>
-      <div class="cta-buttons">
-        <a href="tel:+5511999999999" class="btn-tel">
-          <img src="../static/img/icon-telefone.png" alt="Ícone de telefone">
-          (11) 99999-9999
-        </a>
-        <a href="https://wa.me/5511999999999" class="btn-whatsapp" target="_blank">
-          <img src="../static/img/wpp.png" alt="Ícone do WhatsApp">
-          Falar no WhatsApp
-        </a>
-      </div>
-    </div>
-  </section>
 
   <!-- ======= FOOTER ======= -->
   <footer>
     <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
     <div class="footer-social">
-      <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"
+      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
           title="Whatsapp"></a>
-      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"
+      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
           title="Facebook"></a>
-      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"
+      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
           title="Instagram"></a>
-      <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="Email"></a>
+      <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
     </div>
   </footer>
 

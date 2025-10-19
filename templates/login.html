@@ -1,13 +1,3 @@
-<!-- 
-TAREFAS:
-    * Validação cliente (required, min, max, etc)
-    * Colocar script no arquivo js
-    * Reduzir o código com Django
--->
-
-
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -49,15 +39,15 @@ TAREFAS:
                         </ul>
                         <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
                         <ul class="panel-nav">
-                            <li><a href="#">Alugar agora</a></li>
-                            <li><a href="#">Aluguel mensal</a></li>
-                            <li><a href="#">Para empresas</a></li>
-                            <li><a href="#">Minhas reservas</a></li>
+                            <li><a href="/frota">Alugar agora</a></li>
+                            <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+                            <li><a href="/empresas">Para empresas</a></li>
+                            <li><a href="/minhasReservas">Minhas reservas</a></li>
                         </ul>
                     </div>
                 </div>
 
-                <a class="logo" href="{{ url_for('index') }}" aria-label="AutoFácil - Início">
+                <a class="logo" href="/" aria-label="AutoFácil - Início">
                     <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img"
                         title="AutoFácil, aluguel de veículos">
                 </a>
@@ -68,34 +58,83 @@ TAREFAS:
                         title="Dúvidas"> </a>
                 <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" class="icon-btn"
                         title="Acessibilidade"> </a>
-                <a href="/login"> <img src="../static/img/login2.png" alt="Botão de login" class="icon-btn"
-                        title="Login"> </a>
+                {% if session.get('usuario_logado') %}
+                <a href="{{ url_for('logout') }}">
+                    <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Botão de logout" title="Logout"
+                        class="icon-btn">
+                </a>
+                {% else %}
+                <a href="{{ url_for('mudarLogin') }}">
+                    <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                        class="icon-btn">
+                </a>
+                {% endif %}
             </div>
         </nav>
     </header>
 
-
     <main class="login-container">
+        <div class="form-header">
+            <h1>Acesse sua conta</h1>
+            <p class="subtitle">Faça login para continuar</p>
+        </div>
+
+        <!-- ÁREA DE MENSAGENS DE ERRO -->
+        {% if erro %}
+        <div class="alert alert-danger">
+            {{ erro }}
+        </div>
+        {% endif %}
+
+        <!-- SELEÇÃO DE TIPO DE CONTA -->
+        <div class="tipo-conta-container">
+            <h2 class="tipo-conta-title">Selecione o tipo de conta</h2>
+            <form method="GET" action="/login">
+                <div class="tipo-conta-opcoes">
+                    <div class="tipo-conta-opcao">
+                        <input type="radio" id="pessoa-fisica" name="tipo_conta" value="fisica" class="tipo-conta-radio"
+                            {% if not request.args.get('tipo_conta') and not request.form.get('tipo_conta')=='juridica'
+                            or request.args.get('tipo_conta')=='fisica' %}checked{% endif %}>
+                        <label for="pessoa-fisica" class="tipo-conta-label">
+                            <img src="../static/img/pessoa-fisica.png" alt="Pessoa Física" class="tipo-conta-icon">
+                            Pessoa Física
+                        </label>
+                    </div>
+                    <div class="tipo-conta-opcao">
+                        <input type="radio" id="pessoa-juridica" name="tipo_conta" value="juridica"
+                            class="tipo-conta-radio" {% if request.args.get('tipo_conta')=='juridica' or
+                            request.form.get('tipo_conta')=='juridica' %}checked{% endif %}>
+                        <label for="pessoa-juridica" class="tipo-conta-label">
+                            <img src="../static/img/pessoa-juridica.png" alt="Pessoa Jurídica" class="tipo-conta-icon">
+                            Pessoa Jurídica
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" style="display: none;" id="submit-tipo">Selecionar</button>
+            </form>
+        </div>
+
+        <!-- LOGIN PESSOA FÍSICA -->
+        {% if not request.args.get('tipo_conta') and not request.form.get('tipo_conta') == 'juridica' or
+        request.args.get('tipo_conta') == 'fisica' %}
         <div class="login-box">
-            <h2>Bem-vindo de volta</h2>
-            <p class="subtitle">Faça login para acessar sua conta</p>
-
-            <!-- Área de mensagens de erro -->
-            {% if erro %}
-            <div class="alert-danger">
-                {{ erro }}
-            </div>
-            {% endif %}
-
+            <h2>Login - Pessoa Física</h2>
+            
             <form action="/logar" method="POST">
-                <label for="user">E-mail ou CPF</label>
-                <input type="text" id="user" name="user" placeholder="Digite seu e-mail ou CPF" required
-                    value="{{ request.form.user if request.form }}">
+                <input type="hidden" name="tipo_conta" value="fisica">
 
-                <label for="password">Senha</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
-                    <span class="toggle-password" id="togglePassword"></span>
+                <div class="form-group">
+                    <label for="user_pf">E-mail ou CPF</label>
+                    <input type="text" id="user_pf" name="user" placeholder="Digite seu e-mail ou CPF" required
+                        value="{{ request.form.user if request.form }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="password_pf">Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password_pf" name="password" placeholder="Digite sua senha" required>
+                        <span class="toggle-password" data-target="password_pf"></span>
+                    </div>
                 </div>
 
                 <div class="options">
@@ -111,19 +150,57 @@ TAREFAS:
 
             <p class="signup">Não tem uma conta? <a href="/cadastro">Cadastre-se</a></p>
         </div>
+        {% endif %}
+
+        <!-- LOGIN PESSOA JURÍDICA -->
+        {% if request.args.get('tipo_conta') == 'juridica' or request.form.get('tipo_conta') == 'juridica' %}
+        <div class="login-box">
+            <h2>Login - Pessoa Jurídica</h2>
+            
+            <form action="/logar" method="POST">
+                <input type="hidden" name="tipo_conta" value="juridica">
+
+                <div class="form-group">
+                    <label for="user_pj">E-mail ou CNPJ</label>
+                    <input type="text" id="user_pj" name="user" placeholder="Digite seu e-mail ou CNPJ" required
+                        value="{{ request.form.user if request.form }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="password_pj">Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password_pj" name="password" placeholder="Digite sua senha" required>
+                        <span class="toggle-password" data-target="password_pj"></span>
+                    </div>
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox" name="lembrar">
+                        Lembrar-me
+                    </label>
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn-login" title="Enviar">Entrar</button>
+            </form>
+
+            <p class="signup">Não tem uma conta? <a href="/cadastro?tipo_conta=juridica">Cadastre sua empresa</a></p>
+        </div>
+        {% endif %}
     </main>
 
     <!-- ======= FOOTER ======= -->
     <footer>
         <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
         <div class="footer-social">
-            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp"
-                    title="WhatsApp"></a>
-            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook"
+            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
+                    title="Whatsapp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
                     title="Facebook"></a>
-            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram"
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
                     title="Instagram"></a>
-            <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="E-mail"></a>
+            <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
         </div>
     </footer>
     <script src="../static/js/script.js"></script>

@@ -21,13 +21,40 @@ Redirecionamento automático para login em alguns casos
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sessão Expirada | AutoFácil</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+
 </head>
 <body>
-    <h1>Caiu na página 401</h1>
+    <div class="error-container">
+        <div class="error-icon"></div>
+        <h1 class="error-title">Acesso Não Autorizado</h1>
+        <p class="error-message">Você não tem permissão para acessar esta página.</p>
+        
+        <div class="login-required">
+            <h3>Login Necessário</h3>
+            <p>Esta área requer autenticação. Faça login com sua conta para acessar o conteúdo restrito.</p>
+        </div>
+        
+        <div class="error-actions">
+            <a href="/login" class="btn-primary">Fazer Login</a>
+            <a href="/" class="btn-secondary">Página Inicial</a>
+        </div>
+        
+        <div class="error-details">
+            <h3>Por que isso aconteceu?</h3>
+            <ul>
+                <li>Esta página exige que você esteja logado</li>
+                <li>Sua sessão pode ter expirado</li>
+                <li>Você não tem permissões suficientes</li>
+            </ul>
+        </div>
+        
+    </div>
+
 </body>
 </html>

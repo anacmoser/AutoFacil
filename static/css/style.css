@@ -1638,43 +1638,120 @@ a {
     border-top: 1px solid #f0f0f0;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .hero-aluguel-mensal {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .simulador-content {
-        grid-template-columns: 1fr;
-    }
-
-    .plano-item.destaque {
-        transform: none;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .btn-tel,
-    .btn-whatsapp {
-        width: 100%;
-        max-width: 250px;
-        justify-content: center;
-    }
+.error-container {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 40px;
+    text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
 }
 
+.error-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+    background-color: #f4f8fb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
 
+.error-icon::before {
+    content: "!";
+    font-size: 60px;
+    font-weight: bold;
+    color: #ff8c14;
+}
+
+.error-title {
+    font-size: 2rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.error-message {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-primary {
+    background: #ff8c14;
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background: #e67e0f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
+}
+
+.btn-secondary {
+    background: #002f5f;
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background: #001f3f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 47, 95, 0.3);
+}
+
+.error-details {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f4f8fb;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: left;
+}
+
+.error-details h3 {
+    margin-bottom: 10px;
+    color: #002f5f;
+    font-size: 1rem;
+}
+
+.error-details ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.error-details li {
+    margin-bottom: 5px;
+}
 /* ===== PRÉ-FOOTER ===== */
 .pre-footer {
     background-color: #f3f7fb;
@@ -1956,6 +2033,27 @@ footer hr {
 }
 
 @media (max-width: 768px) {
+    .cadastro-hero h1 {
+        font-size: 2rem;
+    }
+
+    .cadastro-hero p {
+        font-size: 1rem;
+    }
+
+    .form-cadastro {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .btn-aplicar,
+    .btn-limpar {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+    }
     .carousel-btn {
         padding: 8px;
         font-size: 16px;
@@ -2053,6 +2151,39 @@ footer hr {
         max-width: 100%;
         width: 100%;
     }
+
+    .hero-aluguel-mensal {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .simulador-content {
+        grid-template-columns: 1fr;
+    }
+
+    .plano-item.destaque {
+        transform: none;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-tel,
+    .btn-whatsapp {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+    }
 }
 
 /* Estilos para os filtros */
@@ -2129,17 +2260,6 @@ footer hr {
 .nenhum-veiculo h3 {
     margin-bottom: 0.5rem;
     color: #444;
-}
-
-/* Melhorias responsivas */
-@media (max-width: 768px) {
-
-    .btn-aplicar,
-    .btn-limpar {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 10px;
-    }
 }
 
 .cadastro-hero {
@@ -2323,20 +2443,3 @@ input.erro {
     font-weight: 600;
 }
 
-@media (max-width: 768px) {
-    .cadastro-hero h1 {
-        font-size: 2rem;
-    }
-
-    .cadastro-hero p {
-        font-size: 1rem;
-    }
-
-    .form-cadastro {
-        padding: 20px;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-}

@@ -23,12 +23,46 @@ Link para entrar em contato se acredita ser um erro
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <title>Acesso Proibido | AutoFácil</title></head>
+    <link rel="stylesheet" href="../static/css/style.css">
+
 <body>
-    <h1>Caiu na página 403</h1>
+    <div class="error-container">
+        <div class="error-icon"></div>
+        <h1 class="error-title">Acesso Proibido</h1>
+        <p class="error-message">Você não tem permissão para acessar esta página ou recurso.</p>
+
+        <div class="access-info">
+            <h3>Restrição de Acesso</h3>
+            <p>Esta área é restrita a usuários com permissões específicas. Se você acredita que deveria ter acesso,
+                entre em contato com o administrador.</p>
+        </div>
+
+        <div class="error-actions">
+            <a href="/" class="btn-primary">Voltar para Home</a>
+            <a href="javascript:history.back()" class="btn-secondary">Voltar à Página Anterior</a>
+            <a href="/login" class="btn-tertiary">Fazer Login com Outra Conta</a>
+        </div>
+
+        <div class="error-details">
+            <h3>Possíveis causas:</h3>
+            <ul>
+                <li>Tentativa de acessar área administrativa sem permissão</li>
+                <li>Acesso a recursos restritos a usuários específicos</li>
+                <li>Tentativa de visualizar dados de outro usuário</li>
+                <li>Sessão com permissões insuficientes</li>
+            </ul>
+
+            <div class="contact-info">
+                <p><strong>Acha que isso é um erro?</strong><br>
+                    Entre em contato conosco: <a href="mailto:suporte@autofacil.com">suporte@autofacil.com</a></p>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

@@ -147,68 +147,85 @@ function initSearchbar() {
 
 // ====== MENU MOBILE ======
 function initMenuMobile() {
-    const menuTrigger = document.getElementById('menuTrigger');
-    const menuPanel = document.getElementById('menuPanel');
+    const menuTriggers = document.querySelectorAll('.menu-trigger');
 
-    if (!menuTrigger || !menuPanel) return;
+    if (!menuTriggers.length) return;
 
     let hoverTimer;
     let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    function closeMenu() {
-        menuTrigger.classList.remove('open');
-        menuTrigger.setAttribute('aria-expanded', 'false');
-        menuPanel.classList.remove('open');
+    function closeMenu(trigger) {
+        trigger.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        const panel = trigger.querySelector('.menu-panel');
+        if (panel) panel.classList.remove('open');
     }
 
-    function openMenu() {
-        menuTrigger.classList.add('open');
-        menuTrigger.setAttribute('aria-expanded', 'true');
-        menuPanel.classList.add('open');
+    function openMenu(trigger) {
+        // Fecha outros menus abertos
+        menuTriggers.forEach(otherTrigger => {
+            if (otherTrigger !== trigger && otherTrigger.classList.contains('open')) {
+                closeMenu(otherTrigger);
+            }
+        });
+        
+        trigger.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+        const panel = trigger.querySelector('.menu-panel');
+        if (panel) panel.classList.add('open');
     }
 
-    // Para dispositivos com mouse (hover)
-    if (!isTouchDevice) {
-        menuTrigger.addEventListener('mouseenter', () => {
-            clearTimeout(hoverTimer);
-            hoverTimer = setTimeout(openMenu, 200); // Pequeno delay para evitar aberturas acidentais
-        });
+    menuTriggers.forEach(trigger => {
+        // Para dispositivos com mouse (hover)
+        if (!isTouchDevice) {
+            trigger.addEventListener('mouseenter', () => {
+                clearTimeout(hoverTimer);
+                hoverTimer = setTimeout(() => openMenu(trigger), 200);
+            });
 
-        menuTrigger.addEventListener('mouseleave', () => {
-            clearTimeout(hoverTimer);
-            hoverTimer = setTimeout(closeMenu, 300); // Delay para permitir que o usuário mova para o menu
-        });
+            trigger.addEventListener('mouseleave', () => {
+                clearTimeout(hoverTimer);
+                hoverTimer = setTimeout(() => closeMenu(trigger), 300);
+            });
 
-        menuPanel.addEventListener('mouseenter', () => {
-            clearTimeout(hoverTimer);
-        });
+            const panel = trigger.querySelector('.menu-panel');
+            if (panel) {
+                panel.addEventListener('mouseenter', () => {
+                    clearTimeout(hoverTimer);
+                });
 
-        menuPanel.addEventListener('mouseleave', () => {
-            hoverTimer = setTimeout(closeMenu, 200);
-        });
-    }
-
-    // Para dispositivos touch (clique) - mantém a funcionalidade original
-    menuTrigger.addEventListener('click', (e) => {
-        if (isTouchDevice) {
-            e.stopPropagation();
-            menuTrigger.classList.contains('open') ? closeMenu() : openMenu();
+                panel.addEventListener('mouseleave', () => {
+                    hoverTimer = setTimeout(() => closeMenu(trigger), 200);
+                });
+            }
         }
-    });
 
-    // Fecha ao clicar fora (para ambos os casos)
-    document.addEventListener('click', (e) => {
-        if (!menuTrigger.contains(e.target) && !menuPanel.contains(e.target)) {
-            closeMenu();
-        }
+        // Para dispositivos touch (clique) - mantém a funcionalidade original
+        trigger.addEventListener('click', (e) => {
+            if (isTouchDevice) {
+                e.stopPropagation();
+                trigger.classList.contains('open') ? closeMenu(trigger) : openMenu(trigger);
+            }
+        });
+
+        // Fecha ao clicar fora (para ambos os casos)
+        document.addEventListener('click', (e) => {
+            if (!trigger.contains(e.target)) {
+                closeMenu(trigger);
+            }
+        });
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
+        if (e.key === 'Escape') {
+            menuTriggers.forEach(trigger => closeMenu(trigger));
+        }
     });
 
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 1000) closeMenu();
+        if (window.innerWidth > 1000) {
+            menuTriggers.forEach(trigger => closeMenu(trigger));
+        }
     });
 }
 

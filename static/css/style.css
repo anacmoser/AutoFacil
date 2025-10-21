@@ -53,7 +53,6 @@ a {
     margin: 0 20px;
 }
 
-
 /* ---- NAV: trigger / painel ---- */
 .menu-trigger {
     position: relative;
@@ -67,13 +66,10 @@ a {
     cursor: pointer;
 }
 
+/* Menu Panel Base */
 .menu-panel {
     position: absolute;
     top: calc(100% + 10px);
-    left: 0;
-    display: none;
-    min-width: 280px;
-    max-width: 360px;
     background: #fff;
     border: 1px solid #e6e6e6;
     border-radius: 10px;
@@ -84,15 +80,29 @@ a {
     transform: translateY(-6px);
     transition: opacity .2s ease, transform .2s ease, visibility .2s;
     z-index: 3000;
+    min-width: 280px;
+    max-width: 360px;
 }
 
+/* Menu da ESQUERDA (hamburger) */
+.nav-left .menu-panel {
+    left: 0;
+    right: auto;
+}
+
+/* Menu da DIREITA (login/logout) */
+.nav-right .menu-panel {
+    left: auto;
+    right: 0;
+}
+
+/* Estados de hover e open */
 .menu-trigger:hover .menu-panel {
     display: block;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
-
 
 .menu-panel.open {
     display: block;
@@ -101,12 +111,25 @@ a {
     transform: translateY(0);
 }
 
-/* “Setinha” do balão */
-.menu-panel::before {
+/* "Setinha" do balão - ESQUERDA */
+.nav-left .menu-panel::before {
     content: "";
     position: absolute;
     top: -8px;
     left: 18px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+    filter: drop-shadow(0 -1px 0 #e6e6e6);
+}
+
+/* "Setinha" do balão - DIREITA */
+.nav-right .menu-panel::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: 18px;
+    left: auto;
     border-width: 8px;
     border-style: solid;
     border-color: transparent transparent #fff transparent;
@@ -140,7 +163,6 @@ a {
 .panel-nav {
     display: none;
 }
-
 
 /* Navbar redesign */
 .nav-center {
@@ -185,9 +207,7 @@ a {
     transform-origin: left;
 }
 
-
 /* Ícones da direita */
-/* sempre responsivo */
 .icon-btn {
     width: clamp(24px, 2.8vw, 40px);
     height: clamp(24px, 2.8vw, 40px);

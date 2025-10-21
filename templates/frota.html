@@ -30,16 +30,13 @@ TAREFAS:
             <div class="nav-left">
                 <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
                     <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
-                    <!-- Painel do menu -->
                     <div class="menu-panel" id="menuPanel">
-                        <!-- Opções extras (sempre no painel) -->
                         <ul class="panel-main">
                             <li><a href="#">Promoções</a></li>
                             <li><a href="#">Atendimento</a></li>
                             <li><a href="#">Agências</a></li>
                             <li><a href="#">FAQ</a></li>
                         </ul>
-                        <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
                         <ul class="panel-nav">
                             <li><a href="/frota">Alugar agora</a></li>
                             <li><a href="/aluguelMensal">Aluguel mensal</a></li>
@@ -51,7 +48,8 @@ TAREFAS:
                 </div>
 
                 <a class="logo" href="/" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+                        class="logo-img">
                 </a>
             </div>
 
@@ -59,7 +57,9 @@ TAREFAS:
                 <a href="/frota" class="nav-btn">Alugar agora</a>
                 <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
                 <a href="/empresas" class="nav-btn">Para empresas</a>
+                {% if session.get('usuario_logado') %}
                 <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+                {% endif %}
             </div>
 
             <div class="nav-right">
@@ -73,21 +73,34 @@ TAREFAS:
                 </a>
 
                 {% if session.get('usuario_logado') %}
-                <!-- Se usuário estiver logado, mostra logout -->
-                <a href="{{ url_for('logout') }}">
-                    <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Botão de logout" title="Logout"
-                        class="icon-btn">
-                </a>
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário"
+                            title="Minha conta" class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-logout">
+                            <li><a href="#">Alterar dados</a></li>
+                            <li><a href="/logout">Encerrar sessão</a></li>
+                        </ul>
+                    </div>
+                </div>
                 {% else %}
-                <!-- Se não estiver logado, mostra login -->
-                <a href="{{ url_for('mudarLogin') }}">
-                    <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-                        class="icon-btn">
-                </a>
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                            class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-login">
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/cadastro">Cadastro</a></li>
+                            <li><a href="#">Colaborador</a></li>
+                        </ul>
+                    </div>
+                </div>
                 {% endif %}
             </div>
-
-        </nav>
     </header>
 
 
@@ -284,8 +297,7 @@ TAREFAS:
     <footer>
         <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
         <div class="footer-social">
-            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
-                    title="Whatsapp"></a>
+            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
             <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
                     title="Facebook"></a>
             <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"

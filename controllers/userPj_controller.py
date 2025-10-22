@@ -88,7 +88,7 @@ def login():
                         session['usuario_logado'] = usuario.rs
                         if remember:
                             response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', usuario.id, max_age=60*60*72)
+                            response.set_cookie('user', str(usuario.id), max_age=60*60*72)
                             return response
                         return render_template('index.html')
                     return render_template('login.html', erro = 'Senha incorreta')
@@ -103,7 +103,7 @@ def login():
                         session['usuario_logado'] = usuario.rs
                         if remember:
                             response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', usuario.id, max_age=60*60*72)
+                            response.set_cookie('user', str(usuario.id), max_age=60*60*72)
                             return response
                         return render_template('index.html')
                     return render_template('login.html', erro = 'Senha incorreta')

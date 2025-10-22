@@ -7,7 +7,7 @@
 
 from flask import Blueprint, render_template, request, session, make_response, redirect, url_for
 from controllers.validacoes import validarEmail, validarCpf
-from models.UserPf import USERSpf
+from models.UserPf import USERSpf, UserPf, addUser
 import re
 user_pf_bp = Blueprint('user_pf_bp', __name__)
 
@@ -49,7 +49,7 @@ def cadastro():
         adicao = addUser(novoUser) #Verificar por nome também (já existe por email e cpf)
         if adicao == True: #Se não for true será a lista de erros
             id_counter_Pf += 1
-            return redirect(url_for('login'))
+            return redirect(url_for('pgLogin'))
         else:
             return render_template('cadastro.html', erros=adicao)
     except ValueError as e:

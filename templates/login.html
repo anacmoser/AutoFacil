@@ -64,7 +64,7 @@
                         class="icon-btn">
                 </a>
                 {% else %}
-                <a href="{{ url_for('mudarLogin') }}">
+                <a href="{{ url_for('pgLogin') }}">
                     <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
                         class="icon-btn">
                 </a>
@@ -89,7 +89,7 @@
         <!-- SELEÇÃO DE TIPO DE CONTA -->
         <div class="tipo-conta-container">
             <h2 class="tipo-conta-title">Selecione o tipo de conta</h2>
-            <form method="GET" action="/login"> 
+            <form method="GET" action="{{ url_for('pgLogin') }}"> 
                 <div class="tipo-conta-opcoes">
                     <div class="tipo-conta-opcao">
                         <input type="radio" id="pessoa-fisica" name="tipo_conta" value="fisica" class="tipo-conta-radio"

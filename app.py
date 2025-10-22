@@ -19,12 +19,15 @@ from models.UserPf import UserPf, USERSpf, addUser, delUser, getUserByCpf, getUs
 from models.UserPj import UserPj, USERSpj, addUserPj
 from models.Veiculo import Veiculo, VEICULOS, addVeiculo, removerVeiculo, getVeiById
 from controllers.veiculo_controller import veiculo_bp
+from controllers.userPf_controller import user_pf_bp
+from controllers.userPj_controller import user_pj_bp
 
 app = Flask(__name__)
 app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
+app.register_blueprint(user_pf_bp)
+app.register_blueprint(user_pj_bp)
 
-id_counter_Pf = 2     #vai pro cotroller
 id_counter_pj = 2  #vai pro controller
 
 def validar_email(email):
@@ -149,139 +152,9 @@ def mudarFrota():  #adicionar o filtro de preço menor para maior
     
     return render_template('frota.html', veiculos=veiculos_formatados)
 
-@app.route('/cadastrarPf', methods=['POST'])
-def cadastro():
-    global id_counter_Pf  # Usar a variável global
-    
-    # Obter dados do formulário
-    nome = request.form.get('nome', '').strip()
-    nascimento = request.form.get('nascimento', '')
-    cpf = request.form.get('cpf', '')
-    cpf = re.sub(r'[^0-9]', '', cpf) #Acho que não há necessidade, porque eu limpo o cpf na validação em User
-    celular = request.form.get('celular', '')
-    celular = re.sub(r'[^0-9]', '', celular)
-    email = request.form.get('email', '').strip()
-    cep = request.form.get('cep', '')
-    logradouro = request.form.get('logradouro', '').strip()
-    numero = request.form.get('numero', '').strip()
-    complemento = request.form.get('complemento', '').strip()
-    bairro = request.form.get('bairro', '').strip()
-    estado = request.form.get('estado', '').strip()
-    cidade = request.form.get('cidade', '').strip()
-    senha = request.form.get('senha', '')
-    confirmar_senha = request.form.get('confirmar', '')
-    termos = request.form.get('termos')
-    
-    # Verificar se todos os campos obrigatórios foram preenchidos
-    campos_obrigatorios = [nome, nascimento, cpf, celular, email, cep, logradouro, bairro, estado, cidade, senha, confirmar_senha]
-    for campo in campos_obrigatorios:
-        if not campo:
-            return render_template('cadastro.html', erros='Todos os campos obrigatórios devem ser preenchidos')
 
-    if not termos:
-        return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
-    try:
-        novoUser = UserPf(id_counter_Pf, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
-        adicao = addUser(novoUser) #Verificar por nome também (já existe por email e cpf)
-        if adicao == True: #Se não for true será a lista de erros
-            id_counter_Pf += 1
-            return redirect(url_for('login'))
-        else:
-            return render_template('cadastro.html', erros=adicao)
-    except ValueError as e:
-        if isinstance(e.args[0], list):
-            erros = e.args[0]
-        else:
-            erros = [str(e)]
-        
-        return render_template('cadastro.html', erros=erros)
  
-@app.route('/cadastrarPj', methods=['POST'])
-def cadastroEmpresa():
-    global id_counter_pj
-    tipo_conta = request.args.get('tipo_conta')
 
-    rs = request.form.get('razao_social', '').strip()
-    nf = request.form.get('nome_fantasia', '').strip()
-    cnpj = request.form.get('cnpj', '')
-    ie = request.form.get('inscricao_estadual', '').strip()
-    ramo = request.form.get('ramo_atividade', '')
-    tamanho = request.form.get('tamanho_empresa', '')
-    nomeRep = request.form.get('nome_representante', '').strip()
-    cpfRep = request.form.get('cpf_representante', '')
-    cargoRep = request.form.get('cargo_representante', '').strip()
-    phone = request.form.get('telefone_empresa', '')
-    cell = request.form.get('celular_empresa', '')
-    email = request.form.get('email_empresa', '').strip()
-    cep = request.form.get('cep_empresa', '')
-    logra = request.form.get('logradouro_empresa', '')
-    num = request.form.get('numero_empresa', '')
-    complemento = request.form.get('complemento_empresa', '')
-    bairro = request.form.get('bairro_empresa', '').strip()
-    estado = request.form.get('estado_empresa', '').strip()
-    cidade = request.form.get('cidade_empresa', '').strip()
-    senha = request.form.get('senha_empresa', '')
-    confirmar = request.form.get('confirmar_empresa', '')
-    termos = request.form.get('termos')
-    autorizacao = request.form.get('autorizacao')
-
-    campos_obrigatorios = [rs, nf, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, phone, email, cep, logra, num, bairro, estado, cidade, senha, confirmar]
-    for campo in campos_obrigatorios:
-        if not campo:
-            return render_template('cadastro.html', erros='Todos os campos obrigatórios devem ser preenchidos')
-
-    if not termos:
-        return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
-    if not autorizacao:
-        return render_template('cadastro.html', erros='Você deve aceitar a Autorização.')
-    try:
-        novoUser = UserPj(id_counter_pj, rs, nf, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, phone, email, cep, logra, num, bairro, estado, cidade, senha, confirmar, ie ,cell, complemento)
-        adicao = addUserPj(novoUser) #Verificar por nome também (já existe por email e cpf)
-        if adicao == True: #Se não for true será a lista de erros
-            id_counter_pj += 1
-            return redirect(url_for('login'))
-        else:
-            return render_template('cadastro.html', erros=adicao)
-    except ValueError as e:
-        if isinstance(e.args[0], list):
-            erros = e.args[0]
-        else:
-            erros = [str(e)]
-        
-        return render_template('cadastro.html', erros=erros, tipo_conta=tipo_conta, tipo_conta_juridica=(tipo_conta == 'juridica'))
-
-
-@app.route('/logar', methods=['GET', 'POST']) #Modularizar as verificações
-def login():
-    if request.method == 'POST':
-        user = request.form.get('user')
-        senha = request.form.get('password')
-
-        if '@' in user:
-            #verificação por email
-            if not validar_email(user):
-                return render_template('login.html', erro = 'E-mail inválido')
-            for usuario in USERSpf:
-                if usuario.getUserContato('email') == user :
-                    if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.getUserDados('nome')
-                        return render_template('index.html')
-                    return render_template('login.html', erro = 'Senha incorreta')
-            return render_template('login.html', erro = 'Usuário não encontrado')
-        else: 
-            #verificação por cpf
-            cpf = re.sub(r'[^0-9]', '', user)
-            if not validar_cpf(cpf):
-                return render_template('login.html', erro = 'Digite e-mail ou CPF inválidos')
-            for usuario in USERSpf:
-                if usuario.cpf == cpf:
-                    if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.getUserDados('nome')
-                        return render_template('index.html')
-                    return render_template('login.html', erro = 'Senha incorreta')
-            return render_template('login.html', erro = 'Usuário não encontrado')        
-    
-    return render_template('login.html')
 
 @app.route('/api/filtrar', methods=['POST']) #refazer
 def api_filtrar():

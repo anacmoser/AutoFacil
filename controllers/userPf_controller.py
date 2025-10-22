@@ -89,7 +89,7 @@ def login():
         else: 
             cpf = re.sub(r'[^0-9]', '', user)
             if not validarCpf(cpf):
-                return render_template('login.html', erro = 'Digite e-mail ou CPF inválidos')
+                return render_template('login.html', erro = 'Digite e-mail ou CPF válidos')
             for usuario in USERSpf:
                 if usuario.cpf == cpf:
                     if usuario.senha == senha:

@@ -28,7 +28,6 @@ app.register_blueprint(veiculo_bp)
 app.register_blueprint(user_pf_bp)
 app.register_blueprint(user_pj_bp)
 
-id_counter_pj = 2  #vai pro controller
 
 def validar_email(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -44,29 +43,29 @@ def index():
     return render_template('index.html')
 
 @app.route('/cadastro', methods=['GET'])
-def mudarCadastro():
+def pgCadastro():
     return render_template('cadastro.html')
 
 @app.route('/login', methods=['GET'])
-def mudarLogin():
+def pgLogin():
     return render_template('login.html')
 
 @app.route('/aluguelMensal', methods=['GET'])
-def mudarAluguelMensal():
+def pgAluguelMensal():
     return render_template('aluguelmensal.html')
 
 @app.route('/empresas', methods=['GET'])
-def mudarEmpresas():
+def pgEmpresas():
     return render_template('empresas.html')
 
 @app.route('/minhasReservas', methods=['GET'])
-def mudarMinhasReservas():
+def pgMinhasReservas():
     if session.get('usuario_logado') == None:
         abort(401)
     return render_template('minhas_reservas.html')
 
 @app.route('/frota', methods=['GET'])  #Modularizar esta frota criando funções
-def mudarFrota():  #adicionar o filtro de preço menor para maior
+def pgFrota():  #adicionar o filtro de preço menor para maior
 
     #Entender este código, aplicar os filtros no html
     categoria = request.args.get('categoria', '')
@@ -248,7 +247,15 @@ def api_filtrar():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/logout')
+@app.route('/colaborador', methods=['GET'])
+def pgColaborador():
+    return render_template('colaboradores/login_colaborador.html')
+
+@app.route('/alterCadastro', methods=['GET']) #Fazer igual a páginade detalhes e passar o id ou buscar o id pela session
+def pgAlterCadastro():
+    return render_template('alterCadastro.html', )
+
+@app.route('/logout', methods=['GET']) 
 def logout():
     session.pop('usuario_logado', None)
     return redirect(url_for('index'))

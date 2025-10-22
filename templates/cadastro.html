@@ -98,7 +98,7 @@
         <!-- FORMULÁRIO PESSOA FÍSICA -->
         {% if not request.args.get('tipo_conta') and not request.form.get('tipo_conta') == 'juridica' or
         request.args.get('tipo_conta') == 'fisica' %}
-        <form class="form-cadastro" id="cadastroPessoaForm" method="POST" action="/cadastrarPf">
+        <form class="form-cadastro" id="cadastroPessoaForm" method="POST" action="{{ url_for('user_pf_bp.cadastro') }}">
             <input type="hidden" name="tipo_conta" value="fisica">
 
             <!-- DADOS BÁSICOS -->
@@ -258,7 +258,7 @@
 
         <!-- FORMULÁRIO PESSOA JURÍDICA -->
         {% if request.args.get('tipo_conta') == 'juridica' or request.form.get('tipo_conta') == 'juridica' %}
-        <form class="form-cadastro" id="cadastroEmpresaForm" method="POST" action="/cadastrarPj">
+        <form class="form-cadastro" id="cadastroEmpresaForm" method="POST" action="{{ url_for('user_pj_bp.cadastroEmpresa') }}">
             <input type="hidden" name="tipo_conta" value="juridica">
 
             <!-- DADOS DA EMPRESA -->

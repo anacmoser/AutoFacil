@@ -5,10 +5,13 @@
 #função de cadastro
 #função de login
 
-from flask import Blueprint, request, render_template, redirect, url_for
+from flask import Blueprint, request, render_template, redirect, url_for, session, make_response
+from controllers.validacoes import validarEmail, validarCNPJ
 from models.UserPj import UserPj, USERSpj, addUserPj
+import re
 
 user_pj_bp = Blueprint('user_pj_bp', __name__)
+id_counter_pj = 2  
 
 @user_pj_bp.route('/cadastrarPj', methods=['POST'])
 def cadastroEmpresa():
@@ -64,5 +67,46 @@ def cadastroEmpresa():
         
         return render_template('cadastro.html', erros=erros, tipo_conta=tipo_conta, tipo_conta_juridica=(tipo_conta == 'juridica'))
 
-@user_pj_bp('/logarPJ')
+@user_pj_bp.route('/logarPJ', methods=['POST'])
 def login():
+    if request.method == 'POST':
+        user = request.form.get('user', '')
+        senha = request.form.get('password', '')
+        remember = request.form.get('lembrar')
+
+        if not user:
+            return render_template('login.html', erro = 'Email obrigatório')
+        if not senha:
+            return render_template('login.html', erro = 'Senha obrigatória')
+        
+        if '@' in user:
+            if not validarEmail(user):
+                return render_template('login.html', erro = 'E-mail inválido')
+            for usuario in USERSpj:
+                if usuario.email == user :
+                    if usuario.senha == senha:
+                        session['usuario_logado'] = usuario.rs
+                        if remember:
+                            response = make_response(redirect(url_for('index')))
+                            response.set_cookie('user', usuario.id, max_age=60*60*72)
+                            return response
+                        return render_template('index.html')
+                    return render_template('login.html', erro = 'Senha incorreta')
+            return render_template('login.html', erro = 'Usuário não encontrado')
+        else: 
+            cnpj = re.sub(r'[^0-9]', '', user)
+            if not validarCNPJ(cnpj):
+                return render_template('login.html', erro = 'Digite e-mail ou CNPJ válidos')
+            for usuario in USERSpj:
+                if usuario.cnpj == cnpj:
+                    if usuario.senha == senha:
+                        session['usuario_logado'] = usuario.rs
+                        if remember:
+                            response = make_response(redirect(url_for('index')))
+                            response.set_cookie('user', usuario.id, max_age=60*60*72)
+                            return response
+                        return render_template('index.html')
+                    return render_template('login.html', erro = 'Senha incorreta')
+            return render_template('login.html', erro = 'Usuário não encontrado')        
+    
+    return render_template('login.html')

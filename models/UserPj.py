@@ -31,6 +31,10 @@ class UserPj:
 ############################# VALIDAÇÕES - devem retornar true ou false
 
     @property
+    def id(self):
+        return self._id
+
+    @property
     def cnpj(self):
         return self._cnpj
     
@@ -45,6 +49,10 @@ class UserPj:
     @property
     def telefone(self):
         return self._phone
+    
+    @property
+    def senha(self):
+        return self.__senha
 
 USERSpj = []
 

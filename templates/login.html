@@ -89,7 +89,7 @@
         <!-- SELEÇÃO DE TIPO DE CONTA -->
         <div class="tipo-conta-container">
             <h2 class="tipo-conta-title">Selecione o tipo de conta</h2>
-            <form method="GET" action="{{ url_for('user_pf_bp.login') }}"> <!--Mudar para user_pf_bp.login depois-->
+            <form method="GET" action="/login"> 
                 <div class="tipo-conta-opcoes">
                     <div class="tipo-conta-opcao">
                         <input type="radio" id="pessoa-fisica" name="tipo_conta" value="fisica" class="tipo-conta-radio"
@@ -157,7 +157,7 @@
         <div class="login-box">
             <h2>Login - Pessoa Jurídica</h2>
             
-            <form action="/logar" method="POST">
+            <form action="{{ url_for('user_pj_bp.login') }}" method="POST">
                 <input type="hidden" name="tipo_conta" value="juridica">
 
                 <div class="form-group">

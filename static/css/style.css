@@ -53,7 +53,6 @@ a {
     margin: 0 20px;
 }
 
-
 /* ---- NAV: trigger / painel ---- */
 .menu-trigger {
     position: relative;
@@ -67,13 +66,10 @@ a {
     cursor: pointer;
 }
 
+/* Menu Panel Base */
 .menu-panel {
     position: absolute;
     top: calc(100% + 10px);
-    left: 0;
-    display: none;
-    min-width: 280px;
-    max-width: 360px;
     background: #fff;
     border: 1px solid #e6e6e6;
     border-radius: 10px;
@@ -84,15 +80,29 @@ a {
     transform: translateY(-6px);
     transition: opacity .2s ease, transform .2s ease, visibility .2s;
     z-index: 3000;
+    min-width: 280px;
+    max-width: 360px;
 }
 
+/* Menu da ESQUERDA (hamburger) */
+.nav-left .menu-panel {
+    left: 0;
+    right: auto;
+}
+
+/* Menu da DIREITA (login/logout) */
+.nav-right .menu-panel {
+    left: auto;
+    right: 0;
+}
+
+/* Estados de hover e open */
 .menu-trigger:hover .menu-panel {
     display: block;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
-
 
 .menu-panel.open {
     display: block;
@@ -101,12 +111,25 @@ a {
     transform: translateY(0);
 }
 
-/* “Setinha” do balão */
-.menu-panel::before {
+/* "Setinha" do balão - ESQUERDA */
+.nav-left .menu-panel::before {
     content: "";
     position: absolute;
     top: -8px;
     left: 18px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+    filter: drop-shadow(0 -1px 0 #e6e6e6);
+}
+
+/* "Setinha" do balão - DIREITA */
+.nav-right .menu-panel::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: 18px;
+    left: auto;
     border-width: 8px;
     border-style: solid;
     border-color: transparent transparent #fff transparent;
@@ -140,7 +163,6 @@ a {
 .panel-nav {
     display: none;
 }
-
 
 /* Navbar redesign */
 .nav-center {
@@ -185,40 +207,39 @@ a {
     transform-origin: left;
 }
 
-
 /* Ícones da direita */
-/* sempre responsivo */
 .icon-btn {
     width: clamp(24px, 2.8vw, 40px);
     height: clamp(24px, 2.8vw, 40px);
     margin: -20px 10px;
 }
 
-/* Estilos específicos para a página de login */
-
+/* ====== LOGIN CONTAINER ====== */
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px 80px;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
 .login-box {
     background: white;
     border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    padding: 40px;
-    width: 100%;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 40px;
     max-width: 450px;
-    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .login-box h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     color: #002f5f;
+    text-align: center;
 }
+
 
 .login-box .subtitle {
     font-size: 1rem;
@@ -232,11 +253,17 @@ a {
     text-align: left;
 }
 
+.login-box .form-group {
+    margin-bottom: 20px;
+}
+
 .login-box label {
     font-size: 14px;
     margin-bottom: 6px;
     font-weight: 500;
     color: #333;
+    display: block;
+
 }
 
 .login-box input {
@@ -268,10 +295,31 @@ a {
     margin-bottom: 0;
 }
 
+.form-group {
+    position: relative;
+}
+
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h1 {
+    font-size: 2rem;
+    color: #002f5f;
+    margin-bottom: 10px;
+}
+
+.form-header .subtitle {
+    font-size: 1.1rem;
+    color: #555;
+}
+
 .toggle-password {
     position: absolute;
-    right: 16px;
-    top: 50%;
+    right: 14px;
+    top: 24px;
     transform: translateY(-50%);
     width: 22px;
     height: 22px;
@@ -279,7 +327,8 @@ a {
     background-size: contain;
     cursor: pointer;
     opacity: 0.6;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, background-image 0.3s;
+    z-index: 10;
 }
 
 .toggle-password:hover {
@@ -345,6 +394,7 @@ a {
 .signup {
     font-size: 15px;
     color: #555;
+    text-align: center;
 }
 
 .signup a {
@@ -357,14 +407,18 @@ a {
     text-decoration: underline;
 }
 
-.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
+/* ====== ALERTAS E MENSAGENS ====== */
+.alert {
     padding: 15px;
-    border: 1px solid #f5c6cb;
     border-radius: 5px;
     margin: 20px 0;
     font-size: 14px;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
 .alert-danger ul {
@@ -387,7 +441,7 @@ a {
     border-color: #dc3545 !important;
 }
 
-/* Estilos para a seleção de tipo de conta */
+/* ====== SELEÇÃO DE TIPO DE CONTA ====== */
 .tipo-conta-container {
     margin-bottom: 30px;
     text-align: center;
@@ -1217,6 +1271,26 @@ a {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+/*  Banner */
+.banner {
+    position: relative;
+    width: 100%;
+    max-width: 1500px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.banner-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.banner img {
+    width: 100%;
+    flex-shrink: 0;
+    display: block;
+}
+
 /* Vantagens */
 .vantagens-mensal {
     padding: 80px 5%;
@@ -1316,7 +1390,7 @@ a {
 }
 
 .plano-item.destaque {
-    border: 2px solid #0056b3;
+    border: 2px solid #083d79;
     transform: scale(1.05);
 }
 
@@ -1334,7 +1408,7 @@ a {
 }
 
 .desconto {
-    background-color: #28a745;
+    background-color: #ff8c14;
     color: white;
     padding: 5px 10px;
     border-radius: 20px;
@@ -1384,7 +1458,7 @@ a {
     width: 100%;
     padding: 12px;
     text-align: center;
-    background-color: #0056b3;
+    background-color: #0274b2;
     color: white;
     border-radius: 5px;
     text-decoration: none;
@@ -1393,15 +1467,15 @@ a {
 }
 
 .btn-plano:hover {
-    background-color: #004494;
+    background-color: #015a8a;
 }
 
 .btn-plano.destaque {
-    background-color: #28a745;
+    background-color: #ff9a2f;
 }
 
 .btn-plano.destaque:hover {
-    background-color: #218838;
+    background-color: #ff8400;
 }
 
 .planos-observacao {
@@ -1455,7 +1529,7 @@ a {
 .btn-simular {
     width: 100%;
     padding: 12px;
-    background-color: #0056b3;
+    background-color: #0274b2;
     color: white;
     border: none;
     border-radius: 5px;
@@ -1466,7 +1540,7 @@ a {
 }
 
 .btn-simular:hover {
-    background-color: #004494;
+    background-color: #015a8a;
 }
 
 .simulador-resultado {
@@ -1494,6 +1568,15 @@ a {
     border-bottom: 1px solid #e0e0e0;
 }
 
+.detalhe-item .valor {
+    font-size: 18px;
+}
+
+.detalhe-item .valortotal {
+    font-size: 25px;
+}
+
+
 .detalhe-item.total {
     font-weight: 700;
     font-size: 1.1rem;
@@ -1508,7 +1591,7 @@ a {
     width: 100%;
     padding: 12px;
     text-align: center;
-    background-color: #28a745;
+    background-color: #0274b2;
     color: white;
     border-radius: 5px;
     text-decoration: none;
@@ -1518,7 +1601,7 @@ a {
 }
 
 .btn-reservar:hover {
-    background-color: #218838;
+    background-color: #015a8a;
 }
 
 /* FAQ */
@@ -1558,7 +1641,7 @@ a {
 
 .faq-toggle {
     font-size: 1.5rem;
-    color: #0056b3;
+    color: #0274b2;
     font-weight: bold;
 }
 
@@ -1575,105 +1658,120 @@ a {
     border-top: 1px solid #f0f0f0;
 }
 
-/* CTA Final */
-.cta-final {
-    padding: 80px 5%;
-    background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
-    color: white;
+.error-container {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 40px;
     text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
 }
 
-.cta-final h2 {
-    margin-bottom: 15px;
-    font-size: 2rem;
-}
-
-.cta-final p {
-    margin-bottom: 30px;
-    font-size: 1.1rem;
-    opacity: 0.9;
-}
-
-.cta-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.btn-tel,
-.btn-whatsapp {
+.error-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 30px;
+    background-color: #f4f8fb;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 25px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    justify-content: center;
+    position: relative;
 }
 
-.btn-tel {
-    background-color: white;
-    color: #0056b3;
+.error-icon::before {
+    content: "!";
+    font-size: 60px;
+    font-weight: bold;
+    color: #ff8c14;
 }
 
-.btn-tel:hover {
-    background-color: #f0f0f0;
+.error-title {
+    font-size: 2rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-weight: 700;
 }
 
-.btn-whatsapp {
-    background-color: #25D366;
+.error-message {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-primary {
+    background: #ff8c14;
     color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.btn-whatsapp:hover {
-    background-color: #1da851;
+.btn-primary:hover {
+    background: #e67e0f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
 }
 
-.btn-tel img,
-.btn-whatsapp img {
-    width: 20px;
-    height: 20px;
+.btn-secondary {
+    background: #002f5f;
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .hero-aluguel-mensal {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .simulador-content {
-        grid-template-columns: 1fr;
-    }
-
-    .plano-item.destaque {
-        transform: none;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .btn-tel,
-    .btn-whatsapp {
-        width: 100%;
-        max-width: 250px;
-        justify-content: center;
-    }
+.btn-secondary:hover {
+    background: #001f3f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 47, 95, 0.3);
 }
 
+.error-details {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f4f8fb;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: left;
+}
 
+.error-details h3 {
+    margin-bottom: 10px;
+    color: #002f5f;
+    font-size: 1rem;
+}
+
+.error-details ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.error-details li {
+    margin-bottom: 5px;
+}
 /* ===== PRÉ-FOOTER ===== */
 .pre-footer {
     background-color: #f3f7fb;
@@ -1955,6 +2053,27 @@ footer hr {
 }
 
 @media (max-width: 768px) {
+    .cadastro-hero h1 {
+        font-size: 2rem;
+    }
+
+    .cadastro-hero p {
+        font-size: 1rem;
+    }
+
+    .form-cadastro {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .btn-aplicar,
+    .btn-limpar {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+    }
     .carousel-btn {
         padding: 8px;
         font-size: 16px;
@@ -2052,6 +2171,39 @@ footer hr {
         max-width: 100%;
         width: 100%;
     }
+
+    .hero-aluguel-mensal {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .simulador-content {
+        grid-template-columns: 1fr;
+    }
+
+    .plano-item.destaque {
+        transform: none;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-tel,
+    .btn-whatsapp {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+    }
 }
 
 /* Estilos para os filtros */
@@ -2128,17 +2280,6 @@ footer hr {
 .nenhum-veiculo h3 {
     margin-bottom: 0.5rem;
     color: #444;
-}
-
-/* Melhorias responsivas */
-@media (max-width: 768px) {
-
-    .btn-aplicar,
-    .btn-limpar {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 10px;
-    }
 }
 
 .cadastro-hero {
@@ -2322,20 +2463,3 @@ input.erro {
     font-weight: 600;
 }
 
-@media (max-width: 768px) {
-    .cadastro-hero h1 {
-        font-size: 2rem;
-    }
-
-    .cadastro-hero p {
-        font-size: 1rem;
-    }
-
-    .form-cadastro {
-        padding: 20px;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-}

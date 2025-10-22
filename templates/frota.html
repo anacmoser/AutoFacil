@@ -30,16 +30,13 @@ TAREFAS:
             <div class="nav-left">
                 <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
                     <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
-                    <!-- Painel do menu -->
                     <div class="menu-panel" id="menuPanel">
-                        <!-- Opções extras (sempre no painel) -->
                         <ul class="panel-main">
                             <li><a href="#">Promoções</a></li>
                             <li><a href="#">Atendimento</a></li>
                             <li><a href="#">Agências</a></li>
                             <li><a href="#">FAQ</a></li>
                         </ul>
-                        <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
                         <ul class="panel-nav">
                             <li><a href="/frota">Alugar agora</a></li>
                             <li><a href="/aluguelMensal">Aluguel mensal</a></li>
@@ -50,8 +47,9 @@ TAREFAS:
 
                 </div>
 
-                <a class="logo" href="{{ url_for('index') }}" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img">
+                <a class="logo" href="/" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+                        class="logo-img">
                 </a>
             </div>
 
@@ -59,9 +57,11 @@ TAREFAS:
                 <a href="/frota" class="nav-btn">Alugar agora</a>
                 <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
                 <a href="/empresas" class="nav-btn">Para empresas</a>
+                {% if session.get('usuario_logado') %}
                 <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+                {% endif %}
             </div>
-            
+
             <div class="nav-right">
                 <a href="#">
                     <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
@@ -73,121 +73,134 @@ TAREFAS:
                 </a>
 
                 {% if session.get('usuario_logado') %}
-                <!-- Se usuário estiver logado, mostra logout -->
-                <a href="{{ url_for('logout') }}">
-                    <img src="{{ url_for('static', filename='img/sair2.png') }}" alt="Botão de logout" title="Logout"
-                        class="icon-btn">
-                </a>
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário"
+                            title="Minha conta" class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-logout">
+                            <li><a href="#">Alterar dados</a></li>
+                            <li><a href="/logout">Encerrar sessão</a></li>
+                        </ul>
+                    </div>
+                </div>
                 {% else %}
-                <!-- Se não estiver logado, mostra login -->
-                <a href="{{ url_for('mudarLogin') }}">
-                    <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-                        class="icon-btn">
-                </a>
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                            class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-login">
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/cadastro">Cadastro</a></li>
+                            <li><a href="#">Colaborador</a></li>
+                        </ul>
+                    </div>
+                </div>
                 {% endif %}
             </div>
-
-        </nav>
     </header>
 
 
     <!-- Filtros -->
     <!-- Substitua a seção de filtros por este código atualizado -->
-<section class="filtros-container">
-    <h2 class="filtros-title">Filtrar por categoria</h2>
-    <div class="filtros-categorias">
-        <button class="filtro-btn active" data-categoria="todos"><i class="fas fa-car"></i> Todos</button>
-        <button class="filtro-btn" data-categoria="econômico"><i class="fas fa-car-side"></i> Econômicos</button>
-        <button class="filtro-btn" data-categoria="sedan"><i class="fas fa-sedan"></i> Sedans</button>
-        <button class="filtro-btn" data-categoria="suv"><i class="fas fa-shuttle-van"></i> SUVs</button>
-        <button class="filtro-btn" data-categoria="luxo"><i class="fas fa-car-alt"></i> Luxo</button>
-        <button class="filtro-btn" data-categoria="pick-up"><i class="fas fa-truck-pickup"></i> Pick-ups</button>
-    </div>
-    <div class="filtros-avancados">
-        <h3>Filtros avançados</h3>
-        <div class="filtros-grid">
-            <div class="filtro-group">
-                <label for="marca">Marca</label>
-                <select id="marca">
-                    <option value="">Todas as marcas</option>
-                    <option value="fiat">Fiat</option>
-                    <option value="volkswagen">Volkswagen</option>
-                    <option value="toyota">Toyota</option>
-                    <option value="honda">Honda</option>
-                    <option value="chevrolet">Chevrolet</option>
-                    <option value="renault">Renault</option>
-                    <option value="hyundai">Hyundai</option>
-                    <option value="jeep">Jeep</option>
-                    <option value="bmw">BMW</option>
-                    <option value="mercedes">Mercedes-Benz</option>
-                    <option value="ford">Ford</option>
-                </select>
-            </div>
-            
-            <div class="filtro-group">
-                <label for="modelo">Modelo</label>
-                <select id="modelo">
-                    <option value="">Todos os modelos</option>
-                    <option value="argo">Argo</option>
-                    <option value="gol">Gol</option>
-                    <option value="corolla">Corolla</option>
-                    <option value="civic">Civic</option>
-                    <option value="compass">Compass</option>
-                    <option value="rav4">RAV4</option>
-                    <option value="hilux">Hilux</option>
-                    <option value="ranger">Ranger</option>
-                    <option value="kwid">Kwid</option>
-                    <option value="creta">Creta</option>
-                </select>
-            </div>
-            
-            <div class="filtro-group">
-                <label for="transmissao">Transmissão</label>
-                <select id="transmissao">
-                    <option value="">Qualquer</option>
-                    <option value="automatico">Automático</option>
-                    <option value="manual">Manual</option>
-                </select>
-            </div>
+    <section class="filtros-container">
+        <h2 class="filtros-title">Filtrar por categoria</h2>
+        <div class="filtros-categorias">
+            <button class="filtro-btn active" data-categoria="todos"><i class="fas fa-car"></i> Todos</button>
+            <button class="filtro-btn" data-categoria="econômico"><i class="fas fa-car-side"></i> Econômicos</button>
+            <button class="filtro-btn" data-categoria="sedan"><i class="fas fa-sedan"></i> Sedans</button>
+            <button class="filtro-btn" data-categoria="suv"><i class="fas fa-shuttle-van"></i> SUVs</button>
+            <button class="filtro-btn" data-categoria="luxo"><i class="fas fa-car-alt"></i> Luxo</button>
+            <button class="filtro-btn" data-categoria="pick-up"><i class="fas fa-truck-pickup"></i> Pick-ups</button>
+        </div>
+        <div class="filtros-avancados">
+            <h3>Filtros avançados</h3>
+            <div class="filtros-grid">
+                <div class="filtro-group">
+                    <label for="marca">Marca</label>
+                    <select id="marca">
+                        <option value="">Todas as marcas</option>
+                        <option value="fiat">Fiat</option>
+                        <option value="volkswagen">Volkswagen</option>
+                        <option value="toyota">Toyota</option>
+                        <option value="honda">Honda</option>
+                        <option value="chevrolet">Chevrolet</option>
+                        <option value="renault">Renault</option>
+                        <option value="hyundai">Hyundai</option>
+                        <option value="jeep">Jeep</option>
+                        <option value="bmw">BMW</option>
+                        <option value="mercedes">Mercedes-Benz</option>
+                        <option value="ford">Ford</option>
+                    </select>
+                </div>
 
-            <div class="filtro-group">
-                <label for="combustivel">Combustível</label>
-                <select id="combustivel">
-                    <option value="">Qualquer</option>
-                    <option value="gasolina">Gasolina</option>
-                    <option value="diesel">Diesel</option>
-                    <option value="alcool">Álcool</option>
-                    <option value="flex">Flex</option>
-                    <option value="hibrido">Híbrido</option>
-                    <option value="eletrico">Elétrico</option>
-                </select>
-            </div>
-            
-            <div class="filtro-group">
-                <label for="preco">Preço máximo/dia</label>
-                <input type="number" id="preco" placeholder="R$ 200,00" min="0">
-            </div>
-            
-            <div class="filtro-group">
-                <label for="malas">Mínimo de malas</label>
-                <input type="number" id="malas" min="0" value="">
-            </div>
-            
-            <div class="filtro-group">
-                <label for="passageiros">Mínimo de passageiros</label>
-                <input type="number" id="passageiros" min="1" value="">
-            </div>
-            
-            <div class="filtro-group">
-                <label for="portas">Mínimo de portas</label>
-                <input type="number" id="portas" min="0" value="">
+                <div class="filtro-group">
+                    <label for="modelo">Modelo</label>
+                    <select id="modelo">
+                        <option value="">Todos os modelos</option>
+                        <option value="argo">Argo</option>
+                        <option value="gol">Gol</option>
+                        <option value="corolla">Corolla</option>
+                        <option value="civic">Civic</option>
+                        <option value="compass">Compass</option>
+                        <option value="rav4">RAV4</option>
+                        <option value="hilux">Hilux</option>
+                        <option value="ranger">Ranger</option>
+                        <option value="kwid">Kwid</option>
+                        <option value="creta">Creta</option>
+                    </select>
+                </div>
+
+                <div class="filtro-group">
+                    <label for="transmissao">Transmissão</label>
+                    <select id="transmissao">
+                        <option value="">Qualquer</option>
+                        <option value="automatico">Automático</option>
+                        <option value="manual">Manual</option>
+                    </select>
+                </div>
+
+                <div class="filtro-group">
+                    <label for="combustivel">Combustível</label>
+                    <select id="combustivel">
+                        <option value="">Qualquer</option>
+                        <option value="gasolina">Gasolina</option>
+                        <option value="diesel">Diesel</option>
+                        <option value="alcool">Álcool</option>
+                        <option value="flex">Flex</option>
+                        <option value="hibrido">Híbrido</option>
+                        <option value="eletrico">Elétrico</option>
+                    </select>
+                </div>
+
+                <div class="filtro-group">
+                    <label for="preco">Preço máximo/dia</label>
+                    <input type="number" id="preco" placeholder="R$ 200,00" min="0">
+                </div>
+
+                <div class="filtro-group">
+                    <label for="malas">Mínimo de malas</label>
+                    <input type="number" id="malas" min="0" value="">
+                </div>
+
+                <div class="filtro-group">
+                    <label for="passageiros">Mínimo de passageiros</label>
+                    <input type="number" id="passageiros" min="1" value="">
+                </div>
+
+                <div class="filtro-group">
+                    <label for="portas">Mínimo de portas</label>
+                    <input type="number" id="portas" min="0" value="">
+                </div>
             </div>
         </div>
-    </div>
-    
-    <button class="btn-aplicar" id="aplicar-filtros">Aplicar Filtros</button>
-    <button class="btn-limpar" id="limpar-filtros">Limpar Filtros</button>
-</section>
+
+        <button class="btn-aplicar" id="aplicar-filtros">Aplicar Filtros</button>
+        <button class="btn-limpar" id="limpar-filtros">Limpar Filtros</button>
+    </section>
 
     <!-- Frota de Veículos -->
     <!-- Frota de Veículos -->
@@ -284,10 +297,12 @@ TAREFAS:
     <footer>
         <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
         <div class="footer-social">
-            <a href="https://wa.me/55XXXXXXXXXXX" target="_blank"><img src="../static/img/wpp.png" alt="WhatsApp" title="WhatsApp"></a>
-            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook.png" alt="Facebook" title="Facebook"></a>
-            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram.png" alt="Instagram" title="Instagram"></a>
-            <a href="mailto:contato@autofacil.com"><img src="../static/img/email.png" alt="Email" title="E-mail"></a>
+            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
+                    title="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
+                    title="Instagram"></a>
+            <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
         </div>
     </footer>
 
@@ -296,7 +311,7 @@ TAREFAS:
 
 </html>
 
-  <script src="../static/js/script.js"></script>
+<script src="../static/js/script.js"></script>
 
 </body>
 

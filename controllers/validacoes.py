@@ -1,5 +1,6 @@
 import re
 from datetime import datetime, date
+from flask import request
     
 def validarNome(nome):
     if not nome:
@@ -197,3 +198,62 @@ def validacaoGeralPj(RS, NF, cnpj, nome, cpf, cargo, phone, email, cep, logra, n
                 raise ValueError(erros)
             return True
 
+def aplicar_filtros(veiculos):
+    categoria = request.args.get('categoria', 'todos')
+    marca = request.args.get('marca', '')
+    modelo = request.args.get('modelo', '')
+    transmissao = request.args.get('transmissao', '')
+    combustivel = request.args.get('combustivel', '')
+    preco_maximo = request.args.get('preco_maximo', '')
+    malas_min = request.args.get('malas_min', '')
+    passageiros_min = request.args.get('passageiros_min', '')
+    portas_min = request.args.get('portas_min', '')
+    
+    # Filtrar veículos
+    veiculos_filtrados = veiculos.copy()
+    
+    # Aplicar filtros (MELHORADO)
+    if categoria and categoria != 'todos':
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.categoria.lower() == categoria.lower()]
+    
+    if marca:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.marca.lower() == marca.lower()]
+    
+    if modelo:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.modelo.lower() == modelo.lower()]
+    
+    if transmissao:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.transmissao.lower() == transmissao.lower()]
+    
+    if combustivel:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.combustivel.lower() == combustivel.lower()]
+    
+    if preco_maximo:
+        try:
+            preco = float(preco_maximo)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.preco <= preco]
+        except ValueError:
+            pass
+    
+    if malas_min:
+        try:
+            min_malas = int(malas_min)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.malas >= min_malas]
+        except ValueError:
+            pass
+    
+    if passageiros_min:
+        try:
+            min_passageiros = int(passageiros_min)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.passageiros >= min_passageiros]
+        except ValueError:
+            pass
+    
+    if portas_min:
+        try:
+            min_portas = int(portas_min)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.portas >= min_portas]
+        except ValueError:
+            pass
+
+    return veiculos_filtrados

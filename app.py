@@ -15,6 +15,7 @@ TAREFAS:
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort
 import re
+import math
 from models.UserPf import UserPf, USERSpf, addUser, delUser, getUserByCpf, getUserByEmail, verificarDuplicidade
 from models.UserPj import UserPj, USERSpj, addUserPj
 from models.Veiculo import Veiculo, VEICULOS, addVeiculo, removerVeiculo, getVeiById
@@ -129,123 +130,17 @@ def pgFrota():  #adicionar o filtro de preço menor para maior
             veiculos_filtrados = [v for v in veiculos_filtrados if v.portas >= min_portas]
         except ValueError:
             pass
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 12
+
+    start = (page-1)*per_page
+    end = start + per_page
+    total_pages = math.ceil(len(veiculos_filtrados)/per_page)
+
+    veiculos_da_pagina = veiculos_filtrados[start:end]
     
-    # Formatar os dados para o template
-    veiculos_formatados = []
-    for veiculo in veiculos_filtrados:
-        veiculos_formatados.append({
-            'id': veiculo.id,
-            'categoria': veiculo.categoria,
-            'marca': veiculo.marca,
-            'modelo': veiculo.modelo,
-            'transmissao': veiculo.transmissao,
-            'preco': f"{veiculo.preco:.2f}",
-            'nome': veiculo.nome,
-            'imagem': veiculo.imagem,
-            'malas': veiculo.malas,
-            'passageiros': veiculo.passageiros,
-            'portas': veiculo.portas,
-            'combustivel': veiculo.combustivel,
-            'status': veiculo.status
-        })
-    
-    return render_template('frota.html', veiculos=veiculos_formatados)
-
-
- 
-
-
-@app.route('/api/filtrar', methods=['POST']) #refazer
-def api_filtrar():
-    try:
-        # Obter dados do JSON
-        data = request.get_json()
-        
-        categoria = data.get('categoria', '')
-        marca = data.get('marca', '')
-        modelo = data.get('modelo', '')
-        transmissao = data.get('transmissao', '')
-        combustivel = data.get('combustivel', '')
-        preco_maximo = data.get('preco_maximo', '')
-        malas_min = data.get('malas_min', '')
-        passageiros_min = data.get('passageiros_min', '')
-        portas_min = data.get('portas_min', '')
-        
-        # Filtrar veículos
-        veiculos_filtrados = VEICULOS.copy()
-        
-        # Aplicar filtros
-        if categoria and categoria != 'todos':
-            veiculos_filtrados = [v for v in veiculos_filtrados if v['categoria'].lower() == categoria.lower()]
-        
-        if marca:
-            veiculos_filtrados = [v for v in veiculos_filtrados if v['marca'].lower() == marca.lower()]
-        
-        if modelo:
-            veiculos_filtrados = [v for v in veiculos_filtrados if v['modelo'].lower() == modelo.lower()]
-        
-        if transmissao:
-            veiculos_filtrados = [v for v in veiculos_filtrados if v['transmissao'].lower() == transmissao.lower()]
-        
-        if combustivel:
-            veiculos_filtrados = [v for v in veiculos_filtrados if v.get('combustivel', '').lower() == combustivel.lower()]
-        
-        if preco_maximo:
-            try:
-                preco = float(preco_maximo)
-                veiculos_filtrados = [v for v in veiculos_filtrados if v['preco_diario'] <= preco]
-            except ValueError:
-                pass
-        
-        if malas_min:
-            try:
-                min_malas = int(malas_min)
-                veiculos_filtrados = [v for v in veiculos_filtrados if v['numero_malas'] >= min_malas]
-            except ValueError:
-                pass
-        
-        if passageiros_min:
-            try:
-                min_passageiros = int(passageiros_min)
-                # Ordenar por proximidade ao número solicitado (exato primeiro)
-                veiculos_filtrados = sorted(
-                    [v for v in veiculos_filtrados if v['numero_passageiros'] >= min_passageiros],
-                    key=lambda x: (x['numero_passageiros'] == min_passageiros, x['numero_passageiros']),
-                    reverse=True
-                )
-            except ValueError:
-                pass
-        
-        if portas_min:
-            try:
-                min_portas = int(portas_min)
-                veiculos_filtrados = [v for v in veiculos_filtrados if v['numero_portas'] >= min_portas]
-            except ValueError:
-                pass
-        
-        # Formatar resposta
-        resposta = []
-        for veiculo in veiculos_filtrados:
-            resposta.append({
-                'id': veiculo.get('id', 0),
-                'categoria': veiculo['categoria'],
-                'marca': veiculo['marca'],
-                'modelo': veiculo['modelo'],
-                'transmissao': veiculo['transmissao'],
-                'preco': f"{veiculo['preco_diario']:.2f}",
-                'nome': veiculo['nome'],
-                'imagem': veiculo['imagem'],
-                'malas': veiculo['numero_malas'],
-                'passageiros': veiculo['numero_passageiros'],
-                'portas': veiculo['numero_portas'],
-                'combustivel': veiculo.get('combustivel', 'Flex'),
-                'status': veiculo['status']
-            })
-        
-        return jsonify(resposta)
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    return render_template('frota.html', veiculos=veiculos_da_pagina, page=page, total_pages=total_pages)
 
 @app.route('/colaborador', methods=['GET'])
 def pgColaborador():
@@ -278,5 +173,4 @@ def erro_interno_servidor(error):
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 

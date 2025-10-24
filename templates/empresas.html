@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoFácil - Para Empresas</title>
+
+  <!-- csss link -->
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <!-- Favicons links -->
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+  <!-- Google Fonts link -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body data-page='empresas'>
+  <!-- ======= NAVBAR ======= -->
+  <header class="topbar">
+    <nav class="nav">
+      <div class="nav-left">
+        <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+          <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+          <div class="menu-panel" id="menuPanel">
+            <ul class="panel-main">
+              <li><a href="#">Promoções</a></li>
+              <li><a href="#">Atendimento</a></li>
+              <li><a href="#">Agências</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+            <ul class="panel-nav">
+              <li><a href="/frota">Alugar agora</a></li>
+              <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+              <li><a href="/empresas">Para empresas</a></li>
+              <li><a href="/minhasReservas">Minhas reservas</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <a class="logo" href="/" aria-label="AutoFácil - Início">
+          <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+            class="logo-img">
+        </a>
+      </div>
+
+      <div class="nav-center">
+        <a href="/frota" class="nav-btn">Alugar agora</a>
+        <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
+        <a href="/empresas" class="nav-btn">Para empresas</a>
+        {% if session.get('usuario_logado') %}
+        <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+        {% endif %}
+      </div>
+
+      <div class="nav-right">
+        <a href="#">
+            <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
+                class="icon-btn">
+        </a>
+        <a href="#">
+            <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+                title="Acessibilidade" class="icon-btn">
+        </a>
+    
+        {% if session.get('usuario_logado') %}
+        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+            <a href="#">
+                <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
+                    class="icon-btn">
+            </a>
+            <div class="menu-panel">
+                <ul class="panel-logout">
+                    <li><a href="/alter_data">Portal do cliente</a></li>
+                    <li><a href="/logout">Encerrar sessão</a></li>
+                </ul>
+            </div>
+        </div>
+        {% else %}
+        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+          <a href="#">
+            <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                class="icon-btn">
+          </a>
+            <div class="menu-panel">
+                <ul class="panel-login">
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/cadastro">Cadastro</a></li>
+                    <li><a href="/colaborador">Colaborador</a></li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+  </header>
+
+<!-- ======= HERO EMPRESAS ======= -->
+<section class="hero-empresas">
+    <div class="hero-empresas-container">
+        <div class="hero-empresas-content">
+            <h1 class="hero-empresas-title">Aluguel de carros para sua empresa</h1>
+            <p class="hero-empresas-subtitle">Soluções completas em mobilidade corporativa com frota própria e gestão dedicada</p>
+
+            <div class="hero-empresas-cta">
+                <a href="#form-empresa" class="btn-hero-primary">Solicitar proposta</a>
+            </div>
+        </div>
+        
+        <div class="hero-empresas-image">
+            <img src="../static/img/empresa.svg" alt="Carro com pessoas" style="max-width: 100%; height: auto; opacity: 0.9;">
+        </div>
+    </div>
+</section>
+
+
+  <!-- ======= SOLUÇÕES CORPORATIVAS ======= -->
+  <section class="solucoes-corporativas">
+    <div class="solucoes-container">
+      <div class="solucoes-header">
+        <h2>Soluções corporativas AutoFácil</h2>
+        <p>Oferecemos diferentes modalidades para atender sua empresa</p>
+      </div>
+      
+      <div class="solucoes-grid">
+        <div class="solucao-card">
+          <div class="solucao-icon">
+            <img src="../static/img/frota-dedicada.png" alt="Frota Dedicada">
+          </div>
+          <h3>Frota Dedicada</h3>
+          <p>Veículos exclusivos para sua empresa com gestão completa</p>
+          <ul>
+            <li>Frota 100% dedicada</li>
+            <li>Manutenção programada</li>
+            <li>Seguro completo</li>
+            <li>Relatórios personalizados</li>
+          </ul>
+        </div>
+        
+        <div class="solucao-card">
+          <div class="solucao-icon">
+            <img src="../static/img/locacao-avulsa.png" alt="Locação Avulsa">
+          </div>
+          <h3>Locação Avulsa</h3>
+          <p>Veículos sob demanda para necessidades específicas</p>
+          <ul>
+            <li>Retirada imediata</li>
+            <li>Diversas categorias</li>
+            <li>Agilidade no processo</li>
+            <li>Descontos corporativos</li>
+          </ul>
+        </div>
+        
+        <div class="solucao-card">
+          <div class="solucao-icon">
+            <img src="../static/img/terceirizacao-frota.png" alt="Terceirização">
+          </div>
+          <h3>Terceirização de Frota</h3>
+          <p>Transfira toda a gestão da sua frota para a AutoFácil</p>
+          <ul>
+            <li>Redução de custos</li>
+            <li>Gestão especializada</li>
+            <li>Manutenção preventiva</li>
+            <li>Suporte 24/7</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= VANTAGENS ======= -->
+  <section class="vantagens-empresas">
+    <div class="vantagens-container">
+      <div class="vantagens-header">
+        <h2>Por que escolher a AutoFácil?</h2>
+      </div>
+      
+      <div class="vantagens-grid">
+        <div class="vantagem-item">
+          <div class="vantagem-numero">01</div>
+          <h3>Frota Própria</h3>
+          <p>Todos os veículos são de nossa propriedade, garantindo qualidade e manutenção adequada</p>
+        </div>
+        
+        <div class="vantagem-item">
+          <div class="vantagem-numero">02</div>
+          <h3>Gestão Completa</h3>
+          <p>Oferecemos relatórios detalhados e ferramentas para otimizar sua frota</p>
+        </div>
+        
+        <div class="vantagem-item">
+          <div class="vantagem-numero">03</div>
+          <h3>Cobertura Nacional</h3>
+          <p>Atendimento em todo o Brasil com agências estrategicamente localizadas</p>
+        </div>
+        
+        <div class="vantagem-item">
+          <div class="vantagem-numero">04</div>
+          <h3>Suporte Dedicado</h3>
+          <p>Consultor especializado para atender sua empresa de forma personalizada</p>
+        </div>
+        
+        <div class="vantagem-item">
+          <div class="vantagem-numero">05</div>
+          <h3>Tecnologia</h3>
+          <p>Plataforma digital para gestão de reservas, frotas e relatórios em tempo real</p>
+        </div>
+        
+        <div class="vantagem-item">
+          <div class="vantagem-numero">06</div>
+          <h3>Economia</h3>
+          <p>Redução de custos com manutenção, seguro e gestão da frota</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FORMULÁRIO DE CONTATO ======= -->
+  <section class="formulario-empresas" id="form-empresa">
+    <div class="formulario-container">
+      <div class="formulario-header">
+        <h2>Ficou interessado?</h2>
+        <p>Deixe seus dados e entraremos em contato.</p>
+      </div>
+      
+      <form class="form-empresa" method="POST" action="/solicitar_contato_empresa">
+        <div class="form-grid-duplo">
+          <div class="form-group">
+            <label for="nome_empresa">Nome da Empresa*</label>
+            <input type="text" id="nome_empresa" name="nome_empresa" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="cnpj_empresa">CNPJ*</label>
+            <input type="text" id="cnpj_empresa" name="cnpj_empresa" required placeholder="00.000.000/0000-00">
+          </div>
+        </div>
+        
+        <div class="form-grid-duplo">
+          <div class="form-group">
+            <label for="nome_contato">Nome Completo*</label>
+            <input type="text" id="nome_contato" name="nome_contato" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="cargo_contato">Cargo*</label>
+            <input type="text" id="cargo_contato" name="cargo_contato" required>
+          </div>
+        </div>
+        
+        <div class="form-grid-duplo">
+          <div class="form-group">
+            <label for="email_contato">E-mail*</label>
+            <input type="email" id="email_contato" name="email_contato" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="telefone_contato">Telefone*</label>
+            <input type="tel" id="telefone_contato" name="telefone_contato" required placeholder="(00) 00000-0000">
+          </div>
+        </div>
+        
+        <div class="form-grid-duplo">
+          <div class="form-group">
+            <label for="quantidade_veiculos">Quantidade de veículos*</label>
+            <select id="quantidade_veiculos" name="quantidade_veiculos" required>
+              <option value="">Selecione</option>
+              <option value="1-5">1 a 5 veículos</option>
+              <option value="6-20">6 a 20 veículos</option>
+              <option value="21-50">21 a 50 veículos</option>
+              <option value="51+">Mais de 50 veículos</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="tipo_frota">Tipo de frota*</label>
+            <select id="tipo_frota" name="tipo_frota" required>
+              <option value="">Selecione</option>
+              <option value="executiva">Executiva</option>
+              <option value="operacional">Operacional</option>
+              <option value="mista">Mista</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="mensagem_empresa">Mensagem (Opcional)</label>
+          <textarea id="mensagem_empresa" name="mensagem_empresa" rows="4" placeholder="Conte-nos sobre suas necessidades específicas..."></textarea>
+        </div>
+        
+        <div class="form-observacao">
+          <p>* Campos de preenchimento obrigatório</p>
+        </div>
+        
+        <button type="submit" class="btn-enviar-form">Solicitar contato</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- NOVO FOOTER -->
+  <section class="pre-footer">
+    <div class="footer-container">
+      <div class="footer-decoration">
+        <img src="../static/img/item-decoracao.png" alt="Decoração footer">
+      </div>
+      <div class="footer-column">
+        <h3>Institucional</h3>
+        <ul>
+          <li><a href="#">Sobre a AutoFácil</a></li>
+          <li><a href="#">Trabalhe conosco</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos e Condições</a></li>
+          <li><a href="#">Política de Cookies</a></li>
+          <li><a href="#">Código de Conduta</a></li>
+          <li><a href="#">Política Antidiscriminatória</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Para você</h3>
+        <ul>
+          <li><a href="#">Minhas reservas</a></li>
+          <li><a href="#">Categorias de veículos</a></li>
+          <li><a href="#">Promoções e descontos</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Suporte ao cliente</h3>
+        <ul>
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Dúvidas frequentes</a></li>
+          <li><a href="#">Requisitos para locação</a></li>
+          <li><a href="#">Gerenciar minha reserva</a></li>
+          <li><a href="#">Fale conosco</a></li>
+          <li><a href="#">Atendimento via WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Faixa decorativa -->
+    <div class="footer-decoration2">
+      <img src="../static/img/item-decoracao(2)].png" alt="decoração footer">
+    </div>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+    <div class="footer-social">
+      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
+          title="Whatsapp"></a>
+      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
+          title="Facebook"></a>
+      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
+          title="Instagram"></a>
+      <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
+    </div>
+  </footer>
+
+  <script src="../static/js/script.js"></script>
+</body>
+
+</html>

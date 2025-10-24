@@ -1697,7 +1697,6 @@ a {
 .error-message {
     font-size: 1.1rem;
     color: #555;
-    margin-bottom: 30px;
     line-height: 1.6;
 }
 
@@ -2192,7 +2191,612 @@ a {
     font-weight: 700;
 }
 
+/* ======= HERO EMPRESAS ======= */
+.hero-empresas {
+    background: linear-gradient(135deg, #002f5f 0%, #004494 100%);
+    color: white;
+    padding: 70px 20px ;
+    position: relative;
+    overflow: hidden;
+}
 
+.hero-empresas-container {
+    max-width: 1200px;
+    min-height: fit-content;
+    max-height: 350px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.hero-empresas-content {
+    z-index: 2;
+}
+
+.hero-empresas-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero-empresas-subtitle {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.hero-empresas-vantagens {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.vantagem-hero {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+}
+
+.vantagem-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.hero-empresas-cta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+    background: #ff8c14;
+    color: white;
+    padding: 16px 32px;
+    margin-top: 80px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+}
+
+.btn-hero-primary:hover {
+    background: #e67e0f;
+    transform: translateY(-2px);
+}
+
+.hero-empresas-image {
+    position: absolute;
+    right: 10%;
+    top: 5%;
+    bottom: 5%;
+    z-index: 1;
+    max-width: 32%;
+    width: 50vw;
+    max-height: 100%;
+}
+
+.hero-empresas-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+/* ======= ACESSO RÁPIDO ======= */
+.acesso-rapido-empresas {
+    padding: 60px 20px;
+    background: #f8f9fa;
+}
+
+.acesso-rapido-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.acesso-rapido-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.acesso-rapido-card:hover {
+    transform: translateY(-5px);
+}
+
+.acesso-rapido-card.destaque {
+    border: 2px solid #ff8c14;
+    position: relative;
+}
+
+.acesso-rapido-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: #f0f7ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.acesso-rapido-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.acesso-rapido-card h3 {
+    color: #002f5f;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.acesso-rapido-card p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.btn-acesso-rapido {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #002f5f;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-acesso-rapido:hover {
+    background: #001f3f;
+}
+
+/* ======= SOLUÇÕES CORPORATIVAS ======= */
+.solucoes-corporativas {
+    padding: 80px 20px;
+    background: white;
+}
+
+.solucoes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.solucoes-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.solucoes-header h2 {
+    font-size: 2.5rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+}
+
+.solucoes-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.solucoes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.solucao-card {
+    background: #f8f9fa;
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.solucao-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.solucao-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.solucao-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.solucao-card h3 {
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.solucao-card p {
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.solucao-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.solucao-card li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+    position: relative;
+    padding-left: 25px;
+    color: #555;
+}
+
+.solucao-card li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.solucao-card li:last-child {
+    border-bottom: none;
+}
+
+/* ======= VANTAGENS EMPRESAS ======= */
+.vantagens-empresas {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.vantagens-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.vantagens-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.vantagens-header h2 {
+    font-size: 2.5rem;
+    color: #002f5f;
+}
+
+.vantagens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.vantagem-item {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.vantagem-numero {
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    background: #ff8c14;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.vantagem-item h3 {
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    margin-top: 10px;
+}
+
+.vantagem-item p {
+    color: #666;
+    line-height: 1.6;
+}
+
+/* ======= FORMULÁRIO EMPRESAS ======= */
+.formulario-empresas {
+    padding: 80px 20px;
+    background: white;
+}
+
+.formulario-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.formulario-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.formulario-header h2 {
+    font-size: 2.5rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+}
+
+.formulario-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.form-empresa {
+    background: #f8f9fa;
+    padding: 50px 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-grid-duplo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.form-empresa .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-empresa label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-empresa input,
+.form-empresa select,
+.form-empresa textarea {
+    border: 1px solid #ddd;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+    transition: all 0.3s;
+}
+
+.form-empresa input:focus,
+.form-empresa select:focus,
+.form-empresa textarea:focus {
+    border-color: #002f5f;
+    box-shadow: 0 0 0 3px rgba(0, 47, 95, 0.1);
+    outline: none;
+}
+
+.form-empresa textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-observacao {
+    text-align: center;
+    margin: 25px 0;
+}
+
+.form-observacao p {
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.btn-enviar-form {
+    background: #002f5f;
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+.btn-enviar-form:hover {
+    background: #001f3f;
+    transform: translateY(-2px);
+}
+
+/* ======= DEPOIMENTOS EMPRESAS ======= */
+.depoimentos-empresas {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #002f5f 0%, #004494 100%);
+    color: white;
+}
+
+.depoimentos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.depoimentos-empresas h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 60px;
+}
+
+.depoimentos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.depoimento-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 40px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.depoimento-content {
+    position: relative;
+}
+
+.aspas {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.depoimento-texto {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+.depoimento-autor {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 20px;
+}
+
+.depoimento-autor strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.depoimento-autor span {
+    display: block;
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.empresa {
+    font-weight: 600;
+    opacity: 0.9 !important;
+}
+
+/* ======= CTA FINAL ======= */
+.cta-final-empresas {
+    padding: 80px 20px;
+    background: #f8f9fa;
+}
+
+.cta-final-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-final-content h2 {
+    font-size: 2.5rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+}
+
+.cta-final-content p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.cta-final-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.btn-cta-primary {
+    background: #ff8c14;
+    color: white;
+    padding: 18px 45px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+}
+
+.btn-cta-primary:hover {
+    background: #e67e0f;
+    transform: translateY(-2px);
+}
+
+.cta-contatos {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cta-telefone,
+.cta-whatsapp {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.cta-telefone {
+    background: #002f5f;
+    color: white;
+}
+
+.cta-telefone:hover {
+    background: #001f3f;
+    transform: translateY(-2px);
+}
+
+.cta-whatsapp {
+    background: #25D366;
+    color: white;
+}
+
+.cta-whatsapp:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+}
+
+.cta-telefone img,
+.cta-whatsapp img {
+    width: 20px;
+    height: 20px;
+}
 
 /* ===== PRÉ-FOOTER ===== */
 .pre-footer {
@@ -2324,14 +2928,15 @@ footer hr {
     .veiculo-detalhes {
         grid-template-columns: 1fr;
     }
-    
+
     .veiculo-galeria {
         grid-column: 1;
     }
-    
+
     .card-reserva {
         position: static;
     }
+
     .icon-btn {
         width: clamp(22px, 6vw, 32px);
         height: clamp(22px, 6vw, 32px);
@@ -2484,6 +3089,56 @@ footer hr {
 }
 
 @media (max-width: 768px) {
+    .hero-empresas-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-empresas-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-empresas-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .hero-empresas-cta {
+        justify-content: center;
+    }
+
+    .acesso-rapido-container {
+        grid-template-columns: 1fr;
+    }
+
+    .solucoes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vantagens-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid-duplo {
+        grid-template-columns: 1fr;
+    }
+
+    .depoimentos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-contatos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cta-telefone,
+    .cta-whatsapp {
+        width: 100%;
+        max-width: 250px;
+        justify-content: center;
+    }
+
     .cadastro-hero h1 {
         font-size: 2rem;
     }
@@ -2499,12 +3154,14 @@ footer hr {
     .form-grid {
         grid-template-columns: 1fr;
     }
+
     .btn-aplicar,
     .btn-limpar {
         width: 100%;
         margin-left: 0;
         margin-top: 10px;
     }
+
     .carousel-btn {
         padding: 8px;
         font-size: 16px;
@@ -2636,19 +3293,19 @@ footer hr {
         justify-content: center;
     }
 
-        .especificacoes-grid,
+    .especificacoes-grid,
     .itens-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .datas-reserva {
         grid-template-columns: 1fr;
     }
-    
+
     .veiculo-nome {
         font-size: 1.5rem;
     }
-    
+
     .imagem-principal {
         height: 300px;
     }
@@ -2910,4 +3567,3 @@ input.erro {
     color: #3669a4;
     font-weight: 600;
 }
-

@@ -605,7 +605,8 @@ function validarCampo(campo) {
             if (!valor) return 'Cargo é obrigatório.';
             if (valor.length < 2) return 'Cargo muito curto.';
             return '';
-        }
+        },
+
     };
 
     if (validacoes[campo.id]) {

@@ -30,21 +30,18 @@
       <div class="nav-left">
         <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
           <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
-          <!-- Painel do menu -->
           <div class="menu-panel" id="menuPanel">
-            <!-- Opções extras (sempre no painel) -->
             <ul class="panel-main">
               <li><a href="#">Promoções</a></li>
               <li><a href="#">Atendimento</a></li>
               <li><a href="#">Agências</a></li>
               <li><a href="#">FAQ</a></li>
             </ul>
-            <!-- Opções que duplicam o nav-center (apenas < 1000px) -->
             <ul class="panel-nav">
               <li><a href="/frota">Alugar agora</a></li>
-              <li><a href="#" class="active">Aluguel mensal</a></li>
-              <li><a href="#">Para empresas</a></li>
-              <li><a href="#">Minhas reservas</a></li>
+              <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+              <li><a href="/empresas">Para empresas</a></li>
+              <li><a href="/minhasReservas">Minhas reservas</a></li>
             </ul>
           </div>
 
@@ -60,7 +57,9 @@
         <a href="/frota" class="nav-btn">Alugar agora</a>
         <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
         <a href="/empresas" class="nav-btn">Para empresas</a>
+        {% if session.get('usuario_logado') %}
         <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+        {% endif %}
       </div>
 
       <div class="nav-right">
@@ -74,22 +73,34 @@
         </a>
 
         {% if session.get('usuario_logado') %}
-        <!-- Se usuário estiver logado, mostra logout -->
-        <a href="{{ url_for('logout') }}">
-          <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Botão de logout" title="Logout"
-            class="icon-btn">
-        </a>
+        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+          <a href="#">
+            <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
+              class="icon-btn">
+          </a>
+          <div class="menu-panel">
+            <ul class="panel-logout">
+              <li><a href="#">Portal do cliente</a></li>
+              <li><a href="/logout">Encerrar sessão</a></li>
+            </ul>
+          </div>
+        </div>
         {% else %}
-        <!-- Se não estiver logado, mostra login -->
-        <a href="{{ url_for('mudarLogin') }}">
-          <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-            class="icon-btn">
-        </a>
+        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+          <a href="#">
+            <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+              class="icon-btn">
+          </a>
+          <div class="menu-panel">
+            <ul class="panel-login">
+              <li><a href="/login">Login</a></li>
+              <li><a href="/cadastro">Cadastro</a></li>
+              <li><a href="#">Colaborador</a></li>
+            </ul>
+          </div>
+        </div>
         {% endif %}
       </div>
-
-
-    </nav>
   </header>
 
   <!-- ======= HERO SECTION ======= -- >
@@ -109,7 +120,7 @@
     <div class="banner-container">
       <img src="../static/img/Mais.png">
     </div>
-  </section> 
+  </section>
 
   <!-- ======= VANTAGENS ======= -->
   <section class="vantagens-mensal">
@@ -153,7 +164,7 @@
     <div class="container">
       <h2>Planos e descontos progressivos</h2>
       <p class="subtitle">Na AutoFácil, a partir de 1 mês, sua mobilidade fica mais leve e econômica.</p>
-      
+
       <div class="planos-grid">
         <div class="plano-item">
           <div class="plano-header">
@@ -172,7 +183,7 @@
           </ul>
           <a href="#" class="btn-plano">Contratar</a>
         </div>
-        
+
         <div class="plano-item destaque">
           <div class="plano-header">
             <h3>3 meses</h3>
@@ -191,7 +202,7 @@
           </ul>
           <a href="#" class="btn-plano destaque">Contratar</a>
         </div>
-        
+
         <div class="plano-item">
           <div class="plano-header">
             <h3>6 meses</h3>
@@ -212,7 +223,7 @@
           <a href="#" class="btn-plano">Contratar</a>
         </div>
       </div>
-      
+
       <div class="planos-observacao">
         <p>* Descontos aplicados sobre o valor da diária padrão. Consulte condições e disponibilidade.</p>
       </div>
@@ -236,7 +247,7 @@
                 <option value="luxo">Luxo</option>
               </select>
             </div>
-            
+
             <div class="form-group">
               <label for="periodo">Período de locação</label>
               <select id="periodo" name="periodo">
@@ -247,7 +258,7 @@
                 <option value="12">12 meses</option>
               </select>
             </div>
-            
+
             <div class="form-group">
               <label for="local">Local de retirada</label>
               <select id="local" name="local">
@@ -258,11 +269,11 @@
                 <option value="brasilia">Brasília</option>
               </select>
             </div>
-            
+
             <button type="button" class="btn-simular">Simular</button>
           </form>
         </div>
-        
+
         <div class="simulador-resultado">
           <div class="resultado-placeholder">
             <p>Preencha os dados ao lado para ver a simulação</p>
@@ -287,7 +298,7 @@
                 <span class="valortotal" id="mensal-resultado">-</span>
               </div>
             </div>
-            <a href="#" class="btn-reservar">Reservar agora</a>
+            <a href="/aluguelMensal" class="btn-reservar">Reservar agora</a>
           </div>
         </div>
       </div>
@@ -305,37 +316,41 @@
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-resposta">
-            <p>Para alugar um veículo por período mensal, você precisará de: CNH dentro do prazo de validade, CPF, comprovante de residência e cartão de crédito em nome do locatário.</p>
+            <p>Para alugar um veículo por período mensal, você precisará de: CNH dentro do prazo de validade, CPF,
+              comprovante de residência e cartão de crédito em nome do locatário.</p>
           </div>
         </div>
-        
+
         <div class="faq-item">
           <div class="faq-pergunta">
             <h3>Posso renovar o contrato antes do término?</h3>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-resposta">
-            <p>Sim, é possível renovar o contrato antes do término. Entre em contato com nossa central de atendimento com pelo menos 15 dias de antecedência para garantir a renovação nas mesmas condições.</p>
+            <p>Sim, é possível renovar o contrato antes do término. Entre em contato com nossa central de atendimento
+              com pelo menos 15 dias de antecedência para garantir a renovação nas mesmas condições.</p>
           </div>
         </div>
-        
+
         <div class="faq-item">
           <div class="faq-pergunta">
             <h3>O que está incluso no valor do aluguel mensal?</h3>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-resposta">
-            <p>O valor inclui: seguro completo, manutenção preventiva, assistência 24h, licenciamento e documentação. Combustível e estacionamento são de responsabilidade do cliente.</p>
+            <p>O valor inclui: seguro completo, manutenção preventiva, assistência 24h, licenciamento e documentação.
+              Combustível e estacionamento são de responsabilidade do cliente.</p>
           </div>
         </div>
-        
+
         <div class="faq-item">
           <div class="faq-pergunta">
             <h3>Posso devolver o veículo antes do prazo?</h3>
             <span class="faq-toggle">+</span>
           </div>
           <div class="faq-resposta">
-            <p>Sim, é possível devolver o veículo antecipadamente. Consulte nossas condições específicas, pois podem ser aplicadas taxas administrativas dependendo do período contratado.</p>
+            <p>Sim, é possível devolver o veículo antecipadamente. Consulte nossas condições específicas, pois podem ser
+              aplicadas taxas administrativas dependendo do período contratado.</p>
           </div>
         </div>
       </div>
@@ -347,8 +362,7 @@
   <footer>
     <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
     <div class="footer-social">
-      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
-          title="Whatsapp"></a>
+      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
       <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
           title="Facebook"></a>
       <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"

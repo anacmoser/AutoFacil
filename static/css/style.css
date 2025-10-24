@@ -1772,6 +1772,428 @@ a {
 .error-details li {
     margin-bottom: 5px;
 }
+
+
+/* ======= DETALHES DO VEÍCULO ======= */
+.detalhes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.breadcrumb {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: #002f5f;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.veiculo-detalhes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 400px;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.veiculo-galeria {
+    grid-column: 1 / 3;
+}
+
+.imagem-principal {
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagem-principal img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.miniaturas {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.miniatura {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    flex-shrink: 0;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.miniatura.active,
+.miniatura:hover {
+    opacity: 1;
+    border: 2px solid #ff8c14;
+}
+
+.miniatura img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.veiculo-info-reserva {
+    padding-right: 20px;
+}
+
+.veiculo-header {
+    margin-bottom: 25px;
+}
+
+.veiculo-categoria {
+    font-size: 12px;
+    color: #ff8c14;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    display: block;
+}
+
+.veiculo-nome {
+    font-size: 1.8rem;
+    color: #002f5f;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.veiculo-avaliacao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.estrelas {
+    color: #ffc107;
+}
+
+.avaliacao-texto {
+    font-size: 14px;
+    color: #666;
+}
+
+.veiculo-especificacoes {
+    margin-bottom: 25px;
+}
+
+.veiculo-especificacoes h2,
+.veiculo-descricao h2,
+.veiculo-itens h2 {
+    font-size: 1.3rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.especificacoes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.especificacao-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.especificacao-item i {
+    color: #ff8c14;
+    width: 20px;
+    text-align: center;
+}
+
+.veiculo-descricao {
+    margin-bottom: 25px;
+}
+
+.veiculo-descricao p {
+    line-height: 1.6;
+    color: #555;
+}
+
+.veiculo-itens {
+    margin-bottom: 25px;
+}
+
+.itens-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.item-serie {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.item-serie i {
+    color: #28a745;
+    font-size: 12px;
+}
+
+.card-reserva {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.reserva-preco {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.preco-diario {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.preco-diario .valor {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #002f5f;
+}
+
+.preco-diario .periodo {
+    font-size: 1rem;
+    color: #777;
+}
+
+.preco-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: #555;
+}
+
+.valor-total {
+    font-weight: 700;
+    color: #002f5f;
+}
+
+.form-reserva h3 {
+    font-size: 1.2rem;
+    color: #002f5f;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.datas-reserva {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.input-data-container {
+    position: relative;
+}
+
+.input-data-container input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f9f9f9;
+    cursor: pointer;
+}
+
+.input-data-container i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.calendario-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    display: none;
+    padding: 15px;
+}
+
+.calendario {
+    width: 100%;
+}
+
+.calendario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendario-dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.dia-semana,
+.dia-mes {
+    text-align: center;
+    padding: 8px 5px;
+    font-size: 12px;
+}
+
+.dia-semana {
+    font-weight: 600;
+    color: #002f5f;
+}
+
+.dia-mes {
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.dia-mes:hover {
+    background: #f0f0f0;
+}
+
+.dia-mes.disponivel {
+    color: #333;
+}
+
+.dia-mes.indisponivel {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.dia-mes.selecionado {
+    background: #ff8c14;
+    color: white;
+}
+
+.disponibilidade-info {
+    margin-bottom: 20px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.disponibilidade-info.disponivel {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.disponibilidade-info.indisponivel {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.disponibilidade-info i {
+    margin-right: 8px;
+}
+
+.dias-reserva {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #666;
+}
+
+.btn-reservar {
+    background: #ff8c14;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-reservar:hover {
+    background: #e67e0f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
+}
+
+.info-adicional {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.info-adicional p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-adicional i {
+    color: #28a745;
+    width: 16px;
+}
+
+.veiculos-similares {
+    margin-top: 60px;
+}
+
+.veiculos-similares h2 {
+    font-size: 1.8rem;
+    color: #002f5f;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+
+
 /* ===== PRÉ-FOOTER ===== */
 .pre-footer {
     background-color: #f3f7fb;
@@ -1898,9 +2320,18 @@ footer hr {
 
 /* ======= RESPONSIVIDADE ======= */
 
-@media (max-width: 1000px) {
-
-    /* mantém responsivo também abaixo de 1000px */
+@media (max-width: 1024px) {
+    .veiculo-detalhes {
+        grid-template-columns: 1fr;
+    }
+    
+    .veiculo-galeria {
+        grid-column: 1;
+    }
+    
+    .card-reserva {
+        position: static;
+    }
     .icon-btn {
         width: clamp(22px, 6vw, 32px);
         height: clamp(22px, 6vw, 32px);
@@ -2203,6 +2634,23 @@ footer hr {
         width: 100%;
         max-width: 250px;
         justify-content: center;
+    }
+
+        .especificacoes-grid,
+    .itens-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .datas-reserva {
+        grid-template-columns: 1fr;
+    }
+    
+    .veiculo-nome {
+        font-size: 1.5rem;
+    }
+    
+    .imagem-principal {
+        height: 300px;
     }
 }
 

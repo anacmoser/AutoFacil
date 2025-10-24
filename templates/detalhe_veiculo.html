@@ -1,2 +1,370 @@
-<!-- Estou retornando um objeto da classe veículo com o nome veiculo, pode chamar seus atributos com veiculo.atributo
-    Ex.: veiculo.img -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ veiculo.nome }} - AutoFácil</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body data-page='detalhes-veiculo'>
+    <header class="topbar">
+        <nav class="nav">
+            <div class="nav-left">
+                <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+                    <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+                    <div class="menu-panel" id="menuPanel">
+                        <ul class="panel-main">
+                            <li><a href="#">Promoções</a></li>
+                            <li><a href="#">Atendimento</a></li>
+                            <li><a href="#">Agências</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                        <ul class="panel-nav">
+                            <li><a href="/frota">Alugar agora</a></li>
+                            <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+                            <li><a href="/empresas">Para empresas</a></li>
+                            <li><a href="/minhasReservas">Minhas reservas</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a class="logo" href="/" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+                        class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <a href="/frota" class="nav-btn">Alugar agora</a>
+                <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
+                <a href="/empresas" class="nav-btn">Para empresas</a>
+                {% if session.get('usuario_logado') %}
+                <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+                {% endif %}
+            </div>
+
+            <div class="nav-right">
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
+                        title="Dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+                        title="Acessibilidade" class="icon-btn">
+                </a>
+
+                {% if session.get('usuario_logado') %}
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário"
+                            title="Minha conta" class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-logout">
+                            <li><a href="#">Portal do cliente</a></li>
+                            <li><a href="/logout">Encerrar sessão</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% else %}
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                            class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-login">
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/cadastro">Cadastro</a></li>
+                            <li><a href="#">Colaborador</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="detalhes-container">
+        <!-- Navegação de Migalhas -->
+        <div class="breadcrumb">
+            <a href="/">Início</a> &gt;
+            <a href="/frota">Frota</a> &gt;
+            <span>{{ veiculo.nome }}</span>
+        </div>
+
+        <!-- Seção Principal do Veículo -->
+        <div class="veiculo-detalhes">
+            <!-- Galeria de Imagens -->
+            <div class="veiculo-galeria">
+                <div class="imagem-principal">
+                    <img src="{{ veiculo.imagem }}" alt="{{ veiculo.nome }}" id="imagemPrincipal">
+                </div>
+                <div class="miniaturas">
+                    {% for imagem in veiculo.imagens_adicionais %}
+                    <div class="miniatura {% if loop.first %}active{% endif %}" data-imagem="{{ imagem }}">
+                        <img src="{{ imagem }}" alt="{{ veiculo.nome }}">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Informações e Reserva -->
+            <div class="veiculo-info-reserva">
+                <div class="veiculo-header">
+                    <span class="veiculo-categoria">{{ veiculo.categoria }}</span>
+                    <h1 class="veiculo-nome">{{ veiculo.nome }}</h1>
+                    <div class="veiculo-avaliacao">
+                        <div class="estrelas">
+                            {% for i in range(5) %}
+                                {% if i < veiculo.avaliacao %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="avaliacao-texto">{{ veiculo.avaliacao }} ({{ veiculo.num_avaliacoes }} avaliações)</span>
+                    </div>
+                </div>
+
+                <!-- Especificações do Veículo -->
+                <div class="veiculo-especificacoes">
+                    <h2>Especificações</h2>
+                    <div class="especificacoes-grid">
+                        <div class="especificacao-item">
+                            <i class="fas fa-user"></i>
+                            <span>{{ veiculo.passageiros }} passageiros</span>
+                        </div>
+                        <div class="especificacao-item">
+                            <i class="fas fa-suitcase"></i>
+                            <span>{{ veiculo.malas }} malas</span>
+                        </div>
+                        <div class="especificacao-item">
+                            <i class="fas fa-door-closed"></i>
+                            <span>{{ veiculo.portas }} portas</span>
+                        </div>
+                        <div class="especificacao-item">
+                            <i class="fas fa-cog"></i>
+                            <span>{% if veiculo.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}</span>
+                        </div>
+                        <div class="especificacao-item">
+                            <i class="fas fa-gas-pump"></i>
+                            <span>{{ veiculo.combustivel }}</span>
+                        </div>
+                        <div class="especificacao-item">
+                            <i class="fas fa-snowflake"></i>
+                            <span>{% if veiculo.ar_condicionado %}Ar condicionado{% else %}Sem ar condicionado{% endif %}</span>
+                        </div>
+                        <div class="especificacao-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>{{ veiculo.quilometragem }}</span>
+                        </div>
+                        <div class="especificacao-item">
+                            <i class="fas fa-car"></i>
+                            <span>{{ veiculo.ano }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descrição do Veículo -->
+                <div class="veiculo-descricao">
+                    <h2>Descrição</h2>
+                    <p>{{ veiculo.descricao }}</p>
+                </div>
+
+                <!-- Itens de Série -->
+                <div class="veiculo-itens">
+                    <h2>Itens de Série</h2>
+                    <div class="itens-grid">
+                        {% for item in veiculo.itens_serie %}
+                        <div class="item-serie">
+                            <i class="fas fa-check"></i>
+                            <span>{{ item }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Reserva -->
+            <div class="card-reserva">
+                <div class="reserva-preco">
+                    <div class="preco-diario">
+                        <span class="valor">R$ {{ veiculo.preco }}</span>
+                        <span class="periodo">/dia</span>
+                    </div>
+                    <div class="preco-total">
+                        <span>Total estimado:</span>
+                        <span class="valor-total">R$ <span id="valorTotal">{{ veiculo.preco * 3 }}</span></span>
+                    </div>
+                </div>
+
+                <!-- Formulário de Reserva -->
+                <div class="form-reserva">
+                    <h3>Reservar agora</h3>
+                    
+                    <!-- Seleção de Local -->
+                    <div class="form-group">
+                        <label for="localRetirada">Local de retirada</label>
+                        <select id="localRetirada">
+                            <option value="">Selecione uma agência</option>
+                            <option value="aeroporto-gru">Aeroporto de Guarulhos (GRU)</option>
+                            <option value="aeroporto-cgh">Aeroporto de Congonhas (CGH)</option>
+                            <option value="centro-sp">Centro - São Paulo</option>
+                            <option value="paulista">Av. Paulista - São Paulo</option>
+                        </select>
+                    </div>
+
+                    <!-- Datas de Retirada e Devolução -->
+                    <div class="datas-reserva">
+                        <div class="form-group">
+                            <label for="dataRetirada">Data de retirada</label>
+                            <div class="input-data-container">
+                                <input type="text" id="dataRetirada" placeholder="Selecione a data" readonly>
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="calendario-container" id="calendarioRetirada"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dataDevolucao">Data de devolução</label>
+                            <div class="input-data-container">
+                                <input type="text" id="dataDevolucao" placeholder="Selecione a data" readonly>
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="calendario-container" id="calendarioDevolucao"></div>
+                        </div>
+                    </div>
+
+                    <!-- Informações de Disponibilidade -->
+                    <div class="disponibilidade-info">
+                        <div id="statusDisponibilidade" class="disponivel">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Disponível para as datas selecionadas</span>
+                        </div>
+                        <div id="diasReserva" class="dias-reserva">
+                            <span>{{ 3 }} dias de aluguel</span>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Reserva -->
+                    <button class="btn-reservar" id="btnReservar">
+                        <i class="fas fa-car"></i>
+                        Reservar Agora
+                    </button>
+
+                    <!-- Informações Adicionais -->
+                    <div class="info-adicional">
+                        <p><i class="fas fa-shield-alt"></i> Proteção Total inclusa</p>
+                        <p><i class="fas fa-road"></i> Quilometragem livre</p>
+                        <p><i class="fas fa-tools"></i> Assistência 24h</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Veículos Similares -->
+        <section class="veiculos-similares">
+            <h2>Veículos similares</h2>
+            <div class="veiculos-grid">
+                {% for similar in veiculos_similares %}
+                <div class="veiculo-card">
+                    <div class="veiculo-imagem">
+                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}">
+                            <img src="{{ similar.imagem }}" alt="{{ similar.nome }}">
+                        </a>
+                    </div>
+                    <div class="veiculo-info">
+                        <div class="veiculo-categoria">{{ similar.categoria }}</div>
+                        <h3 class="veiculo-nome">{{ similar.nome }}</h3>
+                        <div class="veiculo-detalhes">
+                            <div class="veiculo-detalhe">
+                                <i class="fas fa-user"></i> {{ similar.passageiros }} passageiros
+                            </div>
+                            <div class="veiculo-detalhe">
+                                <i class="fas fa-suitcase"></i> {{ similar.malas }} malas
+                            </div>
+                            <div class="veiculo-detalhe">
+                                <i class="fas fa-cog"></i>
+                                {% if similar.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
+                            </div>
+                        </div>
+                        <div class="veiculo-preco">
+                            R$ {{ similar.preco }} <span>/dia</span>
+                        </div>
+                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}" class="btn-alugar">Ver detalhes</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Benefícios -->
+    <section class="beneficios">
+        <div class="beneficios-container">
+            <h2 class="beneficios-titulo">Por que alugar na AutoFácil?</h2>
+            <div class="beneficios-grid">
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Proteção Total</h3>
+                    <p class="beneficio-desc">Seguro completo incluso em todos os aluguéis para sua tranquilidade.</p>
+                </div>
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Manutenção Regular</h3>
+                    <p class="beneficio-desc">Todos os veículos passam por revisões periódicas para sua segurança.</p>
+                </div>
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Suporte 24h</h3>
+                    <p class="beneficio-desc">Estamos disponíveis a qualquer hora para ajudar no que precisar.</p>
+                </div>
+                <div class="beneficio-item">
+                    <div class="beneficio-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3 class="beneficio-titulo">Melhor Preço</h3>
+                    <p class="beneficio-desc">Garantimos o melhor preço do mercado com descontos exclusivos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+        <div class="footer-social">
+            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
+                    title="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
+                    title="Instagram"></a>
+            <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
+        </div>
+    </footer>
+
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/detalhes-veiculo.js"></script>
+</body>
+
+</html>

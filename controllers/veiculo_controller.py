@@ -9,4 +9,3 @@ def detalheVeiculo(veiculo_id):
     if veiculo is None:
         abort(404)
     return render_template('detalhe_veiculo.html', veiculo=veiculo)
-

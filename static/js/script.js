@@ -945,6 +945,7 @@ function initFrota() {
     console.log('Filtros inicializados com sucesso!');
 }
 
+
 // ====== PÁGINA ALUGUEL MENSAL ======
 function initAluguelMensal() {
     const precos = {

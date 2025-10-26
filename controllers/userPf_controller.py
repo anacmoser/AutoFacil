@@ -78,7 +78,8 @@ def login():
             for usuario in USERSpf:
                 if usuario.email == user :
                     if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.nome
+                        session['usuario_logado'] = usuario.id
+                        session['usuario_perfil'] = 'pf'
                         if remember:
                             response = make_response(redirect(url_for('index')))
                             response.set_cookie('user', str(usuario.id), max_age=60*60*72)
@@ -93,7 +94,8 @@ def login():
             for usuario in USERSpf:
                 if usuario.cpf == cpf:
                     if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.nome
+                        session['usuario_logado'] = usuario.id
+                        session['usuario_perfil'] = 'pf'
                         if remember:
                             response = make_response(redirect(url_for('index')))
                             response.set_cookie('user', str(usuario.id), max_age=60*60*72)

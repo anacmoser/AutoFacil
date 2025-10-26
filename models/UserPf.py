@@ -18,6 +18,7 @@ class UserPf:
             self._estado = estado
             self._cidade = cidade
             self.__senha = senha
+            self._perfil = 'pf'
 
 ########### SETTERS
 
@@ -66,6 +67,9 @@ class UserPf:
 
 ########### GETTERS
 
+    @property
+    def perfil(self):
+        return self._perfil
     @property
     def user(self):
         user = {'id': self.__id, 

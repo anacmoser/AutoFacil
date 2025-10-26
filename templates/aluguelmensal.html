@@ -86,19 +86,11 @@
           </div>
         </div>
         {% else %}
-        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-          <a href="#">
-            <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-              class="icon-btn">
-          </a>
-          <div class="menu-panel">
-            <ul class="panel-login">
-              <li><a href="/login">Login</a></li>
-              <li><a href="/cadastro">Cadastro</a></li>
-              <li><a href="#">Colaborador</a></li>
-            </ul>
-          </div>
-        </div>
+        <!-- Se não estiver logado, mostra login -->
+        <a href="{{ url_for('pgLogin') }}">
+          <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+            class="icon-btn">
+        </a>
         {% endif %}
       </div>
   </header>

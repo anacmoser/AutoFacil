@@ -65,21 +65,42 @@ def pgMinhasReservas():
         abort(401)
     return render_template('minhas_reservas.html')
 
-@app.route('/frota', methods=['GET'])  #Modularizar esta frota criando funções
+@app.route('/frota', methods=['GET', 'POST'])  #Modularizar esta frota criando funções
 def pgFrota():  #adicionar o filtro de preço menor para maior
 
-    #Entender este código, aplicar os filtros no html
-    categoria = request.args.get('categoria', '')
-    marca = request.args.get('marca', '')
-    modelo = request.args.get('modelo', '')
-    transmissao = request.args.get('transmissao', '')
-    combustivel = request.args.get('combustivel', '')
-    preco_maximo = request.args.get('preco_maximo', '')
-    malas_min = request.args.get('malas_min', '')
-    passageiros_min = request.args.get('passageiros_min', '')
-    portas_min = request.args.get('portas_min', '')
+
+    veiculos_filtrados = VEICULOS.copy()
     
-    # Filtrar veículos
+    # Aplicar filtros apenas se os valores não estiverem vazios
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 12
+
+    start = (page-1)*per_page
+    end = start + per_page
+    total_pages = math.ceil(len(veiculos_filtrados)/per_page)
+
+    veiculos_da_pagina = veiculos_filtrados[start:end]
+    
+    return render_template('frota.html', 
+                           veiculos=veiculos_da_pagina, 
+                           page=page, 
+                           total_pages=total_pages,
+                           filtros_limpos = True)
+
+
+@app.route('/filtrar', methods=['POST'])
+def filtrar():
+    modelo = request.form.get('modelo', '')
+    categoria = request.form.get('categoria', '')
+    marca = request.form.get('marca', '')
+    transmissao = request.form.get('transmissao', '')
+    combustivel = request.form.get('combustivel', '')
+    preco_maximo = request.form.get('preco', '')
+    malas_min = request.form.get('malas', '')
+    passageiros_min = request.form.get('passageiros', '')
+    portas_min = request.form.get('portas', '')
+
     veiculos_filtrados = VEICULOS.copy()
     
     # Aplicar filtros apenas se os valores não estiverem vazios
@@ -140,7 +161,12 @@ def pgFrota():  #adicionar o filtro de preço menor para maior
 
     veiculos_da_pagina = veiculos_filtrados[start:end]
     
-    return render_template('frota.html', veiculos=veiculos_da_pagina, page=page, total_pages=total_pages)
+    return render_template('frota.html', 
+                           veiculos=veiculos_da_pagina, 
+                           page=page, 
+                           total_pages=total_pages,
+                           filtros_limpos = False)
+
 
 @app.route('/colaborador', methods=['GET'])
 def pgColaborador():

@@ -27,9 +27,13 @@ class UserPj:
             self._inscricaoEstadual = inscricaoEstadual
             self._cell = cell
             self._complemento = complemento 
+            self._perfil = 'pj'
 
 ############################# VALIDAÇÕES - devem retornar true ou false
-
+    @property
+    def perfil(self):
+        return self._perfil
+    
     @property
     def id(self):
         return self._id

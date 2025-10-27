@@ -1,7 +1,6 @@
 # 🚗 Locadora de Veículos – Projeto Integrador 2025
 
-![Banner do Projeto](https://raw.githubusercontent.com/anacmoser/AutoFacil/main/static/img/home.png)
-
+![Banner do Projeto](https://github.com/anacmoser/AutoFacil/blob/main/static/img/home.png)  
 
 ---
 

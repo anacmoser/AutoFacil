@@ -5,8 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - AutoFácil</title>
+    <!-- csss link -->
     <link rel="stylesheet" href="../static/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Favicons links -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+    <!-- Google Fonts link -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
+</head>
 </head>
 
 <body data-page='cadastro'>
@@ -258,7 +272,8 @@
 
         <!-- FORMULÁRIO PESSOA JURÍDICA -->
         {% if request.args.get('tipo_conta') == 'juridica' or request.form.get('tipo_conta') == 'juridica' %}
-        <form class="form-cadastro" id="cadastroEmpresaForm" method="POST" action="{{ url_for('user_pj_bp.cadastroEmpresa') }}">
+        <form class="form-cadastro" id="cadastroEmpresaForm" method="POST"
+            action="{{ url_for('user_pj_bp.cadastroEmpresa') }}">
             <input type="hidden" name="tipo_conta" value="juridica">
 
             <!-- DADOS DA EMPRESA -->
@@ -514,8 +529,7 @@
     <footer>
         <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
         <div class="footer-social">
-            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
-                    title="Whatsapp"></a>
+            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
             <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
                     title="Facebook"></a>
             <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"

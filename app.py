@@ -22,13 +22,29 @@ from models.Veiculo import Veiculo, VEICULOS, addVeiculo, removerVeiculo, getVei
 from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root123@localhost/autofacil'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
 app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
 app.register_blueprint(user_pf_bp)
 app.register_blueprint(user_pj_bp)
 
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'root123'
+app.config['MYSQL_DB'] = 'autofacil'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+mysql = MySQL(app)
 
 def validar_email(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -42,10 +58,6 @@ def validar_cpf(cpf):
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/cadastro', methods=['GET'])
-def pgCadastro():
-    return render_template('cadastro.html')
 
 @app.route('/login', methods=['GET'])
 def pgLogin():
@@ -200,3 +212,31 @@ def erro_interno_servidor(error):
 if __name__ == '__main__':
     app.run(debug=True)
 
+class Cliente(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    senha = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'<Cliente {self.nome}>'
+
+@app.route('/cadastro', methods=['GET', 'POST'])
+def cadastro():
+    if request.method == 'POST':
+        print(request.form)
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        
+        novo_cliente = Cliente(
+            nome=nome,
+            email=email,
+            senha=senha,
+        )
+
+        db.session.add(novo_cliente)
+        db.session.commit()
+        return redirect('/sucesso')
+
+    return render_template('cadastro.html')

@@ -197,6 +197,22 @@ def pagina_nao_encontrada(error):
 def erro_interno_servidor(error):
     return render_template('errors/500.html'), 500
 
+@app.route('/pagina404')
+def teste404():
+    abort(404)
+
+@app.route('/pagina403')
+def teste403():
+    abort(403)
+
+@app.route('/pagina401')
+def teste401():
+    abort(401)
+
+@app.route('/pagina500')
+def teste500():
+    abort(500)
+
 if __name__ == '__main__':
     app.run(debug=True)
 

@@ -42,5 +42,106 @@ insert into Veiculos(id, tipo, categoria, marca, modelo, transmissao, precoDiari
 (17, "luxo", "Luxo", "Audi", "A4", "automático", 460.00, "Audi A4", "https://www.webmotors.com.br/imagens/prod/379665/AUDI_A4_2.0_TFSI_MHEV_S_LINE_QUATTRO_S_TRONIC_37966510582707039.webp", 4, 5, 4, "Gasolina", "disponível"),
 (18, "luxo", "Luxo", "Mercedes-Benz", "C180", "automático", 480.00, "Mercedes-Benz C180", "https://www.webmotors.com.br/imagens/prod/347940/MERCEDESBENZ_C_180_1.6_CGI_GASOLINA_SPORT_COUPE_9GTRONIC_34794009590838032.webp", 4, 5, 4, "Gasolina", "disponível"),
 (19, "luxo", "Luxo", "Volvo", "XC60", "automático", 500.00, "Volvo XC60", "https://www.webmotors.com.br/imagens/prod/348860/VOLVO_XC60_2.0_T8_RECHARGE_POLESTAR_ENGINEERED_AWD_GEARTRONIC_34886011041803311.webp", 4, 5, 4, "Híbrido", "disponível"),
-(20, "luxo", "Luxo", "Jaguar", "XE", "automático", 520.00, "Jaguar XE", "https://www.webmotors.com.br/imagens/prod/348195/JAGUAR_XE_2.0_16V_INGENIUM_P250_GASOLINA_RDYNAMIC_S_4P_AUTOMATICO_34819510562480227.webp", 4, 5, 4, "Gasolina", "disponível")
+(20, "luxo", "Luxo", "Jaguar", "XE", "automático", 520.00, "Jaguar XE", "https://www.webmotors.com.br/imagens/prod/348195/JAGUAR_XE_2.0_16V_INGENIUM_P250_GASOLINA_RDYNAMIC_S_4P_AUTOMATICO_34819510562480227.webp", 4, 5, 4, "Gasolina", "disponível");
 
+CREATE TABLE Cliente (
+  Id_Cliente INT PRIMARY KEY AUTO_INCREMENT,
+  Email VARCHAR(100) NOT NULL,
+  CNH VARCHAR(20),
+  CPF CHAR(11) UNIQUE NOT NULL,
+  Nome VARCHAR(100) NOT NULL,
+  Telefone VARCHAR(15),
+  Data_Nascimento DATE
+);
+
+CREATE TABLE Endereco (
+  Id_Endereco INT PRIMARY KEY AUTO_INCREMENT,
+  Id_Cliente INT,
+  Logradouro VARCHAR(100),
+  Estado CHAR(2),
+  Cidade VARCHAR(50),
+  CEP CHAR(8),
+  Tipo VARCHAR(20),
+  FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Cliente)
+);
+
+CREATE TABLE Usuario (
+  Id_Usuario INT PRIMARY KEY AUTO_INCREMENT,
+  Id_Cliente INT,
+  Login VARCHAR(50) UNIQUE NOT NULL,
+  Senha VARCHAR(100) NOT NULL,
+  Tipo VARCHAR(20),
+  Ultimo_Acesso DATETIME,
+  FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Cliente)
+);
+
+CREATE TABLE Funcionarios (
+  Id_Funcionario INT PRIMARY KEY AUTO_INCREMENT,
+  Nome VARCHAR(100) NOT NULL,
+  Cargo VARCHAR(50),
+  Salario DECIMAL(10,2),
+  Email VARCHAR(100),
+  Telefone VARCHAR(15)
+);
+
+CREATE TABLE Frota (
+  Id_Veiculo INT PRIMARY KEY AUTO_INCREMENT,
+  Status VARCHAR(20)
+);
+
+CREATE TABLE Manutencoes (
+  Id_Manutencao INT PRIMARY KEY AUTO_INCREMENT,
+  Id_Veiculo INT,
+  Tipo VARCHAR(50),
+  Data DATE,
+  Descricao TEXT,
+  Custo DECIMAL(10,2),
+  FOREIGN KEY (Id_Veiculo) REFERENCES Frota(Id_Veiculo)
+);
+
+CREATE TABLE Multas (
+  Id_Multa INT PRIMARY KEY AUTO_INCREMENT,
+  Id_Veiculo INT,
+  Data DATE,
+  Valor DECIMAL(10,2),
+  Descricao TEXT,
+  Status VARCHAR(20),
+  FOREIGN KEY (Id_Veiculo) REFERENCES Frota(Id_Veiculo)
+);
+
+CREATE TABLE Local_RetiradaDevolucao (
+  Id_Local INT PRIMARY KEY AUTO_INCREMENT,
+  Endereco VARCHAR(100),
+  Horario VARCHAR(50),
+  Nome VARCHAR(50)
+);
+
+CREATE TABLE Planos (
+  Id_Planos INT PRIMARY KEY AUTO_INCREMENT,
+  Nome VARCHAR(50),
+  Descricao TEXT,
+  Preco DECIMAL(10,2)
+);
+
+CREATE TABLE Pagamentos (
+  Id_Pagamento INT PRIMARY KEY AUTO_INCREMENT,
+  Id_Aluguel INT,
+  Forma_Pagamento VARCHAR(30),
+  Data DATE,
+  Valor DECIMAL(10,2),
+  Status VARCHAR(20),
+  Campo_6 VARCHAR(50),
+  Campo VARCHAR(50),
+  FOREIGN KEY (Id_Aluguel) REFERENCES Frota(Id_Veiculo)
+);
+
+CREATE TABLE Avaliacoes (
+  Id_Avaliacao INT PRIMARY KEY AUTO_INCREMENT,
+  Id_Usuario INT,
+  Id_Cliente INT,
+  Nota INT CHECK (Nota BETWEEN 0 AND 10),
+  Comentario TEXT,
+  Data DATE,
+  FOREIGN KEY (Id_Usuario) REFERENCES Usuario(Id_Usuario),
+  FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Cliente)
+);

@@ -5,12 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frota - AutoFácil</title>
+    <!-- csss link -->
     <link rel="stylesheet" href="../static/css/style.css">
+
+    <!-- Favicons links -->
     <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+    <!-- Google Fonts link -->
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
         rel="stylesheet">
@@ -99,115 +104,144 @@
     <section class="filtros-container">
         <h2 class="filtros-title">Busque por filtros</h2>
         <form action="/filtrar" method="POST">
-        <div class="filtros-avancados">
-         
-            <div class="filtros-grid">
-                 <div class="filtro-group">
-                    <label for="categoria">Categoria</label>
-                    <select id="categoria" name="categoria">
-                        <option value="" {% if request.form.categoria=='' or filtros_limpos==True %}selected{% endif %}>Todos os modelos</option>
-                        <option value="econômico"  {% if request.form.categoria=='econômico' %}selected{% endif %}>Econômico</option>
-                        <option value="sedan" {% if request.form.categoria=='sedan' %}selected{% endif %}>Sedan</option>
-                        <option value="suv" {% if request.form.categoria=='suv' %}selected{% endif %}>SUV</option>
-                        <option value="luxo" {% if request.form.categoria=='luxo' %}selected{% endif %}>Luxo</option>
-                        <option value="pick-up" {% if request.form.categoria=='pick-up' %}selected{% endif %}>Pick-up</option>
-                    </select>
-                </div>
-                <div class="filtro-group">
-                    <label for="marca">Marca</label>
-                    <select id="marca" name="marca">
-                        <option value="" {% if request.form.marca=='' or filtros_limpos==True %}selected{% endif %}>Todas as marcas</option>
-                        <option value="fiat"  {% if request.form.marca=='fiat' %}selected{% endif %}>Fiat</option>
-                        <option value="volkswagen" {% if request.form.marca=='volkswagen' %}selected{% endif %}>Volkswagen</option>
-                        <option value="toyota" {% if request.form.marca=='toyota' %}selected{% endif %}>Toyota</option>
-                        <option value="honda" {% if request.form.marca=='honda' %}selected{% endif %}>Honda</option>
-                        <option value="chevrolet" {% if request.form.marca=='chevrolet' %}selected{% endif %}>Chevrolet</option>
-                        <option value="renault" {% if request.form.marca=='renault' %}selected{% endif %}>Renault</option>
-                        <option value="hyundai" {% if request.form.marca=='hyundai' %}selected{% endif %}>Hyundai</option>
-                        <option value="jeep" {% if request.form.marca=='jeep' %}selected{% endif %}>Jeep</option>
-                        <option value="bmw" {% if request.form.marca=='bmw' %}selected{% endif %}>BMW</option>
-                        <option value="mercedes" {% if request.form.marca=='mercedes' %}selected{% endif %}>Mercedes-Benz</option>
-                        <option value="ford" {% if request.form.marca=='ford' %}selected{% endif %}>Ford</option>
-                    </select>
-                </div>
+            <div class="filtros-avancados">
 
-                <div class="filtro-group">
-                    <label for="modelo">Modelo</label>
-                    <select id="modelo" name="modelo">
-                        <option value="" {% if request.form.modelo==''or filtros_limpos==True %}selected{% endif %}>Todos os modelos</option>
-                        <option value="argo" {% if request.form.modelo=='argo' %}selected{% endif %}>Argo</option>
-                        <option value="gol" {% if request.form.modelo=='gol' %}selected{% endif %}>Gol</option>
-                        <option value="corolla" {% if request.form.modelo=='corolla' %}selected{% endif %}>Corolla</option>
-                        <option value="civic" {% if request.form.modelo=='civic' %}selected{% endif %}>Civic</option>
-                        <option value="compass" {% if request.form.modelo=='compass' %}selected{% endif %}>Compass</option>
-                        <option value="rav4" {% if request.form.modelo=='rav4' %}selected{% endif %}>RAV4</option>
-                        <option value="hilux" {% if request.form.modelo=='hilux' %}selected{% endif %}>Hilux</option>
-                        <option value="ranger" {% if request.form.modelo=='ranger' %}selected{% endif %}>Ranger</option>
-                        <option value="kwid" {% if request.form.modelo=='kwid' %}selected{% endif %}>Kwid</option>
-                        <option value="creta" {% if request.form.modelo=='creta' %}selected{% endif %}>Creta</option>
-                    </select>
-                </div>
+                <div class="filtros-grid">
+                    <div class="filtro-group">
+                        <label for="categoria">Categoria</label>
+                        <select id="categoria" name="categoria">
+                            <option value="" {% if request.form.categoria=='' or filtros_limpos==True %}selected{% endif
+                                %}>Todos os modelos</option>
+                            <option value="econômico" {% if request.form.categoria=='econômico' %}selected{% endif %}>
+                                Econômico</option>
+                            <option value="sedan" {% if request.form.categoria=='sedan' %}selected{% endif %}>Sedan
+                            </option>
+                            <option value="suv" {% if request.form.categoria=='suv' %}selected{% endif %}>SUV</option>
+                            <option value="luxo" {% if request.form.categoria=='luxo' %}selected{% endif %}>Luxo
+                            </option>
+                            <option value="pick-up" {% if request.form.categoria=='pick-up' %}selected{% endif %}>
+                                Pick-up</option>
+                        </select>
+                    </div>
+                    <div class="filtro-group">
+                        <label for="marca">Marca</label>
+                        <select id="marca" name="marca">
+                            <option value="" {% if request.form.marca=='' or filtros_limpos==True %}selected{% endif %}>
+                                Todas as marcas</option>
+                            <option value="fiat" {% if request.form.marca=='fiat' %}selected{% endif %}>Fiat</option>
+                            <option value="volkswagen" {% if request.form.marca=='volkswagen' %}selected{% endif %}>
+                                Volkswagen</option>
+                            <option value="toyota" {% if request.form.marca=='toyota' %}selected{% endif %}>Toyota
+                            </option>
+                            <option value="honda" {% if request.form.marca=='honda' %}selected{% endif %}>Honda</option>
+                            <option value="chevrolet" {% if request.form.marca=='chevrolet' %}selected{% endif %}>
+                                Chevrolet</option>
+                            <option value="renault" {% if request.form.marca=='renault' %}selected{% endif %}>Renault
+                            </option>
+                            <option value="hyundai" {% if request.form.marca=='hyundai' %}selected{% endif %}>Hyundai
+                            </option>
+                            <option value="jeep" {% if request.form.marca=='jeep' %}selected{% endif %}>Jeep</option>
+                            <option value="bmw" {% if request.form.marca=='bmw' %}selected{% endif %}>BMW</option>
+                            <option value="mercedes" {% if request.form.marca=='mercedes' %}selected{% endif %}>
+                                Mercedes-Benz</option>
+                            <option value="ford" {% if request.form.marca=='ford' %}selected{% endif %}>Ford</option>
+                        </select>
+                    </div>
 
-                <div class="filtro-group">
-                    <label for="transmissao">Transmissão</label>
-                    <select id="transmissao" name="transmissao">
-                        <option value="" {% if request.form.transmissao=='' or filtros_limpos==True %}selected{% endif %}>Qualquer</option>
-                        <option value="automatico" {% if request.form.transmissao=='automatico' %}selected{% endif %}>Automático</option>
-                        <option value="manual" {% if request.form.transmissao=='manual' %}selected{% endif %}>Manual</option>
-                    </select>
-                </div>
+                    <div class="filtro-group">
+                        <label for="modelo">Modelo</label>
+                        <select id="modelo" name="modelo">
+                            <option value="" {% if request.form.modelo=='' or filtros_limpos==True %}selected{% endif
+                                %}>Todos os modelos</option>
+                            <option value="argo" {% if request.form.modelo=='argo' %}selected{% endif %}>Argo</option>
+                            <option value="gol" {% if request.form.modelo=='gol' %}selected{% endif %}>Gol</option>
+                            <option value="corolla" {% if request.form.modelo=='corolla' %}selected{% endif %}>Corolla
+                            </option>
+                            <option value="civic" {% if request.form.modelo=='civic' %}selected{% endif %}>Civic
+                            </option>
+                            <option value="compass" {% if request.form.modelo=='compass' %}selected{% endif %}>Compass
+                            </option>
+                            <option value="rav4" {% if request.form.modelo=='rav4' %}selected{% endif %}>RAV4</option>
+                            <option value="hilux" {% if request.form.modelo=='hilux' %}selected{% endif %}>Hilux
+                            </option>
+                            <option value="ranger" {% if request.form.modelo=='ranger' %}selected{% endif %}>Ranger
+                            </option>
+                            <option value="kwid" {% if request.form.modelo=='kwid' %}selected{% endif %}>Kwid</option>
+                            <option value="creta" {% if request.form.modelo=='creta' %}selected{% endif %}>Creta
+                            </option>
+                        </select>
+                    </div>
 
-                <div class="filtro-group">
-                    <label for="combustivel">Combustível</label>
-                    <select id="combustivel" name="combustivel">
-                        <option value="" {% if request.form.combustivel=='' or filtros_limpos==True %}selected{% endif %}>Qualquer</option>
-                        <option value="gasolina" {% if request.form.combustivel=='gasolina' %}selected{% endif %}>Gasolina</option>
-                        <option value="diesel" {% if request.form.combustivel=='diesel' %}selected{% endif %}>Diesel</option>
-                        <option value="alcool" {% if request.form.combustivel=='alcool' %}selected{% endif %}>Álcool</option>
-                        <option value="flex" {% if request.form.combustivel=='flex' %}selected{% endif %}>Flex</option>
-                        <option value="hibrido" {% if request.form.combustivel=='hibrido' %}selected{% endif %}>Híbrido</option>
-                        <option value="eletrico" {% if request.form.combustivel=='eletrico' %}selected{% endif %}>Elétrico</option>
-                    </select>
-                </div>
+                    <div class="filtro-group">
+                        <label for="transmissao">Transmissão</label>
+                        <select id="transmissao" name="transmissao">
+                            <option value="" {% if request.form.transmissao=='' or filtros_limpos==True %}selected{%
+                                endif %}>Qualquer</option>
+                            <option value="automatico" {% if request.form.transmissao=='automatico' %}selected{% endif
+                                %}>Automático</option>
+                            <option value="manual" {% if request.form.transmissao=='manual' %}selected{% endif %}>Manual
+                            </option>
+                        </select>
+                    </div>
 
-                <div class="filtro-group">
-                    <label for="preco">Preço máximo/dia</label>
-                    <input type="number" id="preco" name="preco" placeholder="R$ 200" min="0" 
-                        value="{{ request.form.preco if request.form }}"
-                        {% if filtros_limpos == True %} value="" {% endif %}>
-                </div>
+                    <div class="filtro-group">
+                        <label for="combustivel">Combustível</label>
+                        <select id="combustivel" name="combustivel">
+                            <option value="" {% if request.form.combustivel=='' or filtros_limpos==True %}selected{%
+                                endif %}>Qualquer</option>
+                            <option value="gasolina" {% if request.form.combustivel=='gasolina' %}selected{% endif %}>
+                                Gasolina</option>
+                            <option value="diesel" {% if request.form.combustivel=='diesel' %}selected{% endif %}>Diesel
+                            </option>
+                            <option value="alcool" {% if request.form.combustivel=='alcool' %}selected{% endif %}>Álcool
+                            </option>
+                            <option value="flex" {% if request.form.combustivel=='flex' %}selected{% endif %}>Flex
+                            </option>
+                            <option value="hibrido" {% if request.form.combustivel=='hibrido' %}selected{% endif %}>
+                                Híbrido</option>
+                            <option value="eletrico" {% if request.form.combustivel=='eletrico' %}selected{% endif %}>
+                                Elétrico</option>
+                        </select>
+                    </div>
 
-                <div class="filtro-group">
-                    <label for="malas">Mínimo de malas</label>
-                    <input type="number" id="malas" name="malas" min="0" 
-                    value="{{ request.form.malas if request.form }}"
-                    {% if filtros_limpos == True %} value="" {% endif %}>
-                </div>
+                    <div class="filtro-group">
+                        <label for="preco">Preço máximo/dia</label>
+                        <input type="number" id="preco" name="preco" placeholder="R$ 200" min="0"
+                            value="{{ request.form.preco if request.form }}" {% if filtros_limpos==True %} value="" {%
+                            endif %}>
+                    </div>
 
-                <div class="filtro-group">
-                    <label for="passageiros">Mínimo de passageiros</label>
-                    <input type="number" id="passageiros" name="passageiros" min="1" 
-                    value="{{ request.form.passageiros if request.form }}"
-                    {% if filtros_limpos == True %} value="" {% endif %}>
-                </div>
+                    <div class="filtro-group">
+                        <label for="malas">Mínimo de malas</label>
+                        <input type="number" id="malas" name="malas" min="0"
+                            value="{{ request.form.malas if request.form }}" {% if filtros_limpos==True %} value="" {%
+                            endif %}>
+                    </div>
 
-                <div class="filtro-group">
-                    <label for="portas">Mínimo de portas</label>
-                    <input type="number" id="portas" name="portas" min="0" 
-                    value="{{ request.form.portas if request.form }}"
-                    {% if filtros_limpos == True %} value="" {% endif %}>
+                    <div class="filtro-group">
+                        <label for="passageiros">Mínimo de passageiros</label>
+                        <input type="number" id="passageiros" name="passageiros" min="1"
+                            value="{{ request.form.passageiros if request.form }}" {% if filtros_limpos==True %}
+                            value="" {% endif %}>
+                    </div>
+
+                    <div class="filtro-group">
+                        <label for="portas">Mínimo de portas</label>
+                        <input type="number" id="portas" name="portas" min="0"
+                            value="{{ request.form.portas if request.form }}" {% if filtros_limpos==True %} value="" {%
+                            endif %}>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <button type="submit" class="btn-aplicar" id="aplicar-filtros" >Aplicar Filtros</button>
-    </form>
-    <a href="/frota">
-        <button class="btn-limpar" id="limpar-filtros" >Limpar Filtros</button>
-    </a>
+
+            <button type="submit" class="btn-aplicar" id="aplicar-filtros">Aplicar Filtros</button>
+        </form>
+        <a href="/frota">
+            <button class="btn-limpar" id="limpar-filtros">Limpar Filtros</button>
+        </a>
     </section>
 
-  <!--  Frota de Veículos -->
+    <!--  Frota de Veículos -->
     <section class="frota-container">
         <div class="veiculos-header">
             <h2 class="veiculos-titulo">Carros disponíveis</h2>
@@ -267,7 +301,7 @@
             </li>
             {% endfor %}
         </ul>
-    </section> 
+    </section>
 
     <!-- Benefícios -->
     <section class="beneficios">

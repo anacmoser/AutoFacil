@@ -45,42 +45,67 @@ function initCarousel() {
     if (!imagens.length || !prevBtn || !nextBtn) return;
 
     let index = 0;
+    let carouselInterval;
 
     function mostrarSlide(n) {
-        if (n >= imagens.length) index = 0;
-        if (n < 0) index = imagens.length - 1;
-
+        // Remove todas as classes active
         imagens.forEach(img => img.classList.remove("active"));
         dots.forEach(dot => dot.classList.remove("active"));
+        
+        // Atualiza índice
+        index = n;
+        if (index >= imagens.length) index = 0;
+        if (index < 0) index = imagens.length - 1;
 
+        // Aplica classe active
         imagens[index].classList.add("active");
         dots[index].classList.add("active");
     }
 
+    function nextSlide() {
+        mostrarSlide(index + 1);
+    }
+
+    function prevSlide() {
+        mostrarSlide(index - 1);
+    }
+
+    // Event listeners
     prevBtn.addEventListener("click", () => {
-        index--;
-        mostrarSlide(index);
+        prevSlide();
+        resetInterval();
     });
 
     nextBtn.addEventListener("click", () => {
-        index++;
-        mostrarSlide(index);
+        nextSlide();
+        resetInterval();
     });
 
     dots.forEach((dot, i) => {
         dot.addEventListener("click", () => {
-            index = i;
-            mostrarSlide(index);
+            mostrarSlide(i);
+            resetInterval();
         });
     });
 
-    setInterval(() => {
-        index++;
-        mostrarSlide(index);
-    }, 5000);
+    function startInterval() {
+        carouselInterval = setInterval(nextSlide, 5000);
+    }
 
-    mostrarSlide(index);
+    function resetInterval() {
+        clearInterval(carouselInterval);
+        startInterval();
+    }
+
+    // Inicializar
+    mostrarSlide(0);
+    startInterval();
 }
+
+// Chamar apenas uma vez quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+    initCarousel();
+});
 
 // ====== SEARCHBAR RESPONSIVA ======
 function initSearchbar() {

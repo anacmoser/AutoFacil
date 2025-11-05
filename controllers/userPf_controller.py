@@ -5,26 +5,24 @@
 #Função de cadastro
 #função de login
 
-from flask import Blueprint, render_template, request, session, make_response, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, session, make_response, redirect, url_for
 from controllers.validacoes import validarEmail, validarCpf
 from models.UserPf import USERSpf, UserPf, addUser
 import re
+from models.UserPf import db, UserPfDB
+
 user_pf_bp = Blueprint('user_pf_bp', __name__)
 
 id_counter_Pf = 2  
 
 @user_pf_bp.route('/cadastrarPf', methods=['POST'])
 def cadastro():
-    global id_counter_Pf  
-    
     # Obter dados do formulário
-    nome = request.form.get('nome', '').strip()
-    nascimento = request.form.get('nascimento', '')
-    cpf = request.form.get('cpf', '')
-    cpf = re.sub(r'[^0-9]', '', cpf) 
-    celular = request.form.get('celular', '')
-    celular = re.sub(r'[^0-9]', '', celular)
-    email = request.form.get('email', '').strip()
+    Nome = request.form.get('nome', '').strip()
+    Data_Nascimento = request.form.get('nascimento', '')
+    CPF = re.sub(r'[^0-9]', '', request.form.get('cpf', ''))
+    Telefone = re.sub(r'[^0-9]', '', request.form.get('celular', ''))
+    Email = request.form.get('email', '').strip()
     cep = request.form.get('cep', '')
     logradouro = request.form.get('logradouro', '').strip()
     numero = request.form.get('numero', '').strip()
@@ -35,73 +33,46 @@ def cadastro():
     senha = request.form.get('senha', '')
     confirmar_senha = request.form.get('confirmar', '')
     termos = request.form.get('termos')
-    
-    # Verificar se todos os campos obrigatórios foram preenchidos
-    campos_obrigatorios = [nome, nascimento, cpf, celular, email, cep, logradouro, bairro, estado, cidade, senha, confirmar_senha]
+
+    # Verificar campos obrigatórios
+    campos_obrigatorios = [Nome, Data_Nascimento, CPF, Telefone, Email, cep, logradouro, bairro, estado, cidade, senha, confirmar_senha]
     for campo in campos_obrigatorios:
         if not campo:
             return render_template('cadastro.html', erros='Todos os campos obrigatórios devem ser preenchidos')
 
     if not termos:
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
+
+    if senha != confirmar_senha:
+        return render_template('cadastro.html', erros='As senhas não coincidem.')
+
     try:
-        novoUser = UserPf(id_counter_Pf, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
-        adicao = addUser(novoUser) #Verificar por nome também (já existe por email e cpf)
-        if adicao == True: #Se não for true será a lista de erros
-            id_counter_Pf += 1
-            return redirect(url_for('pgLogin'))
-        else:
-            return render_template('cadastro.html', erros=adicao)
-    except ValueError as e:
-        if isinstance(e.args[0], list):
-            erros = e.args[0]
-        else:
-            erros = [str(e)]
-        
-        return render_template('cadastro.html', erros=erros)
+        # Criar novo usuário e salvar no MySQL
+        novo_usuario = UserPfDB(
+            Nome=Nome,
+            Data_Nascimento=Data_Nascimento,
+            CPF=CPF,
+            Telefone=Telefone,
+            Email=Email,
+            CEP=cep,
+            Logradouro=logradouro,
+            Numero=numero,
+            Complemento=complemento,
+            Bairro=bairro,
+            Estado=estado,
+            Cidade=cidade,
+            Senha=senha
+        )
 
-@user_pf_bp.route('/logarPf', methods=['GET', 'POST']) #Modularizar as verificações
-def login():
-    if request.method == 'POST':
-        user = request.form.get('user', '')
-        senha = request.form.get('password', '')
-        remember = request.form.get('lembrar')
+        db.session.add(novo_usuario)
+        db.session.commit()
 
-        if not user:
-            return render_template('login.html', erro = 'Email obrigatório')
-        if not senha:
-            return render_template('login.html', erro = 'Senha obrigatória')
-        
-        if '@' in user:
-            if not validarEmail(user):
-                return render_template('login.html', erro = 'E-mail inválido')
-            for usuario in USERSpf:
-                if usuario.email == user :
-                    if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.id
-                        session['usuario_perfil'] = 'pf'
-                        if remember:
-                            response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', str(usuario.id), max_age=60*60*72)
-                            return response
-                        return render_template('index.html')
-                    return render_template('login.html', erro = 'Senha incorreta')
-            return render_template('login.html', erro = 'Usuário não encontrado')
-        else: 
-            cpf = re.sub(r'[^0-9]', '', user)
-            if not validarCpf(cpf):
-                return render_template('login.html', erro = 'Digite e-mail ou CPF válidos')
-            for usuario in USERSpf:
-                if usuario.cpf == cpf:
-                    if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.id
-                        session['usuario_perfil'] = 'pf'
-                        if remember:
-                            response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', str(usuario.id), max_age=60*60*72)
-                            return response
-                        return render_template('index.html')
-                    return render_template('login.html', erro = 'Senha incorreta')
-            return render_template('login.html', erro = 'Usuário não encontrado')        
-    
-    return render_template('login.html')
+        # Redirecionar após o cadastro bem-sucedido
+        return redirect(url_for('pgLogin'))
+
+    except Exception as e:
+        db.session.rollback()
+        return render_template('cadastro.html', erros=f'Erro ao cadastrar: {e}')
+
+    # Caso algo inesperado ocorra e nada retorne antes
+    return render_template('cadastro.html', erros='Ocorreu um erro inesperado ao cadastrar.')

@@ -185,9 +185,13 @@ def filtrar():
 def pgColaborador():
     return render_template('colaboradores/login_colaborador.html')
 
-@app.route('/alterCadastro', methods=['GET']) #Fazer igual a páginade detalhes e passar o id ou buscar o id pela session
-def pgAlterCadastro():
-    return render_template('alterCadastro.html', )
+@app.route('/colaborador/portal')
+def portal_colaborador():
+    return render_template('colaboradores/colaborador.html')
+
+@app.route('/cadastro', methods=['GET'])
+def pgCadastro():
+    return render_template('cadastro.html')
 
 @app.route('/logout', methods=['GET']) 
 def logout():
@@ -210,8 +214,34 @@ def pagina_nao_encontrada(error):
 def erro_interno_servidor(error):
     return render_template('errors/500.html'), 500
 
-with app.app_context():
-    db.create_all()
-    
 if __name__ == '__main__':
     app.run(debug=True)
+
+class Cliente(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    senha = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f'<Cliente {self.nome}>'
+
+@app.route('/cadastro', methods=['GET', 'POST'])
+def cadastro():
+    if request.method == 'POST':
+        print(request.form)
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        
+        novo_cliente = Cliente(
+            nome=nome,
+            email=email,
+            senha=senha,
+        )
+
+        db.session.add(novo_cliente)
+        db.session.commit()
+        return redirect('/sucesso')
+
+    return render_template('cadastro.html')

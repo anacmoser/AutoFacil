@@ -234,11 +234,13 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-aplicar" id="aplicar-filtros">Aplicar Filtros</button>
+            <div class="filtros-botoes">
+                <button type="submit" class="btn-aplicar" id="aplicar-filtros">Aplicar Filtros</button>
+                <a href="/frota">
+                    <button type="button" class="btn-limpar" id="limpar-filtros">Limpar Filtros</button>
+                </a>
+            </div>
         </form>
-        <a href="/frota">
-            <button class="btn-limpar" id="limpar-filtros">Limpar Filtros</button>
-        </a>
     </section>
 
     <!--  Frota de Veículos -->
@@ -283,7 +285,7 @@
                     <div class="veiculo-preco">
                         R$ {{ veiculo.preco }} <span>/dia</span>
                     </div>
-                    <a href="/detalhesVeiculos"> <button class="btn-alugar">Alugar agora</button> </a>
+                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=veiculo.id) }}"><button class="btn-alugar">Alugar agora</button> </a>
                 </div>
             </div>
             {% else %}

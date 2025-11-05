@@ -1048,6 +1048,727 @@ header {
     text-decoration: underline;
 }
 
+/* Estilos específicos para colaboradores */
+.login-colaborador-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.login-colaborador-box {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 40px;
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-colaborador-box h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #002f5f;
+    text-align: center;
+}
+
+.btn-login-colaborador {
+    background: #002f5f;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Centraliza o texto */
+    display: block; /* Faz o link ocupar toda a largura */
+    text-decoration: none; /* Remove sublinhado do link */
+}
+
+
+.btn-login-colaborador:hover {
+    background: #ff8c14;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 47, 95, 0.3);
+}
+
+.voltar-link {
+    font-size: 15px;
+    color: #555;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.colaborador-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e6f2ff;
+    color: #002f5f;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#imgcolaborar {
+    width: 25px;
+    height: auto;
+    margin-right: 5px;
+}
+
+
+/* ======= HERO COLABORADOR ======= */
+.hero-colaborador {
+  background: linear-gradient(135deg, #002f5f 0%, #004494 100%);
+  color: white;
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-colaborador-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-colaborador-content {
+  text-align: center;
+  z-index: 2;
+}
+
+.hero-colaborador-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.hero-colaborador-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.colaborador-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.colaborador-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ff8c14;
+}
+
+.colaborador-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.colaborador-dados h2 {
+  margin-bottom: 5px;
+  font-size: 1.3rem;
+}
+
+.colaborador-dados p {
+  margin-bottom: 5px;
+  opacity: 0.9;
+}
+
+.colaborador-id {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* ======= PERFIS COLABORADOR ======= */
+.perfis-colaborador {
+  padding: 60px 20px;
+  background: #f8f9fa;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #002f5f;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 50px;
+  font-size: 1.1rem;
+}
+
+.perfis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.perfil-card {
+  background: white;
+  border: none;
+  padding: 40px 30px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.perfil-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.perfil-card.active {
+  border: 2px solid #ff8c14;
+  background: #fff9f0;
+}
+
+.perfil-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: #f0f7ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.perfil-icon img {
+  width: 40px;
+  height: 40px;
+}
+
+.perfil-card h3 {
+  color: #002f5f;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.perfil-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ======= DASHBOARD COLABORADOR ======= */
+.dashboard-colaborador {
+  padding: 60px 20px;
+  background: white;
+}
+
+.perfil-content {
+  display: none;
+}
+
+.perfil-content.active {
+  display: block;
+}
+
+.perfil-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.perfil-header h2 {
+  font-size: 2.2rem;
+  color: #002f5f;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.perfil-header p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+}
+
+.dashboard-card.large {
+  grid-column: span 2;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.card-header h3 {
+  color: #002f5f;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.badge {
+  background: #ff8c14;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.btn-card-action {
+  background: #002f5f;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-card-action:hover {
+  background: #001f3f;
+  transform: translateY(-2px);
+}
+
+/* ======= COMPONENTES ESPECÍFICOS ======= */
+/* Listas de itens */
+.clientes-list,
+.equipe-list,
+.manutencao-list,
+.reservas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cliente-item,
+.equipe-item,
+.manutencao-item,
+.reserva-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.cliente-info h4,
+.equipe-info h4,
+.manutencao-info h4,
+.reserva-info h4 {
+  margin: 0 0 5px 0;
+  color: #002f5f;
+  font-size: 1rem;
+}
+
+.cliente-info p,
+.equipe-info p,
+.manutencao-info p,
+.reserva-info p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Status */
+.cliente-status,
+.equipe-status,
+.manutencao-status,
+.reserva-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.ativo,
+.confirmada,
+.disponivel {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.pendente,
+.agendada {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.andamento {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+/* Botões de ação */
+.cliente-actions,
+.equipe-actions,
+.manutencao-actions,
+.reserva-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-action {
+  background: #002f5f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-action:hover {
+  background: #001f3f;
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: #dc3545;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.btn-success {
+  background: #28a745;
+}
+
+.btn-success:hover {
+  background: #218838;
+}
+
+/* Estatísticas e métricas */
+.stats-grid,
+.metricas-grid,
+.frota-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+
+.stat-item,
+.metrica-item,
+.frota-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number,
+.metrica-valor,
+.frota-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #002f5f;
+  margin-bottom: 5px;
+}
+
+.stat-label,
+.metrica-label,
+.frota-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Relatórios */
+.relatorios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-relatorio {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.btn-relatorio:hover {
+  background: #f0f7ff;
+  border-color: #002f5f;
+  transform: translateX(5px);
+}
+
+/* Admin Actions */
+.admin-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.admin-action-group h4 {
+  color: #002f5f;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.btn-admin {
+  display: block;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.btn-admin:hover {
+  background: #f0f7ff;
+  border-color: #002f5f;
+}
+
+/* Status Sistema */
+.status-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  background: white;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-item.online .status-dot {
+  background: #28a745;
+}
+
+.status-item.offline .status-dot {
+  background: #dc3545;
+}
+
+/* Frota Status */
+.frota-status-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.frota-status-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background: white;
+}
+
+.frota-status-item.disponivel {
+  border-left: 4px solid #28a745;
+}
+
+.frota-status-item.manutencao {
+  border-left: 4px solid #ffc107;
+}
+
+.frota-status-item.alugado {
+  border-left: 4px solid #17a2b8;
+}
+
+.status-icon {
+  font-size: 1.5rem;
+}
+
+.status-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #002f5f;
+}
+
+.status-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Alertas */
+.alertas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alerta-item {
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 4px solid;
+}
+
+.alerta-item.urgente {
+  background: #ffe6e6;
+  border-left-color: #dc3545;
+}
+
+.alerta-item.aviso {
+  background: #fff3cd;
+  border-left-color: #ffc107;
+}
+
+.alerta-content h4 {
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+  color: #002f5f;
+}
+
+.alerta-content p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* ======= RESPONSIVIDADE ======= */
+@media (max-width: 1024px) {
+  .dashboard-card.large {
+    grid-column: span 1;
+  }
+  
+  .admin-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-colaborador-title {
+    font-size: 2rem;
+  }
+  
+  .colaborador-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .perfis-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cliente-item,
+  .equipe-item,
+  .manutencao-item,
+  .reserva-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .cliente-actions,
+  .equipe-actions,
+  .manutencao-actions,
+  .reserva-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .stats-grid,
+  .metricas-grid,
+  .frota-stats {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-colaborador {
+    padding: 40px 15px;
+  }
+  
+  .hero-colaborador-title {
+    font-size: 1.8rem;
+  }
+  
+  .dashboard-colaborador {
+    padding: 40px 15px;
+  }
+  
+  .dashboard-card {
+    padding: 20px;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  
+  .btn-card-action {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 /* ======= CADASTRO ======= */
 .cadastro-hero {
     background: linear-gradient(rgba(54, 105, 164, 0.9), rgba(54, 105, 164, 0.7)), url('../static/img/cadastro-bg.jpg') center/cover no-repeat;
@@ -1292,6 +2013,10 @@ header {
 .vantagens-mensal {
     padding: 80px 5%;
     background-color: white;
+}
+
+.vantagens-conteiner {
+    max-width: 1200px;
 }
 
 .vantagens-mensal h2 {
@@ -1655,14 +2380,35 @@ header {
 
 .veiculo-detalhes {
     display: grid;
-    grid-template-columns: 1fr 1fr 400px;
+    grid-template-columns: 1fr 400px;
+    grid-template-rows: auto 1fr;
     gap: 30px;
     margin-bottom: 60px;
 }
 
 .veiculo-galeria {
-    grid-column: 1 / 3;
+    grid-column: 1;
+    grid-row: 1;
 }
+
+.card-reserva {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.veiculo-info-reserva {
+    grid-column: 1;
+    grid-row: 2;
+    padding-right: 0;
+}
+
 
 .imagem-principal {
     width: 100%;
@@ -1713,10 +2459,6 @@ header {
     width: 100%;
     height: 100%;
     object-fit: contain;
-}
-
-.veiculo-info-reserva {
-    padding-right: 20px;
 }
 
 .veiculo-header {
@@ -1819,15 +2561,6 @@ header {
     font-size: 12px;
 }
 
-.card-reserva {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 20px;
-    height: fit-content;
-}
 
 .reserva-preco {
     margin-bottom: 20px;
@@ -1899,80 +2632,17 @@ header {
     top: 50%;
     transform: translateY(-50%);
     color: #777;
+    pointer-events: none;
 }
 
-.calendario-container {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    display: none;
-    padding: 15px;
-}
-
-.calendario {
-    width: 100%;
-}
-
-.calendario-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.calendario-dias {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-
-.dia-semana,
-.dia-mes {
-    text-align: center;
-    padding: 8px 5px;
-    font-size: 12px;
-}
-
-.dia-semana {
-    font-weight: 600;
-    color: #002f5f;
-}
-
-.dia-mes {
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.dia-mes:hover {
-    background: #f0f0f0;
-}
-
-.dia-mes.disponivel {
-    color: #333;
-}
-
-.dia-mes.indisponivel {
-    color: #ccc;
-    cursor: not-allowed;
-}
-
-.dia-mes.selecionado {
-    background: #ff8c14;
-    color: white;
-}
-
+/* Estados de disponibilidade */
 .disponibilidade-info {
     margin-bottom: 20px;
     padding: 12px;
     border-radius: 6px;
     font-size: 14px;
+    background: #f8f9fa;
+    color: #666;
 }
 
 .disponibilidade-info.disponivel {
@@ -2010,12 +2680,20 @@ header {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    text-decoration: none;
 }
 
-.btn-reservar:hover {
+.btn-reservar:hover:not(:disabled) {
     background: #e67e0f;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
+}
+
+.btn-reservar:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .info-adicional {
@@ -2048,6 +2726,8 @@ header {
     margin-bottom: 30px;
     font-weight: 700;
 }
+
+
 
 /* ======= EMPRESAS ======= */
 .hero-empresas {
@@ -2864,6 +3544,7 @@ header {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 47, 95, 0.3);
 }
+
 /* ======= FOOTER ======= */
 .pre-footer {
     background-color: #f3f7fb;
@@ -2984,14 +3665,23 @@ footer hr {
 @media (max-width: 1024px) {
     .veiculo-detalhes {
         grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
     }
 
     .veiculo-galeria {
         grid-column: 1;
+        grid-row: 1;
     }
 
     .card-reserva {
+        grid-column: 1;
+        grid-row: 2;
         position: static;
+    }
+
+    .veiculo-info-reserva {
+        grid-column: 1;
+        grid-row: 3;
     }
 
     .icon-btn {
@@ -3123,6 +3813,50 @@ footer hr {
 }
 
 @media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .dashboard-welcome {
+        flex-direction: column;
+    }
+
+    .dashboard-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-dashboard {
+        width: 100%;
+        text-align: center;
+    }
+
+    .section-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .section-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .action-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .vehicles-grid {
+        grid-template-columns: 1fr;
+    }
+
     .hero-empresas-container {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -3311,6 +4045,23 @@ footer hr {
 
     .plano-item.destaque {
         transform: none;
+    }
+
+    .especificacoes-grid,
+    .itens-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .datas-reserva {
+        grid-template-columns: 1fr;
+    }
+
+    .veiculo-nome {
+        font-size: 1.5rem;
+    }
+
+    .imagem-principal {
+        height: 300px;
     }
 
     .especificacoes-grid,

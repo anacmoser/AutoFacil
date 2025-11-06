@@ -60,10 +60,6 @@ def validar_cpf(cpf):
 def index():
     return render_template('index.html')
 
-@app.route('/cadastro', methods=['GET'])
-def pgCadastro():
-    return render_template('cadastro.html')
-
 @app.route('/login', methods=['GET'])
 def pgLogin():
     return render_template('login.html')
@@ -187,11 +183,6 @@ def filtrar():
                            page=page, 
                            total_pages=total_pages,
                            filtros_limpos = False)
-
-
-@app.route('/colaborador', methods=['GET'])
-def pgColaborador():
-    return render_template('colaboradores/login_colaborador.html')
 
 @app.route('/colaborador/portal')
 def portal_colaborador():

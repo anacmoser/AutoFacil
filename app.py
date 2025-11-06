@@ -189,10 +189,6 @@ def pgColaborador():
 def portal_colaborador():
     return render_template('colaboradores/colaborador.html')
 
-@app.route('/cadastro', methods=['GET'])
-def pgCadastro():
-    return render_template('cadastro.html')
-
 @app.route('/logout', methods=['GET']) 
 def logout():
     session.pop('usuario_logado', None)

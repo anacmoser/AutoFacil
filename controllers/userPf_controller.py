@@ -9,7 +9,7 @@ from flask import Flask, Blueprint, render_template, request, session, make_resp
 from controllers.validacoes import validarEmail, validarCpf
 from models.UserPf import USERSpf, UserPf, addUser
 import re
-from models.UserPf import db, UserPfDB
+from models.UserPf import db, UserPfDB, UserPf
 
 user_pf_bp = Blueprint('user_pf_bp', __name__)
 
@@ -75,4 +75,52 @@ def cadastro():
         return render_template('cadastro.html', erros=f'Erro ao cadastrar: {e}')
 
     # Caso algo inesperado ocorra e nada retorne antes
-    return render_template('cadastro.html', erros='Ocorreu um erro inesperado ao cadastrar.')
+    return render_template('cadastro.html', erros='Ocorreu um erro inesperado ao cadastrar.') 
+@user_pf_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        print("🟢 Recebi o POST do login!")
+        user_input = request.form.get('user', '').strip()  # Pode ser e-mail ou CPF
+        senha = request.form.get('password', '')
+        remember = request.form.get('lembrar')
+
+        # Verificações básicas
+        if not user_input:
+            return render_template('login.html', erro='Digite seu e-mail ou CPF')
+        if not senha:
+            return render_template('login.html', erro='Senha obrigatória')
+
+        # Se for e-mail
+        if '@' in user_input:
+            if not validarEmail(user_input):
+                return render_template('login.html', erro='E-mail inválido')
+            user = UserPfDB.query.filter_by(Email=user_input).first()
+
+        # Se for CPF
+        else:
+            cpf = re.sub(r'[^0-9]', '', user_input)
+            if not validarCpf(cpf):
+                return render_template('login.html', erro='CPF inválido')
+            user = UserPfDB.query.filter_by(CPF=cpf).first()
+
+        # Se o usuário não foi encontrado
+        if not user:
+            return render_template('login.html', erro='Usuário não encontrado')
+
+        # Verificar senha
+        if user.Senha != senha:
+            return render_template('login.html', erro='Senha incorreta')
+
+        # Login bem-sucedido
+        session['usuario_logado'] = user_input
+        session['usuario_perfil'] = 'pf'
+
+        if remember:
+            response = make_response(redirect(url_for('index')))
+            response.set_cookie('user', str(user_input), max_age=60*60*72)
+            return response
+
+        return redirect(url_for('index'))
+
+    # Se o método for GET (abrir a página de login)
+    return render_template('login.html')

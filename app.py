@@ -23,15 +23,14 @@ from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
 from flask import Flask, render_template, request
-from flask_mysqldb import MySQL
-from flask_sqlalchemy import SQLAlchemy
+from models import db
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root123@localhost/autofacil'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
 
 app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
@@ -44,7 +43,9 @@ app.config['MYSQL_PASSWORD'] = 'root123'
 app.config['MYSQL_DB'] = 'autofacil'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-mysql = MySQL(app)
+@app.route('/cadastro', methods=['GET'])
+def pgCadastro():
+    return render_template('cadastro.html')
 
 def validar_email(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -192,9 +193,13 @@ def filtrar():
 def pgColaborador():
     return render_template('colaboradores/login_colaborador.html')
 
-@app.route('/alterCadastro', methods=['GET']) #Fazer igual a páginade detalhes e passar o id ou buscar o id pela session
-def pgAlterCadastro():
-    return render_template('alterCadastro.html', )
+@app.route('/colaborador/portal')
+def portal_colaborador():
+    return render_template('colaboradores/colaborador.html')
+
+@app.route('/cadastro', methods=['GET'])
+def pgCadastro():
+    return render_template('cadastro.html')
 
 @app.route('/logout', methods=['GET']) 
 def logout():
@@ -216,22 +221,6 @@ def pagina_nao_encontrada(error):
 @app.errorhandler(500)
 def erro_interno_servidor(error):
     return render_template('errors/500.html'), 500
-
-@app.route('/pagina404')
-def teste404():
-    abort(404)
-
-@app.route('/pagina403')
-def teste403():
-    abort(403)
-
-@app.route('/pagina401')
-def teste401():
-    abort(401)
-
-@app.route('/pagina500')
-def teste500():
-    abort(500)
 
 if __name__ == '__main__':
     app.run(debug=True)

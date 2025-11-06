@@ -1,4 +1,6 @@
 from controllers.validacoes import validacaoGeralPf
+from flask_sqlalchemy import SQLAlchemy
+from models import db
 
 class UserPf: 
     def __init__(self, id, nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''): 
@@ -172,3 +174,24 @@ def getUserByEmail(email):
 
 userTest = UserPf(1, 'teste da silva', '2000-10-12', '12345678909', '11923471103', 'teste@gmail.com', '12345678', 'teste Bairro', 'teste Estado', 'teste Cidade', 'Senha123', 'Senha123','teste logradouro', '2222', 'teste Complemento')
 addUser(userTest)
+
+class UserPfDB(db.Model):
+    __tablename__ = 'Cliente'
+
+    Id_Cliente = db.Column(db.Integer, primary_key=True)
+    Nome = db.Column(db.String(100))
+    Data_Nascimento = db.Column(db.String(20))
+    CPF = db.Column(db.String(14))
+    Telefone = db.Column(db.String(20))
+    Email = db.Column(db.String(100))
+    CNH = db.Column(db.String(20))
+    CEP = db.Column(db.String(20))
+    Logradouro = db.Column(db.String(20))
+    Numero = db.Column(db.String(20))
+    Complemento = db.Column(db.String(20))
+    Bairro = db.Column(db.String(20))
+    Estado = db.Column(db.String(20))
+    Cidade = db.Column(db.String(20))
+    Senha = db.Column(db.String(20))
+    Confirmar_senha = db.Column(db.String(20))
+    Termos = db.Column(db.String(20))

@@ -29,6 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
         initAluguelMensal();
     }
 
+    // ====== PÁGINA COLABORADORES =======
+        initColaborador();
+
+     
     // Scroll para topo se houver erro
     if (typeof erro !== 'undefined' && erro) {
         window.scrollTo(0, 0);
@@ -887,4 +891,200 @@ function initAluguelMensal() {
             }
         });
     });
+}
+
+// ===== PAGINA DO COLABORADOR =====
+
+function initColaborador() {
+    // Elementos principais
+    const perfilCards = document.querySelectorAll('.perfil-card');
+    const perfilContents = document.querySelectorAll('.perfil-content');
+    
+    // Perfil padrão ativo
+    let perfilAtivo = 'atendente';
+    
+    // Inicializar com o perfil padrão
+    ativarPerfil(perfilAtivo);
+    
+    // Event listeners para os cards de perfil
+    perfilCards.forEach(card => {
+        card.addEventListener('click', function () {
+            const perfil = this.dataset.perfil;
+            ativarPerfil(perfil);
+        });
+        
+        // Acessibilidade - teclado
+        card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const perfil = this.dataset.perfil;
+                ativarPerfil(perfil);
+            }
+        });
+    });
+    
+    // Função para ativar um perfil específico
+    function ativarPerfil(perfil) {
+        // Atualizar perfil ativo
+        perfilAtivo = perfil;
+        
+        // Remover classe active de todos os cards
+        perfilCards.forEach(card => {
+            card.classList.remove('active');
+        });
+        
+        // Adicionar classe active ao card correspondente
+        const cardAtivo = document.querySelector(`.perfil-card[data-perfil="${perfil}"]`);
+        if (cardAtivo) {
+            cardAtivo.classList.add('active');
+            cardAtivo.focus(); // Para acessibilidade
+        }
+        
+        // Ocultar todos os conteúdos
+        perfilContents.forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Mostrar conteúdo do perfil ativo
+        const conteudoAtivo = document.getElementById(`${perfil}-content`);
+        if (conteudoAtivo) {
+            conteudoAtivo.classList.add('active');
+            
+            // Scroll suave para o conteúdo
+            conteudoAtivo.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+        
+        // Atualizar URL (sem recarregar a página)
+        history.replaceState(null, null, `#${perfil}`);
+    }
+    
+    // Verificar hash na URL ao carregar
+    function verificarHashURL() {
+        const hash = window.location.hash.substring(1);
+        const perfisValidos = ['atendente', 'gerente', 'administrador', 'suporte'];
+        
+        if (perfisValidos.includes(hash)) {
+            ativarPerfil(hash);
+        }
+    }
+    
+    // Verificar hash quando a página carrega
+    verificarHashURL();
+    
+    // Simular ações dos botões (apenas visual)
+    const botoesAcao = document.querySelectorAll('.btn-action, .btn-card-action, .btn-relatorio, .btn-admin');
+    
+    botoesAcao.forEach(botao => {
+        botao.addEventListener('click', function (e) {
+            e.preventDefault();
+            
+            // Feedback visual
+            const originalText = this.textContent;
+            this.textContent = 'Processando...';
+            this.disabled = true;
+            
+            // Simular processamento
+            setTimeout(() => {
+                this.textContent = originalText;
+                this.disabled = false;
+                
+                // Mostrar mensagem de sucesso (apenas visual)
+                mostrarMensagemTemporaria('Ação simulada com sucesso!', 'success');
+            }, 1000);
+        });
+    });
+    
+    // Função para mostrar mensagens temporárias
+    function mostrarMensagemTemporaria(mensagem, tipo = 'info') {
+        // Criar elemento da mensagem
+        const mensagemEl = document.createElement('div');
+        mensagemEl.className = `mensagem-temporaria mensagem-${tipo}`;
+        mensagemEl.textContent = mensagem;
+        
+        // Estilos da mensagem
+        Object.assign(mensagemEl.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '15px 20px',
+            borderRadius: '6px',
+            color: 'white',
+            fontWeight: '600',
+            zIndex: '10000',
+            boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
+            transform: 'translateX(100%)',
+            transition: 'transform 0.3s ease'
+        });
+        
+        // Cores por tipo
+        const cores = {
+            success: '#28a745',
+            error: '#dc3545',
+            warning: '#ffc107',
+            info: '#17a2b8'
+        };
+        
+        mensagemEl.style.backgroundColor = cores[tipo] || cores.info;
+        
+        // Adicionar ao DOM
+        document.body.appendChild(mensagemEl);
+        
+        // Animação de entrada
+        setTimeout(() => {
+            mensagemEl.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remover após 3 segundos
+        setTimeout(() => {
+            mensagemEl.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (mensagemEl.parentNode) {
+                    mensagemEl.parentNode.removeChild(mensagemEl);
+                }
+            }, 300);
+        }, 3000);
+    }
+    
+    // Carregar dados simulados (apenas para demonstração)
+    carregarDadosSimulados();
+    
+    function carregarDadosSimulados() {
+        // Esta função simularia o carregamento de dados reais
+        console.log('Carregando dados do colaborador...');
+        
+        // Simular pequeno delay de carregamento
+        setTimeout(() => {
+            // Adicionar classe de carregamento completo
+            document.body.classList.add('dados-carregados');
+        }, 500);
+    }
+    
+    // Acessibilidade - teclado navigation
+    document.addEventListener('keydown', function (e) {
+        // Navegação entre perfis com teclado
+        if (e.altKey) {
+            switch (e.key) {
+                case '1':
+                    e.preventDefault();
+                    ativarPerfil('atendente');
+                    break;
+                case '2':
+                    e.preventDefault();
+                    ativarPerfil('gerente');
+                    break;
+                case '3':
+                    e.preventDefault();
+                    ativarPerfil('administrador');
+                    break;
+                case '4':
+                    e.preventDefault();
+                    ativarPerfil('suporte');
+                    break;
+            }
+        }
+    });
+
 }

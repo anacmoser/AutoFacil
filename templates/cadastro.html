@@ -37,29 +37,60 @@
                             <li><a href="#">FAQ</a></li>
                         </ul>
                         <ul class="panel-nav">
-                            <li><a href="#">Alugar agora</a></li>
-                            <li><a href="#">Aluguel mensal</a></li>
-                            <li><a href="#">Para empresas</a></li>
-                            <li><a href="#">Minhas reservas</a></li>
+                            <li><a href="/frota">Alugar agora</a></li>
+                            <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+                            <li><a href="/empresas">Para empresas</a></li>
+                            <li><a href="/minhasReservas">Minhas reservas</a></li>
                         </ul>
                     </div>
+
                 </div>
 
                 <a class="logo" href="/" aria-label="AutoFácil - Início">
-                    <img src="../static/img/logo.png" alt="Logo AutoFácil" class="logo-img"
-                        title="AutoFácil, aluguel de veículos">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+                        class="logo-img">
                 </a>
             </div>
 
             <div class="nav-right">
-                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas"
-                        class="icon-btn"> </a>
-                <a href="#"> <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade"
-                        title="Acessibilidade" class="icon-btn"> </a>
-                <a href="/login" id="loginLink"> <img src="../static/img/login2.png" alt="Botão de login" title="Login"
-                        class="icon-btn"> </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
+                        title="Dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+                        title="Acessibilidade" class="icon-btn">
+                </a>
+
+                {% if session.get('usuario_logado') %}
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário"
+                            title="Minha conta" class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-logout">
+                            <li><a href="#">Portal do cliente</a></li>
+                            <li><a href="/logout">Encerrar sessão</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% else %}
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                            class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-login">
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/cadastro">Cadastro</a></li>
+                            <li><a href="#">Colaborador</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
             </div>
-        </nav>
     </header>
 
     <!-- Formulário de Cadastro -->

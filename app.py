@@ -59,9 +59,17 @@ def validar_cpf(cpf):
 def index():
     return render_template('index.html')
 
+@app.route('/cadastro', methods=['GET'])
+def pgCadastro():
+    return render_template('cadastro.html')
+
 @app.route('/login', methods=['GET'])
 def pgLogin():
     return render_template('login.html')
+
+@app.route('/logincolaborador')
+def loginColaborador():
+    return render_template('colaboradores/login_colaborador.html')
 
 @app.route('/aluguelMensal', methods=['GET'])
 def pgAluguelMensal():

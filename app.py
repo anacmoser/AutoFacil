@@ -24,11 +24,17 @@ from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
 from flask import Flask, render_template, request
 from models import db
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # carrega o arquivo .env
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root123@localhost/autofacil'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
+    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+)
 
 db.init_app(app)
 

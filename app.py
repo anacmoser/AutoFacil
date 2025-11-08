@@ -75,6 +75,10 @@ def pgLogin():
 def loginColaborador():
     return render_template('colaboradores/login_colaborador.html')
 
+@app.route('/reserva', methods=['GET'])
+def pgReserva():
+    return render_template('reserva.html')
+
 @app.route('/aluguelMensal', methods=['GET'])
 def pgAluguelMensal():
     return render_template('aluguelmensal.html')
@@ -123,7 +127,6 @@ def pgFrota():  #adicionar o filtro de preço menor para maior
                            page=page, 
                            total_pages=total_pages,
                            filtros_limpos = True)
-
 
 @app.route('/filtrar', methods=['POST'])
 def filtrar():

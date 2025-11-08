@@ -1090,9 +1090,12 @@ header {
     width: 100%;
     justify-content: center;
     align-items: center;
-    text-align: center; /* Centraliza o texto */
-    display: block; /* Faz o link ocupar toda a largura */
-    text-decoration: none; /* Remove sublinhado do link */
+    text-align: center;
+    /* Centraliza o texto */
+    display: block;
+    /* Faz o link ocupar toda a largura */
+    text-decoration: none;
+    /* Remove sublinhado do link */
 }
 
 
@@ -1134,248 +1137,659 @@ header {
 
 /* ======= HERO COLABORADOR ======= */
 .hero-colaborador {
-  background: linear-gradient(135deg, #002f5f 0%, #004494 100%);
-  color: white;
-  padding: 60px 20px;
-  position: relative;
-  overflow: hidden;
+    background: linear-gradient(135deg, #002f5f 0%, #004494 100%);
+    color: white;
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-colaborador-container {
-  max-width: 1200px;
-  margin: 0 auto;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .hero-colaborador-content {
-  text-align: center;
-  z-index: 2;
+    text-align: center;
+    z-index: 2;
 }
 
 .hero-colaborador-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 15px;
-  line-height: 1.2;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.2;
 }
 
 .hero-colaborador-subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 40px;
-  opacity: 0.9;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
 }
 
 .colaborador-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  max-width: 400px;
-  margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .colaborador-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #ff8c14;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #ff8c14;
 }
 
 .colaborador-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .colaborador-dados h2 {
-  margin-bottom: 5px;
-  font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-size: 1.3rem;
 }
 
 .colaborador-dados p {
-  margin-bottom: 5px;
-  opacity: 0.9;
+    margin-bottom: 5px;
+    opacity: 0.9;
 }
 
 .colaborador-id {
-  font-size: 0.9rem;
-  opacity: 0.7;
+    font-size: 0.9rem;
+    opacity: 0.7;
 }
 
 /* ======= PERFIS COLABORADOR ======= */
 .perfis-colaborador {
-  padding: 60px 20px;
-  background: #f8f9fa;
+    padding: 60px 20px;
+    background: #f8f9fa;
 }
 
 .section-title {
-  text-align: center;
-  font-size: 2rem;
-  color: #002f5f;
-  margin-bottom: 15px;
-  font-weight: 700;
+    text-align: center;
+    font-size: 2rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-weight: 700;
 }
 
 .section-subtitle {
-  text-align: center;
-  color: #666;
-  margin-bottom: 50px;
-  font-size: 1.1rem;
+    text-align: center;
+    color: #666;
+    margin-bottom: 50px;
+    font-size: 1.1rem;
 }
 
 .perfis-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .perfil-card {
-  background: white;
-  border: none;
-  padding: 40px 30px;
-  border-radius: 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    background: white;
+    border: none;
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 .perfil-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .perfil-card.active {
-  border: 2px solid #ff8c14;
-  background: #fff9f0;
+    border: 2px solid #ff8c14;
+    background: #fff9f0;
 }
 
 .perfil-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 20px;
-  background: #f0f7ff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: #f0f7ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .perfil-icon img {
-  width: 40px;
-  height: 40px;
+    width: 40px;
+    height: 40px;
 }
 
 .perfil-card h3 {
-  color: #002f5f;
-  margin-bottom: 15px;
-  font-size: 1.4rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
 }
 
 .perfil-card p {
-  color: #666;
-  line-height: 1.6;
+    color: #666;
+    line-height: 1.6;
 }
 
 /* ======= DASHBOARD COLABORADOR ======= */
 .dashboard-colaborador {
-  padding: 60px 20px;
-  background: white;
+    padding: 60px 20px;
+    background: white;
 }
 
 .perfil-content {
-  display: none;
+    display: none;
 }
 
 .perfil-content.active {
-  display: block;
+    display: block;
 }
 
 .perfil-header {
-  text-align: center;
-  margin-bottom: 50px;
+    text-align: center;
+    margin-bottom: 50px;
 }
 
 .perfil-header h2 {
-  font-size: 2.2rem;
-  color: #002f5f;
-  margin-bottom: 10px;
-  font-weight: 700;
+    font-size: 2.2rem;
+    color: #002f5f;
+    margin-bottom: 10px;
+    font-weight: 700;
 }
 
 .perfil-header p {
-  font-size: 1.1rem;
-  color: #666;
+    font-size: 1.1rem;
+    color: #666;
 }
 
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .dashboard-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e9ecef;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
 }
 
 .dashboard-card.large {
-  grid-column: span 2;
+    grid-column: span 2;
 }
 
 .card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
 }
 
 .card-header h3 {
-  color: #002f5f;
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin: 0;
+    color: #002f5f;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
 }
 
 .badge {
-  background: #ff8c14;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
+    background: #ff8c14;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
 .btn-card-action {
-  background: #002f5f;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s;
+    background: #002f5f;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 .btn-card-action:hover {
-  background: #001f3f;
-  transform: translateY(-2px);
+    background: #001f3f;
+    transform: translateY(-2px);
 }
+
+/* ======= PORTAL DO CLIENTE ======= */
+.hero-portal-cliente {
+    background: linear-gradient(135deg, #002f5f 0%, #004494 100%);
+    color: white;
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-portal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-portal-content {
+    text-align: center;
+    z-index: 2;
+}
+
+.hero-portal-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.hero-portal-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.cliente-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.cliente-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #ff8c14;
+}
+
+.cliente-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cliente-dados h2 {
+    margin-bottom: 5px;
+    font-size: 1.3rem;
+}
+
+.cliente-dados p {
+    margin-bottom: 5px;
+    opacity: 0.9;
+}
+
+.cliente-id {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.portal-main {
+    padding: 40px 20px;
+    background: #f8f9fa;
+    min-height: 60vh;
+}
+
+.portal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+}
+
+.portal-sidebar {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 16px;
+    color: #555;
+    text-align: left;
+}
+
+.sidebar-item:hover {
+    background: #f0f7ff;
+    color: #002f5f;
+}
+
+.sidebar-item.active {
+    background: #002f5f;
+    color: white;
+}
+
+.sidebar-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.portal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.portal-section {
+    display: none;
+}
+
+.portal-section.active {
+    display: block;
+}
+
+.section-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.section-header h2 {
+    font-size: 1.8rem;
+    color: #002f5f;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.section-header p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Cards específicos do portal */
+.endereco-info p {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.status-conta {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    background: #f8f9fa;
+}
+
+.status-item.ativo {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #28a745;
+}
+
+.status-icon {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.reservas-list,
+.pagamentos-list,
+.metodos-pagamento {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reserva-item,
+.pagamento-item,
+.metodo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.reserva-info h4,
+.pagamento-info h4,
+.metodo-info h4 {
+    margin: 0 0 5px 0;
+    color: #002f5f;
+    font-size: 1rem;
+}
+
+.reserva-info p,
+.pagamento-info p,
+.metodo-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.reserva-status,
+.pagamento-status,
+.metodo-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.reserva-status.ativa,
+.pagamento-status.pendente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.reserva-status.concluida,
+.pagamento-status.pago {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.metodo-status.principal {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.reserva-actions,
+.pagamento-actions,
+.metodo-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.filtros-reservas,
+.filtros-pagamentos {
+    display: flex;
+    gap: 15px;
+}
+
+.filtros-reservas select,
+.filtros-pagamentos select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.preferencias-list,
+.seguranca-list,
+.conta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.preferencia-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.toggle-slider {
+    background-color: #002f5f;
+}
+
+input:checked+.toggle-slider:before {
+    transform: translateX(26px);
+}
+
+.conta-aviso {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #002f5f;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: flex-end;
+}
+
+
+
 
 /* ======= COMPONENTES ESPECÍFICOS ======= */
 /* Listas de itens */
@@ -1383,40 +1797,40 @@ header {
 .equipe-list,
 .manutencao-list,
 .reservas-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .cliente-item,
 .equipe-item,
 .manutencao-item,
 .reserva-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
 }
 
 .cliente-info h4,
 .equipe-info h4,
 .manutencao-info h4,
 .reserva-info h4 {
-  margin: 0 0 5px 0;
-  color: #002f5f;
-  font-size: 1rem;
+    margin: 0 0 5px 0;
+    color: #002f5f;
+    font-size: 1rem;
 }
 
 .cliente-info p,
 .equipe-info p,
 .manutencao-info p,
 .reserva-info p {
-  margin: 0;
-  color: #666;
-  font-size: 0.9rem;
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
 }
 
 /* Status */
@@ -1424,28 +1838,28 @@ header {
 .equipe-status,
 .manutencao-status,
 .reserva-status {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .ativo,
 .confirmada,
 .disponivel {
-  background: #e8f5e8;
-  color: #2e7d32;
+    background: #e8f5e8;
+    color: #2e7d32;
 }
 
 .pendente,
 .agendada {
-  background: #fff3e0;
-  color: #f57c00;
+    background: #fff3e0;
+    color: #f57c00;
 }
 
 .andamento {
-  background: #e3f2fd;
-  color: #1976d2;
+    background: #e3f2fd;
+    color: #1976d2;
 }
 
 /* Botões de ação */
@@ -1453,321 +1867,240 @@ header {
 .equipe-actions,
 .manutencao-actions,
 .reserva-actions {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 .btn-action {
-  background: #002f5f;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.3s;
+    background: #002f5f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 .btn-action:hover {
-  background: #001f3f;
-  transform: translateY(-1px);
+    background: #001f3f;
+    transform: translateY(-1px);
 }
 
 .btn-danger {
-  background: #dc3545;
+    background: #dc3545;
 }
 
 .btn-danger:hover {
-  background: #c82333;
+    background: #c82333;
 }
 
 .btn-success {
-  background: #28a745;
+    background: #28a745;
 }
 
 .btn-success:hover {
-  background: #218838;
+    background: #218838;
 }
 
 /* Estatísticas e métricas */
 .stats-grid,
 .metricas-grid,
 .frota-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  text-align: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    text-align: center;
 }
 
 .stat-item,
 .metrica-item,
 .frota-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .stat-number,
 .metrica-valor,
 .frota-number {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #002f5f;
-  margin-bottom: 5px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #002f5f;
+    margin-bottom: 5px;
 }
 
 .stat-label,
 .metrica-label,
 .frota-label {
-  font-size: 0.9rem;
-  color: #666;
+    font-size: 0.9rem;
+    color: #666;
 }
 
 /* Relatórios */
 .relatorios-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .btn-relatorio {
-  background: white;
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-align: left;
-  font-size: 0.9rem;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+    font-size: 0.9rem;
 }
 
 .btn-relatorio:hover {
-  background: #f0f7ff;
-  border-color: #002f5f;
-  transform: translateX(5px);
+    background: #f0f7ff;
+    border-color: #002f5f;
+    transform: translateX(5px);
 }
 
 /* Admin Actions */
 .admin-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
 }
 
 .admin-action-group h4 {
-  color: #002f5f;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
 }
 
 .btn-admin {
-  display: block;
-  width: 100%;
-  background: white;
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
+    display: block;
+    width: 100%;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
 }
 
 .btn-admin:hover {
-  background: #f0f7ff;
-  border-color: #002f5f;
+    background: #f0f7ff;
+    border-color: #002f5f;
 }
 
 /* Status Sistema */
 .status-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .status-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 6px;
-  background: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
 }
 
 .status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
 }
 
 .status-item.online .status-dot {
-  background: #28a745;
+    background: #28a745;
 }
 
 .status-item.offline .status-dot {
-  background: #dc3545;
+    background: #dc3545;
 }
 
 /* Frota Status */
 .frota-status-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
 }
 
 .frota-status-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px;
-  border-radius: 8px;
-  background: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    background: white;
 }
 
 .frota-status-item.disponivel {
-  border-left: 4px solid #28a745;
+    border-left: 4px solid #28a745;
 }
 
 .frota-status-item.manutencao {
-  border-left: 4px solid #ffc107;
+    border-left: 4px solid #ffc107;
 }
 
 .frota-status-item.alugado {
-  border-left: 4px solid #17a2b8;
+    border-left: 4px solid #17a2b8;
 }
 
 .status-icon {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 .status-count {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #002f5f;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #002f5f;
 }
 
 .status-label {
-  color: #666;
-  font-size: 0.9rem;
+    color: #666;
+    font-size: 0.9rem;
 }
 
 /* Alertas */
 .alertas-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .alerta-item {
-  padding: 12px;
-  border-radius: 6px;
-  border-left: 4px solid;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid;
 }
 
 .alerta-item.urgente {
-  background: #ffe6e6;
-  border-left-color: #dc3545;
+    background: #ffe6e6;
+    border-left-color: #dc3545;
 }
 
 .alerta-item.aviso {
-  background: #fff3cd;
-  border-left-color: #ffc107;
+    background: #fff3cd;
+    border-left-color: #ffc107;
 }
 
 .alerta-content h4 {
-  margin: 0 0 5px 0;
-  font-size: 0.9rem;
-  color: #002f5f;
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+    color: #002f5f;
 }
 
 .alerta-content p {
-  margin: 0;
-  font-size: 0.8rem;
-  color: #666;
+    margin: 0;
+    font-size: 0.8rem;
+    color: #666;
 }
 
-/* ======= RESPONSIVIDADE ======= */
-@media (max-width: 1024px) {
-  .dashboard-card.large {
-    grid-column: span 1;
-  }
-  
-  .admin-actions {
-    grid-template-columns: 1fr;
-  }
-}
 
-@media (max-width: 768px) {
-  .hero-colaborador-title {
-    font-size: 2rem;
-  }
-  
-  .colaborador-info {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .perfis-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .cliente-item,
-  .equipe-item,
-  .manutencao-item,
-  .reserva-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-  
-  .cliente-actions,
-  .equipe-actions,
-  .manutencao-actions,
-  .reserva-actions {
-    width: 100%;
-    justify-content: flex-end;
-  }
-  
-  .stats-grid,
-  .metricas-grid,
-  .frota-stats {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-colaborador {
-    padding: 40px 15px;
-  }
-  
-  .hero-colaborador-title {
-    font-size: 1.8rem;
-  }
-  
-  .dashboard-colaborador {
-    padding: 40px 15px;
-  }
-  
-  .dashboard-card {
-    padding: 20px;
-  }
-  
-  .card-header {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  
-  .btn-card-action {
-    width: 100%;
-    text-align: center;
-  }
-}
 
 /* ======= CADASTRO ======= */
 .cadastro-hero {
@@ -3663,6 +3996,31 @@ footer hr {
 
 /* ======= RESPONSIVIDADE ======= */
 @media (max-width: 1024px) {
+    .portal-container {
+        grid-template-columns: 1fr;
+    }
+
+    .portal-sidebar {
+        position: static;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .sidebar-item {
+        white-space: nowrap;
+    }
+
+    .dashboard-card.large {
+        grid-column: span 1;
+    }
+
+    .admin-actions {
+        grid-template-columns: 1fr;
+    }
+
     .veiculo-detalhes {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
@@ -3780,6 +4138,33 @@ footer hr {
 }
 
 @media (max-width: 480px) {
+    .hero-colaborador {
+        padding: 40px 15px;
+    }
+
+    .hero-colaborador-title {
+        font-size: 1.8rem;
+    }
+
+    .dashboard-colaborador {
+        padding: 40px 15px;
+    }
+
+    .dashboard-card {
+        padding: 20px;
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .btn-card-action {
+        width: 100%;
+        text-align: center;
+    }
+
     .logo-img {
         width: clamp(80px, 22vw, 110px);
     }
@@ -3813,6 +4198,80 @@ footer hr {
 }
 
 @media (max-width: 768px) {
+
+    .reserva-item,
+    .pagamento-item,
+    .metodo-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .reserva-actions,
+    .pagamento-actions,
+    .metodo-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .hero-portal-title {
+        font-size: 2rem;
+    }
+
+    .cliente-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card.large {
+        grid-column: span 1;
+    }
+
+    .hero-colaborador-title {
+        font-size: 2rem;
+    }
+
+    .colaborador-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .perfis-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cliente-item,
+    .equipe-item,
+    .manutencao-item,
+    .reserva-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .cliente-actions,
+    .equipe-actions,
+    .manutencao-actions,
+    .reserva-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .stats-grid,
+    .metricas-grid,
+    .frota-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
     .dashboard-header {
         flex-direction: column;
         gap: 20px;

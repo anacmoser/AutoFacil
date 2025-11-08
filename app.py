@@ -71,6 +71,10 @@ def index():
 def pgLogin():
     return render_template('login.html')
 
+@app.route('/cadastro', methods=['GET'])
+def pgCadastro():
+    return render_template('cadastro.html')
+
 @app.route('/loginColaborador', methods=['GET'])
 def loginColaborador():
     return render_template('colaboradores/login_colaborador.html')
@@ -245,22 +249,4 @@ class Cliente(db.Model):
     def __repr__(self):
         return f'<Cliente {self.nome}>'
 
-@app.route('/cadastro', methods=['GET', 'POST'])
-def cadastro():
-    if request.method == 'POST':
-        print(request.form)
-        nome = request.form.get('nome')
-        email = request.form.get('email')
-        senha = request.form.get('senha')
-        
-        novo_cliente = Cliente(
-            nome=nome,
-            email=email,
-            senha=senha,
-        )
 
-        db.session.add(novo_cliente)
-        db.session.commit()
-        return redirect('/sucesso')
-
-    return render_template('cadastro.html')

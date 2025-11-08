@@ -1,9 +1,11 @@
 class Colaborador:
-    def __init__(self, id, nome, perfil, cargo):
+    def __init__(self, id, nome, cargo, email, senha):
         self._id = id
         self._nome = nome
-        self._perfil = perfil
+        self._perfil = 'colab'
         self._cargo = cargo
+        self._email = email
+        self._senha = senha
 
     @property
     def id(self):
@@ -21,6 +23,14 @@ class Colaborador:
     def cargo(self):
         return self._cargo
     
-admin = Colaborador('id', 'ana', 'colaborador', 'admin')
+    @property
+    def email(self):
+        return self._email
 
-Colaboradores = [admin]
+    @property
+    def senha(self):
+        return self._senha    
+    
+admin = Colaborador('id', 'ana', 'admin', 'admin@gmail.com', 'Senha123')
+
+Lista_Colaboradores = [admin]

@@ -112,12 +112,13 @@ def login():
             return render_template('login.html', erro='Senha incorreta')
 
         # Login bem-sucedido
-        session['usuario_logado'] = user_input
+        session['usuario_logado'] = user_input  #Salvar o session só em email
         session['usuario_perfil'] = 'pf'
 
         if remember:
             response = make_response(redirect(url_for('index')))
-            response.set_cookie('user', str(user_input), max_age=60*60*72)
+            response.set_cookie('user', str(user_input), max_age=60*60*72)  #Coloque somente o email no cookie
+            response.set_cookie('perfil', 'pf', max_age=60*60*72)
             return response
 
         return redirect(url_for('index'))

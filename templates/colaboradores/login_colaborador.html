@@ -104,8 +104,19 @@
         {% endif %}
         {% endwith %}
 
+
         <!-- LOGIN COLABORADOR -->
         <div class="login-colaborador-box">
+            
+            
+        {% if erro %}
+        <div class="alert alert-danger">
+            {{ erro }}
+        </div>
+        {% endif %}
+
+
+
             <div class="colaborador-badge">
                 <img src="{{ url_for('static', filename='img/colaborar.png') }}" alt="Ícone Colaborador"
                     id="imgcolaborar">
@@ -114,18 +125,18 @@
 
             <h2>Login - Colaborador</h2>
 
-            <form action="/colaborador/login" method="POST">
+            <form action="{{ url_for('colaborador_bp.login') }}" method="POST">
                 <div class="form-group">
                     <label for="user_colaborador">E-mail Corporativo</label>
                     <input type="email" id="user_colaborador" name="email" placeholder="seu.email@autofacil.com"
-                        required>
+                        required value="{{ request.form.email if request.form }}">
                 </div>
 
                 <div class="form-group">
                     <label for="password_colaborador">Senha</label>
                     <div class="password-wrapper">
                         <input type="password" id="password_colaborador" name="password" placeholder="Digite sua senha"
-                            required>
+                            required value="{{ request.form.password if request.form }}">
                         <span class="toggle-password" data-target="password_colaborador"></span>
                     </div>
                 </div>
@@ -137,6 +148,8 @@
                     </label>
                     <a href="#">Esqueceu a senha?</a>
                 </div>
+
+                <button type="submit" name="logar">Logar</button>
 
                 <a href="/colaborador/portal" class="btn-login-colaborador"> <!-- precisa alterar quando implementar a logica de login -->
                     Acessar Sistema

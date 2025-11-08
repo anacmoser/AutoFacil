@@ -13,7 +13,7 @@ class UserPj:
             self._ramo = ramo
             self._tamanho = tamanho
             self._nomeRep = nomeRep
-            self.__cpfRep = cpfRep
+            self._cpfRep = cpfRep
             self._cargoRep = cargoRep 
             self._phone = telefone
             self._emailCop = emailCop
@@ -58,7 +58,32 @@ class UserPj:
     def senha(self):
         return self.__senha
 
-USERSpj = []
+empresa1 = UserPj(
+    id=1,
+    razaoSocial="Tech Solutions LTDA",
+    nomeFantasia="TechSol",
+    cnpj="04252011000110",
+    ramo="Tecnologia da Informação",
+    tamanho="Médio Porte",
+    nomeRep="João da Silva",
+    cpfRep="12345678909",
+    cargoRep="Diretor Executivo",
+    telefone="1140028922",
+    emailCop="contato@techsol.com.br",
+    cep="04567-000",
+    logradouro="Rua das Inovações",
+    numero="123",
+    bairro="Centro Empresarial",
+    estado="SP",
+    cidade="São Paulo",
+    senha="senhaSegura123",
+    confirmar="senhaSegura123",
+    inscricaoEstadual="123456789",
+    cell="11988887777",
+    complemento="Sala 45"
+)
+
+USERSpj = [empresa1]
 
 def addUserPj(novoUser): #Adicionar a verificação de duplicidade
     erros = verificarDuplicidadePj(novoUser)

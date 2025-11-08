@@ -20,17 +20,17 @@ def cadastroEmpresa():
 
     rs = request.form.get('razao_social', '').strip()
     nf = request.form.get('nome_fantasia', '').strip()
-    cnpj = request.form.get('cnpj', '')
-    ie = request.form.get('inscricao_estadual', '').strip()
+    cnpj = re.sub(r'[^0-9]', '', request.form.get('cnpj', ''))
+    ie =  re.sub(r'[^0-9]', '', request.form.get('inscricao_estadual', '').strip())
     ramo = request.form.get('ramo_atividade', '')
     tamanho = request.form.get('tamanho_empresa', '')
     nomeRep = request.form.get('nome_representante', '').strip()
-    cpfRep = request.form.get('cpf_representante', '')
+    cpfRep =  re.sub(r'[^0-9]', '', request.form.get('cpf_representante', ''))
     cargoRep = request.form.get('cargo_representante', '').strip()
-    phone = request.form.get('telefone_empresa', '')
-    cell = request.form.get('celular_empresa', '')
+    phone =  re.sub(r'[^0-9]', '', request.form.get('telefone_empresa', ''))
+    cell =  re.sub(r'[^0-9]', '', request.form.get('celular_empresa', ''))
     email = request.form.get('email_empresa', '').strip()
-    cep = request.form.get('cep_empresa', '')
+    cep =  re.sub(r'[^0-9]', '', request.form.get('cep_empresa', ''))
     logra = request.form.get('logradouro_empresa', '')
     num = request.form.get('numero_empresa', '')
     complemento = request.form.get('complemento_empresa', '')
@@ -85,13 +85,14 @@ def login():
             for usuario in USERSpj:
                 if usuario.email == user :
                     if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.rs
+                        session['usuario_logado'] = usuario.email
                         session['usuario_perfil'] = 'pj'
                         if remember:
                             response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', str(usuario.id), max_age=60*60*72)
+                            response.set_cookie('user', str(usuario.email), max_age=60*60*72)
+                            response.set_cookie('perfil', 'pj', max_age=60*60*72)
                             return response
-                        return render_template('index.html')
+                        return redirect(url_for('index'))
                     return render_template('login.html', erro = 'Senha incorreta')
             return render_template('login.html', erro = 'Usuário não encontrado')
         else: 
@@ -101,13 +102,14 @@ def login():
             for usuario in USERSpj:
                 if usuario.cnpj == cnpj:
                     if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.rs
+                        session['usuario_logado'] = usuario.email
                         session['usuario_perfil'] = 'pj'
                         if remember:
                             response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', str(usuario.id), max_age=60*60*72)
+                            response.set_cookie('user', str(usuario.email), max_age=60*60*72)
+                            response.set_cookie('perfil', 'pj', max_age=60*60*72)
                             return response
-                        return render_template('index.html')
+                        return redirect(url_for('index'))
                     return render_template('login.html', erro = 'Senha incorreta')
             return render_template('login.html', erro = 'Usuário não encontrado')        
     

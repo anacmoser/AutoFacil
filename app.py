@@ -13,15 +13,13 @@ TAREFAS:
     * Para guardar os dados no BD, deve formatar num padrão
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort
-import re
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, abort
 import math
-from models.UserPf import UserPf, USERSpf, addUser, delUser, getUserByCpf, getUserByEmail, verificarDuplicidade
-from models.UserPj import UserPj, USERSpj, addUserPj
-from models.Veiculo import Veiculo, VEICULOS, addVeiculo, removerVeiculo, getVeiById
+from models.Veiculo import VEICULOS
 from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
+from controllers.colaborador_controller import colaborador_bp
 from flask import Flask, render_template, request
 from models import db
 from dotenv import load_dotenv
@@ -42,6 +40,7 @@ app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
 app.register_blueprint(user_pf_bp)
 app.register_blueprint(user_pj_bp)
+app.register_blueprint(colaborador_bp)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -49,24 +48,30 @@ app.config['MYSQL_PASSWORD'] = 'root123'
 app.config['MYSQL_DB'] = 'autofacil'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-def validar_email(email):
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return re.match(pattern, email) is not None
-
-def validar_cpf(cpf):
-    cpf_limpo = ''.join(filter(str.isdecimal, str(cpf))) 
-    return len(cpf_limpo) == 11 and cpf_limpo != cpf_limpo[0] * 11
-
 # Rotas
 @app.route('/')
 def index():
+    if 'usuario_logado' not in session:
+        user = request.cookies.get('user', '')
+        perfil = request.cookies.get('perfil')
+        if user:
+            session['usuario_logado'] = user
+            session['usuario_perfil'] = perfil
+            if perfil == 'colab':
+                session['colab_cargo'] = request.cookies.get('cargo')
+                return redirect(url_for('pgColaborador'))
+    
+    if 'usuario_logado' in session:
+        if session.get('usuario_perfil') == 'colab':
+            return redirect(url_for('pgColaborador'))
+
     return render_template('index.html')
 
 @app.route('/login', methods=['GET'])
 def pgLogin():
     return render_template('login.html')
 
-@app.route('/logincolaborador')
+@app.route('/loginColaborador', methods=['GET'])
 def loginColaborador():
     return render_template('colaboradores/login_colaborador.html')
 
@@ -83,6 +88,18 @@ def pgMinhasReservas():
     if session.get('usuario_logado') == None:
         abort(401)
     return render_template('minhas_reservas.html')
+
+@app.route('/portalCliente')
+def portalCliente():
+    return render_template('portalCliente.html')
+
+@app.route('/colaborador', methods=['GET'])
+def pgColaborador():
+    if session.get('usuario_perfil') == None:
+        return render_template('colaboradores/login_colaborador.html')
+    elif 'colab_cargo' in session:
+        return render_template('colaboradores/colaborador.html', cargo = session.get('cargo'))
+    abort(403)
 
 @app.route('/frota', methods=['GET', 'POST'])  #Modularizar esta frota criando funções
 def pgFrota():  #adicionar o filtro de preço menor para maior
@@ -186,14 +203,16 @@ def filtrar():
                            total_pages=total_pages,
                            filtros_limpos = False)
 
-@app.route('/colaborador/portal')
-def portal_colaborador():
-    return render_template('colaboradores/colaborador.html')
-
 @app.route('/logout', methods=['GET']) 
 def logout():
-    session.pop('usuario_logado', None)
-    return redirect(url_for('index'))
+    session.clear()
+    resposta = make_response(redirect(url_for('index')))
+
+    resposta.set_cookie('user', '', expires=0)
+    resposta.set_cookie('perfil', '', expires=0)
+    if request.cookies.get('cargo'):
+        resposta.set_cookie('cargo', '', expires=0)
+    return resposta
 
 @app.errorhandler(401)
 def nao_autorizado(error):

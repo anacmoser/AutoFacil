@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ====== FORMULÁRIOS ======
-    if (currentPage === 'cadastro' || currentPage === 'aluguel-mensal' || currentPage === 'login') {
+    if (currentPage === 'cadastro' || currentPage === 'aluguel-mensal' || currentPage === 'login' || currentPage === 'login-colaborador') {
         initFormularios();
     }
 
@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ====== PÁGINA COLABORADORES =======
-        initColaborador();
+    initColaborador();
 
-     
+
     // Scroll para topo se houver erro
     if (typeof erro !== 'undefined' && erro) {
         window.scrollTo(0, 0);
@@ -55,7 +55,7 @@ function initCarousel() {
         // Remove todas as classes active
         imagens.forEach(img => img.classList.remove("active"));
         dots.forEach(dot => dot.classList.remove("active"));
-        
+
         // Atualiza índice
         index = n;
         if (index >= imagens.length) index = 0;
@@ -107,7 +107,7 @@ function initCarousel() {
 }
 
 // Chamar apenas uma vez quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initCarousel();
 });
 
@@ -188,7 +188,7 @@ function initMenuMobile() {
                 closeMenu(otherTrigger);
             }
         });
-        
+
         trigger.classList.add('open');
         trigger.setAttribute('aria-expanded', 'true');
         const panel = trigger.querySelector('.menu-panel');
@@ -389,9 +389,9 @@ function initFormularios() {
 function initLogin() {
     // Seleção automática de tipo de conta
     const radios = document.querySelectorAll('.tipo-conta-radio');
-    
+
     radios.forEach(radio => {
-        radio.addEventListener('change', function() {
+        radio.addEventListener('change', function () {
             if (this.form) {
                 this.form.submit();
             }
@@ -400,9 +400,9 @@ function initLogin() {
 
     // Validação em tempo real para os campos de login
     const inputs = document.querySelectorAll('#user_pf, #user_pj, #password_pf, #password_pj');
-    
+
     inputs.forEach(input => {
-        input.addEventListener('blur', function() {
+        input.addEventListener('blur', function () {
             validarCampoLogin(this);
         });
     });
@@ -418,7 +418,7 @@ function validarCampoLogin(campo) {
             if (!valor) return 'E-mail ou CPF é obrigatório.';
             const isCPF = /^\d{11}$/.test(valor.replace(/\D/g, ''));
             const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
-            
+
             if (!isCPF && !isEmail) {
                 return 'Digite um e-mail válido ou CPF com 11 dígitos.';
             }
@@ -429,7 +429,7 @@ function validarCampoLogin(campo) {
             if (!valor) return 'E-mail ou CNPJ é obrigatório.';
             const isCNPJ = /^\d{14}$/.test(valor.replace(/\D/g, ''));
             const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
-            
+
             if (!isCNPJ && !isEmail) {
                 return 'Digite um e-mail válido ou CNPJ com 14 dígitos.';
             }
@@ -899,20 +899,20 @@ function initColaborador() {
     // Elementos principais
     const perfilCards = document.querySelectorAll('.perfil-card');
     const perfilContents = document.querySelectorAll('.perfil-content');
-    
+
     // Perfil padrão ativo
     let perfilAtivo = 'atendente';
-    
+
     // Inicializar com o perfil padrão
     ativarPerfil(perfilAtivo);
-    
+
     // Event listeners para os cards de perfil
     perfilCards.forEach(card => {
         card.addEventListener('click', function () {
             const perfil = this.dataset.perfil;
             ativarPerfil(perfil);
         });
-        
+
         // Acessibilidade - teclado
         card.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -922,88 +922,88 @@ function initColaborador() {
             }
         });
     });
-    
+
     // Função para ativar um perfil específico
     function ativarPerfil(perfil) {
         // Atualizar perfil ativo
         perfilAtivo = perfil;
-        
+
         // Remover classe active de todos os cards
         perfilCards.forEach(card => {
             card.classList.remove('active');
         });
-        
+
         // Adicionar classe active ao card correspondente
         const cardAtivo = document.querySelector(`.perfil-card[data-perfil="${perfil}"]`);
         if (cardAtivo) {
             cardAtivo.classList.add('active');
             cardAtivo.focus(); // Para acessibilidade
         }
-        
+
         // Ocultar todos os conteúdos
         perfilContents.forEach(content => {
             content.classList.remove('active');
         });
-        
+
         // Mostrar conteúdo do perfil ativo
         const conteudoAtivo = document.getElementById(`${perfil}-content`);
         if (conteudoAtivo) {
             conteudoAtivo.classList.add('active');
-            
+
             // Scroll suave para o conteúdo
-            conteudoAtivo.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            conteudoAtivo.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
-        
+
         // Atualizar URL (sem recarregar a página)
         history.replaceState(null, null, `#${perfil}`);
     }
-    
+
     // Verificar hash na URL ao carregar
     function verificarHashURL() {
         const hash = window.location.hash.substring(1);
         const perfisValidos = ['atendente', 'gerente', 'administrador', 'suporte'];
-        
+
         if (perfisValidos.includes(hash)) {
             ativarPerfil(hash);
         }
     }
-    
+
     // Verificar hash quando a página carrega
     verificarHashURL();
-    
+
     // Simular ações dos botões (apenas visual)
     const botoesAcao = document.querySelectorAll('.btn-action, .btn-card-action, .btn-relatorio, .btn-admin');
-    
+
     botoesAcao.forEach(botao => {
         botao.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             // Feedback visual
             const originalText = this.textContent;
             this.textContent = 'Processando...';
             this.disabled = true;
-            
+
             // Simular processamento
             setTimeout(() => {
                 this.textContent = originalText;
                 this.disabled = false;
-                
+
                 // Mostrar mensagem de sucesso (apenas visual)
                 mostrarMensagemTemporaria('Ação simulada com sucesso!', 'success');
             }, 1000);
         });
     });
-    
+
     // Função para mostrar mensagens temporárias
     function mostrarMensagemTemporaria(mensagem, tipo = 'info') {
         // Criar elemento da mensagem
         const mensagemEl = document.createElement('div');
         mensagemEl.className = `mensagem-temporaria mensagem-${tipo}`;
         mensagemEl.textContent = mensagem;
-        
+
         // Estilos da mensagem
         Object.assign(mensagemEl.style, {
             position: 'fixed',
@@ -1018,7 +1018,7 @@ function initColaborador() {
             transform: 'translateX(100%)',
             transition: 'transform 0.3s ease'
         });
-        
+
         // Cores por tipo
         const cores = {
             success: '#28a745',
@@ -1026,17 +1026,17 @@ function initColaborador() {
             warning: '#ffc107',
             info: '#17a2b8'
         };
-        
+
         mensagemEl.style.backgroundColor = cores[tipo] || cores.info;
-        
+
         // Adicionar ao DOM
         document.body.appendChild(mensagemEl);
-        
+
         // Animação de entrada
         setTimeout(() => {
             mensagemEl.style.transform = 'translateX(0)';
         }, 100);
-        
+
         // Remover após 3 segundos
         setTimeout(() => {
             mensagemEl.style.transform = 'translateX(100%)';
@@ -1047,21 +1047,21 @@ function initColaborador() {
             }, 300);
         }, 3000);
     }
-    
+
     // Carregar dados simulados (apenas para demonstração)
     carregarDadosSimulados();
-    
+
     function carregarDadosSimulados() {
         // Esta função simularia o carregamento de dados reais
         console.log('Carregando dados do colaborador...');
-        
+
         // Simular pequeno delay de carregamento
         setTimeout(() => {
             // Adicionar classe de carregamento completo
             document.body.classList.add('dados-carregados');
         }, 500);
     }
-    
+
     // Acessibilidade - teclado navigation
     document.addEventListener('keydown', function (e) {
         // Navegação entre perfis com teclado

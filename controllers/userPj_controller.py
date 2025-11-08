@@ -56,7 +56,7 @@ def cadastroEmpresa():
         adicao = addUserPj(novoUser) #Verificar por nome também (já existe por email e cpf)
         if adicao == True: #Se não for true será a lista de erros
             id_counter_pj += 1
-            return redirect(url_for('login'))
+            return redirect(url_for('pgLogin'))
         else:
             return render_template('cadastro.html', erros=adicao)
     except ValueError as e:

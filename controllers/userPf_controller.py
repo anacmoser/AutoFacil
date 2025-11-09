@@ -5,12 +5,12 @@
 #Função de cadastro
 #função de login
 
-from flask import Flask, Blueprint, render_template, request, session, make_response, redirect, url_for
+from flask import Flask, Blueprint, app, render_template, request, session, make_response, redirect, url_for
 from controllers.validacoes import validarEmail, validarCpf
 from models.UserPf import USERSpf, UserPf, addUser
 import re
 from models.UserPf import db, UserPfDB, UserPf
-
+from models import db
 user_pf_bp = Blueprint('user_pf_bp', __name__)
 
 id_counter_Pf = 2  

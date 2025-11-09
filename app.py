@@ -24,29 +24,32 @@ from flask import Flask, render_template, request
 from models import db
 from dotenv import load_dotenv
 import os
+from models.UserPf import UserPfDB
 
 load_dotenv()  # carrega o arquivo .env
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f"mysql+pymysql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+with app.app_context():
+    try:
+        db.session.execute("SELECT 1")
+        print("✅ Conectado com sucesso ao banco do Railway!")
+    except Exception as e:
+        print("❌ Erro ao conectar ao banco:", e)
 
+with app.app_context():
+    db.create_all()
+    print("✅ Tabelas criadas/verificadas com sucesso!")
+    print(">>> URI do banco em uso:", app.config['SQLALCHEMY_DATABASE_URI'])
+    
 app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
 app.register_blueprint(user_pf_bp)
 app.register_blueprint(user_pj_bp)
 app.register_blueprint(colaborador_bp)
-
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root123'
-app.config['MYSQL_DB'] = 'autofacil'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # Rotas
 @app.route('/')
@@ -240,13 +243,13 @@ def erro_interno_servidor(error):
 if __name__ == '__main__':
     app.run(debug=True)
 
-class Cliente(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    senha = db.Column(db.String(100), nullable=False)
-
     def __repr__(self):
         return f'<Cliente {self.nome}>'
-
-
+    
+@app.route('/teste_db')
+def teste_db():
+    from models.UserPf import UserPfDB
+    novo = UserPfDB(Nome='Teste', CPF='12345678900', Email='teste@teste.com', Senha='123')
+    db.session.add(novo)
+    db.session.commit()
+    return "Usuário de teste inserido!"

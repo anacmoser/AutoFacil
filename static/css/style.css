@@ -249,6 +249,118 @@ header {
     min-width: 0;
 }
 
+/* ======= ACESSIBILIDADE ======= */
+.panel-acessibilidade {
+    min-width: 200px;
+}
+
+.acessibilidade-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: none;
+    color: #002f5f;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.acessibilidade-btn:hover {
+    background-color: #e3e3e3;
+}
+
+.acessibilidade-btn span {
+    font-weight: bold;
+    min-width: 20px;
+}
+
+/* Estilos para tamanho de fonte - APLICAR EM TODOS OS ELEMENTOS */
+/* ======= ACESSIBILIDADE - TAMANHO DE FONTE ======= */
+/* Reset para garantir que não haja efeito cumulativo */
+/* ======= ACESSIBILIDADE - TAMANHO DE FONTE SUTIL ======= */
+/* ======= ACESSIBILIDADE - TAMANHO DE FONTE SUTIL ======= */
+/* ======= ACESSIBILIDADE - TAMANHO DE FONTE ======= */
+/* ======= ACESSIBILIDADE - TAMANHO DE FONTE MAIS VISÍVEL ======= */
+/* ======= ACESSIBILIDADE - 4 NÍVEIS DE TAMANHO ======= */
+
+/* Nível 1 - Normal */
+html.fonte-normal {
+    font-size: 16px !important;
+}
+
+/* Nível 2 - Grande (+25%) */
+html.fonte-grande {
+    font-size: 20px !important;
+}
+
+/* Nível 3 - Muito Grande (+50%) */
+html.fonte-muito-grande {
+    font-size: 24px !important;
+}
+
+/* Nível 4 - Super Grande (+75%) */
+html.fonte-super-grande {
+    font-size: 28px !important;
+}
+
+/* Nível 5 - Máximo (+100%) */
+html.fonte-maximo {
+    font-size: 32px !important;
+}
+
+/* Garante que todos os elementos herdem o tamanho */
+.fonte-normal,
+.fonte-grande,
+.fonte-muito-grande,
+.fonte-super-grande,
+.fonte-maximo {
+    font-size: inherit !important;
+}
+
+.fonte-normal *,
+.fonte-grande *,
+.fonte-muito-grande *,
+.fonte-super-grande *,
+.fonte-maximo * {
+    font-size: inherit !important;
+}
+
+/* Estilos para alto contraste (mantém igual) */
+html.alto-contraste,
+body.alto-contraste {
+    filter: contrast(1.8) !important;
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+.alto-contraste * {
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+.alto-contraste header {
+    background-color: #000 !important;
+    border-bottom-color: #fff !important;
+}
+
+.alto-contraste .menu-panel {
+    background-color: #000 !important;
+    border-color: #fff !important;
+}
+
+.alto-contraste .acessibilidade-btn {
+    color: #fff !important;
+}
+
+.alto-contraste .acessibilidade-btn:hover {
+    background-color: #333 !important;
+}
 /* ======= CARROSSEL ======= */
 .carousel {
     position: relative;

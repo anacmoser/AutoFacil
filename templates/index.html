@@ -26,8 +26,7 @@ TAREFAS:
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
     rel="stylesheet">
-
-</head>
+  </head>
 
 <body data-page='index'>
   <!-- ======= NAVBAR ======= -->
@@ -70,43 +69,69 @@ TAREFAS:
 
       <div class="nav-right">
         <a href="#">
-            <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
-                class="icon-btn">
+          <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
+            class="icon-btn">
         </a>
-        <a href="#">
+        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+          <a href="#">
             <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-                title="Acessibilidade" class="icon-btn">
-        </a>
-    
+              title="Acessibilidade" class="icon-btn">
+          </a>
+          <div class="menu-panel">
+            <ul class="panel-acessibilidade">
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
+                  <span>A+</span> Aumentar fonte
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
+                  <span>A-</span> Diminuir fonte
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
+                  <span>▣</span> Alto contraste
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="resetar">
+                  <span>↺</span> Resetar
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         {% if session.get('usuario_logado') %}
         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-            <a href="#">
-                <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
-                    class="icon-btn">
-            </a>
-            <div class="menu-panel">
-                <ul class="panel-logout">
-                    <li><a href="/alter_data">Portal do cliente</a></li>
-                    <li><a href="/logout">Encerrar sessão</a></li>
-                </ul>
-            </div>
+          <a href="#">
+            <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
+              class="icon-btn">
+          </a>
+          <div class="menu-panel">
+            <ul class="panel-logout">
+              <li><a href="/alter_data">Portal do cliente</a></li>
+              <li><a href="/logout">Encerrar sessão</a></li>
+            </ul>
+          </div>
         </div>
         {% else %}
         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
           <a href="#">
             <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-                class="icon-btn">
+              class="icon-btn">
           </a>
-            <div class="menu-panel">
-                <ul class="panel-login">
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/cadastro">Cadastro</a></li>
-                    <li><a href="/colaborador">Colaborador</a></li>
-                </ul>
-            </div>
+          <div class="menu-panel">
+            <ul class="panel-login">
+              <li><a href="/login">Login</a></li>
+              <li><a href="/cadastro">Cadastro</a></li>
+              <li><a href="/colaborador">Colaborador</a></li>
+            </ul>
+          </div>
         </div>
         {% endif %}
-    </div>
+      </div>
   </header>
 
   <!-- Barra de pesquisa -->
@@ -269,8 +294,7 @@ TAREFAS:
   <footer>
     <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
     <div class="footer-social">
-      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
-          title="Whatsapp"></a>
+      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
       <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
           title="Facebook"></a>
       <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"

@@ -33,17 +33,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-with app.app_context():
-    try:
-        db.session.execute("SELECT 1")
-        print("✅ Conectado com sucesso ao banco do Railway!")
-    except Exception as e:
-        print("❌ Erro ao conectar ao banco:", e)
-
-with app.app_context():
-    db.create_all()
-    print("✅ Tabelas criadas/verificadas com sucesso!")
-    print(">>> URI do banco em uso:", app.config['SQLALCHEMY_DATABASE_URI'])
     
 app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
@@ -245,11 +234,3 @@ if __name__ == '__main__':
 
     def __repr__(self):
         return f'<Cliente {self.nome}>'
-    
-@app.route('/teste_db')
-def teste_db():
-    from models.UserPf import UserPfDB
-    novo = UserPfDB(Nome='Teste', CPF='12345678900', Email='teste@teste.com', Senha='123')
-    db.session.add(novo)
-    db.session.commit()
-    return "Usuário de teste inserido!"

@@ -57,7 +57,10 @@ class UserPj:
     @property
     def senha(self):
         return self.__senha
-
+    
+    @property
+    def nome(self):
+        return self._nomeFant
 empresa1 = UserPj(
     id=1,
     razaoSocial="Tech Solutions LTDA",

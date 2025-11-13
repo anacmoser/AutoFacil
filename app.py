@@ -16,6 +16,7 @@ TAREFAS:
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, abort
 import math
 from models.Veiculo import VEICULOS
+from models.UserPj import USERSpj
 from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
@@ -33,17 +34,17 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-with app.app_context():
+"""with app.app_context():
     try:
         db.session.execute("SELECT 1")
         print("✅ Conectado com sucesso ao banco do Railway!")
     except Exception as e:
-        print("❌ Erro ao conectar ao banco:", e)
+        print("❌ Erro ao conectar ao banco:", e)"""
 
-with app.app_context():
+"""with app.app_context():
     db.create_all()
     print("✅ Tabelas criadas/verificadas com sucesso!")
-    print(">>> URI do banco em uso:", app.config['SQLALCHEMY_DATABASE_URI'])
+    print(">>> URI do banco em uso:", app.config['SQLALCHEMY_DATABASE_URI'])"""
     
 app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
@@ -100,17 +101,30 @@ def pgMinhasReservas():
         abort(401)
     return render_template('minhas_reservas.html')
 
-@app.route('/portalCliente')
+@app.route('/portalCliente', methods=['GET'])
 def portalCliente():
-    return render_template('portalCliente.html')
+    user_id = session.get('user')
+    user_perfil = session.get('usuario_perfil')
+    if user_perfil == 'pj':
+        for user in USERSpj:
+            if user.id == user_id:
+                return render_template('portalCliente.html', user = user)
+    #if user_perfil == 'pf':
+        #Lógica com o banco de dados
+    return render_template('index.html')
 
 @app.route('/colaborador', methods=['GET'])
 def pgColaborador():
     if session.get('usuario_perfil') == None:
         return render_template('colaboradores/login_colaborador.html')
     elif 'colab_cargo' in session:
-        return render_template('colaboradores/colaborador.html', cargo = session.get('cargo'))
+        return render_template('colaboradores/colaborador.html', cargo = session.get('colab_cargo'))
     abort(403)
+
+@app.route('/pagamento/<veiculo>', methods=['GET'])
+def pgPagamento(veiculo):
+    return render_template('pagamento.html', veiculo = veiculo)
+
 
 @app.route('/frota', methods=['GET', 'POST'])  #Modularizar esta frota criando funções
 def pgFrota():  #adicionar o filtro de preço menor para maior

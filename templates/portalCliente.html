@@ -21,7 +21,7 @@
 </head>
 
 <body data-page='portal-cliente'>
-    <!-- ======= NAVBAR ======= -->
+    <!-- ======= NAVBAR ======= --> 
     <header class="topbar">
         <nav class="nav">
             <div class="nav-left">
@@ -90,9 +90,9 @@
                         <img src="../static/img/avatar-cliente.png" alt="Avatar do cliente">
                     </div>
                     <div class="cliente-dados">
-                        <h2>João Silva</h2>
+                        <h2>{{ user.nome }}</h2>
                         <p>Cliente desde: 2023</p>
-                        <span class="cliente-id">ID: #CL001</span>
+                        <span class="cliente-id">ID: {{ user.id }}</span>
                     </div>
                 </div>
             </div>
@@ -127,11 +127,14 @@
             <!-- Conteúdo Principal -->
             <div class="portal-content">
                 <!-- Seção Perfil -->
+            
                 <div class="portal-section active" id="perfil-section">
                     <div class="section-header">
                         <h2>Meu Perfil</h2>
                         <p>Gerencie suas informações pessoais</p>
                     </div>
+
+                    {% if session.get('usuario_perfil') == 'pf' %}
                     
                     <div class="dashboard-grid">
                         <div class="dashboard-card large">
@@ -171,6 +174,51 @@
                                 </form>
                             </div>
                         </div>
+
+                        {% elif session.get('perfil_usuario') == 'pj' %}
+
+                        <div class="dashboard-grid">
+                        <div class="dashboard-card large">
+                            <div class="card-header">
+                                <h3>Dados Pessoais</h3>
+                                <button class="btn-card-action" id="editar-perfil">Editar</button>
+                            </div>
+                            <div class="card-content">
+                                <form id="form-perfil">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="razao-social">Razão Social</label>
+                                            <input type="text" id="razao-social" name="razao-social" value="{{ user.rs }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="CNPJ">CNPJ</label>
+                                            <input type="text" id="CNPJ" name="CNPJ" value="{{ user.cnpj }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nascimento">Data de Nascimento</label>
+                                            <input type="date" id="nascimento" name="nascimento" value="1990-05-15" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="celular">Celular</label>
+                                            <input type="tel" id="celular" name="celular" value="(11) 99999-9999" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">E-mail</label>
+                                            <input type="email" id="email" name="email" value="joao.silva@email.com" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-actions" id="form-actions-perfil" style="display: none;">
+                                        <button type="button" class="btn-secondary" id="cancelar-edicao">Cancelar</button>
+                                        <button type="submit" class="btn-primary">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        {% else %}
+                            <h1>Erro nas condicionais</h1>
+                        {% endif %}
                         
                         <div class="dashboard-card">
                             <div class="card-header">

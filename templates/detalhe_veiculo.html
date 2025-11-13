@@ -139,11 +139,11 @@
                 <!-- Formulário de Reserva -->
                 <div class="form-reserva">
                     <h3>Reservar agora</h3>
-
+                <form action="{{ url_for('veiculo_bp.reserva', veiculo_id=veiculo.id) }}" method="POST">
                     <!-- Seleção de Local -->
                     <div class="form-group">
                         <label for="localRetirada">Local de retirada</label>
-                        <select id="localRetirada">
+                        <select id="localRetirada" name="localRetirada" required>
                             <option value="">Selecione uma agência</option>
                             <option value="aeroporto-gru">Aeroporto de Guarulhos (GRU)</option>
                             <option value="aeroporto-cgh">Aeroporto de Congonhas (CGH)</option>
@@ -157,7 +157,7 @@
                         <div class="form-group">
                             <label for="dataRetirada">Data de retirada</label>
                             <div class="input-data-container">
-                                <input type="date" id="dataRetirada" min="{{ data_hoje }}">
+                                <input type="date" id="dataRetirada" min="{{ data_hoje }}" name="dataRetirada" required>
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                         <div class="form-group">
                             <label for="dataDevolucao">Data de devolução</label>
                             <div class="input-data-container">
-                                <input type="date" id="dataDevolucao" min="{{ data_hoje }}">
+                                <input type="date" id="dataDevolucao" min="{{ data_hoje }}" name="dataDev" required>
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
                         </div>
@@ -182,12 +182,19 @@
                         </div>
                     </div>
 
+                    {% if status %}
+                        {{ status }}
+                    {% endif %}
+
                     <!-- Botão de Reserva -->
                     {% if session.get('usuario_logado') %}
-                    <button class="btn-reservar" id="btnReservar" disabled>
-                        <i class="fas fa-car"></i>
-                        Reservar Agora
-                    </button>
+                        <button class="btn-reservar" id="btnReservar" type="submit">
+                            <i class="fas fa-car"></i>
+                            Reservar Agora
+                        </button>
+                    </form>
+
+                    
                     {% else %}
                     <a href="{{ url_for('pgLogin') }}" class="btn-reservar">
                         <i class="fas fa-sign-in-alt"></i>

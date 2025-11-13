@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, request
+from flask import Blueprint, render_template, abort, request, redirect, url_for
 from models.Veiculo import VEICULOS, getVeiById, Veiculo
 
 veiculo_bp = Blueprint('veiculo_bp', __name__)
@@ -10,6 +10,23 @@ def detalheVeiculo(veiculo_id):
     if veiculo is None:
         abort(404)
     return render_template('detalhe_veiculo.html', veiculo=veiculo)
+
+@veiculo_bp.route('/reserva/<int:veiculo_id>', methods=['POST'])
+def reserva(veiculo_id):
+    data_ret = request.form.get('dataRetirada')
+    data_dev = request.form.get('dataDev')
+    local = request.form.get('localRetirada')
+    for veiculo in VEICULOS:
+        if veiculo.id == veiculo_id:
+            if veiculo.status == 'disponível':
+                #Verifica se há este carro nesse local
+                #Verifica se esse carro deste local está reservado entre as data_ret e data_dev
+                #Se sim, veiculo.status = 'indiponível'
+                #return redirect(url_for('pgPagamento', veiculo=veiculo))
+                return render_template('pagamento.html', veiculo = veiculo)
+        return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo)
+    
+
 
 '''@veiculo_bp.route('adicionarVeiculo', methods=['POST'])
 def addVeiculo():

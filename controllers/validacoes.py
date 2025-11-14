@@ -198,6 +198,24 @@ def validacaoGeralPj(RS, NF, cnpj, nome, cpf, cargo, phone, email, cep, logra, n
                 raise ValueError(erros)
             return True
 
+def validacaoGeralColab(nome, senha, verificador, cpf, email):
+    erros = []
+    validacoes = [
+        [validarNome(nome), 'Nome inválido'], 
+        [validarSenha(senha), 'Senha inválida'],
+        [validarCpf(cpf), 'CPF inválido'],
+        [verificarSenha(senha, verificador), 'As senha não coincidem'],
+        [validarEmail(email), 'Email inválido']
+    ]
+
+    for validacao, mensagem in validacoes:
+        if validacao == False:
+            erros.append(mensagem)
+
+    if erros:
+        raise ValueError(erros)
+    return True
+
 def aplicar_filtros(veiculos):
     categoria = request.args.get('categoria', 'todos')
     marca = request.args.get('marca', '')

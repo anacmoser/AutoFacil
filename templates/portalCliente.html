@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Cliente - AutoFácil</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body data-page='portal-cliente'>
+    <!-- ======= NAVBAR ======= --> 
+    <header class="topbar">
+        <nav class="nav">
+            <div class="nav-left">
+                <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+                    <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+                    <div class="menu-panel" id="menuPanel">
+                        <ul class="panel-main">
+                            <li><a href="#">Promoções</a></li>
+                            <li><a href="#">Atendimento</a></li>
+                            <li><a href="#">Agências</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                        <ul class="panel-nav">
+                            <li><a href="/frota">Alugar agora</a></li>
+                            <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+                            <li><a href="/empresas">Para empresas</a></li>
+                            <li><a href="/minhasReservas">Minhas reservas</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a class="logo" href="/" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-center">
+                <a href="/frota" class="nav-btn">Alugar agora</a>
+                <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
+                <a href="/empresas" class="nav-btn">Para empresas</a>
+                <a href="/portalCliente" class="nav-btn active">Portal do Cliente</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="#">
+                    <img src="../static/img/pergunta.png" alt="Botão de dúvidas" title="Dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="../static/img/acessibilidade2.png" alt="Botão de acessibilidade" title="Acessibilidade" class="icon-btn">
+                </a>
+
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="../static/img/sair.png" alt="Menu do usuário" title="Minha conta" class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-logout">
+                            <li><a href="/portalCliente">Portal do cliente</a></li>
+                            <li><a href="/logout">Encerrar sessão</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ======= HERO PORTAL CLIENTE ======= -->
+    <section class="hero-portal-cliente">
+        <div class="hero-portal-container">
+            <div class="hero-portal-content">
+                <h1 class="hero-portal-title">Portal do Cliente</h1>
+                <p class="hero-portal-subtitle">Gerencie suas reservas, dados pessoais e histórico de aluguéis</p>
+                
+                <div class="cliente-info">
+                    <div class="cliente-avatar">
+                        <img src="../static/img/avatar-cliente.png" alt="Avatar do cliente">
+                    </div>
+                    <div class="cliente-dados">
+                        <h2>{{ user.nome }}</h2>
+                        <p>Cliente desde: 2023</p>
+                        <span class="cliente-id">ID: {{ user.id }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= MENU LATERAL E CONTEÚDO ======= -->
+    <section class="portal-main">
+        <div class="portal-container">
+            <!-- Menu Lateral -->
+            <div class="portal-sidebar">
+                <div class="sidebar-menu">
+                    <button class="sidebar-item active" data-target="perfil">
+                        <img src="../static/img/perfil-icon.png" alt="Perfil" class="sidebar-icon">
+                        <span>Meu Perfil</span>
+                    </button>
+                    <button class="sidebar-item" data-target="reservas">
+                        <img src="../static/img/reservas-icon.png" alt="Reservas" class="sidebar-icon">
+                        <span>Minhas Reservas</span>
+                    </button>
+                    <button class="sidebar-item" data-target="pagamentos">
+                        <img src="../static/img/pagamentos-icon.png" alt="Pagamentos" class="sidebar-icon">
+                        <span>Histórico de Pagamentos</span>
+                    </button>
+                    <button class="sidebar-item" data-target="configuracoes">
+                        <img src="../static/img/configuracoes-icon.png" alt="Configurações" class="sidebar-icon">
+                        <span>Configurações</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="portal-content">
+                <!-- Seção Perfil -->
+            
+                <div class="portal-section active" id="perfil-section">
+                    <div class="section-header">
+                        <h2>Meu Perfil</h2>
+                        <p>Gerencie suas informações pessoais</p>
+                    </div>
+
+                    {% if session.get('usuario_perfil') == 'pf' %}
+                    
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card large">
+                            <div class="card-header">
+                                <h3>Dados Pessoais</h3>
+                                <button class="btn-card-action" id="editar-perfil">Editar</button>
+                            </div>
+                            <div class="card-content">
+                                <form id="form-perfil">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="nome-completo">Nome Completo</label>
+                                            <input type="text" id="nome-completo" name="nome" value="João Silva" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cpf">CPF</label>
+                                            <input type="text" id="cpf" name="cpf" value="123.456.789-00" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nascimento">Data de Nascimento</label>
+                                            <input type="date" id="nascimento" name="nascimento" value="1990-05-15" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="celular">Celular</label>
+                                            <input type="tel" id="celular" name="celular" value="(11) 99999-9999" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">E-mail</label>
+                                            <input type="email" id="email" name="email" value="joao.silva@email.com" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-actions" id="form-actions-perfil" style="display: none;">
+                                        <button type="button" class="btn-secondary" id="cancelar-edicao">Cancelar</button>
+                                        <button type="submit" class="btn-primary">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        {% elif session.get('perfil_usuario') == 'pj' %}
+
+                        <div class="dashboard-grid">
+                        <div class="dashboard-card large">
+                            <div class="card-header">
+                                <h3>Dados Pessoais</h3>
+                                <button class="btn-card-action" id="editar-perfil">Editar</button>
+                            </div>
+                            <div class="card-content">
+                                <form id="form-perfil">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="razao-social">Razão Social</label>
+                                            <input type="text" id="razao-social" name="razao-social" value="{{ user.rs }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="CNPJ">CNPJ</label>
+                                            <input type="text" id="CNPJ" name="CNPJ" value="{{ user.cnpj }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nascimento">Data de Nascimento</label>
+                                            <input type="date" id="nascimento" name="nascimento" value="1990-05-15" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="celular">Celular</label>
+                                            <input type="tel" id="celular" name="celular" value="(11) 99999-9999" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">E-mail</label>
+                                            <input type="email" id="email" name="email" value="joao.silva@email.com" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-actions" id="form-actions-perfil" style="display: none;">
+                                        <button type="button" class="btn-secondary" id="cancelar-edicao">Cancelar</button>
+                                        <button type="submit" class="btn-primary">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        {% else %}
+                            <h1>Erro nas condicionais</h1>
+                        {% endif %}
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3>Endereço</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="endereco-info">
+                                    <p><strong>CEP:</strong> 01234-567</p>
+                                    <p><strong>Endereço:</strong> Rua das Flores, 123</p>
+                                    <p><strong>Complemento:</strong> Apto 45</p>
+                                    <p><strong>Bairro:</strong> Centro</p>
+                                    <p><strong>Cidade:</strong> São Paulo - SP</p>
+                                </div>
+                                <button class="btn-action" id="editar-endereco">Alterar Endereço</button>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3>Status da Conta</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="status-conta">
+                                    <div class="status-item ativo">
+                                        <span class="status-dot"></span>
+                                        Conta Ativa
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-icon">✓</span>
+                                        Verificação de E-mail
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status-icon">✓</span>
+                                        Verificação de Telefone
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Reservas -->
+                <div class="portal-section" id="reservas-section">
+                    <div class="section-header">
+                        <h2>Minhas Reservas</h2>
+                        <p>Histórico e status dos seus aluguéis</p>
+                    </div>
+                    
+                    <div class="dashboard-card large">
+                        <div class="card-header">
+                            <h3>Reservas Recentes</h3>
+                            <div class="filtros-reservas">
+                                <select id="filtro-status">
+                                    <option value="todas">Todas as reservas</option>
+                                    <option value="ativas">Ativas</option>
+                                    <option value="concluidas">Concluídas</option>
+                                    <option value="canceladas">Canceladas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="reservas-list">
+                                <div class="reserva-item">
+                                    <div class="reserva-info">
+                                        <h4>#RES001 - Hyundai HB20</h4>
+                                        <p>Período: 15/03/2025 a 20/03/2025</p>
+                                        <p>Agência: São Paulo - Centro</p>
+                                        <span class="reserva-status ativa">Ativa</span>
+                                    </div>
+                                    <div class="reserva-actions">
+                                        <button class="btn-action">Detalhes</button>
+                                        <button class="btn-action btn-danger">Cancelar</button>
+                                    </div>
+                                </div>
+                                <div class="reserva-item">
+                                    <div class="reserva-info">
+                                        <h4>#RES002 - Renault Kwid</h4>
+                                        <p>Período: 01/02/2025 a 05/02/2025</p>
+                                        <p>Agência: São Paulo - Paulista</p>
+                                        <span class="reserva-status concluida">Concluída</span>
+                                    </div>
+                                    <div class="reserva-actions">
+                                        <button class="btn-action">Detalhes</button>
+                                        <button class="btn-action">Avaliar</button>
+                                    </div>
+                                </div>
+                                <div class="reserva-item">
+                                    <div class="reserva-info">
+                                        <h4>#RES003 - Fiat Mobi</h4>
+                                        <p>Período: 10/01/2025 a 15/01/2025</p>
+                                        <p>Agência: São Paulo - Moema</p>
+                                        <span class="reserva-status concluida">Concluída</span>
+                                    </div>
+                                    <div class="reserva-actions">
+                                        <button class="btn-action">Detalhes</button>
+                                        <button class="btn-action">Avaliar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Estatísticas</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number">3</span>
+                                    <span class="stat-label">Total de Reservas</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">1</span>
+                                    <span class="stat-label">Reservas Ativas</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">2</span>
+                                    <span class="stat-label">Reservas Concluídas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Pagamentos -->
+                <div class="portal-section" id="pagamentos-section">
+                    <div class="section-header">
+                        <h2>Histórico de Pagamentos</h2>
+                        <p>Controle suas faturas e pagamentos</p>
+                    </div>
+                    
+                    <div class="dashboard-card large">
+                        <div class="card-header">
+                            <h3>Faturas e Pagamentos</h3>
+                            <div class="filtros-pagamentos">
+                                <select id="filtro-pagamento">
+                                    <option value="todos">Todos os pagamentos</option>
+                                    <option value="pendentes">Pendentes</option>
+                                    <option value="realizados">Realizados</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="pagamentos-list">
+                                <div class="pagamento-item">
+                                    <div class="pagamento-info">
+                                        <h4>#FAT001 - Reserva #RES001</h4>
+                                        <p>Data de vencimento: 10/03/2025</p>
+                                        <p>Valor: R$ 450,00</p>
+                                        <span class="pagamento-status pendente">Pendente</span>
+                                    </div>
+                                    <div class="pagamento-actions">
+                                        <button class="btn-action">Pagar</button>
+                                        <button class="btn-action">Detalhes</button>
+                                    </div>
+                                </div>
+                                <div class="pagamento-item">
+                                    <div class="pagamento-info">
+                                        <h4>#FAT002 - Reserva #RES002</h4>
+                                        <p>Data de pagamento: 05/02/2025</p>
+                                        <p>Valor: R$ 320,00</p>
+                                        <span class="pagamento-status pago">Pago</span>
+                                    </div>
+                                    <div class="pagamento-actions">
+                                        <button class="btn-action">Detalhes</button>
+                                        <button class="btn-action">Comprovante</button>
+                                    </div>
+                                </div>
+                                <div class="pagamento-item">
+                                    <div class="pagamento-info">
+                                        <h4>#FAT003 - Reserva #RES003</h4>
+                                        <p>Data de pagamento: 12/01/2025</p>
+                                        <p>Valor: R$ 280,00</p>
+                                        <span class="pagamento-status pago">Pago</span>
+                                    </div>
+                                    <div class="pagamento-actions">
+                                        <button class="btn-action">Detalhes</button>
+                                        <button class="btn-action">Comprovante</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3>Métodos de Pagamento</h3>
+                            <button class="btn-card-action">Adicionar</button>
+                        </div>
+                        <div class="card-content">
+                            <div class="metodos-pagamento">
+                                <div class="metodo-item">
+                                    <div class="metodo-info">
+                                        <h4>Cartão de Crédito</h4>
+                                        <p>Mastercard **** 1234</p>
+                                        <span class="metodo-status principal">Principal</span>
+                                    </div>
+                                    <div class="metodo-actions">
+                                        <button class="btn-action">Editar</button>
+                                        <button class="btn-action btn-danger">Remover</button>
+                                    </div>
+                                </div>
+                                <div class="metodo-item">
+                                    <div class="metodo-info">
+                                        <h4>Cartão de Débito</h4>
+                                        <p>Visa **** 5678</p>
+                                    </div>
+                                    <div class="metodo-actions">
+                                        <button class="btn-action">Editar</button>
+                                        <button class="btn-action btn-danger">Remover</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Configurações -->
+                <div class="portal-section" id="configuracoes-section">
+                    <div class="section-header">
+                        <h2>Configurações da Conta</h2>
+                        <p>Gerencie suas preferências e segurança</p>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3>Preferências</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="preferencias-list">
+                                    <div class="preferencia-item">
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span>Receber ofertas por e-mail</span>
+                                    </div>
+                                    <div class="preferencia-item">
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span>Receber notificações por SMS</span>
+                                    </div>
+                                    <div class="preferencia-item">
+                                        <label class="toggle">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span>Compartilhar dados para pesquisa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3>Segurança</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="seguranca-list">
+                                    <button class="btn-admin">Alterar Senha</button>
+                                    <button class="btn-admin">Verificar Dispositivos</button>
+                                    <button class="btn-admin">Ativar Autenticação em Dois Fatores</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3>Conta</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="conta-actions">
+                                    <button class="btn-admin btn-danger" id="excluir-conta">Excluir Conta</button>
+                                    <p class="conta-aviso">Esta ação é irreversível. Todos os seus dados serão permanentemente excluídos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+        <div class="footer-social">
+            <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
+            <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook" title="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram" title="Instagram"></a>
+            <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
+        </div>
+    </footer>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div class="modal" id="modal-excluir">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Excluir Conta</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.</p>
+                <p>Todos os seus dados, reservas e histórico serão permanentemente removidos.</p>
+                <div class="modal-actions">
+                    <button class="btn-secondary" id="cancelar-exclusao">Cancelar</button>
+                    <button class="btn-danger" id="confirmar-exclusao">Excluir Conta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+    <script src="../static/js/portal-cliente.js"></script>
+</body>
+
+</html>

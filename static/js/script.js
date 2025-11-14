@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initAcessibilidade();
 
     // ====== FORMULÁRIOS ======
-    if (currentPage === 'cadastro' || currentPage === 'aluguel-mensal' || currentPage === 'login') {
+    if (currentPage === 'cadastro' || currentPage === 'aluguel-mensal' || currentPage === 'login' || currentPage === 'login-colaborador') {
         initFormularios();
     }
 
@@ -30,6 +30,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // ====== PÁGINA ALUGUEL MENSAL ======
     if (currentPage === 'aluguel-mensal') {
         initAluguelMensal();
+    }
+
+    // ====== PÁGINA COLABORADORES =======
+    initColaborador();
+
+    // ===== PÁGINA PORTAL DO CLIENTE ======
+    if (currentPage === 'portal-cliente') {
+        initPortalCliente();
     }
 
     // Scroll para topo se houver erro
@@ -1264,4 +1272,433 @@ function initAluguelMensal() {
             }
         });
     });
+}
+
+// ===== PAGINA DO COLABORADOR =====
+
+function initColaborador() {
+    // Elementos principais
+    const perfilCards = document.querySelectorAll('.perfil-card');
+    const perfilContents = document.querySelectorAll('.perfil-content');
+
+    // Perfil padrão ativo
+    let perfilAtivo = '';
+
+    // Inicializar com o perfil padrão
+    ativarPerfil(perfilAtivo);
+
+    // Event listeners para os cards de perfil
+    perfilCards.forEach(card => {
+        card.addEventListener('click', function () {
+            const perfil = this.dataset.perfil;
+            ativarPerfil(perfil);
+        });
+
+        // Acessibilidade - teclado
+        card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const perfil = this.dataset.perfil;
+                ativarPerfil(perfil);
+            }
+        });
+    });
+
+    // Função para ativar um perfil específico
+    function ativarPerfil(perfil) {
+        // Atualizar perfil ativo
+        perfilAtivo = perfil;
+
+        // Remover classe active de todos os cards
+        perfilCards.forEach(card => {
+            card.classList.remove('active');
+        });
+
+        // Adicionar classe active ao card correspondente
+        const cardAtivo = document.querySelector(`.perfil-card[data-perfil="${perfil}"]`);
+        if (cardAtivo) {
+            cardAtivo.classList.add('active');
+            cardAtivo.focus(); // Para acessibilidade
+        }
+
+        // Ocultar todos os conteúdos
+        perfilContents.forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // Mostrar conteúdo do perfil ativo
+        const conteudoAtivo = document.getElementById(`${perfil}-content`);
+        if (conteudoAtivo) {
+            conteudoAtivo.classList.add('active');
+
+            // Scroll suave para o conteúdo
+            conteudoAtivo.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Atualizar URL (sem recarregar a página)
+        history.replaceState(null, null, `#${perfil}`);
+    }
+
+    // Verificar hash na URL ao carregar
+    function verificarHashURL() {
+        const hash = window.location.hash.substring(1);
+        const perfisValidos = ['atendente', 'gerente', 'administrador', 'suporte'];
+
+        if (perfisValidos.includes(hash)) {
+            ativarPerfil(hash);
+        }
+    }
+
+    // Verificar hash quando a página carrega
+    verificarHashURL();
+
+    // Simular ações dos botões (apenas visual)
+    const botoesAcao = document.querySelectorAll('.btn-action, .btn-card-action, .btn-relatorio, .btn-admin');
+
+    botoesAcao.forEach(botao => {
+        botao.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Feedback visual
+            const originalText = this.textContent;
+            this.textContent = 'Processando...';
+            this.disabled = true;
+
+            // Simular processamento
+            setTimeout(() => {
+                this.textContent = originalText;
+                this.disabled = false;
+
+                // Mostrar mensagem de sucesso (apenas visual)
+                mostrarMensagemTemporaria('Ação simulada com sucesso!', 'success');
+            }, 1000);
+        });
+    });
+
+    // Função para mostrar mensagens temporárias
+    function mostrarMensagemTemporaria(mensagem, tipo = 'info') {
+        // Criar elemento da mensagem
+        const mensagemEl = document.createElement('div');
+        mensagemEl.className = `mensagem-temporaria mensagem-${tipo}`;
+        mensagemEl.textContent = mensagem;
+
+        // Estilos da mensagem
+        Object.assign(mensagemEl.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '15px 20px',
+            borderRadius: '6px',
+            color: 'white',
+            fontWeight: '600',
+            zIndex: '10000',
+            boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
+            transform: 'translateX(100%)',
+            transition: 'transform 0.3s ease'
+        });
+
+        // Cores por tipo
+        const cores = {
+            success: '#28a745',
+            error: '#dc3545',
+            warning: '#ffc107',
+            info: '#17a2b8'
+        };
+
+        mensagemEl.style.backgroundColor = cores[tipo] || cores.info;
+
+        // Adicionar ao DOM
+        document.body.appendChild(mensagemEl);
+
+        // Animação de entrada
+        setTimeout(() => {
+            mensagemEl.style.transform = 'translateX(0)';
+        }, 100);
+
+        // Remover após 3 segundos
+        setTimeout(() => {
+            mensagemEl.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (mensagemEl.parentNode) {
+                    mensagemEl.parentNode.removeChild(mensagemEl);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    // Carregar dados simulados (apenas para demonstração)
+    carregarDadosSimulados();
+
+    function carregarDadosSimulados() {
+        // Esta função simularia o carregamento de dados reais
+        console.log('Carregando dados do colaborador...');
+
+        // Simular pequeno delay de carregamento
+        setTimeout(() => {
+            // Adicionar classe de carregamento completo
+            document.body.classList.add('dados-carregados');
+        }, 500);
+    }
+
+    // Acessibilidade - teclado navigation
+    document.addEventListener('keydown', function (e) {
+        // Navegação entre perfis com teclado
+        if (e.altKey) {
+            switch (e.key) {
+                case '1':
+                    e.preventDefault();
+                    ativarPerfil('atendente');
+                    break;
+                case '2':
+                    e.preventDefault();
+                    ativarPerfil('gerente');
+                    break;
+                case '3':
+                    e.preventDefault();
+                    ativarPerfil('administrador');
+                    break;
+                case '4':
+                    e.preventDefault();
+                    ativarPerfil('suporte');
+                    break;
+            }
+        }
+    });
+
+}
+
+//===== PORTAL DO CLIENTE ======
+function initPortalCliente() {
+    // Navegação entre seções
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    const portalSections = document.querySelectorAll('.portal-section');
+    
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const target = this.dataset.target;
+            
+            // Remove active de todos os itens
+            sidebarItems.forEach(i => i.classList.remove('active'));
+            // Adiciona active ao item clicado
+            this.classList.add('active');
+            
+            // Remove active de todas as seções
+            portalSections.forEach(section => section.classList.remove('active'));
+            // Adiciona active à seção correspondente
+            document.getElementById(`${target}-section`).classList.add('active');
+        });
+    });
+    
+    // Edição de perfil
+    const editarPerfilBtn = document.getElementById('editar-perfil');
+    const cancelarEdicaoBtn = document.getElementById('cancelar-edicao');
+    const formPerfil = document.getElementById('form-perfil');
+    const formActionsPerfil = document.getElementById('form-actions-perfil');
+    const inputsPerfil = formPerfil.querySelectorAll('input');
+    
+    if (editarPerfilBtn) {
+        editarPerfilBtn.addEventListener('click', function() {
+            inputsPerfil.forEach(input => {
+                input.removeAttribute('readonly');
+            });
+            formActionsPerfil.style.display = 'block';
+            this.style.display = 'none';
+        });
+    }
+    
+    if (cancelarEdicaoBtn) {
+        cancelarEdicaoBtn.addEventListener('click', function() {
+            inputsPerfil.forEach(input => {
+                input.setAttribute('readonly', true);
+            });
+            formActionsPerfil.style.display = 'none';
+            editarPerfilBtn.style.display = 'block';
+            
+            // Restaurar valores originais (simulação)
+            // TODO: Implementar com backend
+            mostrarMensagemTemporaria('Edição cancelada', 'info');
+        });
+    }
+    
+    if (formPerfil) {
+        formPerfil.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            inputsPerfil.forEach(input => {
+                input.setAttribute('readonly', true);
+            });
+            formActionsPerfil.style.display = 'none';
+            editarPerfilBtn.style.display = 'block';
+            
+            // Simular salvamento (substituir por requisição AJAX quando backend estiver pronto)
+            mostrarMensagemTemporaria('Perfil atualizado com sucesso!', 'success');
+        });
+    }
+    
+    // Exclusão de conta
+    const excluirContaBtn = document.getElementById('excluir-conta');
+    const modalExcluir = document.getElementById('modal-excluir');
+    const modalClose = document.querySelector('.modal-close');
+    const cancelarExclusaoBtn = document.getElementById('cancelar-exclusao');
+    const confirmarExclusaoBtn = document.getElementById('confirmar-exclusao');
+    
+    if (excluirContaBtn) {
+        excluirContaBtn.addEventListener('click', function() {
+            modalExcluir.style.display = 'block';
+        });
+    }
+    
+    if (modalClose) {
+        modalClose.addEventListener('click', function() {
+            modalExcluir.style.display = 'none';
+        });
+    }
+    
+    if (cancelarExclusaoBtn) {
+        cancelarExclusaoBtn.addEventListener('click', function() {
+            modalExcluir.style.display = 'none';
+        });
+    }
+    
+    if (confirmarExclusaoBtn) {
+        confirmarExclusaoBtn.addEventListener('click', function() {
+            // Simular exclusão (substituir por requisição AJAX quando backend estiver pronto)
+            modalExcluir.style.display = 'none';
+            mostrarMensagemTemporaria('Conta excluída com sucesso!', 'success');
+            
+            // Redirecionar para página inicial após exclusão
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        });
+    }
+    
+    // Fechar modal ao clicar fora
+    window.addEventListener('click', function(e) {
+        if (e.target === modalExcluir) {
+            modalExcluir.style.display = 'none';
+        }
+    });
+    
+    // Filtros de reservas e pagamentos
+    const filtroStatus = document.getElementById('filtro-status');
+    const filtroPagamento = document.getElementById('filtro-pagamento');
+    
+    if (filtroStatus) {
+        filtroStatus.addEventListener('change', function() {
+            // Simular filtro (substituir por requisição AJAX quando backend estiver pronto)
+            mostrarMensagemTemporaria(`Filtrando por: ${this.options[this.selectedIndex].text}`, 'info');
+        });
+    }
+    
+    if (filtroPagamento) {
+        filtroPagamento.addEventListener('change', function() {
+            // Simular filtro (substituir por requisição AJAX quando backend estiver pronto)
+            mostrarMensagemTemporaria(`Filtrando por: ${this.options[this.selectedIndex].text}`, 'info');
+        });
+    }
+    
+    // Ações de reservas
+    const botoesReserva = document.querySelectorAll('.reserva-actions .btn-action');
+    
+    botoesReserva.forEach(botao => {
+        botao.addEventListener('click', function() {
+            const acao = this.textContent.trim();
+            
+            // Simular ação (substituir por requisição AJAX quando backend estiver pronto)
+            switch(acao) {
+                case 'Detalhes':
+                    mostrarMensagemTemporaria('Abrindo detalhes da reserva...', 'info');
+                    break;
+                case 'Cancelar':
+                    if (confirm('Tem certeza que deseja cancelar esta reserva?')) {
+                        mostrarMensagemTemporaria('Reserva cancelada com sucesso!', 'success');
+                        // Atualizar interface
+                        this.closest('.reserva-item').querySelector('.reserva-status').textContent = 'Cancelada';
+                        this.closest('.reserva-item').querySelector('.reserva-status').className = 'reserva-status cancelada';
+                        this.remove();
+                    }
+                    break;
+                case 'Avaliar':
+                    mostrarMensagemTemporaria('Abrindo formulário de avaliação...', 'info');
+                    break;
+            }
+        });
+    });
+    
+    // Ações de pagamentos
+    const botoesPagamento = document.querySelectorAll('.pagamento-actions .btn-action');
+    
+    botoesPagamento.forEach(botao => {
+        botao.addEventListener('click', function() {
+            const acao = this.textContent.trim();
+            
+            // Simular ação (substituir por requisição AJAX quando backend estiver pronto)
+            switch(acao) {
+                case 'Pagar':
+                    mostrarMensagemTemporaria('Abrindo página de pagamento...', 'info');
+                    break;
+                case 'Detalhes':
+                    mostrarMensagemTemporaria('Abrindo detalhes da fatura...', 'info');
+                    break;
+                case 'Comprovante':
+                    mostrarMensagemTemporaria('Baixando comprovante...', 'info');
+                    break;
+            }
+        });
+    });
+    
+    // Função para mostrar mensagens temporárias (reutilizada da página de colaboradores)
+    function mostrarMensagemTemporaria(mensagem, tipo = 'info') {
+        // Criar elemento da mensagem
+        const mensagemEl = document.createElement('div');
+        mensagemEl.className = `mensagem-temporaria mensagem-${tipo}`;
+        mensagemEl.textContent = mensagem;
+
+        // Estilos da mensagem
+        Object.assign(mensagemEl.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            padding: '15px 20px',
+            borderRadius: '6px',
+            color: 'white',
+            fontWeight: '600',
+            zIndex: '10000',
+            boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
+            transform: 'translateX(100%)',
+            transition: 'transform 0.3s ease'
+        });
+
+        // Cores por tipo
+        const cores = {
+            success: '#28a745',
+            error: '#dc3545',
+            warning: '#ffc107',
+            info: '#17a2b8'
+        };
+
+        mensagemEl.style.backgroundColor = cores[tipo] || cores.info;
+
+        // Adicionar ao DOM
+        document.body.appendChild(mensagemEl);
+
+        // Animação de entrada
+        setTimeout(() => {
+            mensagemEl.style.transform = 'translateX(0)';
+        }, 100);
+
+        // Remover após 3 segundos
+        setTimeout(() => {
+            mensagemEl.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (mensagemEl.parentNode) {
+                    mensagemEl.parentNode.removeChild(mensagemEl);
+                }
+            }, 300);
+        }, 3000);
+    }
 }

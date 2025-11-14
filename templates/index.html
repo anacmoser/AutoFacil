@@ -105,6 +105,7 @@ TAREFAS:
 
         {% if session.get('usuario_logado') %}
         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+<<<<<<< HEAD
           <a href="#">
             <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
               class="icon-btn">
@@ -115,6 +116,18 @@ TAREFAS:
               <li><a href="/logout">Encerrar sessão</a></li>
             </ul>
           </div>
+=======
+            <a href="#">
+                <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
+                    class="icon-btn">
+            </a>
+            <div class="menu-panel">
+                <ul class="panel-logout">
+                    <li><a href="/portalCliente">Portal do cliente</a></li>
+                    <li><a href="/logout">Encerrar sessão</a></li>
+                </ul>
+            </div>
+>>>>>>> b8a183fcca39f913363d27b40a0052b67177eae3
         </div>
         {% else %}
         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
@@ -122,6 +135,7 @@ TAREFAS:
             <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
               class="icon-btn">
           </a>
+<<<<<<< HEAD
           <div class="menu-panel">
             <ul class="panel-login">
               <li><a href="/login">Login</a></li>
@@ -129,6 +143,16 @@ TAREFAS:
               <li><a href="/colaborador">Colaborador</a></li>
             </ul>
           </div>
+=======
+            <div class="menu-panel">
+                <ul class="panel-login">
+                    <!--<li><a href="/portalCliente">Portal do cliente</a></li>-->
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/cadastro">Cadastro</a></li>
+                    <li><a href="/colaborador">Colaborador</a></li>
+                </ul>
+            </div>
+>>>>>>> b8a183fcca39f913363d27b40a0052b67177eae3
         </div>
         {% endif %}
       </div>
@@ -174,7 +198,7 @@ TAREFAS:
   <!-- quadro de vantagens -->
   <section class="vantagens">
     <h2>
-      Vantagens de alugar na
+      Vantagens de alugar na 
       <span class="destaque">AutoFácil</span>
     </h2>
 

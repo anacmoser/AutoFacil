@@ -49,9 +49,9 @@ CREATE TABLE Cliente (
   Email VARCHAR(100) NOT NULL,
   CNH VARCHAR(20),
   CPF CHAR(11) UNIQUE NOT NULL,
-  Nome VARCHAR(100) NOT NULL,
+  Nome VARCHAR(100) NOT NULL, .
   Telefone VARCHAR(15),
-  Data_Nascimento DATE
+  Data_Nascimento DATE .
 );
 
 CREATE TABLE Endereco (

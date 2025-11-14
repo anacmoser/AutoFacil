@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoFácil - Login Colaboradores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body data-page='login-colaborador'>
+    <header class="topbar">
+        <nav class="nav">
+            <div class="nav-left">
+                <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+                    <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+                    <div class="menu-panel" id="menuPanel">
+                        <ul class="panel-main">
+                            <li><a href="#">Promoções</a></li>
+                            <li><a href="#">Atendimento</a></li>
+                            <li><a href="#">Agências</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                        <ul class="panel-nav">
+                            <li><a href="/frota">Alugar agora</a></li>
+                            <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+                            <li><a href="/empresas">Para empresas</a></li>
+                            <li><a href="/minhasReservas">Minhas reservas</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <a class="logo" href="/" aria-label="AutoFácil - Início">
+                    <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+                        class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
+                        title="Dúvidas" class="icon-btn">
+                </a>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+                        title="Acessibilidade" class="icon-btn">
+                </a>
+
+                {% if session.get('usuario_logado') %}
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário"
+                            title="Minha conta" class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-logout">
+                            <li><a href="#">Portal do cliente</a></li>
+                            <li><a href="/logout">Encerrar sessão</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% else %}
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+                            class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-login">
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/cadastro">Cadastro</a></li>
+                            <li><a href="#">Colaborador</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+    </header>
+
+    <main class="login-colaborador-container">
+        <div class="form-header">
+            <h1>Acesso Restrito</h1>
+            <p class="subtitle">Área exclusiva para colaboradores AutoFácil</p>
+        </div>
+
+        <!-- ÁREA DE MENSAGENS -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+
+        <!-- LOGIN COLABORADOR -->
+        <div class="login-colaborador-box">
+            
+            
+        {% if erro %}
+        <div class="alert alert-danger">
+            {{ erro }}
+        </div>
+        {% endif %}
+
+
+
+            <div class="colaborador-badge">
+                <img src="{{ url_for('static', filename='img/colaborar.png') }}" alt="Ícone Colaborador"
+                    id="imgcolaborar">
+                Área do Colaborador
+            </div>
+
+            <h2>Login - Colaborador</h2>
+
+            <form action="{{ url_for('colaborador_bp.login') }}" method="POST">
+                <div class="form-group">
+                    <label for="user_colaborador">E-mail Corporativo</label>
+                    <input type="email" id="user_colaborador" name="email" placeholder="seu.email@autofacil.com"
+                        required value="{{ request.form.email if request.form }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="password_colaborador">Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password_colaborador" name="password" placeholder="Digite sua senha"
+                            required value="{{ request.form.password if request.form }}">
+                        <span class="toggle-password" data-target="password_colaborador"></span>
+                    </div>
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox" name="lembrar">
+                        Lembrar-me
+                    </label>
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" name="logar" class="btn-login-colaborador">Acessar Sistema</button>
+            </form>
+
+            <p class="voltar-link">É um cliente? <a href="{{ url_for('pgLogin') }}">Faça login como cliente</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+        <div class="footer-social">
+            <a href="#" target="_blank"><img src="{{ url_for('static', filename='img/wpp2.png') }}" alt="WhatsApp"></a>
+            <a href="https://facebook.com" target="_blank"><img
+                    src="{{ url_for('static', filename='img/facebook2.png') }}" alt="Facebook"></a>
+            <a href="https://instagram.com" target="_blank"><img
+                    src="{{ url_for('static', filename='img/instagram2.png') }}" alt="Instagram"></a>
+            <a href="#"><img src="{{ url_for('static', filename='img/email2.png') }}" alt="Email"></a>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

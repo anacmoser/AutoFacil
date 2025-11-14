@@ -105,7 +105,7 @@
                     </a>
                     <div class="menu-panel">
                         <ul class="panel-logout">
-                            <li><a href="#">Portal do cliente</a></li>
+                            <li><a href="/portalCliente">Portal do cliente</a></li>
                             <li><a href="/logout">Encerrar sessão</a></li>
                         </ul>
                     </div>
@@ -312,7 +312,7 @@
                     <div class="veiculo-preco">
                         R$ {{ veiculo.preco }} <span>/dia</span>
                     </div>
-                    <a href="/detalhesVeiculos"> <button class="btn-alugar">Alugar agora</button> </a>
+                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=veiculo.id) }}"><button class="btn-alugar">Alugar agora</button> </a>
                 </div>
             </div>
             {% else %}

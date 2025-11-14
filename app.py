@@ -13,55 +13,69 @@ TAREFAS:
     * Para guardar os dados no BD, deve formatar num padrão
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort
-import re
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, abort
 import math
-from models.UserPf import UserPf, USERSpf, addUser, delUser, getUserByCpf, getUserByEmail, verificarDuplicidade
-from models.UserPj import UserPj, USERSpj, addUserPj
-from models.Veiculo import Veiculo, VEICULOS, addVeiculo, removerVeiculo, getVeiById
+from models.Veiculo import VEICULOS
+from models.UserPj import USERSpj
 from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
+from controllers.colaborador_controller import colaborador_bp
 from flask import Flask, render_template, request
-from flask_mysqldb import MySQL
-from flask_sqlalchemy import SQLAlchemy
+from models import db
+from dotenv import load_dotenv
+import os
+from models.UserPf import UserPfDB
+
+load_dotenv()  # carrega o arquivo .env
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root123@localhost/autofacil'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
 
-db = SQLAlchemy(app)
-
+    
 app.secret_key = 'chave_secreta_autofacil'
 app.register_blueprint(veiculo_bp)
 app.register_blueprint(user_pf_bp)
 app.register_blueprint(user_pj_bp)
-
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root123'
-app.config['MYSQL_DB'] = 'autofacil'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-
-mysql = MySQL(app)
-
-def validar_email(email):
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return re.match(pattern, email) is not None
-
-def validar_cpf(cpf):
-    cpf_limpo = ''.join(filter(str.isdecimal, str(cpf))) 
-    return len(cpf_limpo) == 11 and cpf_limpo != cpf_limpo[0] * 11
+app.register_blueprint(colaborador_bp)
 
 # Rotas
 @app.route('/')
 def index():
+    if 'usuario_logado' not in session:
+        user = request.cookies.get('user', '')
+        perfil = request.cookies.get('perfil')
+        if user:
+            session['usuario_logado'] = user
+            session['usuario_perfil'] = perfil
+            if perfil == 'colab':
+                session['colab_cargo'] = request.cookies.get('cargo')
+                return redirect(url_for('pgColaborador'))
+    
+    if 'usuario_logado' in session:
+        if session.get('usuario_perfil') == 'colab':
+            return redirect(url_for('pgColaborador'))
+
     return render_template('index.html')
 
 @app.route('/login', methods=['GET'])
 def pgLogin():
     return render_template('login.html')
+
+@app.route('/cadastro', methods=['GET'])
+def pgCadastro():
+    return render_template('cadastro.html')
+
+@app.route('/loginColaborador', methods=['GET'])
+def loginColaborador():
+    return render_template('colaboradores/login_colaborador.html')
+
+@app.route('/reserva', methods=['GET'])
+def pgReserva():
+    return render_template('reserva.html')
 
 @app.route('/aluguelMensal', methods=['GET'])
 def pgAluguelMensal():
@@ -76,6 +90,31 @@ def pgMinhasReservas():
     if session.get('usuario_logado') == None:
         abort(401)
     return render_template('minhas_reservas.html')
+
+@app.route('/portalCliente', methods=['GET'])
+def portalCliente():
+    user_id = session.get('user')
+    user_perfil = session.get('usuario_perfil')
+    if user_perfil == 'pj':
+        for user in USERSpj:
+            if user.id == user_id:
+                return render_template('portalCliente.html', user = user)
+    #if user_perfil == 'pf':
+        #Lógica com o banco de dados
+    return render_template('index.html')
+
+@app.route('/colaborador', methods=['GET'])
+def pgColaborador():
+    if session.get('usuario_perfil') == None:
+        return render_template('colaboradores/login_colaborador.html')
+    elif 'colab_cargo' in session:
+        return render_template('colaboradores/colaborador.html', cargo = session.get('colab_cargo'))
+    abort(403)
+
+@app.route('/pagamento/<veiculo>', methods=['GET'])
+def pgPagamento(veiculo):
+    return render_template('pagamento.html', veiculo = veiculo)
+
 
 @app.route('/frota', methods=['GET', 'POST'])  #Modularizar esta frota criando funções
 def pgFrota():  #adicionar o filtro de preço menor para maior
@@ -99,7 +138,6 @@ def pgFrota():  #adicionar o filtro de preço menor para maior
                            page=page, 
                            total_pages=total_pages,
                            filtros_limpos = True)
-
 
 @app.route('/filtrar', methods=['POST'])
 def filtrar():
@@ -179,19 +217,16 @@ def filtrar():
                            total_pages=total_pages,
                            filtros_limpos = False)
 
-
-@app.route('/colaborador', methods=['GET'])
-def pgColaborador():
-    return render_template('colaboradores/login_colaborador.html')
-
-@app.route('/alterCadastro', methods=['GET']) #Fazer igual a páginade detalhes e passar o id ou buscar o id pela session
-def pgAlterCadastro():
-    return render_template('alterCadastro.html', )
-
 @app.route('/logout', methods=['GET']) 
 def logout():
-    session.pop('usuario_logado', None)
-    return redirect(url_for('index'))
+    session.clear()
+    resposta = make_response(redirect(url_for('index')))
+
+    resposta.set_cookie('user', '', expires=0)
+    resposta.set_cookie('perfil', '', expires=0)
+    if request.cookies.get('cargo'):
+        resposta.set_cookie('cargo', '', expires=0)
+    return resposta
 
 @app.errorhandler(401)
 def nao_autorizado(error):
@@ -209,50 +244,8 @@ def pagina_nao_encontrada(error):
 def erro_interno_servidor(error):
     return render_template('errors/500.html'), 500
 
-@app.route('/pagina404')
-def teste404():
-    abort(404)
-
-@app.route('/pagina403')
-def teste403():
-    abort(403)
-
-@app.route('/pagina401')
-def teste401():
-    abort(401)
-
-@app.route('/pagina500')
-def teste500():
-    abort(500)
-
 if __name__ == '__main__':
     app.run(debug=True)
 
-class Cliente(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    senha = db.Column(db.String(100), nullable=False)
-
     def __repr__(self):
         return f'<Cliente {self.nome}>'
-
-@app.route('/cadastro', methods=['GET', 'POST'])
-def cadastro():
-    if request.method == 'POST':
-        print(request.form)
-        nome = request.form.get('nome')
-        email = request.form.get('email')
-        senha = request.form.get('senha')
-        
-        novo_cliente = Cliente(
-            nome=nome,
-            email=email,
-            senha=senha,
-        )
-
-        db.session.add(novo_cliente)
-        db.session.commit()
-        return redirect('/sucesso')
-
-    return render_template('cadastro.html')

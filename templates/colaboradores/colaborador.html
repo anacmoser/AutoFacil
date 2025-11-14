@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal do Colaborador - AutoFácil</title>
+
+  <!-- csss link -->
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <!-- Favicons links -->
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
+
+  <!-- Google Fonts link -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body data-page='colaborador'>
+  <!-- ======= NAVBAR ======= -->
+  <header class="topbar">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="logo" href="/" aria-label="AutoFácil - Início">
+          <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
+            class="logo-img">
+        </a>
+      </div>
+
+      <div class="nav-right">
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+            title="Acessibilidade" class="icon-btn">
+        </a>
+        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+          <a href="#">
+            <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
+              class="icon-btn">
+          </a>
+          <div class="menu-panel">
+            <ul class="panel-logout">
+              <li><a href="/logout">Encerrar sessão</a></li>
+            </ul>
+          </div>
+        </div>
+    
+      </div>
+    </nav>
+  </header>
+
+  <!-- ======= HERO COLABORADOR ======= -->
+  <section class="hero-colaborador">
+    <div class="hero-colaborador-container">
+      <div class="hero-colaborador-content">
+        <h1 class="hero-colaborador-title">Portal do Colaborador {{ session.get('colab_cargo') }}</h1>
+        <p class="hero-colaborador-subtitle">Área exclusiva para gerenciamento interno da AutoFácil</p>
+        
+        <div class="colaborador-info">
+          <div class="colaborador-avatar">
+            <img src="../static/img/avatar-colaborador.png" alt="Avatar do colaborador">
+          </div>
+          <div class="colaborador-dados">
+            <h2>Ana Moser</h2>
+            <p>Gerente Administrativo</p>
+            <span class="colaborador-id">ID: #AF001</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= SELEÇÃO DE PERFIL ======= -->
+  <section class="perfis-colaborador">
+    <div class="container">
+      <h2 class="section-title">Selecione o perfil para visualização</h2>
+      <p class="section-subtitle">Escolha um perfil para visualizar as funcionalidades disponíveis</p>
+      
+      <div class="perfis-grid">
+        <button class="perfil-card" data-perfil="atendente">
+          <div class="perfil-icon">
+            <img src="../static/img/atendente-icon.png" alt="Ícone Atendente">
+          </div>
+          <h3>Atendente</h3>
+          <p>Atendimento ao cliente e gestão de reservas</p>
+        </button>
+        
+        <button class="perfil-card" data-perfil="gerente">
+          <div class="perfil-icon">
+            <img src="../static/img/gerente-icon.png" alt="Ícone Gerente">
+          </div>
+          <h3>Gerente</h3>
+          <p>Gestão de equipe e relatórios gerenciais</p>
+        </button>
+        
+        <button class="perfil-card" data-perfil="administrador">
+          <div class="perfil-icon">
+            <img src="../static/img/administrador-icon.png" alt="Ícone Administrador">
+          </div>
+          <h3>Administrador</h3>
+          <p>Controle total do sistema e usuários</p>
+        </button>
+        
+        <button class="perfil-card" data-perfil="suporte">
+          <div class="perfil-icon">
+            <img src="../static/img/suporte-icon.png" alt="Ícone Suporte">
+          </div>
+          <h3>Suporte Técnico</h3>
+          <p>Manutenção de veículos e frota</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= DASHBOARD COLABORADOR ======= -->
+  <section class="dashboard-colaborador">
+    <div class="container">
+      <!-- ATENDENTE -->
+      <div class="perfil-content" id="atendente-content">
+        <div class="perfil-header">
+          <h2>Painel do Atendente</h2>
+          <p>Gestão de clientes e reservas</p>
+        </div>
+        
+        <div class="dashboard-grid">
+          <!-- Clientes -->
+          <div class="dashboard-card large">
+            <div class="card-header">
+              <h3>Gestão de Clientes</h3>
+              <button class="btn-card-action">Adicionar Cliente</button>
+            </div>
+            <div class="card-content">
+              <div class="clientes-list">
+                <div class="cliente-item">
+                  <div class="cliente-info">
+                    <h4>João Silva</h4>
+                    <p>CPF: 123.456.789-00</p>
+                    <span class="cliente-status ativo">Ativo</span>
+                  </div>
+                  <div class="cliente-actions">
+                    <button class="btn-action">Editar</button>
+                    <button class="btn-action btn-danger">Desativar</button>
+                  </div>
+                </div>
+                <div class="cliente-item">
+                  <div class="cliente-info">
+                    <h4>Maria Santos</h4>
+                    <p>CPF: 987.654.321-00</p>
+                    <span class="cliente-status ativo">Ativo</span>
+                  </div>
+                  <div class="cliente-actions">
+                    <button class="btn-action">Editar</button>
+                    <button class="btn-action btn-danger">Desativar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Reservas -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Reservas do Dia</h3>
+              <span class="badge">5</span>
+            </div>
+            <div class="card-content">
+              <div class="reservas-list">
+                <div class="reserva-item">
+                  <div class="reserva-info">
+                    <h4>#RES001</h4>
+                    <p>João Silva - Kwid</p>
+                    <span class="reserva-status confirmada">Confirmada</span>
+                  </div>
+                  <div class="reserva-actions">
+                    <button class="btn-action">Detalhes</button>
+                  </div>
+                </div>
+                <div class="reserva-item">
+                  <div class="reserva-info">
+                    <h4>#RES002</h4>
+                    <p>Maria Santos - HB20</p>
+                    <span class="reserva-status pendente">Pendente</span>
+                  </div>
+                  <div class="reserva-actions">
+                    <button class="btn-action">Detalhes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Estatísticas -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Estatísticas</h3>
+            </div>
+            <div class="card-content">
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="stat-number">12</span>
+                  <span class="stat-label">Reservas Hoje</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">8</span>
+                  <span class="stat-label">Clientes Novos</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">94%</span>
+                  <span class="stat-label">Taxa Ocupação</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- GERENTE -->
+      <div class="perfil-content" id="gerente-content">
+        <div class="perfil-header">
+          <h2>Painel do Gerente</h2>
+          <p>Gestão de equipe e relatórios</p>
+        </div>
+        
+        <div class="dashboard-grid">
+          <!-- Equipe -->
+          <div class="dashboard-card large">
+            <div class="card-header">
+              <h3>Gestão de Equipe</h3>
+              <button class="btn-card-action">Adicionar Colaborador</button>
+            </div>
+            <div class="card-content">
+              <div class="equipe-list">
+                <div class="equipe-item">
+                  <div class="equipe-info">
+                    <h4>Carlos Oliveira</h4>
+                    <p>Atendente - Matrícula: #AF002</p>
+                    <span class="equipe-status ativo">Ativo</span>
+                  </div>
+                  <div class="equipe-actions">
+                    <button class="btn-action">Editar</button>
+                    <button class="btn-action btn-danger">Desligar</button>
+                  </div>
+                </div>
+                <div class="equipe-item">
+                  <div class="equipe-info">
+                    <h4>Fernanda Costa</h4>
+                    <p>Atendente - Matrícula: #AF003</p>
+                    <span class="equipe-status ativo">Ativo</span>
+                  </div>
+                  <div class="equipe-actions">
+                    <button class="btn-action">Editar</button>
+                    <button class="btn-action btn-danger">Desligar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Relatórios -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Relatórios</h3>
+            </div>
+            <div class="card-content">
+              <div class="relatorios-list">
+                <button class="btn-relatorio">Relatório Mensal</button>
+                <button class="btn-relatorio">Desempenho Equipe</button>
+                <button class="btn-relatorio">Faturamento</button>
+                <button class="btn-relatorio">Ocupação da Frota</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Métricas -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Métricas do Mês</h3>
+            </div>
+            <div class="card-content">
+              <div class="metricas-grid">
+                <div class="metrica-item">
+                  <span class="metrica-valor">R$ 45.680</span>
+                  <span class="metrica-label">Faturamento</span>
+                </div>
+                <div class="metrica-item">
+                  <span class="metrica-valor">87%</span>
+                  <span class="metrica-label">Ocupação</span>
+                </div>
+                <div class="metrica-item">
+                  <span class="metrica-valor">4.8</span>
+                  <span class="metrica-label">Avaliação</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- ADMINISTRADOR -->
+      <div class="perfil-content" id="administrador-content">
+        <div class="perfil-header">
+          <h2>Painel do Administrador</h2>
+          <p>Controle total do sistema</p>
+        </div>
+        
+        <div class="dashboard-grid">
+          <!-- Gestão Completa -->
+          <div class="dashboard-card large">
+            <div class="card-header">
+              <h3>Gestão do Sistema</h3>
+            </div>
+            <div class="card-content">
+              <div class="admin-actions">
+                <div class="admin-action-group">
+                  <h4>Usuários</h4>
+                  <button class="btn-admin">Adicionar Usuário</button>
+                  <button class="btn-admin">Gerenciar Permissões</button>
+                  <button class="btn-admin">Relatório de Acesso</button>
+                </div>
+                <div class="admin-action-group">
+                  <h4>Sistema</h4>
+                  <button class="btn-admin">Backup do Sistema</button>
+                  <button class="btn-admin">Logs do Sistema</button>
+                  <button class="btn-admin">Configurações</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Frota -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Gestão da Frota</h3>
+              <button class="btn-card-action">Adicionar Veículo</button>
+            </div>
+            <div class="card-content">
+              <div class="frota-stats">
+                <div class="frota-stat">
+                  <span class="frota-number">24</span>
+                  <span class="frota-label">Veículos Ativos</span>
+                </div>
+                <div class="frota-stat">
+                  <span class="frota-number">3</span>
+                  <span class="frota-label">Em Manutenção</span>
+                </div>
+                <div class="frota-stat">
+                  <span class="frota-number">18</span>
+                  <span class="frota-label">Disponíveis</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Status Sistema -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Status do Sistema</h3>
+            </div>
+            <div class="card-content">
+              <div class="status-list">
+                <div class="status-item online">
+                  <span class="status-dot"></span>
+                  Servidor Principal
+                </div>
+                <div class="status-item online">
+                  <span class="status-dot"></span>
+                  Banco de Dados
+                </div>
+                <div class="status-item offline">
+                  <span class="status-dot"></span>
+                  Backup Automático
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SUPORTE -->
+      <div class="perfil-content" id="suporte-content">
+        <div class="perfil-header">
+          <h2>Painel do Suporte Técnico</h2>
+          <p>Manutenção e gestão da frota</p>
+        </div>
+        
+        <div class="dashboard-grid">
+          <!-- Manutenção -->
+          <div class="dashboard-card large">
+            <div class="card-header">
+              <h3>Controle de Manutenção</h3>
+              <button class="btn-card-action">Nova Manutenção</button>
+            </div>
+            <div class="card-content">
+              <div class="manutencao-list">
+                <div class="manutencao-item">
+                  <div class="manutencao-info">
+                    <h4>ABC-1234 - Kwid</h4>
+                    <p>Troca de óleo e filtros</p>
+                    <span class="manutencao-status agendada">Agendada</span>
+                  </div>
+                  <div class="manutencao-actions">
+                    <button class="btn-action">Detalhes</button>
+                    <button class="btn-action btn-success">Concluir</button>
+                  </div>
+                </div>
+                <div class="manutencao-item">
+                  <div class="manutencao-info">
+                    <h4>DEF-5678 - HB20</h4>
+                    <p>Revisão periódica</p>
+                    <span class="manutencao-status andamento">Em Andamento</span>
+                  </div>
+                  <div class="manutencao-actions">
+                    <button class="btn-action">Detalhes</button>
+                    <button class="btn-action btn-success">Concluir</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Frota -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Status da Frota</h3>
+            </div>
+            <div class="card-content">
+              <div class="frota-status-grid">
+                <div class="frota-status-item disponivel">
+                  <span class="status-icon">✓</span>
+                  <span class="status-count">18</span>
+                  <span class="status-label">Disponíveis</span>
+                </div>
+                <div class="frota-status-item manutencao">
+                  <span class="status-icon">🔧</span>
+                  <span class="status-count">3</span>
+                  <span class="status-label">Manutenção</span>
+                </div>
+                <div class="frota-status-item alugado">
+                  <span class="status-icon">🚗</span>
+                  <span class="status-count">15</span>
+                  <span class="status-label">Alugados</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Alertas -->
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>Alertas de Manutenção</h3>
+              <span class="badge">3</span>
+            </div>
+            <div class="card-content">
+              <div class="alertas-list">
+                <div class="alerta-item urgente">
+                  <div class="alerta-content">
+                    <h4>XYZ-9012 - Corolla</h4>
+                    <p>Revisão vencida há 5 dias</p>
+                  </div>
+                </div>
+                <div class="alerta-item aviso">
+                  <div class="alerta-content">
+                    <h4>GHI-3456 - Compass</h4>
+                    <p>Revisão em 2 dias</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+    <div class="footer-social">
+      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
+      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
+          title="Facebook"></a>
+      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
+          title="Instagram"></a>
+      <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
+    </div>
+  </footer>
+
+  <script src="../static/js/script.js"></script>
+  <script src="../static/js/colaborador.js"></script>
+</body>
+
+</html>
+
+<!-- NESSA PAGINA TUDO É VISUAL, DEPOIS QUE A LOGICA DE LOGIN DE COLABORADOR E O BD FOREM IMPLEMENTADOS, NAO HAVERA MASI A OPCAO DE BOTOES, POIS IRÁ CARREGAR APENAS O PERFIL DO CARGO DAQUELE COLABORADOR-->

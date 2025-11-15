@@ -52,14 +52,38 @@
             </div>
 
             <div class="nav-right">
-                <a href="#">
-                    <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas"
-                        title="Dúvidas" class="icon-btn">
-                </a>
-                <a href="#">
-                    <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-                        title="Acessibilidade" class="icon-btn">
-                </a>
+                <a href="#"> <img src="../static/img/pergunta.png" alt="Botão de dúvidas" class="icon-btn"
+                        title="Dúvidas"> </a>
+                <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+          <a href="#">
+            <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+              title="Acessibilidade" class="icon-btn">
+          </a>
+          <div class="menu-panel">
+            <ul class="panel-acessibilidade">
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
+                  <span>A+</span> Aumentar fonte
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
+                  <span>A-</span> Diminuir fonte
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
+                  <span>▣</span> Alto contraste
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="resetar">
+                  <span>↺</span> Resetar
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
 
                 {% if session.get('usuario_logado') %}
                 <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">

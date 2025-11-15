@@ -93,7 +93,7 @@ class Veiculo:
              
     
 
-VEICULOS = [Veiculo(1, "econômico", "Econômico", "Fiat", "Mobi", "manual", 95.00, "Fiat Mobi", "https://production.autoforce.com/uploads/version/profile_image/10921/model_main_webp_comprar-like-1-0_9eee82ebb4.png.webp", 2, 5, 4, "Flex", "indisponível"),
+VEICULOS = [Veiculo(1, "econômico", "Econômico", "Fiat", "Mobi", "manual", 95.00, "Fiat Mobi", "https://production.autoforce.com/uploads/version/profile_image/10921/model_main_webp_comprar-like-1-0_9eee82ebb4.png.webp", 2, 5, 4, "Flex", "disponível"),
             Veiculo(2, "econômico", "Econômico","Renault", "Kwid", "manual", 100.00,"Renault Kwid","https://www.webmotors.com.br/imagens/prod/348031/RENAULT_KWID_1.0_12V_SCE_FLEX_OUTSIDER_MANUAL_34803110315083122.webp", 2, 5, 4, "Flex","disponível"),
             Veiculo(3, "econômico", "Econômico", "Hyundai", "HB20", "manual", 110.00, "Hyundai HB20", "/static/img/hb20.webp", 3, 5, 4, "Flex", "disponível"),
             Veiculo(4, "econômico", "Econômico", "Chevrolet", "Onix", "manual", 115.00, "Chevrolet Onix", "/static/img/onix.png", 3, 5, 4, "Flex", "disponível"),

@@ -1,14 +1,7 @@
 """
 TAREFAS:
     * Arquitetura / organização MVC                      COMPLETO: view, models
-    * Páginas de erro (404, 403, 401)
-        *Definir a quais páginas o user tem acesso sem estar logado
-    * Arquivo para APIs (Para diminuir a quantidade de html)
     * Api de CEP para pré-preenchimento do formulário
-    * Lógica da página específica igual ao do exercício do agostinho (PRODUTOS)
-    * Paginação
-    * Blueprint
-    * Arquivo de validações e verificações em comum para UserPj e UserPf
 
     * Para guardar os dados no BD, deve formatar num padrão
 """
@@ -55,7 +48,7 @@ def index():
             session['usuario_perfil'] = perfil
             if perfil == 'colab':
                 session['colab_cargo'] = request.cookies.get('cargo')
-                return redirect(url_for('pgColaborador'))
+                return redirect(url_for('colaborador_bp.pgColaborador'))
     
     if 'usuario_logado' in session:
         if session.get('usuario_perfil') == 'colab':
@@ -65,11 +58,6 @@ def index():
 
 
 
-
-
-@app.route('/reserva', methods=['GET'])
-def pgReserva():
-    return render_template('reserva.html')
 
 @app.route('/aluguelMensal', methods=['GET'])
 def pgAluguelMensal():

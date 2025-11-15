@@ -5,7 +5,7 @@ from controllers.validacoes import validarEmail, validarSenha
 colaborador_bp = Blueprint('colaborador_bp', __name__)
 id = 5
 
-@colaborador_bp.route('/colaborador', methods=['GET'])
+@colaborador_bp.route('/colaborador', methods=['GET']) 
 def pgColaborador():
     if session.get('usuario_perfil') == None:
         return render_template('colaboradores/login_colaborador.html')

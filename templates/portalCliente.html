@@ -161,7 +161,7 @@
                         <p>Gerencie suas informações pessoais</p>
                     </div>
 
-                    {% if session.get('usuario_perfil') == 'pf' %}
+                    {% if user.perfil == 'pf' %}
                     
                     <div class="dashboard-grid">
                         <div class="dashboard-card large">
@@ -174,7 +174,7 @@
                                     <div class="form-grid">
                                         <div class="form-group">
                                             <label for="nome-completo">Nome Completo</label>
-                                            <input type="text" id="nome-completo" name="nome" value="João Silva" readonly>
+                                            <input type="text" id="nome-completo" name="nome" value="{{ user.nome }}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="cpf">CPF</label>
@@ -202,7 +202,7 @@
                             </div>
                         </div>
 
-                        {% elif session.get('perfil_usuario') == 'pj' %}
+                    {% elif user.perfil == 'pj' %}
 
                         <div class="dashboard-grid">
                         <div class="dashboard-card large">
@@ -218,20 +218,33 @@
                                             <input type="text" id="razao-social" name="razao-social" value="{{ user.rs }}" readonly>
                                         </div>
                                         <div class="form-group">
+                                            <label for="nomeFantasia">Nome Fantasia</label>
+                                            <input type="text" id="nomeFantasia" name="nomeFantasia" value="{{ user.nome }}" readonly>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="CNPJ">CNPJ</label>
                                             <input type="text" id="CNPJ" name="CNPJ" value="{{ user.cnpj }}" readonly>
                                         </div>
+                                        
                                         <div class="form-group">
-                                            <label for="nascimento">Data de Nascimento</label>
-                                            <input type="date" id="nascimento" name="nascimento" value="1990-05-15" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="celular">Celular</label>
-                                            <input type="tel" id="celular" name="celular" value="(11) 99999-9999" readonly>
+                                            <label for="telefone">Telefone</label>
+                                            <input type="tel" id="telefone" name="telefone" value="{{ user.telefone }}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">E-mail</label>
-                                            <input type="email" id="email" name="email" value="joao.silva@email.com" readonly>
+                                            <input type="email" id="email" name="email" value="{{ user.email }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ramo">Ramo</label>
+                                            <input type="text" id="ramo" name="ramo" value="{{ user.ramo }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Tamanho</label>
+                                            <input type="text" id="email" name="email" value="{{ user.tamanho }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="rep">Representante</label>
+                                            <input type="text" id="rep" name="rep" value="{{ user.representante }}" readonly>
                                         </div>
                                     </div>
                                     
@@ -243,9 +256,9 @@
                             </div>
                         </div>
 
-                        {% else %}
+                    {% else %}
                             <h1>Erro nas condicionais</h1>
-                        {% endif %}
+                    {% endif %}
                         
                         <div class="dashboard-card">
                             <div class="card-header">

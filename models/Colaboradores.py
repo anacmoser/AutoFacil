@@ -50,6 +50,7 @@ suporte = Colaborador(4, 'Nathalia', 'suporte', 'suporte@gmail.com', 'Senha123',
 
 
 
+
 Lista_Colaboradores = [admin, gerente, atendente, suporte]
 
 def adicionarColab(novoColab):
@@ -115,5 +116,4 @@ def getColab(id):
     for colab in Lista_Colaboradores:
         if colab.id == id:
                 return colab
-        return False
     return 'id inválido'

@@ -127,7 +127,7 @@
             <div class="card-reserva">
                 <div class="reserva-preco">
                     <div class="preco-diario">
-                        <span class="valor">R$ {{ "%.2f"|format(veiculo.preco) }}</span>
+                        <span class="valor">R$ {{ "%.2f"|format(veiculo.precoDiario) }}</span>
                         <span class="periodo">/dia</span>
                     </div>
                     <div class="preco-total">
@@ -139,8 +139,7 @@
                 <!-- Formulário de Reserva -->
                 <div class="form-reserva">
                     <h3>Reservar agora</h3>
-                <form action="{{ url_for('veiculo_bp.reserva', veiculo_id=veiculo.id) }}" method="POST">
-                    <!-- Seleção de Local -->
+                
                     <div class="form-group">
                         <label for="localRetirada">Local de retirada</label>
                         <select id="localRetirada" name="localRetirada" required>
@@ -234,15 +233,15 @@
                     <div class="especificacoes-grid">
                         <div class="especificacao-item">
                             <i class="fas fa-user"></i>
-                            <span>{{ veiculo.passageiros }} passageiros</span>
+                            <span>{{ veiculo.nPassageiros }} passageiros</span>
                         </div>
                         <div class="especificacao-item">
                             <i class="fas fa-suitcase"></i>
-                            <span>{{ veiculo.malas }} malas</span>
+                            <span>{{ veiculo.nMalas }} malas</span>
                         </div>
                         <div class="especificacao-item">
                             <i class="fas fa-door-closed"></i>
-                            <span>{{ veiculo.portas }} portas</span>
+                            <span>{{ veiculo.nPortas }} portas</span>
                         </div>
                         <div class="especificacao-item">
                             <i class="fas fa-cog"></i>
@@ -333,10 +332,10 @@
                         <h3 class="veiculo-nome">{{ similar.nome }}</h3>
                         <div class="veiculo-detalhes">
                             <div class="veiculo-detalhe">
-                                <i class="fas fa-user"></i> {{ similar.passageiros }} passageiros
+                                <i class="fas fa-user"></i> {{ similar.nPassageiros }} passageiros
                             </div>
                             <div class="veiculo-detalhe">
-                                <i class="fas fa-suitcase"></i> {{ similar.malas }} malas
+                                <i class="fas fa-suitcase"></i> {{ similar.nMalas }} malas
                             </div>
                             <div class="veiculo-detalhe">
                                 <i class="fas fa-cog"></i>
@@ -344,7 +343,7 @@
                             </div>
                         </div>
                         <div class="veiculo-preco">
-                            R$ {{ "%.2f"|format(similar.preco) }} <span>/dia</span>
+                            R$ {{ "%.2f"|format(similar.precoDiario) }} <span>/dia</span>
                         </div>
                         <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}" class="btn-alugar">Ver
                             detalhes</a>
@@ -405,8 +404,8 @@
             <a href="#"><img src="{{ url_for('static', filename='img/email2.png') }}" alt="Email" title="Email"></a>
         </div>
     </footer>
-    <script src="../static/js/base.js"></script>
-    <script src="../static/js/frota.js"></script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>

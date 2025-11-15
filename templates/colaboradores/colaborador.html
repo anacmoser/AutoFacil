@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="colab-cargo" content="{{ cargo }}">
+  <meta name="colab-nome" content="{{ nome }}">
   <title>Portal do Colaborador - AutoFácil</title>
 
   <!-- csss link -->
@@ -23,7 +25,7 @@
 
 </head>
 
-<body data-page='colaborador'>
+<body data-page='colaborador' data-colab-cargo="{{ cargo }}">
   <!-- ======= NAVBAR ======= -->
   <header class="topbar">
     <nav class="nav">
@@ -35,36 +37,10 @@
       </div>
 
       <div class="nav-right">
-         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-          <a href="#">
-            <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-              title="Acessibilidade" class="icon-btn">
-          </a>
-          <div class="menu-panel">
-            <ul class="panel-acessibilidade">
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
-                  <span>A+</span> Aumentar fonte
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
-                  <span>A-</span> Diminuir fonte
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
-                  <span>▣</span> Alto contraste
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="resetar">
-                  <span>↺</span> Resetar
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+            title="Acessibilidade" class="icon-btn">
+        </a>
         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
           <a href="#">
             <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
@@ -93,8 +69,8 @@
             <img src="../static/img/avatar-colaborador.png" alt="Avatar do colaborador">
           </div>
           <div class="colaborador-dados">
-            <h2>Ana Moser</h2>
-            <p>Gerente Administrativo</p>
+            <h2>{{ session.get('colab_nome') }}</h2>
+            <p>{{ session.get('colab_cargo') }}</p>
             <span class="colaborador-id">ID: #AF001</span>
           </div>
         </div>
@@ -518,6 +494,7 @@
   </footer>
 
   <script src="../static/js/script.js"></script>
+  <script src="../static/js/colaborador.js"></script>
 </body>
 
 </html>

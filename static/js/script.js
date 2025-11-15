@@ -26,14 +26,15 @@ document.addEventListener('DOMContentLoaded', function () {
         initFormularios();
     }
 
-
     // ====== PÁGINA ALUGUEL MENSAL ======
     if (currentPage === 'aluguel-mensal') {
         initAluguelMensal();
     }
 
     // ====== PÁGINA COLABORADORES =======
-    initColaborador();
+    if (currentPage === 'colaborador') {
+        initColaborador();
+    }
 
     // ===== PÁGINA PORTAL DO CLIENTE ======
     if (currentPage === 'portal-cliente') {
@@ -1281,65 +1282,126 @@ function initColaborador() {
     const perfilCards = document.querySelectorAll('.perfil-card');
     const perfilContents = document.querySelectorAll('.perfil-content');
 
-    // Perfil padrão ativo
-    let perfilAtivo = '';
-
-    // Inicializar com o perfil padrão
+    // Determinar perfil padrão baseado no cargo REAL do usuário
+    function determinarPerfilPadrao() {
+        const cargo = document.body.dataset.colabCargo;
+        console.log('Cargo do usuário:', cargo);
+        
+        // Mapeamento direto - cargo do usuário = perfil a mostrar
+        const mapeamento = {
+            'admin': 'administrador',
+            'gerente': 'gerente', 
+            'atendente': 'atendente',
+            'suporte': 'suporte'
+        };
+        
+        return mapeamento[cargo] || 'atendente';
+    }
+    
+    // Perfil padrão ativo - baseado no cargo REAL
+    let perfilAtivo = determinarPerfilPadrao();
+    console.log('Perfil ativo definido como:', perfilAtivo);
+    
+    // Inicializar com o perfil correspondente ao cargo
     ativarPerfil(perfilAtivo);
-
-    // Event listeners para os cards de perfil
-    perfilCards.forEach(card => {
-        card.addEventListener('click', function () {
-            const perfil = this.dataset.perfil;
-            ativarPerfil(perfil);
-        });
-
-        // Acessibilidade - teclado
-        card.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                const perfil = this.dataset.perfil;
-                ativarPerfil(perfil);
+    
+    // OCULTAR cards de perfis que não correspondem ao cargo do usuário
+    function ocultarPerfisNaoPermitidos() {
+        const cargoUsuario = document.body.dataset.colabCargo;
+        console.log('Ocultando perfis não permitidos para:', cargoUsuario);
+        
+        // Definir quais perfis cada cargo pode acessar
+        const permissoes = {
+            'admin': ['atendente', 'gerente', 'administrador', 'suporte'], // Admin vê tudo
+            'gerente': ['gerente'], 
+            'atendente': ['atendente'], 
+            'suporte': ['suporte'] 
+        };
+        
+        const perfisPermitidos = permissoes[cargoUsuario] || ['atendente'];
+        
+        perfilCards.forEach(card => {
+            const perfilCard = card.dataset.perfil;
+            if (!perfisPermitidos.includes(perfilCard)) {
+                card.style.display = 'none';
+                console.log('Ocultando card:', perfilCard);
             }
         });
+    }
+    
+    // Chamar a função para ocultar perfis não permitidos
+    ocultarPerfisNaoPermitidos();
+    
+    // Event listeners para os cards de perfil (apenas os visíveis)
+    perfilCards.forEach(card => {
+        if (card.style.display !== 'none') {
+            card.addEventListener('click', function () {
+                console.log('Card clicado:', this.dataset.perfil);
+                const perfil = this.dataset.perfil;
+                ativarPerfil(perfil);
+            });
+            
+            // Acessibilidade - teclado
+            card.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    console.log('Card ativado via teclado:', this.dataset.perfil);
+                    const perfil = this.dataset.perfil;
+                    ativarPerfil(perfil);
+                }
+            });
+            
+            // Tornar os cards focáveis para acessibilidade
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-pressed', 'false');
+        }
     });
-
+    
     // Função para ativar um perfil específico
     function ativarPerfil(perfil) {
+        console.log('Ativando perfil:', perfil);
+        
         // Atualizar perfil ativo
         perfilAtivo = perfil;
-
+        
         // Remover classe active de todos os cards
         perfilCards.forEach(card => {
-            card.classList.remove('active');
+            if (card.style.display !== 'none') {
+                card.classList.remove('active');
+                card.setAttribute('aria-pressed', 'false');
+            }
         });
-
+        
         // Adicionar classe active ao card correspondente
         const cardAtivo = document.querySelector(`.perfil-card[data-perfil="${perfil}"]`);
-        if (cardAtivo) {
+        if (cardAtivo && cardAtivo.style.display !== 'none') {
             cardAtivo.classList.add('active');
-            cardAtivo.focus(); // Para acessibilidade
+            cardAtivo.setAttribute('aria-pressed', 'true');
+            console.log('Card ativado:', cardAtivo);
         }
-
+        
         // Ocultar todos os conteúdos
         perfilContents.forEach(content => {
             content.classList.remove('active');
+            content.setAttribute('aria-hidden', 'true');
         });
-
+        
         // Mostrar conteúdo do perfil ativo
         const conteudoAtivo = document.getElementById(`${perfil}-content`);
         if (conteudoAtivo) {
             conteudoAtivo.classList.add('active');
-
+            conteudoAtivo.setAttribute('aria-hidden', 'false');
+            console.log('Conteúdo ativado:', conteudoAtivo);
+            
             // Scroll suave para o conteúdo
-            conteudoAtivo.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            setTimeout(() => {
+                conteudoAtivo.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
         }
-
-        // Atualizar URL (sem recarregar a página)
-        history.replaceState(null, null, `#${perfil}`);
     }
 
     // Verificar hash na URL ao carregar

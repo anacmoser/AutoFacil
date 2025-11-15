@@ -92,8 +92,10 @@ def pgColaborador():
     if session.get('usuario_perfil') == None:
         return render_template('colaboradores/login_colaborador.html')
     elif 'colab_cargo' in session:
-        return render_template('colaboradores/colaborador.html', cargo = session.get('colab_cargo'))
+        return render_template('colaboradores/colaborador.html', cargo = session.get('colab_cargo'),
+        nome = session.get('colab.nome'))
     abort(403)
+
 
 @app.route('/pagamento/<veiculo>', methods=['GET'])
 def pgPagamento(veiculo):

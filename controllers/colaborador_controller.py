@@ -39,6 +39,7 @@ def login():
                 session['usuario_logado'] = colab.email
                 session['usuario_perfil'] = colab.perfil
                 session['colab_cargo'] = colab.cargo
+                session['colab_nome'] = colab.nome
                 if remember:
                     response = make_response(redirect(url_for('pgColaborador')))
                     response.set_cookie('user', str(colab.email), max_age=60*60*72)

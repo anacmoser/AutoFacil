@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ====== FORMULÁRIOS ======
     if (currentPage === 'cadastro' || currentPage === 'aluguel-mensal' || currentPage === 'login' || currentPage === 'login-colaborador') {
+        initToggle();
+    }
+
+    if (currentPage === 'cadastro' || currentPage === 'login' || currentPage === 'login-colaborador'){
         initFormularios();
     }
 
@@ -741,8 +745,23 @@ function initFormularios() {
         });
     });
 
+
+    // Seleção automática de tipo de conta
+    const radios = document.querySelectorAll('.tipo-conta-radio');
+
+    radios.forEach(radio => {
+        radio.addEventListener('change', function () {
+            if (this.form) this.form.submit();
+        });
+    });
+}
+
+
+// ==== TOGGLE PASSWORD ======
+function initToggle(){
     // Toggle password visibility para TODOS os formulários
     const togglePasswords = document.querySelectorAll('.toggle-password');
+
 
     togglePasswords.forEach(toggle => {
         toggle.addEventListener('click', function () {
@@ -754,15 +773,6 @@ function initFormularios() {
                 passwordField.setAttribute('type', type);
                 this.classList.toggle('active');
             }
-        });
-    });
-
-    // Seleção automática de tipo de conta
-    const radios = document.querySelectorAll('.tipo-conta-radio');
-
-    radios.forEach(radio => {
-        radio.addEventListener('change', function () {
-            if (this.form) this.form.submit();
         });
     });
 }

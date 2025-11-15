@@ -1,12 +1,283 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    pagamento
-    {{ veiculo.preco }}
-</body>
-</html>
+<!-- pagamento.html -->
+{% extends 'base.html' %}
+{% block title %} <title>AutoFácil - Finalizar Pagamento</title> {% endblock %}
+
+{% block body %} <body data-page='pagamento'> {% endblock %}
+
+{% block menu_central %}
+<div class="nav-center">
+    <a href="/frota" class="nav-btn">Alugar agora</a>
+    <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
+    <a href="/empresas" class="nav-btn">Para empresas</a>
+    {% if session.get('usuario_logado') %}
+    <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+<main class="pagamento-container">
+    <!-- Navegação de Migalhas -->
+    <div class="breadcrumb">
+        <a href="/">Início</a> &gt;
+        <a href="/frota">Frota</a> &gt;
+        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=veiculo.id) }}">{{ veiculo.nome }}</a> &gt;
+        <span>Pagamento</span>
+    </div>
+
+    <div class="pagamento-content">
+        <!-- COLUNA ESQUERDA: Dados do Cliente e Pagamento -->
+        <div class="pagamento-dados">
+            <h1>Finalizar Reserva</h1>
+            
+            <!-- Dados do Cliente -->
+            <div class="dados-cliente-section">
+                <h2>Dados do Cliente</h2>
+                <div class="dados-cliente-card">
+                    {% if session.get('usuario_perfil') == 'pf' %}
+                    <!-- Pessoa Física -->
+                    <div class="cliente-info">
+                        <div class="info-item">
+                            <label>Nome Completo:</label>
+                            <span>{{ user.nome if user else 'Nome do Cliente' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>CPF:</label>
+                            <span>{{ user.cpf if user else '000.000.000-00' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>E-mail:</label>
+                            <span>{{ user.email if user else 'cliente@email.com' }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cnh">Número da CNH *</label>
+                            <input type="text" id="cnh" name="cnh" placeholder="Digite o número da sua CNH" required 
+                                   pattern="[0-9]{11}" title="Digite os 11 dígitos da CNH">
+                        </div>
+                    </div>
+                    {% elif session.get('usuario_perfil') == 'pj' %}
+                    <!-- Pessoa Jurídica -->
+                    <div class="cliente-info">
+                        <div class="info-item">
+                            <label>Razão Social:</label>
+                            <span>{{ user.rs if user else 'Nome da Empresa' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>CNPJ:</label>
+                            <span>{{ user.cnpj if user else '00.000.000/0000-00' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Representante:</label>
+                            <span>{{ user.representante if user else 'Nome do Representante' }}</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Método de Pagamento -->
+            <div class="metodo-pagamento-section">
+                <h2>Método de Pagamento</h2>
+                <div class="metodos-pagamento-grid">
+                    <!-- PIX -->
+                    <div class="metodo-pagamento-card" data-metodo="pix">
+                        <input type="radio" id="pix" name="metodo_pagamento" value="pix" required>
+                        <label for="pix">
+                            <div class="metodo-icon">
+                                <img src="../static/img/pix-icon.png" alt="PIX">
+                            </div>
+                            <div class="metodo-info">
+                                <h3>PIX</h3>
+                                <p>Pagamento instantâneo</p>
+                                <span class="metodo-vantagem">5% de desconto</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Cartão de Crédito -->
+                    <div class="metodo-pagamento-card" data-metodo="credito">
+                        <input type="radio" id="credito" name="metodo_pagamento" value="credito" required>
+                        <label for="credito">
+                            <div class="metodo-icon">
+                                <img src="../static/img/credit-card-icon.png" alt="Cartão de Crédito">
+                            </div>
+                            <div class="metodo-info">
+                                <h3>Cartão de Crédito</h3>
+                                <p>Até 12x no cartão</p>
+                                <span class="metodo-vantagem">Até 10x sem juros</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Cartão de Débito -->
+                    <div class="metodo-pagamento-card" data-metodo="debito">
+                        <input type="radio" id="debito" name="metodo_pagamento" value="debito" required>
+                        <label for="debito">
+                            <div class="metodo-icon">
+                                <img src="../static/img/debit-card-icon.png" alt="Cartão de Débito">
+                            </div>
+                            <div class="metodo-info">
+                                <h3>Cartão de Débito</h3>
+                                <p>Pagamento à vista</p>
+                                <span class="metodo-vantagem">Pagamento instantâneo</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Boleto -->
+                    <div class="metodo-pagamento-card" data-metodo="boleto">
+                        <input type="radio" id="boleto" name="metodo_pagamento" value="boleto" required>
+                        <label for="boleto">
+                            <div class="metodo-icon">
+                                <img src="../static/img/boleto-icon.png" alt="Boleto">
+                            </div>
+                            <div class="metodo-info">
+                                <h3>Boleto Bancário</h3>
+                                <p>Pagamento em 1-2 dias úteis</p>
+                                <span class="metodo-vantagem">Vencimento em 3 dias</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Formulário do Cartão (aparece apenas quando cartão é selecionado) -->
+                <div class="cartao-form" id="cartao-form" style="display: none;">
+                    <div class="form-grid-duplo">
+                        <div class="form-group">
+                            <label for="numero_cartao">Número do Cartão *</label>
+                            <input type="text" id="numero_cartao" name="numero_cartao" 
+                                   placeholder="0000 0000 0000 0000" maxlength="19">
+                        </div>
+                        <div class="form-group">
+                            <label for="nome_cartao">Nome no Cartão *</label>
+                            <input type="text" id="nome_cartao" name="nome_cartao" 
+                                   placeholder="Como está no cartão">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid-triplo">
+                        <div class="form-group">
+                            <label for="validade">Validade *</label>
+                            <input type="text" id="validade" name="validade" 
+                                   placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV *</label>
+                            <input type="text" id="cvv" name="cvv" 
+                                   placeholder="000" maxlength="3">
+                        </div>
+                        <div class="form-group" id="parcelamento-group" style="display: none;">
+                            <label for="parcelas">Parcelas</label>
+                            <select id="parcelas" name="parcelas">
+                                <option value="1">1x</option>
+                                <option value="2">2x</option>
+                                <option value="3">3x</option>
+                                <option value="4">4x</option>
+                                <option value="5">5x</option>
+                                <option value="6">6x</option>
+                                <option value="7">7x</option>
+                                <option value="8">8x</option>
+                                <option value="9">9x</option>
+                                <option value="10">10x sem juros</option>
+                                <option value="11">11x c/ juros</option>
+                                <option value="12">12x c/ juros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUNA DIREITA: Resumo da Reserva -->
+        <div class="resumo-reserva">
+            <div class="resumo-card">
+                <h2>Resumo da Reserva</h2>
+                
+                <!-- Veículo -->
+                <div class="resumo-veiculo">
+                    <div class="veiculo-imagem-resumo">
+                        <img src="{{ veiculo.imagem }}" alt="{{ veiculo.nome }}">
+                    </div>
+                    <div class="veiculo-info-resumo">
+                        <h3>{{ veiculo.nome }}</h3>
+                        <div class="veiculo-detalhes-resumo">
+                            <span>{{ veiculo.categoria }}</span>
+                            <span>{{ veiculo.passageiros }} passageiros</span>
+                            <span>{{ veiculo.malas }} malas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datas e Local -->
+                <div class="resumo-detalhes">
+                    <div class="detalhe-item">
+                        <div class="detalhe-icon">📍</div>
+                        <div class="detalhe-info">
+                            <strong>Retirada</strong>
+                            <span id="local-retirada-resumo">{{ session.get('local_retirada', 'Aeroporto de Guarulhos (GRU)') }}</span>
+                            <span id="data-retirada-resumo">{{ session.get('data_retirada', '15/03/2025') }} às 10:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detalhe-item">
+                        <div class="detalhe-icon">📅</div>
+                        <div class="detalhe-info">
+                            <strong>Devolução</strong>
+                            <span id="local-devolucao-resumo">{{ session.get('local_devolucao', 'Aeroporto de Guarulhos (GRU)') }}</span>
+                            <span id="data-devolucao-resumo">{{ session.get('data_devolucao', '20/03/2025') }} às 10:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custos -->
+                <div class="resumo-custos">
+                    <div class="custo-item">
+                        <span>Diárias (5 dias)</span>
+                        <span>R$ {{ "%.2f"|format(veiculo.preco * 5) }}</span>
+                    </div>
+                    <div class="custo-item">
+                        <span>Proteção Total</span>
+                        <span>Grátis</span>
+                    </div>
+                    <div class="custo-item">
+                        <span>Taxas e Impostos</span>
+                        <span>R$ 45,00</span>
+                    </div>
+                    <div class="custo-item desconto">
+                        <span>Desconto PIX</span>
+                        <span>- R$ 22,25</span>
+                    </div>
+                    <div class="custo-total">
+                        <strong>Total</strong>
+                        <strong id="total-reserva">R$ {{ "%.2f"|format(veiculo.preco * 5 + 45 - 22.25) }}</strong>
+                    </div>
+                </div>
+
+                <!-- Termos e Condições -->
+                <div class="termos-condicoes">
+                    <label class="termos-checkbox">
+                        <input type="checkbox" id="aceitar-termos" required>
+                        <span>Li e aceito os <a href="#" target="_blank">Termos e Condições</a> e a <a href="#" target="_blank">Política de Privacidade</a></span>
+                    </label>
+                </div>
+
+                <!-- Botão de Confirmação -->
+                <form action="{{ url_for('veiculo_bp.confirmarReserva', veiculo_id=veiculo.id) }}" method="POST" id="form-pagamento">
+                    <input type="hidden" name="metodo_pagamento" id="metodo-pagamento-hidden">
+                    <input type="hidden" name="cnh" id="cnh-hidden">
+                    <button type="submit" class="btn-confirmar-pagamento" id="btn-confirmar">
+                        <i class="fas fa-lock"></i>
+                        Confirmar e Pagar
+                    </button>
+                </form>
+
+                <div class="seguranca-info">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Pagamento 100% seguro</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

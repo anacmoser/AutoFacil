@@ -279,14 +279,344 @@ header {
     min-width: 20px;
 }
 
-/* Estilos para tamanho de fonte - APLICAR EM TODOS OS ELEMENTOS */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE ======= */
-/* Reset para garantir que não haja efeito cumulativo */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE SUTIL ======= */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE SUTIL ======= */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE ======= */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE MAIS VISÍVEL ======= */
-/* ======= ACESSIBILIDADE - 4 NÍVEIS DE TAMANHO ======= */
+/* pagamentos
+/* Estilos específicos para a página de pagamento */
+.pagamento-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.pagamento-content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.pagamento-dados h1 {
+    color: #002f5f;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.dados-cliente-section,
+.metodo-pagamento-section {
+    margin-bottom: 40px;
+}
+
+.dados-cliente-section h2,
+.metodo-pagamento-section h2 {
+    color: #002f5f;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.dados-cliente-card,
+.resumo-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.cliente-info .info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cliente-info .info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.cliente-info .info-item label {
+    font-weight: 600;
+    color: #555;
+}
+
+.cliente-info .info-item span {
+    color: #002f5f;
+}
+
+.metodos-pagamento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.metodo-pagamento-card {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.metodo-pagamento-card:hover {
+    border-color: #002f5f;
+}
+
+.metodo-pagamento-card input[type="radio"] {
+    display: none;
+}
+
+.metodo-pagamento-card input[type="radio"]:checked + label {
+    background: #f0f7ff;
+    border-color: #002f5f;
+}
+
+.metodo-pagamento-card label {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    margin: 0;
+    border-radius: 8px;
+}
+
+.metodo-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.metodo-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+.metodo-info h3 {
+    margin: 0 0 5px 0;
+    color: #002f5f;
+    font-size: 1rem;
+}
+
+.metodo-info p {
+    margin: 0 0 5px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.metodo-vantagem {
+    color: #28a745;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.cartao-form {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.form-grid-duplo,
+.form-grid-triplo {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-grid-duplo {
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-grid-triplo {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Resumo da Reserva */
+.resumo-card {
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.resumo-veiculo {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.veiculo-imagem-resumo {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.veiculo-imagem-resumo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.veiculo-info-resumo h3 {
+    margin: 0 0 8px 0;
+    color: #002f5f;
+    font-size: 1.1rem;
+}
+
+.veiculo-detalhes-resumo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.veiculo-detalhes-resumo span {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.resumo-detalhes {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.detalhe-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.detalhe-item:last-child {
+    margin-bottom: 0;
+}
+
+.detalhe-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detalhe-info {
+    flex: 1;
+}
+
+.detalhe-info strong {
+    display: block;
+    color: #002f5f;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.detalhe-info span {
+    display: block;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.resumo-custos {
+    margin-bottom: 20px;
+}
+
+.custo-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.custo-item.desconto {
+    color: #28a745;
+}
+
+.custo-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #e9ecef;
+    font-size: 1.1rem;
+    color: #002f5f;
+}
+
+.termos-condicoes {
+    margin-bottom: 20px;
+}
+
+.termos-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.termos-checkbox input[type="checkbox"] {
+    margin-top: 2px;
+}
+
+.termos-checkbox a {
+    color: #002f5f;
+    text-decoration: none;
+}
+
+.termos-checkbox a:hover {
+    text-decoration: underline;
+}
+
+.btn-confirmar-pagamento {
+    background: #ff8c14;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-confirmar-pagamento:hover:not(:disabled) {
+    background: #e67e0f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
+}
+
+.btn-confirmar-pagamento:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.seguranca-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    color: #28a745;
+    font-size: 0.9rem;
+}
+
 
 /* Nível 1 - Normal */
 html.fonte-normal {
@@ -4250,6 +4580,15 @@ footer hr {
 }
 
 @media (max-width: 480px) {
+    .metodo-pagamento-card label {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .metodo-icon {
+        margin-right: 0;
+    }
     .hero-colaborador {
         padding: 40px 15px;
     }
@@ -4310,7 +4649,18 @@ footer hr {
 }
 
 @media (max-width: 768px) {
-
+    .pagamento-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-grid-duplo,
+    .form-grid-triplo {
+        grid-template-columns: 1fr;
+    }
+    
+    .resumo-card {
+        position: static;
+    }
     .reserva-item,
     .pagamento-item,
     .metodo-item {

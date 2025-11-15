@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, abort, request, redirect, url_for
 import math
-from models.Veiculo import VEICULOS, getVeiById, Veiculo
+from models.Veiculo import Veiculos
+from models import db
+import cloudinary
+import cloudinary.uploader
 
 veiculo_bp = Blueprint('veiculo_bp', __name__)
 id = 21
@@ -11,18 +14,16 @@ def pgReserva():
 
 @veiculo_bp.route('/frota', methods=['GET', 'POST'])  #Modularizar esta frota criando funções
 def pgFrota():  #adicionar o filtro de preço menor para maior
-    veiculos_filtrados = VEICULOS.copy()
+    veiculos_filtrados = Veiculos.query
     # Aplicar filtros apenas se os valores não estiverem vazios
 
     page = request.args.get('page', 1, type=int)
     per_page = 12
 
-    start = (page-1)*per_page
-    end = start + per_page
-    total_pages = math.ceil(len(veiculos_filtrados)/per_page)
+    paginacao = veiculos_filtrados.paginate(page=page, per_page=per_page)
+    veiculos_da_pagina = paginacao.items
+    total_pages = paginacao.pages
 
-    veiculos_da_pagina = veiculos_filtrados[start:end]
-    
     return render_template('frota.html', 
                            veiculos=veiculos_da_pagina, 
                            page=page, 
@@ -37,69 +38,47 @@ def filtrar():
     transmissao = request.form.get('transmissao', '')
     combustivel = request.form.get('combustivel', '')
     preco_maximo = request.form.get('preco', '')
-    malas_min = request.form.get('malas', '')
-    passageiros_min = request.form.get('passageiros', '')
-    portas_min = request.form.get('portas', '')
+    malas_min = request.form.get('nMalas', '')
+    passageiros_min = request.form.get('nPassageiros', '')
+    portas_min = request.form.get('nPortas', '')
 
-    veiculos_filtrados = VEICULOS.copy()
+    veiculos_filtrados = Veiculos.query
     
     # Aplicar filtros apenas se os valores não estiverem vazios
-    if categoria and categoria != 'todos':
-        veiculos_filtrados = [v for v in veiculos_filtrados if v.categoria.lower() == categoria.lower()]
+    if categoria and categoria != "todos":
+        veiculos_filtrados = veiculos_filtrados.filter_by(categoria=categoria)
     
     if marca:
-        veiculos_filtrados = [v for v in veiculos_filtrados if v.marca.lower() == marca.lower()]
+        veiculos_filtrados = veiculos_filtrados.filter(Veiculos.marca.ilike(marca))
     
     if modelo:
-        veiculos_filtrados = [v for v in veiculos_filtrados if v.modelo.lower() == modelo.lower()]
+        veiculos_filtrados = veiculos_filtrados.filter(Veiculos.modelo.ilike(modelo))
     
     if transmissao:
-        veiculos_filtrados = [v for v in veiculos_filtrados if v.transmissao.lower() == transmissao.lower()]
-    
+        veiculos_filtrados = veiculos_filtrados.filter_by(transmissao=transmissao)
+
     if combustivel:
-        veiculos_filtrados = [v for v in veiculos_filtrados if v.combustivel.lower() == combustivel.lower()]
+        veiculos_filtrados = veiculos_filtrados.filter_by(combustivel=combustivel)
     
     if preco_maximo:
-        try:
-            preco = float(preco_maximo)
-            veiculos_filtrados = [v for v in veiculos_filtrados if v.preco <= preco]
-        except ValueError:
-            pass
+        veiculos_filtrados = veiculos_filtrados.filter(Veiculos.precoDiario <= float(preco_maximo))
     
     if malas_min:
-        try:
-            min_malas = int(malas_min)
-            veiculos_filtrados = [v for v in veiculos_filtrados if v.malas >= min_malas]
-        except ValueError:
-            pass
+        veiculos_filtrados = veiculos_filtrados.filter(Veiculos.nMalas >= int(malas_min))
     
     if passageiros_min:
-        try:
-            min_passageiros = int(passageiros_min)
-            # Ordenar por proximidade ao número solicitado (exato primeiro)
-            veiculos_filtrados = sorted(
-                [v for v in veiculos_filtrados if v.passageiros >= min_passageiros],
-                key=lambda x: (x.passageiros == min_passageiros, x.passageiros),
-                reverse=True
-            )
-        except ValueError:
-            pass
+        veiculos_filtrados = veiculos_filtrados.filter(Veiculos.nPassageiros >= int(passageiros_min))
     
     if portas_min:
-        try:
-            min_portas = int(portas_min)
-            veiculos_filtrados = [v for v in veiculos_filtrados if v.portas >= min_portas]
-        except ValueError:
-            pass
+        veiculos_filtrados = veiculos_filtrados.filter(Veiculos.nPortas >= int(portas_min))
 
     page = request.args.get('page', 1, type=int)
     per_page = 12
 
-    start = (page-1)*per_page
-    end = start + per_page
-    total_pages = math.ceil(len(veiculos_filtrados)/per_page)
+    paginacao = veiculos_filtrados.paginate(page=page, per_page=per_page)
+    veiculos_da_pagina = paginacao.items
+    total_pages = paginacao.pages
 
-    veiculos_da_pagina = veiculos_filtrados[start:end]
     
     return render_template('frota.html', 
                            veiculos=veiculos_da_pagina, 
@@ -109,15 +88,13 @@ def filtrar():
 
 @veiculo_bp.route('/frota/<int:veiculo_id>')
 def detalheVeiculo(veiculo_id):
-    veiculo = getVeiById(veiculo_id)
+    veiculo = Veiculos.query.get(veiculo_id)
     similares = []
 
     if veiculo is None:
         abort(404)
     
-    for i in VEICULOS:
-        if i.categoria == veiculo.categoria:
-            similares.append(i)
+    similares = Veiculos.query.filter_by(categoria=veiculo.categoria).all()
         
     return render_template('detalhe_veiculo.html', veiculo=veiculo, veiculos_similares = similares)
 
@@ -126,17 +103,27 @@ def reserva(veiculo_id):
     data_ret = request.form.get('dataRetirada')
     data_dev = request.form.get('dataDev')
     local = request.form.get('localRetirada')
-    for veiculo in VEICULOS:
-        if veiculo.id == veiculo_id:
-            if veiculo.status == 'disponível':
+    veiculo = Veiculos.query.get(veiculo_id)
+    #for veiculo in Veiculos:
+        #if veiculo.id == veiculo_id:
+            #if veiculo.status == 'disponível':
                 #Verifica se há este carro nesse local
                 #Verifica se esse carro deste local está reservado entre as data_ret e data_dev
                 #Se sim, veiculo.status = 'indiponível'
                 #return redirect(url_for('pgPagamento', veiculo=veiculo))
-                return render_template('pagamento.html', veiculo = veiculo)
-        return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo)
+                #return render_template('pagamento.html', veiculo = veiculo)
+        #return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo)
     
+@veiculo_bp.route('/upload/<int:veiculo_id>', methods=['POST'])
+def upload_imagem(veiculo_id):
+    imagem = request.files['imagem']
+    result = cloudinary.uploader.upload(imagem)
 
+    veiculo = Veiculos.query.get(veiculo_id)
+    veiculo.imagem = result["secure_url"]
+
+    db.session.commit()
+    return result["secure_url"]
 
 '''@veiculo_bp.route('adicionarVeiculo', methods=['POST'])
 def addVeiculo():

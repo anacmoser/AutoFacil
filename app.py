@@ -15,7 +15,7 @@ TAREFAS:
 
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, abort
 import math
-from models.Veiculo import VEICULOS
+from models.Veiculo import Veiculos
 from models.UserPj import USERSpj
 from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
@@ -29,7 +29,7 @@ import os
 from models.UserPf import UserPfDB
 import cloudinary
 import cloudinary.uploader
-import cloudinary.api
+
 
 cloudinary.config( 
   cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 

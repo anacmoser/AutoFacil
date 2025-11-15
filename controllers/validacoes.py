@@ -151,14 +151,8 @@ def validacaoGeralPf(nome, nascimento, cpf, celular, email, cep, bairro, estado,
         if complemento:
             validacoes.append((validarComplemento(complemento), 'Complemento inválido'))
 
-        erros = []
-        for validade, mensagem in validacoes:
-            if not validade:
-                erros.append(mensagem)
-
-        if erros:
-            raise ValueError(erros)
-        return True
+        erros = [msg for valido, msg in validacoes if not valido]
+        return erros
 
 def validacaoGeralPj(RS, NF, cnpj, nome, cpf, cargo, phone, email, cep, logra, num, bairro, estado, cidade, senha, verificador, ie='', cell='', complemento=''):
             

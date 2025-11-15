@@ -63,7 +63,7 @@ def index():
     
     if 'usuario_logado' in session:
         if session.get('usuario_perfil') == 'colab':
-            return redirect(url_for('pgColaborador'))
+            return redirect(url_for('colaborador_bp.pgColaborador'))
 
     return render_template('index.html')
 

@@ -103,15 +103,14 @@ def reserva(veiculo_id):
     data_ret = request.form.get('dataRetirada')
     data_dev = request.form.get('dataDev')
     local = request.form.get('localRetirada')
-    veiculo = Veiculos.query.get(veiculo_id)
-    #for veiculo in Veiculos:
-        #if veiculo.id == veiculo_id:
-            #if veiculo.status == 'disponível':
+    for veiculo in Veiculos.query:
+        if veiculo.id == veiculo_id:
+            if veiculo.status == 'disponível':
                 #Verifica se há este carro nesse local
                 #Verifica se esse carro deste local está reservado entre as data_ret e data_dev
                 #Se sim, veiculo.status = 'indiponível'
                 #return redirect(url_for('pgPagamento', veiculo=veiculo))
-                #return render_template('pagamento.html', veiculo = veiculo)
+                return render_template('pagamento.html', veiculo = veiculo)
         #return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo)
     
 @veiculo_bp.route('/upload/<int:veiculo_id>', methods=['POST'])

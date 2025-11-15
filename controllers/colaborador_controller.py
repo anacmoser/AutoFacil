@@ -1,9 +1,21 @@
-from flask import Flask, Blueprint, render_template, request, session, redirect, url_for, make_response
-from models.Colaboradores import Colaborador, Lista_Colaboradores, adicionarColab, updateColab, deleteColab
+from flask import Flask, Blueprint, render_template, request, session, redirect, url_for, make_response, abort
+from models.Colaboradores import Colaborador, Lista_Colaboradores, adicionarColab, updateColab, deleteColab, getColab
 from controllers.validacoes import validarEmail, validarSenha
 
 colaborador_bp = Blueprint('colaborador_bp', __name__)
 id = 5
+
+@colaborador_bp.route('/colaborador', methods=['GET'])
+def pgColaborador():
+    if session.get('usuario_perfil') == None:
+        return render_template('colaboradores/login_colaborador.html')
+    elif 'colab_cargo' in session:
+        colab = getColab(session.get('usuario_logado'))
+        return render_template('colaboradores/colaborador.html', 
+                               id = colab.id,
+                                cargo = colab.cargo,
+                                nome = colab.nome) #chamar funções que busquem os dados do user de acordo com o id dele
+    abort(403)
 
 @colaborador_bp.route('/loginColaborador', methods=['GET'])
 def loginColaborador():
@@ -36,17 +48,17 @@ def login():
             
         for colab in Lista_Colaboradores:
             if colab.email == email and colab.senha == senha:
-                session['usuario_logado'] = colab.email
+                session['usuario_logado'] = colab.id
                 session['usuario_perfil'] = colab.perfil
                 session['colab_cargo'] = colab.cargo
-                session['colab_nome'] = colab.nome
+                
                 if remember:
                     response = make_response(redirect(url_for('pgColaborador')))
                     response.set_cookie('user', str(colab.email), max_age=60*60*72)
                     response.set_cookie('perfil', 'colab', max_age=60*60*72)
                     response.set_cookie('cargo', str(colab.cargo), max_age=60*60*72)
                     return response
-                return redirect(url_for('pgColaborador'))
+                return redirect(url_for('colaborador_bp.pgColaborador'))
             if colab.email == email and colab.senha != senha:
                 return render_template('colaboradores/login_colaborador.html', erro = 'Senha incorreta')
         return render_template('colaboradores/login_colaborador.html', erro = 'Colaborador não encontrado')

@@ -130,7 +130,7 @@
 
     <section class="filtros-container">
         <h2 class="filtros-title">Busque por filtros</h2>
-        <form action="/filtrar" method="POST">
+        <form action="{{ url_for('veiculo_bp.filtrar') }}" method="POST">
             <div class="filtros-avancados">
 
                 <div class="filtros-grid">
@@ -324,7 +324,7 @@
         <ul class="pagination">
             {% for page_num in range(1, total_pages+1) %}
             <li class="{% if page == page_num %}active{% endif %}">
-                <a href="{{ url_for('pgFrota', page=page_num) }}">
+                <a href="{{ url_for('veiculo_bp.pgFrota', page=page_num) }}">
                     {{ page_num }}
                 </a>
             </li>

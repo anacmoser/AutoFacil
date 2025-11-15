@@ -196,7 +196,7 @@
 
                     
                     {% else %}
-                    <a href="{{ url_for('pgLogin') }}" class="btn-reservar">
+                    <a href="{{ url_for('user_bp.pgLogin') }}" class="btn-reservar">
                         <i class="fas fa-sign-in-alt"></i>
                         Fazer Login para Reservar
                     </a>
@@ -324,7 +324,7 @@
                 {% for similar in veiculos_similares %}
                 <div class="veiculo-card">
                     <div class="veiculo-imagem">
-                        <a href="{{ url_for('detalhe_veiculo', veiculo_id=similar.id) }}">
+                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}">
                             <img src="{{ similar.imagem }}" alt="{{ similar.nome }}">
                         </a>
                     </div>
@@ -346,7 +346,7 @@
                         <div class="veiculo-preco">
                             R$ {{ "%.2f"|format(similar.preco) }} <span>/dia</span>
                         </div>
-                        <a href="{{ url_for('detalhe_veiculo', veiculo_id=similar.id) }}" class="btn-alugar">Ver
+                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}" class="btn-alugar">Ver
                             detalhes</a>
                     </div>
                 </div>

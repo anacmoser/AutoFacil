@@ -43,10 +43,10 @@ class Colaborador:
     def updateAttr(self, campo, valor):
         setattr(self, campo, valor)
         
-admin = Colaborador('1', 'Enzooo', 'admin', 'admin@gmail.com', 'Senha123', 'Senha123', '12345678909')
-gerente = Colaborador('2', 'Melissa', 'gerente', 'gerente@gmail.com', 'Senha123', 'Senha123', '52998224725')
-atendente = Colaborador('3', 'Ryukiii', 'atendente', 'atendente@gmail.com', 'Senha123', 'Senha123', '98765432100')
-suporte = Colaborador('4', 'Nathalia', 'suporte', 'suporte@gmail.com', 'Senha123', 'Senha123', '12345678909')
+admin = Colaborador(1, 'Enzooo', 'admin', 'admin@gmail.com', 'Senha123', 'Senha123', '12345678909')
+gerente = Colaborador(2, 'Melissa', 'gerente', 'gerente@gmail.com', 'Senha123', 'Senha123', '52998224725')
+atendente = Colaborador(3, 'Ryukiii', 'atendente', 'atendente@gmail.com', 'Senha123', 'Senha123', '98765432100')
+suporte = Colaborador(4, 'Nathalia', 'suporte', 'suporte@gmail.com', 'Senha123', 'Senha123', '12345678909')
 
 
 
@@ -111,10 +111,9 @@ def deleteColab(cpf):
         return 'Colaborador não encontrado'
     return 'CPF inválido'
 
-def buscarColab(cpf):
-    if validarCpf(cpf):
-        for colab in Lista_Colaboradores:
-            if colab.cpf == cpf:
+def getColab(id):
+    for colab in Lista_Colaboradores:
+        if colab.id == id:
                 return colab
         return False
-    return 'CPF inválido'
+    return 'id inválido'

@@ -27,17 +27,6 @@ from models import db
 from dotenv import load_dotenv
 import os
 from models.UserPf import UserPfDB
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-
-cloudinary.config( 
-  cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 
-  api_key = os.getenv("CLOUDINARY_API_KEY"), 
-  api_secret = os.getenv("CLOUDINARY_API_SECRET"),
-  secure=True
-)
-
 
 load_dotenv()  # carrega o arquivo .env
 
@@ -77,6 +66,11 @@ def index():
 
 
 
+
+@app.route('/reserva', methods=['GET'])
+def pgReserva():
+    return render_template('reserva.html')
+
 @app.route('/aluguelMensal', methods=['GET'])
 def pgAluguelMensal():
     return render_template('aluguelmensal.html')
@@ -91,9 +85,134 @@ def pgMinhasReservas():
         abort(401)
     return render_template('minhas_reservas.html')
 
+
+
+@app.route('/colaborador', methods=['GET'])
+def pgColaborador():
+    if session.get('usuario_perfil') == None:
+        return render_template('colaboradores/login_colaborador.html')
+    elif 'colab_cargo' in session:
+        return render_template('colaboradores/colaborador.html', cargo = session.get('colab_cargo'),
+        nome = session.get('colab.nome'))
+    abort(403)
+
+
 @app.route('/pagamento/<veiculo>', methods=['GET'])
 def pgPagamento(veiculo):
     return render_template('pagamento.html', veiculo = veiculo)
+
+
+@app.route('/frota', methods=['GET', 'POST'])  #Modularizar esta frota criando funções
+def pgFrota():  #adicionar o filtro de preço menor para maior
+
+
+    veiculos_filtrados = VEICULOS.copy()
+    
+    # Aplicar filtros apenas se os valores não estiverem vazios
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 12
+
+    start = (page-1)*per_page
+    end = start + per_page
+    total_pages = math.ceil(len(veiculos_filtrados)/per_page)
+
+    veiculos_da_pagina = veiculos_filtrados[start:end]
+    
+    return render_template('frota.html', 
+                           veiculos=veiculos_da_pagina, 
+                           page=page, 
+                           total_pages=total_pages,
+                           filtros_limpos = True)
+
+@app.route('/filtrar', methods=['POST'])
+def filtrar():
+    modelo = request.form.get('modelo', '')
+    categoria = request.form.get('categoria', '')
+    marca = request.form.get('marca', '')
+    transmissao = request.form.get('transmissao', '')
+    combustivel = request.form.get('combustivel', '')
+    preco_maximo = request.form.get('preco', '')
+    malas_min = request.form.get('malas', '')
+    passageiros_min = request.form.get('passageiros', '')
+    portas_min = request.form.get('portas', '')
+
+    veiculos_filtrados = VEICULOS.copy()
+    
+    # Aplicar filtros apenas se os valores não estiverem vazios
+    if categoria and categoria != 'todos':
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.categoria.lower() == categoria.lower()]
+    
+    if marca:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.marca.lower() == marca.lower()]
+    
+    if modelo:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.modelo.lower() == modelo.lower()]
+    
+    if transmissao:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.transmissao.lower() == transmissao.lower()]
+    
+    if combustivel:
+        veiculos_filtrados = [v for v in veiculos_filtrados if v.combustivel.lower() == combustivel.lower()]
+    
+    if preco_maximo:
+        try:
+            preco = float(preco_maximo)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.preco <= preco]
+        except ValueError:
+            pass
+    
+    if malas_min:
+        try:
+            min_malas = int(malas_min)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.malas >= min_malas]
+        except ValueError:
+            pass
+    
+    if passageiros_min:
+        try:
+            min_passageiros = int(passageiros_min)
+            # Ordenar por proximidade ao número solicitado (exato primeiro)
+            veiculos_filtrados = sorted(
+                [v for v in veiculos_filtrados if v.passageiros >= min_passageiros],
+                key=lambda x: (x.passageiros == min_passageiros, x.passageiros),
+                reverse=True
+            )
+        except ValueError:
+            pass
+    
+    if portas_min:
+        try:
+            min_portas = int(portas_min)
+            veiculos_filtrados = [v for v in veiculos_filtrados if v.portas >= min_portas]
+        except ValueError:
+            pass
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 12
+
+    start = (page-1)*per_page
+    end = start + per_page
+    total_pages = math.ceil(len(veiculos_filtrados)/per_page)
+
+    veiculos_da_pagina = veiculos_filtrados[start:end]
+    
+    return render_template('frota.html', 
+                           veiculos=veiculos_da_pagina, 
+                           page=page, 
+                           total_pages=total_pages,
+                           filtros_limpos = False)
+
+@app.route('/logout', methods=['GET']) 
+def logout():
+    session.clear()
+    resposta = make_response(redirect(url_for('index')))
+
+    resposta.set_cookie('user', '', expires=0)
+    resposta.set_cookie('perfil', '', expires=0)
+    if request.cookies.get('cargo'):
+        resposta.set_cookie('cargo', '', expires=0)
+    return resposta
 
 @app.errorhandler(401)
 def nao_autorizado(error):
@@ -114,3 +233,5 @@ def erro_interno_servidor(error):
 if __name__ == '__main__':
     app.run(debug=True)
 
+    def __repr__(self):
+        return f'<Cliente {self.nome}>'

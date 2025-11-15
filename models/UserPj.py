@@ -2,11 +2,11 @@ from controllers.validacoes import validacaoGeralPj
 from models.User import User
 
 class UserPj(User):
-    def __init__(self, id, perfil, razaoSocial, nomeFantasia, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, telefone, emailCop, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual='' ,cell='', complemento=''):
+    def __init__(self, id, perfil, razaoSocial, nomeFantasia, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, telefone, email, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual='' ,cell='', complemento=''):
         
-        if validacaoGeralPj(razaoSocial, nomeFantasia, cnpj, nomeRep, cpfRep, cargoRep, telefone, emailCop, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual ,cell, complemento):
+        if validacaoGeralPj(razaoSocial, nomeFantasia, cnpj, nomeRep, cpfRep, cargoRep, telefone, email, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual ,cell, complemento):
             
-            super().__init__(id, perfil)
+            super().__init__(id, perfil, senha, email)
             self._razaoSocial = razaoSocial
             self._nomeFant = nomeFantasia
             self._cnpj = cnpj
@@ -16,14 +16,12 @@ class UserPj(User):
             self._cpfRep = cpfRep
             self._cargoRep = cargoRep 
             self._phone = telefone
-            self._emailCop = emailCop
             self._cep = cep
             self._logra = logradouro 
             self._numero = numero
             self._bairro = bairro 
             self._estado = estado 
             self._cidade = cidade 
-            self.__senha = senha
             self._inscricaoEstadual = inscricaoEstadual
             self._cell = cell
             self._complemento = complemento 
@@ -35,17 +33,11 @@ class UserPj(User):
     @property
     def rs(self):
         return self._razaoSocial
-    
-    @property
-    def email(self):
         return self._emailCop
     
     @property
     def telefone(self):
         return self._phone
-    
-    @property
-    def senha(self):
         return self.__senha
     
     @property
@@ -64,7 +56,7 @@ empresa1 = UserPj(
     cpfRep="12345678909",
     cargoRep="Diretor Executivo",
     telefone="1140028922",
-    emailCop="contato@techsol.com.br",
+    email="contato@techsol.com.br",
     cep="04567-000",
     logradouro="Rua das Inovações",
     numero="123",

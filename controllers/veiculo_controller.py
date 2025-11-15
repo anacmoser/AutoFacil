@@ -5,14 +5,13 @@ from models.Veiculo import VEICULOS, getVeiById, Veiculo
 veiculo_bp = Blueprint('veiculo_bp', __name__)
 id = 21
 
-
+@veiculo_bp.route('/reserva', methods=['GET'])
+def pgReserva():
+    return render_template('reserva.html')
 
 @veiculo_bp.route('/frota', methods=['GET', 'POST'])  #Modularizar esta frota criando funções
 def pgFrota():  #adicionar o filtro de preço menor para maior
-
-
     veiculos_filtrados = VEICULOS.copy()
-    
     # Aplicar filtros apenas se os valores não estiverem vazios
 
     page = request.args.get('page', 1, type=int)
@@ -111,9 +110,16 @@ def filtrar():
 @veiculo_bp.route('/frota/<int:veiculo_id>')
 def detalheVeiculo(veiculo_id):
     veiculo = getVeiById(veiculo_id)
+    similares = []
+
     if veiculo is None:
         abort(404)
-    return render_template('detalhe_veiculo.html', veiculo=veiculo)
+    
+    for i in VEICULOS:
+        if i.categoria == veiculo.categoria:
+            similares.append(i)
+        
+    return render_template('detalhe_veiculo.html', veiculo=veiculo, veiculos_similares = similares)
 
 @veiculo_bp.route('/reserva/<int:veiculo_id>', methods=['POST'])
 def reserva(veiculo_id):

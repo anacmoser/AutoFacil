@@ -66,11 +66,6 @@ def index():
 
 
 
-
-@app.route('/reserva', methods=['GET'])
-def pgReserva():
-    return render_template('reserva.html')
-
 @app.route('/aluguelMensal', methods=['GET'])
 def pgAluguelMensal():
     return render_template('aluguelmensal.html')
@@ -85,30 +80,9 @@ def pgMinhasReservas():
         abort(401)
     return render_template('minhas_reservas.html')
 
-
-
-
-
-
 @app.route('/pagamento/<veiculo>', methods=['GET'])
 def pgPagamento(veiculo):
     return render_template('pagamento.html', veiculo = veiculo)
-
-
-
-
-
-
-@app.route('/logout', methods=['GET']) 
-def logout():
-    session.clear()
-    resposta = make_response(redirect(url_for('index')))
-
-    resposta.set_cookie('user', '', expires=0)
-    resposta.set_cookie('perfil', '', expires=0)
-    if request.cookies.get('cargo'):
-        resposta.set_cookie('cargo', '', expires=0)
-    return resposta
 
 @app.errorhandler(401)
 def nao_autorizado(error):

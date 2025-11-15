@@ -7,7 +7,7 @@
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, make_response
 from controllers.validacoes import validarEmail, validarCNPJ
-from models.UserPj import UserPj, USERSpj, addUserPj
+from models.UserPj import UserPj, USERSpj, addUserPj, buscarUser
 import re
 
 user_pj_bp = Blueprint('user_pj_bp', __name__)
@@ -126,3 +126,34 @@ def portalCliente():
     #if user_perfil == 'pf':
         #Lógica com o banco de dados
     return render_template('index.html')
+
+@user_pj_bp.route('/updatePj')  #Colocar validação para cada alteração, adicionar outras alterações
+def updatePj():
+    user_id = session.get('usuario_logado')
+    rs = request.form.get('razao-social', '')
+    nf = request.form.get('nomeFantasia', '')
+    cnpj = request.form.get('CNPJ', '')
+    tell = request.form.get('telefone', '')
+    email = request.form.get('email', '')
+    ramo = request.form.get('ramo', '')
+    tamanho = request.form.get('tamanho', '')
+    rep = request.form.get('rep', '')
+
+    user = buscarUser(user_id)
+
+    if user.rs != rs:
+        user.setAttr('_razaoSocial', rs)
+    if user.nome != nf:
+        user.setAttr('_nomeFant', rs)
+    if user.cnpj != cnpj:
+        user.setAttr('_cnpj', cnpj)
+    if user.tell != tell:
+        user.setAttr('_phone', tell)
+    if user.email != email:
+        user.setAttr('_email', email)
+    if user.ramo != ramo:
+        user.setAttr('_ramo', ramo)
+    if user.tamanho != tamanho:
+        user.setAttr('_tamanho', tamanho)
+    if user.nomeRep != rep:
+        user.setAttr('_nomeRep', rep)

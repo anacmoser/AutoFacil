@@ -33,7 +33,10 @@ class UserPj(User):
     @property
     def rs(self):
         return self._razaoSocial
-        return self._emailCop
+
+    @property
+    def nomeRep(self):
+        return self._nomeRep
     
     @property
     def telefone(self):
@@ -59,6 +62,17 @@ class UserPj(User):
     @property
     def ramo(self):
         return self._ramo
+    
+    @property
+    def tell(self):
+        return self._phone
+    
+    def setAttr(self, campo, valor):
+        if hasattr(self, campo):
+            setattr(self, campo, valor)
+        else:
+            raise ValueError(f'{campo} Atributo não existe') 
+    
     
 empresa1 = UserPj(
     id=1,
@@ -107,3 +121,10 @@ def verificarDuplicidadePj(novoUser):
         if user.telefone == novoUser.telefone:
             erro.append('Este telefone já está em uso')
     return erro
+
+def buscarUser(id):
+    for user in USERSpj:
+        if user.id == id:
+            return user
+    return False
+

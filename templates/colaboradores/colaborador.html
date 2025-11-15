@@ -35,10 +35,36 @@
       </div>
 
       <div class="nav-right">
-        <a href="#">
-          <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-            title="Acessibilidade" class="icon-btn">
-        </a>
+         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+          <a href="#">
+            <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+              title="Acessibilidade" class="icon-btn">
+          </a>
+          <div class="menu-panel">
+            <ul class="panel-acessibilidade">
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
+                  <span>A+</span> Aumentar fonte
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
+                  <span>A-</span> Diminuir fonte
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
+                  <span>▣</span> Alto contraste
+                </button>
+              </li>
+              <li>
+                <button type="button" class="acessibilidade-btn" data-action="resetar">
+                  <span>↺</span> Resetar
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
           <a href="#">
             <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"

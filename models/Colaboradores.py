@@ -42,6 +42,7 @@ class Colaborador:
 
     def updateAttr(self, campo, valor):
         setattr(self, campo, valor)
+        
 admin = Colaborador('1', 'Enzooo', 'admin', 'admin@gmail.com', 'Senha123', 'Senha123', '12345678909')
 gerente = Colaborador('2', 'Melissa', 'gerente', 'gerente@gmail.com', 'Senha123', 'Senha123', '52998224725')
 atendente = Colaborador('3', 'Ryukiii', 'atendente', 'atendente@gmail.com', 'Senha123', 'Senha123', '98765432100')

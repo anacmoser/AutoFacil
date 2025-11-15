@@ -52,7 +52,7 @@ def cadastroEmpresa():
     if not autorizacao:
         return render_template('cadastro.html', erros='Você deve aceitar a Autorização.')
     try:
-        novoUser = UserPj(id_counter_pj, rs, nf, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, phone, email, cep, logra, num, bairro, estado, cidade, senha, confirmar, ie ,cell, complemento)
+        novoUser = UserPj(id_counter_pj, 'pj', rs, nf, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, phone, email, cep, logra, num, bairro, estado, cidade, senha, confirmar, ie ,cell, complemento)
         adicao = addUserPj(novoUser) #Verificar por nome também (já existe por email e cpf)
         if adicao == True: #Se não for true será a lista de erros
             id_counter_pj += 1
@@ -85,7 +85,7 @@ def login():
             for usuario in USERSpj:
                 if usuario.email == user :
                     if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.email
+                        session['usuario_logado'] = usuario.id
                         session['usuario_perfil'] = 'pj'
                         if remember:
                             response = make_response(redirect(url_for('index')))
@@ -102,8 +102,7 @@ def login():
             for usuario in USERSpj:
                 if usuario.cnpj == cnpj:
                     if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.email
-                        session['user'] = usuario.id
+                        session['usuario_logado'] = usuario.id
                         session['usuario_perfil'] = 'pj'
                         if remember:
                             response = make_response(redirect(url_for('index')))
@@ -115,3 +114,15 @@ def login():
             return render_template('login.html', erro = 'Usuário não encontrado')        
     
     return render_template('login.html')
+
+@user_pj_bp.route('/portalCliente', methods=['GET'])
+def portalCliente():
+    user_id = session.get('usuario_logado')
+    user_perfil = session.get('usuario_perfil')
+    if user_perfil == 'pj':
+        for user in USERSpj:
+            if user.id == user_id:
+                return render_template('portalCliente.html', user = user)
+    #if user_perfil == 'pf':
+        #Lógica com o banco de dados
+    return render_template('index.html')

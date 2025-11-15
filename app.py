@@ -21,6 +21,7 @@ from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
 from controllers.colaborador_controller import colaborador_bp
+from controllers.user_controller import user_bp
 from flask import Flask, render_template, request
 from models import db
 from dotenv import load_dotenv
@@ -41,6 +42,7 @@ app.register_blueprint(veiculo_bp)
 app.register_blueprint(user_pf_bp)
 app.register_blueprint(user_pj_bp)
 app.register_blueprint(colaborador_bp)
+app.register_blueprint(user_bp)
 
 # Rotas
 @app.route('/')
@@ -61,17 +63,9 @@ def index():
 
     return render_template('index.html')
 
-@app.route('/login', methods=['GET'])
-def pgLogin():
-    return render_template('login.html')
 
-@app.route('/cadastro', methods=['GET'])
-def pgCadastro():
-    return render_template('cadastro.html')
 
-@app.route('/loginColaborador', methods=['GET'])
-def loginColaborador():
-    return render_template('colaboradores/login_colaborador.html')
+
 
 @app.route('/reserva', methods=['GET'])
 def pgReserva():
@@ -91,17 +85,7 @@ def pgMinhasReservas():
         abort(401)
     return render_template('minhas_reservas.html')
 
-@app.route('/portalCliente', methods=['GET'])
-def portalCliente():
-    user_id = session.get('user')
-    user_perfil = session.get('usuario_perfil')
-    if user_perfil == 'pj':
-        for user in USERSpj:
-            if user.id == user_id:
-                return render_template('portalCliente.html', user = user)
-    #if user_perfil == 'pf':
-        #Lógica com o banco de dados
-    return render_template('index.html')
+
 
 @app.route('/colaborador', methods=['GET'])
 def pgColaborador():

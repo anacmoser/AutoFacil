@@ -1,12 +1,12 @@
 from controllers.validacoes import validacaoGeralPj
-import re
+from models.User import User
 
-class UserPj:
-    def __init__(self, id, razaoSocial, nomeFantasia, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, telefone, emailCop, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual='' ,cell='', complemento=''):
-
+class UserPj(User):
+    def __init__(self, id, perfil, razaoSocial, nomeFantasia, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, telefone, emailCop, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual='' ,cell='', complemento=''):
+        
         if validacaoGeralPj(razaoSocial, nomeFantasia, cnpj, nomeRep, cpfRep, cargoRep, telefone, emailCop, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual ,cell, complemento):
-        #validação geral dos campos
-            self._id = id
+            
+            super().__init__(id, perfil)
             self._razaoSocial = razaoSocial
             self._nomeFant = nomeFantasia
             self._cnpj = cnpj
@@ -27,16 +27,6 @@ class UserPj:
             self._inscricaoEstadual = inscricaoEstadual
             self._cell = cell
             self._complemento = complemento 
-            self._perfil = 'pj'
-
-############################# VALIDAÇÕES - devem retornar true ou false
-    @property
-    def perfil(self):
-        return self._perfil
-    
-    @property
-    def id(self):
-        return self._id
 
     @property
     def cnpj(self):
@@ -61,8 +51,10 @@ class UserPj:
     @property
     def nome(self):
         return self._nomeFant
+    
 empresa1 = UserPj(
     id=1,
+    perfil='pj',
     razaoSocial="Tech Solutions LTDA",
     nomeFantasia="TechSol",
     cnpj="04252011000110",

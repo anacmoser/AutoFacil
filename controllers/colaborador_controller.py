@@ -5,6 +5,10 @@ from controllers.validacoes import validarEmail, validarSenha
 colaborador_bp = Blueprint('colaborador_bp', __name__)
 id = 5
 
+@colaborador_bp.route('/loginColaborador', methods=['GET'])
+def loginColaborador():
+    return render_template('colaboradores/login_colaborador.html')
+
 @colaborador_bp.route('/loginColab', methods = ['POST', 'GET'])
 def login():
     if request.method == 'POST':

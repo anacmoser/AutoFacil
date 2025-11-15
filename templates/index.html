@@ -1,64 +1,10 @@
-<!-- 
-TAREFAS:
-    * Reduzir o código com Django
--->
 
+{% extends 'base.html' %}
+{% block title %} <title>AutoFácil</title> {% endblock %}
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% block body %}<body data-page='index'> {% endblock %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoFácil</title>
-
-  <!-- csss link -->
-  <link rel="stylesheet" href="../static/css/style.css">
-
-  <!-- Favicons links -->
-  <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="../static/img/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="../static/img/android-chrome-512x512.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="../static/img/apple-touch-icon.png">
-
-  <!-- Google Fonts link -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
-    rel="stylesheet">
-
-</head>
-
-<body data-page='index'>
-  <!-- ======= NAVBAR ======= -->
-  <header class="topbar">
-    <nav class="nav">
-      <div class="nav-left">
-        <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
-          <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
-          <div class="menu-panel" id="menuPanel">
-            <ul class="panel-main">
-              <li><a href="#">Promoções</a></li>
-              <li><a href="#">Atendimento</a></li>
-              <li><a href="#">Agências</a></li>
-              <li><a href="#">FAQ</a></li>
-            </ul>
-            <ul class="panel-nav">
-              <li><a href="/frota">Alugar agora</a></li>
-              <li><a href="/aluguelMensal">Aluguel mensal</a></li>
-              <li><a href="/empresas">Para empresas</a></li>
-              <li><a href="/minhasReservas">Minhas reservas</a></li>
-            </ul>
-          </div>
-
-        </div>
-
-        <a class="logo" href="#" aria-label="AutoFácil - Início">
-          <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
-            class="logo-img">
-        </a>
-      </div>
-
+{% block menu_central %}
       <div class="nav-center">
         <a href="/frota" class="nav-btn">Alugar agora</a>
         <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
@@ -67,49 +13,9 @@ TAREFAS:
         <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
         {% endif %}
       </div>
+{% endblock %}
 
-      <div class="nav-right">
-        <a href="#">
-            <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
-                class="icon-btn">
-        </a>
-        <a href="#">
-            <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-                title="Acessibilidade" class="icon-btn">
-        </a>
-    
-        {% if session.get('usuario_logado') %}
-        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-            <a href="#">
-                <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
-                    class="icon-btn">
-            </a>
-            <div class="menu-panel">
-                <ul class="panel-logout">
-                    <li><a href="/portalCliente">Portal do cliente</a></li>
-                    <li><a href="/logout">Encerrar sessão</a></li>
-                </ul>
-            </div>
-        </div>
-        {% else %}
-        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-          <a href="#">
-            <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-                class="icon-btn">
-          </a>
-            <div class="menu-panel">
-                <ul class="panel-login">
-                    <!--<li><a href="/portalCliente">Portal do cliente</a></li>-->
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/cadastro">Cadastro</a></li>
-                    <li><a href="/colaborador">Colaborador</a></li>
-                </ul>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-  </header>
-
+{% block content %}
   <!-- Barra de pesquisa -->
   <div class="searchbar">
     <form>
@@ -216,74 +122,9 @@ TAREFAS:
     </div>
   </section>
   <!-- ======= FIM DESTINOS ======= -->
-
-  <!-- NOVO FOOTER (fica acima) -->
-  <section class="pre-footer">
-    <div class="footer-container">
-      <div class="footer-decoration">
-        <img src="../static/img/item-decoracao.png" alt="Decoração footer">
-      </div>
-      <div class="footer-column">
-        <h3>Institucional</h3>
-        <ul>
-          <li><a href="#">Sobre a AutoFácil</a></li>
-          <li><a href="#">Trabalhe conosco</a></li>
-          <li><a href="#">Política de Privacidade</a></li>
-          <li><a href="#">Termos e Condições</a></li>
-          <li><a href="#">Política de Cookies</a></li>
-          <li><a href="#">Código de Conduta</a></li>
-          <li><a href="#">Política Antidiscriminatória</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Para você</h3>
-        <ul>
-          <li><a href="#">Minhas reservas</a></li>
-          <li><a href="#">Categorias de veículos</a></li>
-          <li><a href="#">Promoções e descontos</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Suporte ao cliente</h3>
-        <ul>
-          <li><a href="#">Central de ajuda</a></li>
-          <li><a href="#">Dúvidas frequentes</a></li>
-          <li><a href="#">Requisitos para locação</a></li>
-          <li><a href="#">Gerenciar minha reserva</a></li>
-          <li><a href="#">Fale conosco</a></li>
-          <li><a href="#">Atendimento via WhatsApp</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Faixa decorativa -->
-    <div class="footer-decoration2">
-      <img src="../static/img/item-decoracao(2)].png" alt="decoração footer">
-    </div>
+{% endblock %}
 
 
-  </section>
-
-  <!-- ======= FOOTER ======= -->
-  <footer>
-    <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
-    <div class="footer-social">
-      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
-          title="Whatsapp"></a>
-      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
-          title="Facebook"></a>
-      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
-          title="Instagram"></a>
-      <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
-    </div>
-  </footer>
-
-  <script src="../static/js/script.js"></script>
-</body>
-
-</html>
 
 <!--
 --- PENDÊNCIAS ATUAIS - 1 MÊS ATÉ A ENTREGA ---

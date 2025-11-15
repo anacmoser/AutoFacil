@@ -102,7 +102,7 @@ def login():
             for usuario in USERSpj:
                 if usuario.cnpj == cnpj:
                     if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.id
+                        session['usuario_logado'] = usuario.id 
                         session['usuario_perfil'] = 'pj'
                         if remember:
                             response = make_response(redirect(url_for('index')))

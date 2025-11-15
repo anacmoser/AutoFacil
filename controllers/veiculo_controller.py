@@ -134,7 +134,8 @@ def reserva(veiculo_id):
                 #Se sim, veiculo.status = 'indiponível'
                 #return redirect(url_for('pgPagamento', veiculo=veiculo))
                 return render_template('pagamento.html', veiculo = veiculo)
-        return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo)
+            else:
+                return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo)
     
 
 

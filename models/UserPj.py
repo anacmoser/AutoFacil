@@ -44,6 +44,22 @@ class UserPj(User):
     def nome(self):
         return self._nomeFant
     
+    @property
+    def cargo(self):
+        return self._ramo
+    
+    @property
+    def tamanho(self):
+        return self._tamanho
+    
+    @property
+    def representante(self):
+        return self._nomeRep
+    
+    @property
+    def ramo(self):
+        return self._ramo
+    
 empresa1 = UserPj(
     id=1,
     perfil='pj',

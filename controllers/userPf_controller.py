@@ -68,7 +68,7 @@ def cadastro():
         db.session.commit()
 
         # Redirecionar após o cadastro bem-sucedido
-        return redirect(url_for('pgLogin'))
+        return redirect(url_for('user_bp.pgLogin'))
 
     except Exception as e:
         db.session.rollback()
@@ -124,3 +124,5 @@ def login():
 
     # Se o método for GET (abrir a página de login)
     return render_template('login.html')
+
+# ajustar a logica para aceitas heranca da tabela Cliente -> UserPf/UserPJ

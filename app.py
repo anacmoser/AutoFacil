@@ -20,6 +20,17 @@ from models import db
 from dotenv import load_dotenv
 import os
 from models.UserPf import UserPfDB
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config( 
+  cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 
+  api_key = os.getenv("CLOUDINARY_API_KEY"), 
+  api_secret = os.getenv("CLOUDINARY_API_SECRET"),
+  secure=True
+)
+
 
 load_dotenv()  # carrega o arquivo .env
 
@@ -93,5 +104,3 @@ def erro_interno_servidor(error):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    def __repr__(self):
-        return f'<Cliente {self.nome}>'

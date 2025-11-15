@@ -40,13 +40,8 @@ O trabalho será desenvolvido ao longo de 4 meses por um grupo de 4 integrantes,
 - **Aluguel corporativo** para empresas.  
 - Localização automática da **filial mais próxima**.  
 
-### Funcionalidades de destaque
-- Roteiros de viagem sugeridos.  
-- Depoimentos de clientes.  
-- Aluguel dividido por região/estado.  
-
 ### Front-end
-- Layout *one-page* com seções verticais.  
+- Layout MPA.  
 - Banners impactantes com mensagens diretas.  
 - Seção de **FAQ** para dúvidas comuns.  
 - Menu simples e objetivo.  
@@ -77,8 +72,7 @@ O projeto segue boas práticas de segurança:
 ## ♿ Acessibilidade
 Implementações previstas:
 - Navegação **sem mouse** (via teclado).  
-- Navegação **sem teclado** (via mouse).  
-- Uso sem monitor (para pessoas cegas).  
+- Navegação **sem teclado** (via mouse).   
 - **Alto contraste** e combinações de cores acessíveis.  
 - Evitar elementos piscantes/cintilantes.  
 - Descrições alternativas para imagens e botões.  

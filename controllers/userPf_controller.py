@@ -79,7 +79,6 @@ def cadastro():
 @user_pf_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        print("🟢 Recebi o POST do login!")
         user_input = request.form.get('user', '').strip()  # Pode ser e-mail ou CPF
         senha = request.form.get('password', '')
         remember = request.form.get('lembrar')

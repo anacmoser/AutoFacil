@@ -14,9 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ====== MENU MOBILE ======
-    if (document.getElementById('menuTrigger')) {
+    if (document.querySelector('.menu-trigger')) {
         initMenuMobile();
     }
+
+    // ====== ACESSIBILIDADE ====== 
+    initAcessibilidade();
 
     // ====== FORMULÁRIOS ======
     if (currentPage === 'cadastro' || currentPage === 'aluguel-mensal' || currentPage === 'login' || currentPage === 'login-colaborador') {
@@ -252,6 +255,380 @@ function initMenuMobile() {
         }
     });
 }
+
+// ====== SISTEMA DE ACESSIBILIDADE ======
+/*
+ * AutoFácil - Script Principal
+ * Tarefas: Carrossel, Menu Mobile, Searchbar, Destinos Dinâmicos, Formulários
+ */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const currentPage = document.body.dataset.page;
+
+    // ====== CARROSSEL ======
+    if (currentPage === 'index') {
+        initCarousel();
+        initSearchbar();
+        initDestinos();
+    }
+
+    // ====== MENU MOBILE ======
+    if (document.querySelector('.menu-trigger')) {
+        initMenuMobile();
+    }
+
+    // ====== ACESSIBILIDADE ====== 
+    initAcessibilidade();
+
+    // ====== FORMULÁRIOS ======
+    if (currentPage === 'cadastro' || currentPage === 'aluguel-mensal' || currentPage === 'login') {
+        initFormularios();
+    }
+
+    // ====== PÁGINA ALUGUEL MENSAL ======
+    if (currentPage === 'aluguel-mensal') {
+        initAluguelMensal();
+    }
+
+    // Scroll para topo se houver erro
+    if (typeof erro !== 'undefined' && erro) {
+        window.scrollTo(0, 0);
+    }
+});
+
+// ====== CARROSSEL ======
+function initCarousel() {
+    const imagens = document.querySelectorAll(".carousel img");
+    const dots = document.querySelectorAll(".dot");
+    const prevBtn = document.querySelector(".carousel-btn.prev");
+    const nextBtn = document.querySelector(".carousel-btn.next");
+
+    if (!imagens.length || !prevBtn || !nextBtn) return;
+
+    let index = 0;
+    let carouselInterval;
+
+    function mostrarSlide(n) {
+        // Remove todas as classes active
+        imagens.forEach(img => img.classList.remove("active"));
+        dots.forEach(dot => dot.classList.remove("active"));
+
+        // Atualiza índice
+        index = n;
+        if (index >= imagens.length) index = 0;
+        if (index < 0) index = imagens.length - 1;
+
+        // Aplica classe active
+        imagens[index].classList.add("active");
+        dots[index].classList.add("active");
+    }
+
+    function nextSlide() {
+        mostrarSlide(index + 1);
+    }
+
+    function prevSlide() {
+        mostrarSlide(index - 1);
+    }
+
+    // Event listeners
+    prevBtn.addEventListener("click", () => {
+        prevSlide();
+        resetInterval();
+    });
+
+    nextBtn.addEventListener("click", () => {
+        nextSlide();
+        resetInterval();
+    });
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+            mostrarSlide(i);
+            resetInterval();
+        });
+    });
+
+    function startInterval() {
+        carouselInterval = setInterval(nextSlide, 5000);
+    }
+
+    function resetInterval() {
+        clearInterval(carouselInterval);
+        startInterval();
+    }
+
+    // Inicializar
+    mostrarSlide(0);
+    startInterval();
+}
+
+// ====== SEARCHBAR RESPONSIVA ======
+function initSearchbar() {
+    function updatePlaceholder() {
+        const input = document.querySelector(".marca");
+        if (input) {
+            input.placeholder = window.innerWidth <= 1000 ? "Pesquisar" : "Digite a marca ou modelo";
+        }
+    }
+
+    window.addEventListener("resize", updatePlaceholder);
+    window.addEventListener("load", updatePlaceholder);
+    updatePlaceholder();
+
+    // Posicionamento da searchbar
+    const searchbar = document.querySelector('.searchbar');
+    const header = document.querySelector('header');
+    const carousel = document.querySelector('.carousel');
+
+    if (!searchbar || !header || !carousel) return;
+
+    function positionSearchbar() {
+        searchbar.style.top = '';
+        searchbar.style.left = '';
+        searchbar.style.transform = '';
+
+        const docTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (window.innerWidth > 1000) {
+            const cRect = carousel.getBoundingClientRect();
+            const topAbs = cRect.top + docTop;
+
+            searchbar.style.position = 'absolute';
+            searchbar.style.top = `${topAbs}px`;
+            searchbar.style.left = '50%';
+            searchbar.style.transform = 'translateX(-50%)';
+        } else {
+            const hRect = header.getBoundingClientRect();
+            const sbH = searchbar.offsetHeight || 44;
+            const topAbs = hRect.top + docTop + Math.max(4, (header.offsetHeight - sbH) / 2);
+
+            searchbar.style.position = 'absolute';
+            searchbar.style.top = `${topAbs}px`;
+            searchbar.style.left = '50%';
+            searchbar.style.transform = 'translateX(-50%)';
+        }
+    }
+
+    window.addEventListener('load', positionSearchbar);
+    window.addEventListener('resize', positionSearchbar);
+    window.addEventListener('scroll', function () {
+        if (window.innerWidth > 1000) positionSearchbar();
+    });
+}
+
+// ====== MENU MOBILE ======
+function initMenuMobile() {
+    const menuTriggers = document.querySelectorAll('.menu-trigger');
+
+    if (!menuTriggers.length) return;
+
+    let hoverTimer;
+    let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    function closeMenu(trigger) {
+        trigger.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        const panel = trigger.querySelector('.menu-panel');
+        if (panel) panel.classList.remove('open');
+    }
+
+    function openMenu(trigger) {
+        // Fecha outros menus abertos
+        menuTriggers.forEach(otherTrigger => {
+            if (otherTrigger !== trigger && otherTrigger.classList.contains('open')) {
+                closeMenu(otherTrigger);
+            }
+        });
+
+        trigger.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+        const panel = trigger.querySelector('.menu-panel');
+        if (panel) panel.classList.add('open');
+    }
+
+    menuTriggers.forEach(trigger => {
+        // Para dispositivos com mouse (hover)
+        if (!isTouchDevice) {
+            trigger.addEventListener('mouseenter', () => {
+                clearTimeout(hoverTimer);
+                hoverTimer = setTimeout(() => openMenu(trigger), 200);
+            });
+
+            trigger.addEventListener('mouseleave', () => {
+                clearTimeout(hoverTimer);
+                hoverTimer = setTimeout(() => closeMenu(trigger), 300);
+            });
+
+            const panel = trigger.querySelector('.menu-panel');
+            if (panel) {
+                panel.addEventListener('mouseenter', () => {
+                    clearTimeout(hoverTimer);
+                });
+
+                panel.addEventListener('mouseleave', () => {
+                    hoverTimer = setTimeout(() => closeMenu(trigger), 200);
+                });
+            }
+        }
+
+        // Para dispositivos touch (clique) - mantém a funcionalidade original
+        trigger.addEventListener('click', (e) => {
+            if (isTouchDevice) {
+                e.stopPropagation();
+                trigger.classList.contains('open') ? closeMenu(trigger) : openMenu(trigger);
+            }
+        });
+
+        // Fecha ao clicar fora (para ambos os casos)
+        document.addEventListener('click', (e) => {
+            if (!trigger.contains(e.target)) {
+                closeMenu(trigger);
+            }
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            menuTriggers.forEach(trigger => closeMenu(trigger));
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1000) {
+            menuTriggers.forEach(trigger => closeMenu(trigger));
+        }
+    });
+}
+
+// ====== SISTEMA DE ACESSIBILIDADE ======
+function initAcessibilidade() {
+    console.log('🔧 Iniciando sistema de acessibilidade...');
+    
+    const acessibilidadeTrigger = document.querySelector('.nav-right .menu-trigger:nth-child(2)');
+    console.log('🎯 Botão encontrado:', acessibilidadeTrigger);
+
+    if (!acessibilidadeTrigger) {
+        console.log('❌ Botão de acessibilidade não encontrado!');
+        return;
+    }
+
+    // Configurações - 4 NÍVEIS
+    const configPadrao = {
+        tamanhoFonte: 1, // 1 = normal, 1.25 = grande, 1.5 = muito grande, 1.75 = super grande, 2.0 = máximo
+        altoContraste: false
+    };
+
+    // Carregar configurações
+    function carregarConfiguracoes() {
+        const salvo = localStorage.getItem('acessibilidadeConfig');
+        console.log('💾 Configurações salvas:', salvo);
+        
+        if (salvo) {
+            const config = JSON.parse(salvo);
+            // Garantir que tamanhoFonte seja número
+            config.tamanhoFonte = parseFloat(config.tamanhoFonte) || 1;
+            return config;
+        }
+        return {...configPadrao};
+    }
+
+    // Salvar configurações
+    function salvarConfiguracoes(config) {
+        localStorage.setItem('acessibilidadeConfig', JSON.stringify(config));
+        console.log('💾 Configurações atualizadas:', config);
+    }
+
+    // Aplicar configurações - 4 NÍVEIS
+    function aplicarConfiguracoes(config) {
+        console.log('🎨 Aplicando configurações:', config);
+        const html = document.documentElement;
+        
+        // Remove todas as classes
+        html.classList.remove('fonte-normal', 'fonte-grande', 'fonte-muito-grande', 'fonte-super-grande', 'fonte-maximo', 'alto-contraste');
+        
+        // Aplica fonte - 4 NÍVEIS + MÁXIMO
+        if (config.tamanhoFonte === 1) {
+            html.classList.add('fonte-normal');
+        } else if (config.tamanhoFonte === 1.25) {
+            html.classList.add('fonte-grande');
+        } else if (config.tamanhoFonte === 1.5) {
+            html.classList.add('fonte-muito-grande');
+        } else if (config.tamanhoFonte === 1.75) {
+            html.classList.add('fonte-super-grande');
+        } else if (config.tamanhoFonte === 2.0) {
+            html.classList.add('fonte-maximo');
+        }
+        
+        // Aplica contraste
+        if (config.altoContraste) {
+            html.classList.add('alto-contraste');
+        }
+        
+        console.log('✅ Classes aplicadas:', html.className);
+    }
+
+    // Inicializar
+    let configAtual = carregarConfiguracoes();
+    console.log('📊 Configuração inicial:', configAtual);
+    aplicarConfiguracoes(configAtual);
+
+    // Event listeners
+    const botoes = document.querySelectorAll('.acessibilidade-btn');
+    console.log('🔄 Botões de acessibilidade encontrados:', botoes.length);
+
+    botoes.forEach(botao => {
+        botao.addEventListener('click', function() {
+            const acao = this.dataset.action;
+            console.log('🖱️ Botão clicado:', acao);
+            console.log('📊 Configuração ANTES:', configAtual);
+
+            switch(acao) {
+                case 'aumentar-fonte':
+                    if (configAtual.tamanhoFonte < 2.0) { // MÁXIMO 2.0
+                        configAtual.tamanhoFonte = parseFloat((configAtual.tamanhoFonte + 0.25).toFixed(2)); // +0.25 POR CLIQUE
+                        console.log('📈 Fonte aumentada para:', configAtual.tamanhoFonte);
+                    }
+                    break;
+                    
+                case 'diminuir-fonte':
+                    if (configAtual.tamanhoFonte > 1) { // MÍNIMO 1.0
+                        configAtual.tamanhoFonte = parseFloat((configAtual.tamanhoFonte - 0.25).toFixed(2)); // -0.25 POR CLIQUE
+                        console.log('📉 Fonte diminuída para:', configAtual.tamanhoFonte);
+                    }
+                    break;
+                    
+                case 'alto-contraste':
+                    configAtual.altoContraste = !configAtual.altoContraste;
+                    this.querySelector('span').textContent = configAtual.altoContraste ? '☑' : '▣';
+                    console.log('🎨 Contraste alterado:', configAtual.altoContraste);
+                    break;
+                    
+                case 'resetar':
+                    configAtual = {...configPadrao};
+                    document.querySelector('[data-action="alto-contraste"] span').textContent = '▣';
+                    console.log('🔄 Configurações resetadas');
+                    break;
+            }
+            
+            console.log('📊 Configuração DEPOIS:', configAtual);
+            aplicarConfiguracoes(configAtual);
+            salvarConfiguracoes(configAtual);
+            
+            // Fechar menu
+            const menuPanel = acessibilidadeTrigger.querySelector('.menu-panel');
+            if (menuPanel) {
+                menuPanel.classList.remove('open');
+                acessibilidadeTrigger.classList.remove('open');
+                acessibilidadeTrigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+    
+    console.log('✅ Sistema de acessibilidade configurado!');
+}
+
+// ... (o resto do seu código permanece IGUAL - DESTINOS, FORMULÁRIOS, VALIDAÇÕES, etc.)
 
 // ====== DESTINOS DINÂMICOS ======
 function initDestinos() {

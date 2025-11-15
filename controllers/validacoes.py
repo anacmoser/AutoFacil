@@ -127,8 +127,7 @@ def validarComplemento(complemento):
     if not isinstance(complemento, str) or not complemento.strip():
         return False
     pattern = r'^[a-zA-ZÀ-ÿ\s\d\-]+$'
-    return bool(re.match(pattern, complemento.strip()))
-    
+    return bool(re.match(pattern, complemento.strip()))    
 
 def validacaoGeralPf(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
         validacoes = [

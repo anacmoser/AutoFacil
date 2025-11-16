@@ -315,13 +315,6 @@ html.fonte-maximo {
     font-size: inherit !important;
 }
 
-.fonte-normal *,
-.fonte-grande *,
-.fonte-muito-grande *,
-.fonte-super-grande *,
-.fonte-maximo * {
-    font-size: inherit !important;
-}
 
 /* Estilos para alto contraste (mantém igual) */
 html.alto-contraste,
@@ -875,22 +868,32 @@ body.alto-contraste {
     gap: 5px;
     font-size: 14px;
     color: #555;
+    white-space: nowrap; /* Impede quebra de linha */
 }
 
 .veiculo-detalhe i {
     color: #002f5f;
 }
 
+/* Estilo específico para os valores numéricos */
+.veiculo-detalhe strong {
+    font-weight: 700;
+    margin-right: 2px; /* Pequeno espaçamento entre número e texto */
+}
+
 .veiculo-preco {
-    font-size: 1.5rem;
     color: #002f5f;
     font-weight: 700;
-    margin: 15px 0;
-    text-align: center;
+    margin: 20px 0 15px 0;
+    text-align: left;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    font-size: 1.5rem;
 }
 
 .veiculo-preco span {
-    font-size: 14px;
+    font-size: 16px; /* Aumentei um pouco o span também */
     color: #777;
     font-weight: 400;
 }
@@ -2836,7 +2839,6 @@ input:checked+.toggle-slider:before {
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    position: sticky;
     top: 20px;
     height: fit-content;
 }
@@ -2999,7 +3001,6 @@ input:checked+.toggle-slider:before {
     font-size: 12px;
 }
 
-
 .reserva-preco {
     margin-bottom: 20px;
     padding-bottom: 20px;
@@ -3071,6 +3072,146 @@ input:checked+.toggle-slider:before {
     transform: translateY(-50%);
     color: #777;
     pointer-events: none;
+}
+
+/* ======= VEÍCULOS SIMILARES ======= */
+.veiculos-similares {
+    margin-top: 50px;
+    padding: 30px 0;
+    border-top: 1px solid #eee;
+}
+
+.veiculos-similares h2 {
+    font-size: 1.5rem;
+    color: #002f5f;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.veiculos-similares-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.veiculo-similar-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+    /* remove o scale: 0.95 */
+}
+
+.veiculo-similar-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.veiculo-similar-imagem {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.veiculo-similar-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+}
+
+.veiculo-similar-info {
+    padding: 15px;
+}
+
+.veiculo-similar-categoria {
+    font-size: 10px;
+    color: #ff8c14;
+    font-weight: 600;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.veiculo-similar-nome {
+    font-size: 1.1rem;
+    color: #002f5f;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.veiculo-similar-detalhes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.veiculo-similar-detalhe {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #555;
+    white-space: nowrap;
+}
+
+.veiculo-similar-detalhe i {
+    color: #002f5f;
+    font-size: 11px;
+}
+
+.veiculo-similar-detalhe strong {
+    font-weight: 700;
+    margin-right: 1px;
+}
+
+.veiculo-similar-preco {
+    font-size: 1.3rem;
+    color: #002f5f;
+    font-weight: 700;
+    margin: 12px 0;
+    text-align: left;
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+}
+
+.veiculo-similar-preco span {
+    font-size: 13px;
+    color: #777;
+    font-weight: 400;
+}
+
+.btn-similar-alugar {
+    background: #ff8c14;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+}
+
+.btn-similar-alugar:hover {
+    background: #e67e0f;
+    color: white;
+    text-decoration: none;
 }
 
 /* Estados de disponibilidade */

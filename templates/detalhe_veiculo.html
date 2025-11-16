@@ -1,36 +1,38 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>{{ veiculo.nome }} - AutoFácil</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192"
-        href="{{ url_for('static', filename='img/android-chrome-192x192.png') }}">
-    <link rel="icon" type="image/png" sizes="512x512"
-        href="{{ url_for('static', filename='img/android-chrome-512x512.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>{{ veiculo.nome }} - AutoFácil</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/favicon-16x16.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="192x192"
+    href="{{ url_for('static', filename='img/android-chrome-192x192.png') }}">
+<link rel="icon" type="image/png" sizes="512x512"
+    href="{{ url_for('static', filename='img/android-chrome-512x512.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+<link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Titillium+Web:wght@200;300;400;600;700;900&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
-{% block body %} <body data-page='detalhes-veiculo'> {% endblock %}
+{% block body %}
+
+<body data-page='detalhes-veiculo'> {% endblock %}
 
 
-{% block menu_central %} 
-<div class="nav-center">
-                <a href="/frota" class="nav-btn">Alugar agora</a>
-                <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
-                <a href="/empresas" class="nav-btn">Para empresas</a>
-                {% if session.get('usuario_logado') %}
-                <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
-                {% endif %}
-            </div>
-{% endblock %}
-            
-{% block content %}
+    {% block menu_central %}
+    <div class="nav-center">
+        <a href="/frota" class="nav-btn">Alugar agora</a>
+        <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
+        <a href="/empresas" class="nav-btn">Para empresas</a>
+        {% if session.get('usuario_logado') %}
+        <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+        {% endif %}
+    </div>
+    {% endblock %}
+
+    {% block content %}
     <!-- Conteúdo Principal -->
     <main class="detalhes-container">
         <!-- Navegação de Migalhas -->
@@ -70,64 +72,65 @@
                 </div>
 
                 <!-- Formulário de Reserva -->
-                 <div class="form-reserva">
+                <div class="form-reserva">
                     <h3>Reservar agora</h3>
-                <form action="{{ url_for('veiculo_bp.reserva', veiculo_id=veiculo.id) }}" method="POST">
-                
-                    <div class="form-group">
-                        <label for="localRetirada">Local de retirada</label>
-                        <select id="localRetirada" name="localRetirada" required>
-                            <option value="">Selecione uma agência</option>
-                            <option value="aeroporto-gru">Aeroporto de Guarulhos (GRU)</option>
-                            <option value="aeroporto-cgh">Aeroporto de Congonhas (CGH)</option>
-                            <option value="centro-sp">Centro - São Paulo</option>
-                            <option value="paulista">Av. Paulista - São Paulo</option>
-                        </select>
-                    </div>
+                    <form action="{{ url_for('veiculo_bp.reserva', veiculo_id=veiculo.id) }}" method="POST">
 
-                    <!-- Datas de Retirada e Devolução -->
-                    <div class="datas-reserva">
                         <div class="form-group">
-                            <label for="dataRetirada">Data de retirada</label>
-                            <div class="input-data-container">
-                                <input type="date" id="dataRetirada" min="{{ data_hoje }}" name="dataRetirada" required>
-                                <i class="fas fa-calendar-alt"></i>
+                            <label for="localRetirada">Local de retirada</label>
+                            <select id="localRetirada" name="localRetirada" required>
+                                <option value="">Selecione uma agência</option>
+                                <option value="aeroporto-gru">Aeroporto de Guarulhos (GRU)</option>
+                                <option value="aeroporto-cgh">Aeroporto de Congonhas (CGH)</option>
+                                <option value="centro-sp">Centro - São Paulo</option>
+                                <option value="paulista">Av. Paulista - São Paulo</option>
+                            </select>
+                        </div>
+
+                        <!-- Datas de Retirada e Devolução -->
+                        <div class="datas-reserva">
+                            <div class="form-group">
+                                <label for="dataRetirada">Data de retirada</label>
+                                <div class="input-data-container">
+                                    <input type="date" id="dataRetirada" min="{{ data_hoje }}" name="dataRetirada"
+                                        required>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dataDevolucao">Data de devolução</label>
+                                <div class="input-data-container">
+                                    <input type="date" id="dataDevolucao" min="{{ data_hoje }}" name="dataDev" required>
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="dataDevolucao">Data de devolução</label>
-                            <div class="input-data-container">
-                                <input type="date" id="dataDevolucao" min="{{ data_hoje }}" name="dataDev" required>
-                                <i class="fas fa-calendar-alt"></i>
+                        <!-- Informações de Disponibilidade -->
+                        <div class="disponibilidade-info" id="disponibilidadeInfo">
+                            <div id="statusDisponibilidade">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Selecione as datas para verificar disponibilidade</span>
+                            </div>
+                            <div id="diasReserva" class="dias-reserva" style="display: none;">
+                                <span id="textoDias">0 dias de aluguel</span>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Informações de Disponibilidade -->
-                    <div class="disponibilidade-info" id="disponibilidadeInfo">
-                        <div id="statusDisponibilidade">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Selecione as datas para verificar disponibilidade</span>
-                        </div>
-                        <div id="diasReserva" class="dias-reserva" style="display: none;">
-                            <span id="textoDias">0 dias de aluguel</span>
-                        </div>
-                    </div>
-
-                    {% if status %}
+                        {% if status %}
                         {{ status }}
-                    {% endif %}
+                        {% endif %}
 
-                    <!-- Botão de Reserva -->
-                    {% if session.get('usuario_logado') %}
+                        <!-- Botão de Reserva -->
+                        {% if session.get('usuario_logado') %}
                         <button class="btn-reservar" id="btnReservar" type="submit">
                             <i class="fas fa-car"></i>
                             Reservar Agora
                         </button>
                     </form>
 
-                    
+
                     {% else %}
                     <a href="{{ url_for('user_bp.pgLogin') }}" class="btn-reservar">
                         <i class="fas fa-sign-in-alt"></i>
@@ -250,41 +253,40 @@
             </div>
         </div>
 
-        <!-- Veículos Similares -->
         <section class="veiculos-similares">
             <h2>Veículos similares</h2>
             <div class="veiculos-grid">
-                {% for similar in veiculos_similares %}
-                <div class="veiculo-card">
-                    <div class="veiculo-imagem">
-                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}">
-                            <img src="{{ similar.imagem }}" alt="{{ similar.nome }}">
-                        </a>
-                    </div>
-                    <div class="veiculo-info">
-                        <div class="veiculo-categoria">{{ similar.categoria }}</div>
-                        <h3 class="veiculo-nome">{{ similar.nome }}</h3>
-                        <div class="veiculo-detalhes">
-                            <div class="veiculo-detalhe">
-                                <i class="fas fa-user"></i> {{ similar.nPassageiros }} passageiros
-                            </div>
-                            <div class="veiculo-detalhe">
-                                <i class="fas fa-suitcase"></i> {{ similar.nMalas }} malas
-                            </div>
-                            <div class="veiculo-detalhe">
-                                <i class="fas fa-cog"></i>
-                                {% if similar.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
-                            </div>
-                        </div>
-                        <div class="veiculo-preco">
-                            R$ {{ "%.2f"|format(similar.precoDiario) }} <span>/dia</span>
-                        </div>
-                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}" class="btn-alugar">Ver
-                            detalhes</a>
-                    </div>
+            {% for similar in veiculos_similares[:3] %}
+            <div class="veiculo-similar-card">
+                <div class="veiculo-similar-imagem">
+                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}">
+                        <img src="{{ similar.imagem }}" alt="{{ similar.nome }}">
+                    </a>
                 </div>
-                {% endfor %}
+                <div class="veiculo-similar-info">
+                    <div class="veiculo-similar-categoria">{{ similar.categoria }}</div>
+                    <h3 class="veiculo-similar-nome">{{ similar.nome }}</h3>
+                    <div class="veiculo-similar-detalhes">
+                        <div class="veiculo-similar-detalhe">
+                            <i class="fas fa-user"></i> {{ similar.nPassageiros }} passageiros
+                        </div>
+                        <div class="veiculo-similar-detalhe">
+                            <i class="fas fa-suitcase"></i> {{ similar.nMalas }} malas
+                        </div>
+                        <div class="veiculo-similar-detalhe">
+                            <i class="fas fa-cog"></i>
+                            {% if similar.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
+                        </div>
+                    </div>
+                    <div class="veiculo-similar-preco">
+                        R$ {{ "%.2f"|format(similar.precoDiario) }} <span>/dia</span>
+                    </div>
+                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}"
+                        class="btn-similar-alugar">Ver detalhes</a>
+                </div>
             </div>
+            {% endfor %}
+        </div>
         </section>
     </main>
 
@@ -324,5 +326,4 @@
             </div>
         </div>
     </section>
-{% endblock %}
-   
+    {% endblock %}

@@ -157,3 +157,6 @@ def updatePj():
         user.setAttr('_tamanho', tamanho)
     if user.nomeRep != rep:
         user.setAttr('_nomeRep', rep)
+
+    return render_template('portalCliente.html', user=user)
+    

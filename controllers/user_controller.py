@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint, session, render_template, make_response, redirect, url_for, request, abort
 from models.UserPj import USERSpj
+from models.UserPf import UserPfDB
 
 user_bp = Blueprint('user_bp', __name__)
 
@@ -7,12 +8,16 @@ user_bp = Blueprint('user_bp', __name__)
 def portalCliente():
     user_id = session.get('usuario_logado')
     user_perfil = session.get('usuario_perfil')
+
     if user_perfil == 'pj':
         for user in USERSpj:
             if user.id == user_id:
                 return render_template('portalCliente.html', user = user)
-    #if user_perfil == 'pf':
-        #Lógica com o banco de dados
+            
+    if user_perfil == 'pf':
+        user = UserPfDB.query.get(user_id)    
+        if user:
+            return render_template('portalCliente.html', user = user) 
     return render_template('index.html')
 
 @user_bp.route('/minhasReservas', methods=['GET'])

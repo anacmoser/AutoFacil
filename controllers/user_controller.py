@@ -11,17 +11,16 @@ def portaldoCliente():
     user = session.get('usuario_logado')
     perfil = session.get('usuario_perfil')
 
-    usuario_limpo = sub(r'[^0-9]', '', user)
-
     if perfil == 'pj':
         for userpj in USERSpj:
             if userpj.id == user:
-                render_template('portalCliente.html', user = user)
+                return render_template('portalCliente.html', user = userpj)
     elif perfil == 'pf':
+        usuario_limpo = sub(r'[^0-9]', '', user)
         userpf = UserPfDB.query.filter(or_(UserPfDB.Email == user,UserPfDB.CPF == usuario_limpo)
         ).first()
         if userpf:
-            return render_template('portalCliente.html', user = user)
+            return render_template('portalCliente.html', user = userpf)
     else:
         return render_template('index.html')
 

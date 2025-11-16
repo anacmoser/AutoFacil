@@ -1,0 +1,904 @@
+/* Estilos específicos para a página de pagamento */
+.pagamento-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    background: #f8f9fa;
+    min-height: calc(100vh - 80px);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.breadcrumb a {
+    color: #002f5f;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+    color: #ff6600;
+}
+
+.breadcrumb span {
+    color: #6c757d;
+}
+
+/* Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.page-header h1 {
+    color: #002f5f;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.progress-indicator {
+    display: flex;
+    gap: 30px;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.progress-step.active .step-number {
+    background: #002f5f;
+    color: white;
+}
+
+.step-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.progress-step.active .step-label {
+    color: #002f5f;
+    font-weight: 600;
+}
+
+/* Layout Principal */
+.pagamento-content {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 30px;
+    align-items: start;
+}
+
+.pagamento-dados {
+    background: transparent;
+}
+
+/* Section Header */
+.section-header {
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: #002f5f;
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: #ff6600;
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Seções */
+.dados-cliente-section,
+.metodo-pagamento-section {
+    margin-bottom: 30px;
+}
+
+/* Cards */
+.dados-cliente-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e9ecef;
+}
+
+/* Alerta de Privacidade */
+.alerta-privacidade {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background: #f0f7ff;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    border: 1px solid #cce5ff;
+    align-items: flex-start;
+}
+
+.alerta-privacidade .icone-alerta {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: white;
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #007bff;
+}
+
+.alerta-privacidade .texto-alerta {
+    font-size: 0.9rem;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.alerta-privacidade .texto-alerta a {
+    color: #ff6600;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.alerta-privacidade .texto-alerta a:hover {
+    text-decoration: underline;
+}
+
+/* Info do Cliente - LAYOUT 2 COLUNAS */
+.cliente-info2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.cliente-info2 .info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.cliente-info2 .info-item label {
+    display: block;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+
+.input-with-icon {
+    position: relative;
+    width: 100%;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 14px 16px 14px 45px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f8f9fa;
+    height: 50px;
+    transition: all 0.3s ease;
+}
+
+.input-with-icon input:focus {
+    outline: none;
+    background: white;
+    border-color: #002f5f;
+    box-shadow: 0 0 0 3px rgba(0, 47, 95, 0.1);
+}
+
+.input-with-icon input[readonly] {
+    cursor: default;
+    background: #f8f9fa;
+}
+
+.input-with-icon input[readonly]:focus {
+    background: #f8f9fa;
+    border-color: #e9ecef;
+    box-shadow: none;
+}
+
+/* Form Group (CNH) */
+.form-group {
+    margin-top: 0;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.form-text {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+/* Métodos de Pagamento */
+.metodos-pagamento-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.metodo-pagamento-card {
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.metodo-pagamento-card:hover {
+    border-color: #002f5f;
+    box-shadow: 0 4px 12px rgba(0, 47, 95, 0.1);
+}
+
+.metodo-pagamento-card.selecionado {
+    border-color: #002f5f;
+    background: #f0f7ff;
+    box-shadow: 0 4px 12px rgba(0, 47, 95, 0.15);
+}
+
+.metodo-pagamento-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.metodo-pagamento-card label {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    margin: 0;
+    gap: 16px;
+    position: relative;
+}
+
+.metodo-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    border-radius: 10px;
+    flex-shrink: 0;
+    transition: background 0.3s;
+}
+
+.metodo-pagamento-card.selecionado .metodo-icon {
+    background: #002f5f;
+}
+
+.metodo-icon img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.metodo-pagamento-card.selecionado .metodo-icon img {
+    filter: brightness(0) invert(1);
+}
+
+.metodo-info {
+    flex: 1;
+}
+
+.metodo-info h3 {
+    margin: 0 0 5px 0;
+    color: #002f5f;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.metodo-info p {
+    margin: 0 0 6px 0;
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+.metodo-vantagem {
+    display: inline-block;
+    color: #28a745;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: #d4edda;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.metodo-check {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #dee2e6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+    transition: all 0.3s;
+}
+
+.metodo-pagamento-card.selecionado .metodo-check {
+    background: #002f5f;
+    border-color: #002f5f;
+    color: white;
+}
+
+/* Formulário do Cartão */
+.cartao-form {
+    margin-top: 25px;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.cartao-form h3 {
+    margin: 0 0 20px 0;
+    color: #002f5f;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.form-grid-duplo,
+.form-grid-triplo {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-grid-duplo {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.form-grid-triplo {
+    grid-template-columns: 1fr 1fr 1.5fr;
+}
+
+/* Resumo da Reserva */
+.resumo-reserva {
+    margin-top: 11.5rem;
+}
+
+.resumo-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
+}
+
+.resumo-card h2 {
+    margin: 0 0 20px 0;
+    color: #002f5f;
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f8f9fa;
+}
+
+/* Veículo no Resumo */
+.resumo-veiculo {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.veiculo-imagem-resumo {
+    width: 100px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid #e9ecef;
+}
+
+.veiculo-imagem-resumo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.veiculo-info-resumo {
+    flex: 1;
+}
+
+.veiculo-info-resumo h3 {
+    margin: 0 0 12px 0;
+    color: #002f5f;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.veiculo-detalhes-resumo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.veiculo-detalhes-resumo span {
+    background: #f8f9fa;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+}
+
+/* Detalhes da Reserva */
+.resumo-detalhes {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.detalhe-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.detalhe-item:hover {
+    background: #e9ecef;
+}
+
+.detalhe-item:last-child {
+    margin-bottom: 0;
+}
+
+.detalhe-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 8px;
+    flex-shrink: 0;
+    border: 1px solid #e9ecef;
+}
+
+.detalhe-icon i {
+    font-size: 1.1rem;
+    color: #002f5f;
+}
+
+.detalhe-info {
+    flex: 1;
+}
+
+.detalhe-info strong {
+    display: block;
+    color: #002f5f;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.detalhe-info span {
+    display: block;
+    color: #6c757d;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* Custos */
+.resumo-custos {
+    margin-bottom: 20px;
+}
+
+.custo-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    color: #495057;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.custo-item:last-child {
+    border-bottom: none;
+}
+
+.custo-item.desconto {
+    color: #28a745;
+    background: #f8fff9;
+    padding: 12px 14px;
+    margin: 12px -14px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid #d4edda;
+}
+
+.custo-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0 0 0;
+    margin-top: 12px;
+    border-top: 2px solid #002f5f;
+}
+
+.custo-total strong {
+    color: #002f5f;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* Termos e Condições */
+.termos-condicoes {
+    margin-bottom: 20px;
+}
+
+.termos-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.termos-checkbox:hover {
+    background: #e9ecef;
+}
+
+.termos-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ced4da;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.termos-checkbox input[type="checkbox"]:checked + .checkmark {
+    background: #002f5f;
+    border-color: #002f5f;
+}
+
+.termos-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.termos-texto {
+    font-size: 0.9rem;
+    color: #495057;
+    line-height: 1.5;
+}
+
+.termos-texto a {
+    color: #002f5f;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.termos-texto a:hover {
+    color: #ff6600;
+}
+
+/* Botão de Confirmação */
+.btn-confirmar-pagamento {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #ff6600, #e55a00);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.2);
+}
+
+.btn-confirmar-pagamento:hover:not(:disabled) {
+    background: linear-gradient(135deg, #e55a00, #cc4f00);
+    box-shadow: 0 6px 16px rgba(255, 102, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-confirmar-pagamento:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-confirmar-pagamento:disabled {
+    background: #adb5bd;
+    cursor: not-allowed;
+    opacity: 0.65;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-confirmar-pagamento i {
+    font-size: 1rem;
+}
+
+/* Segurança Info */
+.seguranca-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #28a745;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 12px;
+    background: #f8fff9;
+    border-radius: 6px;
+    border: 1px solid #d4edda;
+}
+
+.seguranca-info i {
+    font-size: 1rem;
+}
+
+/* Mensagens de Erro */
+.mensagem-erro {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Modal de Reserva Efetuada */
+.modal-reserva-sucesso {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-conteudo {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    animation: slideUp 0.4s ease;
+}
+
+.modal-icon {
+    color: #28a745;
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.modal-conteudo h2 {
+    color: #002f5f;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.modal-conteudo p {
+    color: #6c757d;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+.btn-modal-confirmar {
+    background: #002f5f;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-modal-confirmar:hover {
+    background: #001f3f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 47, 95, 0.3);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+
+@media (max-width: 480px) {
+    .modal-conteudo {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .modal-icon {
+        font-size: 3rem;
+    }
+    
+    .modal-conteudo h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .pagamento-content {
+        grid-template-columns: 1fr;
+    }
+
+    .resumo-reserva {
+        margin-top: 0;
+    }
+
+    .metodos-pagamento-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .progress-indicator {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .pagamento-container {
+        padding: 15px;
+    }
+
+    .form-grid-duplo,
+    .form-grid-triplo {
+        grid-template-columns: 1fr;
+    }
+
+    .cliente-info2 {
+        grid-template-columns: 1fr;
+    }
+
+    .dados-cliente-card,
+    .resumo-card,
+    .cartao-form {
+        padding: 20px;
+    }
+
+    .alerta-privacidade {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .alerta-privacidade .icone-alerta {
+        margin: 0 auto;
+    }
+
+    .resumo-veiculo {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .veiculo-imagem-resumo {
+        width: 120px;
+        height: 90px;
+    }
+    
+    .progress-indicator {
+        gap: 15px;
+    }
+    
+    .step-label {
+        font-size: 0.75rem;
+    }
+}

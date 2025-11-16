@@ -279,14 +279,7 @@ header {
     min-width: 20px;
 }
 
-/* Estilos para tamanho de fonte - APLICAR EM TODOS OS ELEMENTOS */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE ======= */
-/* Reset para garantir que não haja efeito cumulativo */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE SUTIL ======= */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE SUTIL ======= */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE ======= */
-/* ======= ACESSIBILIDADE - TAMANHO DE FONTE MAIS VISÍVEL ======= */
-/* ======= ACESSIBILIDADE - 4 NÍVEIS DE TAMANHO ======= */
+
 
 /* Nível 1 - Normal */
 html.fonte-normal {
@@ -4250,6 +4243,15 @@ footer hr {
 }
 
 @media (max-width: 480px) {
+    .metodo-pagamento-card label {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .metodo-icon {
+        margin-right: 0;
+    }
     .hero-colaborador {
         padding: 40px 15px;
     }
@@ -4310,7 +4312,18 @@ footer hr {
 }
 
 @media (max-width: 768px) {
-
+    .pagamento-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-grid-duplo,
+    .form-grid-triplo {
+        grid-template-columns: 1fr;
+    }
+    
+    .resumo-card {
+        position: static;
+    }
     .reserva-item,
     .pagamento-item,
     .metodo-item {

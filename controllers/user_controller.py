@@ -1,24 +1,29 @@
 from flask import Flask, Blueprint, session, render_template, make_response, redirect, url_for, request, abort
 from models.UserPj import USERSpj
 from models.UserPf import UserPfDB
+from re import sub
+from sqlalchemy import or_
 
 user_bp = Blueprint('user_bp', __name__)
 
-@user_bp.route('/portalCliente', methods=['GET'])
-def portalCliente():
-    user_id = session.get('usuario_logado')
-    user_perfil = session.get('usuario_perfil')
+@user_bp.route('/portaldoCliente')
+def portaldoCliente():
+    user = session.get('usuario_logado')
+    perfil = session.get('usuario_perfil')
 
-    if user_perfil == 'pj':
-        for user in USERSpj:
-            if user.id == user_id:
-                return render_template('portalCliente.html', user = user)
-            
-    if user_perfil == 'pf':
-        user = UserPfDB.query.get(user_id)    
-        if user:
-            return render_template('portalCliente.html', user = user) 
-    return render_template('index.html')
+    usuario_limpo = sub(r'[^0-9]', '', user)
+
+    if perfil == 'pj':
+        for userpj in USERSpj:
+            if userpj.id == user:
+                render_template('portalCliente.html', user = user)
+    elif perfil == 'pf':
+        userpf = UserPfDB.query.filter(or_(UserPfDB.Email == user,UserPfDB.CPF == usuario_limpo)
+        ).first()
+        if userpf:
+            return render_template('portalCliente.html', user = user)
+    else:
+        return render_template('index.html')
 
 @user_bp.route('/minhasReservas', methods=['GET'])
 def pgMinhasReservas():

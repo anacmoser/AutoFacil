@@ -80,10 +80,9 @@
                             <label for="localRetirada">Local de retirada</label>
                             <select id="localRetirada" name="localRetirada" required>
                                 <option value="">Selecione uma agência</option>
-                                <option value="aeroporto-gru">Aeroporto de Guarulhos (GRU)</option>
-                                <option value="aeroporto-cgh">Aeroporto de Congonhas (CGH)</option>
-                                <option value="centro-sp">Centro - São Paulo</option>
-                                <option value="paulista">Av. Paulista - São Paulo</option>
+                                {% for local in locais %}
+                                <option value="{{ local.Nome }}">{{ local.Nome }}</option>
+                                {% endfor %}
                             </select>
                         </div>
 

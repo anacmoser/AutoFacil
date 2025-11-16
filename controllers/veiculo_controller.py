@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, abort, request, redirect, url_for
 from datetime import datetime
 import math
 from models.Veiculo import Veiculos
+from models.Locais import Locais
 from models import db
 import cloudinary
 import cloudinary.uploader
@@ -96,8 +97,10 @@ def detalheVeiculo(veiculo_id):
         abort(404)
     
     similares = Veiculos.query.filter_by(categoria=veiculo.categoria).all()
+
+    locais = Locais.query.all()
         
-    return render_template('detalhe_veiculo.html', veiculo=veiculo, veiculos_similares = similares)
+    return render_template('detalhe_veiculo.html', veiculo=veiculo, veiculos_similares = similares, locais = locais)
 
 @veiculo_bp.route('/reserva/<int:veiculo_id>', methods=['POST'])
 def reserva(veiculo_id):

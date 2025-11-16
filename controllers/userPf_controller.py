@@ -1,23 +1,23 @@
 #PESSOA FÍSICA
 
 #Verificar se os campos estão vazios
+#Colocar as VALIDAÇÕES
 
 #Função de cadastro
 #função de login
 
 from flask import Flask, Blueprint, app, render_template, request, session, make_response, redirect, url_for
 from controllers.validacoes import validarEmail, validarCpf
-from models.UserPf import USERSpf, UserPf, addUser
+from models.UserPf import UserPfDB
+from controllers.validacoes import validacaoGeralPf
 import re
-from models.UserPf import db, UserPfDB, UserPf
+from models.UserPf import db, UserPfDB
 from models import db
 user_pf_bp = Blueprint('user_pf_bp', __name__)
 
-id_counter_Pf = 2  
 
-@user_pf_bp.route('/cadastrarPf', methods=['POST'])
+@user_pf_bp.route('/cadastrarPf', methods=['POST'])  
 def cadastro():
-    # Obter dados do formulário
     Nome = request.form.get('nome', '').strip()
     Data_Nascimento = request.form.get('nascimento', '')
     CPF = re.sub(r'[^0-9]', '', request.form.get('cpf', ''))
@@ -32,9 +32,8 @@ def cadastro():
     cidade = request.form.get('cidade', '').strip()
     senha = request.form.get('senha', '')
     confirmar_senha = request.form.get('confirmar', '')
-    termos = request.form.get('termos')
+    termos = request.form.get('termos') 
 
-    # Verificar campos obrigatórios
     campos_obrigatorios = [Nome, Data_Nascimento, CPF, Telefone, Email, cep, logradouro, bairro, estado, cidade, senha, confirmar_senha]
     for campo in campos_obrigatorios:
         if not campo:
@@ -43,8 +42,11 @@ def cadastro():
     if not termos:
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
 
-    if senha != confirmar_senha:
-        return render_template('cadastro.html', erros='As senhas não coincidem.')
+    erros = validacaoGeralPf(Nome, Data_Nascimento, CPF, Telefone, Email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
+    
+    
+    if erros:
+        return render_template('cadastro.html', erros = erros)
 
     try:
         # Criar novo usuário e salvar no MySQL
@@ -76,6 +78,8 @@ def cadastro():
 
     # Caso algo inesperado ocorra e nada retorne antes
     return render_template('cadastro.html', erros='Ocorreu um erro inesperado ao cadastrar.') 
+
+
 @user_pf_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

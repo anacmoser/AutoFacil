@@ -1,21 +1,22 @@
-
 {% extends 'base.html' %}
 {% block title %} <title>AutoFácil</title> {% endblock %}
 
-{% block body %}<body data-page='index'> {% endblock %}
+{% block body %}
 
-{% block menu_central %}
-      <div class="nav-center">
-        <a href="/frota" class="nav-btn">Alugar agora</a>
-        <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
-        <a href="/empresas" class="nav-btn">Para empresas</a>
-        {% if session.get('usuario_logado') %}
-        <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
-        {% endif %}
-      </div>
-{% endblock %}
+<body data-page='index'> {% endblock %}
 
-{% block content %}
+  {% block menu_central %}
+  <div class="nav-center">
+    <a href="/frota" class="nav-btn">Alugar agora</a>
+    <a href="/aluguelMensal" class="nav-btn">Aluguel mensal</a>
+    <a href="/empresas" class="nav-btn">Para empresas</a>
+    {% if session.get('usuario_logado') %}
+    <a href="/minhasReservas" class="nav-btn">Minhas reservas</a>
+    {% endif %}
+  </div>
+  {% endblock %}
+
+  {% block content %}
   <!-- Barra de pesquisa -->
   <div class="searchbar">
     <form>
@@ -56,7 +57,7 @@
   <!-- quadro de vantagens -->
   <section class="vantagens">
     <h2>
-      Vantagens de alugar na 
+      Vantagens de alugar na
       <span class="destaque">AutoFácil</span>
     </h2>
 
@@ -121,13 +122,60 @@
       <div id="destinosGrid" class="destinos-grid" aria-live="polite"></div>
     </div>
   </section>
+  <section class="pre-footer">
+    <div class="footer-container">
+      <div class="footer-decoration">
+        <img src="../static/img/item-decoracao.png" alt="Decoração footer">
+      </div>
+      <div class="footer-column">
+        <h3>Institucional</h3>
+        <ul>
+          <li><a href="#">Sobre a AutoFácil</a></li>
+          <li><a href="#">Trabalhe conosco</a></li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos e Condições</a></li>
+          <li><a href="#">Política de Cookies</a></li>
+          <li><a href="#">Código de Conduta</a></li>
+          <li><a href="#">Política Antidiscriminatória</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Para você</h3>
+        <ul>
+          <li><a href="#">Minhas reservas</a></li>
+          <li><a href="#">Categorias de veículos</a></li>
+          <li><a href="#">Promoções e descontos</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Suporte ao cliente</h3>
+        <ul>
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Dúvidas frequentes</a></li>
+          <li><a href="#">Requisitos para locação</a></li>
+          <li><a href="#">Gerenciar minha reserva</a></li>
+          <li><a href="#">Fale conosco</a></li>
+          <li><a href="#">Atendimento via WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Faixa decorativa -->
+    <div class="footer-decoration2">
+      <img src="../static/img/item-decoracao(2)].png" alt="decoração footer">
+    </div>
+
+
+  </section>
   <script src="../static/js/home.js"></script>
   <script src="../static/js/base.js"></script>
-{% endblock %}
+  {% endblock %}
 
 
 
-<!--
+  <!--
 --- PENDÊNCIAS ATUAIS - 1 MÊS ATÉ A ENTREGA ---
 > BANCO DE DADOS (GUILHERME P.): converter o modelo conceitual para modelo físico, integrar com o projeto.
 > SEGURANÇA DA INFORMAÇÃO (EDUARDO): proteção SQL Injection (validação dos campos), criptografia de senhas (AES), boas práticas de programação (cuidado com JS, uso do MVC, entre outros.

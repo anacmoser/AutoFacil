@@ -60,7 +60,7 @@ function initPortalCliente() {
     
     if (formPerfil) {
         formPerfil.addEventListener('submit', function(e) {
-            e.preventDefault();
+            //e.preventDefault();
             
             inputsPerfil.forEach(input => {
                 input.setAttribute('readonly', true);

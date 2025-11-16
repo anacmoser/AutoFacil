@@ -74,14 +74,21 @@
                 <!-- Formulário de Reserva -->
                 <div class="form-reserva">
                     <h3>Reservar agora</h3>
-                    <form action="{{ url_for('veiculo_bp.reserva', veiculo_id=veiculo.id) }}" method="POST">
+                    <form action="{{ url_for('reserva_bp.reserva', veiculo_id=veiculo.id) }}" method="POST">
 
                         <div class="form-group">
                             <label for="localRetirada">Local de retirada</label>
                             <select id="localRetirada" name="localRetirada" required>
                                 <option value="">Selecione uma agência</option>
                                 {% for local in locais %}
-                                <option value="{{ local.Nome }}">{{ local.Nome }}</option>
+                                <option value="{{ local.Id_Local }}">{{ local.Nome }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="localDevolucao">Local de devolução</label>
+                            <select id="localDevolucao" name="localDevolucao" required>
+                                <option value="">Selecione uma agência</option>
+                                {% for local in locais %}
+                                <option value="{{ local.Id_Local }}">{{ local.Nome }}</option>
                                 {% endfor %}
                             </select>
                         </div>

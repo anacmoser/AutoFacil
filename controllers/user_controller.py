@@ -16,9 +16,7 @@ def portaldoCliente():
             if userpj.id == user:
                 return render_template('portalCliente.html', user = userpj)
     elif perfil == 'pf':
-        usuario_limpo = sub(r'[^0-9]', '', user)
-        userpf = UserPfDB.query.filter(or_(UserPfDB.Email == user,UserPfDB.CPF == usuario_limpo)
-        ).first()
+        userpf = UserPfDB.query.get(session.get('usuario_logado'))
         if userpf:
             return render_template('portalCliente.html', user = userpf)
     else:
@@ -48,3 +46,10 @@ def logout():
     if request.cookies.get('cargo'):
         resposta.set_cookie('cargo', '', expires=0)
     return resposta
+
+"""def getUser(perfil, id):
+    if perfil == 'pf':
+        user = UserPfDB.query.get(id)
+        return user
+    if perfil == 'pj':
+        user = """

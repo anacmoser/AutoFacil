@@ -15,6 +15,7 @@ from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp
 from controllers.colaborador_controller import colaborador_bp
 from controllers.user_controller import user_bp
+from controllers.reserva_controller import reserva_bp
 from flask import Flask, render_template, request
 from models import db
 from dotenv import load_dotenv
@@ -48,6 +49,7 @@ app.register_blueprint(user_pf_bp)
 app.register_blueprint(user_pj_bp)
 app.register_blueprint(colaborador_bp)
 app.register_blueprint(user_bp)
+app.register_blueprint(reserva_bp)
 
 # Rotas
 @app.route('/')

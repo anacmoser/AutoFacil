@@ -10,7 +10,7 @@ class UserPfDB(db.Model):
     CPF = db.Column(db.String(11), unique=True, nullable=False)
     Nome = db.Column(db.String(100), nullable=False)
     Telefone = db.Column(db.String(15))
-    Data_Nascimento = db.Column(db.Date)
+    Data_Nascimento = db.Column(db.Date, nullable=False)
     CEP = db.Column(db.String(20))
     Logradouro = db.Column(db.String(100))
     Numero = db.Column(db.String(10))
@@ -19,3 +19,4 @@ class UserPfDB(db.Model):
     Estado = db.Column(db.String(50))
     Cidade = db.Column(db.String(50))
     Senha = db.Column(db.String(255), nullable=False)
+    img_perfil = db.Column(db.String(2048))

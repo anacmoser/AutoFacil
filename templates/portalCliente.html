@@ -211,7 +211,7 @@
                                 <button class="btn-card-action" id="editar-perfil">Editar</button>
                             </div>
                             <div class="card-content">
-                                <form id="form-perfil">
+                                <form id="form-perfil" action="url_for('user_pj_bp.updatePj')" method="POST">
                                     <div class="form-grid">
                                         <div class="form-group">
                                             <label for="razao-social">Razão Social</label>
@@ -239,8 +239,8 @@
                                             <input type="text" id="ramo" name="ramo" value="{{ user.ramo }}" readonly>
                                         </div>
                                         <div class="form-group">
-                                            <label for="email">Tamanho</label>
-                                            <input type="text" id="email" name="email" value="{{ user.tamanho }}" readonly>
+                                            <label for="tamanho">Tamanho</label>
+                                            <input type="text" id="tamanho" name="tamanho" value="{{ user.tamanho }}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="rep">Representante</label>
@@ -256,8 +256,6 @@
                             </div>
                         </div>
 
-                    {% else %}
-                            <h1>Erro nas condicionais</h1>
                     {% endif %}
                         
                         <div class="dashboard-card">

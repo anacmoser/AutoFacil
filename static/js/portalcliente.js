@@ -8,136 +8,279 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (currentPage === 'portal-cliente') {
         initPortalCliente();
+        initImageUpload(); // Adiciona a função de upload de imagem
     }
 });
 
 // ===== PAGINA PORTAL DO CLIENTE ======
 function initPortalCliente() {
-    // Navegação entre seções
-    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    // Navegação entre seções - NOVOS NOMES
+    const perfilCards = document.querySelectorAll('.perfil-card');
     const portalSections = document.querySelectorAll('.portal-section');
-    
-    sidebarItems.forEach(item => {
-        item.addEventListener('click', function() {
+
+    perfilCards.forEach(card => {
+        card.addEventListener('click', function () {
             const target = this.dataset.target;
-            
-            sidebarItems.forEach(i => i.classList.remove('active'));
+
+            perfilCards.forEach(c => c.classList.remove('active'));
             this.classList.add('active');
-            
+
             portalSections.forEach(section => section.classList.remove('active'));
             document.getElementById(`${target}-section`).classList.add('active');
         });
     });
-    
+
     // Edição de perfil
     const editarPerfilBtn = document.getElementById('editar-perfil');
     const cancelarEdicaoBtn = document.getElementById('cancelar-edicao');
     const formPerfil = document.getElementById('form-perfil');
     const formActionsPerfil = document.getElementById('form-actions-perfil');
-    const inputsPerfil = formPerfil.querySelectorAll('input');
-    
-    if (editarPerfilBtn) {
-        editarPerfilBtn.addEventListener('click', function() {
-            inputsPerfil.forEach(input => {
-                input.removeAttribute('readonly');
-            });
-            formActionsPerfil.style.display = 'block';
+
+    // Edição de endereço
+    const editarEnderecoBtn = document.getElementById('editar-endereco');
+    const cancelarEdicaoEnderecoBtn = document.getElementById('cancelar-edicao-endereco');
+    const formEndereco = document.getElementById('form-endereco');
+
+    // Alteração de Senha - CORREÇÃO: ADICIONAR EVENTO DO BOTÃO
+    const btnAlterarSenha = document.getElementById('btn-alterar-senha');
+    const formAlterarSenha = document.getElementById('form-alterar-senha');
+    const cancelarAlterarSenhaBtn = document.getElementById('cancelar-alterar-senha');
+    const formNovaSenha = document.getElementById('form-nova-senha');
+
+    // Modal de Confirmação de Senha para Editar Dados
+    const modalConfirmarSenha = document.getElementById('modal-confirmar-senha');
+    const formConfirmarSenha = document.getElementById('form-confirmar-senha');
+    const cancelarConfirmacaoBtn = document.getElementById('cancelar-confirmacao');
+    let acaoPendente = null; // Para armazenar qual ação será executada após confirmação
+
+    // ===== EVENTO DO BOTÃO ALTERAR SENHA - ADICIONADO =====
+    if (btnAlterarSenha && formAlterarSenha) {
+        btnAlterarSenha.addEventListener('click', function() {
+            console.log('Botão alterar senha clicado');
+            formAlterarSenha.style.display = 'block';
             this.style.display = 'none';
         });
     }
-    
+
+    // Modificar o evento de editar perfil para pedir senha
+    if (editarPerfilBtn && formPerfil) {
+        editarPerfilBtn.addEventListener('click', function () {
+            acaoPendente = 'editar-perfil';
+            modalConfirmarSenha.style.display = 'block';
+        });
+    }
+
+    // Modificar o evento de editar endereço para pedir senha
+    if (editarEnderecoBtn && formEndereco) {
+        editarEnderecoBtn.addEventListener('click', function () {
+            acaoPendente = 'editar-endereco';
+            modalConfirmarSenha.style.display = 'block';
+        });
+    }
+
     if (cancelarEdicaoBtn) {
-        cancelarEdicaoBtn.addEventListener('click', function() {
-            inputsPerfil.forEach(input => {
-                input.setAttribute('readonly', true);
+        cancelarEdicaoBtn.addEventListener('click', function () {
+            // Bloqueia todos os campos novamente
+            formPerfil.querySelectorAll('input, select').forEach(input => {
+                if (input.tagName === 'SELECT') {
+                    input.disabled = true;
+                } else {
+                    input.setAttribute('readonly', true);
+                }
+                input.style.backgroundColor = '#f5f5f5';
+                input.style.borderColor = '#ddd';
             });
-            formActionsPerfil.style.display = 'none';
+
+            document.getElementById('form-actions-perfil').style.display = 'none';
             editarPerfilBtn.style.display = 'block';
-            
+
             mostrarMensagemTemporaria('Edição cancelada', 'info');
         });
     }
-    
-    if (formPerfil) {
-        formPerfil.addEventListener('submit', function(e) {
-            //e.preventDefault();
-            
-            inputsPerfil.forEach(input => {
-                input.setAttribute('readonly', true);
+
+    if (cancelarEdicaoEnderecoBtn) {
+        cancelarEdicaoEnderecoBtn.addEventListener('click', function () {
+            // Bloqueia todos os campos de endereço
+            formEndereco.querySelectorAll('input, select').forEach(input => {
+                if (input.tagName === 'SELECT') {
+                    input.disabled = true;
+                } else {
+                    input.setAttribute('readonly', true);
+                }
+                input.style.backgroundColor = '#f5f5f5';
+                input.style.borderColor = '#ddd';
             });
-            formActionsPerfil.style.display = 'none';
-            editarPerfilBtn.style.display = 'block';
-            
-            mostrarMensagemTemporaria('Perfil atualizado com sucesso!', 'success');
+
+            document.getElementById('form-actions-endereco').style.display = 'none';
+            editarEnderecoBtn.style.display = 'block';
+
+            mostrarMensagemTemporaria('Edição de endereço cancelada', 'info');
         });
     }
-    
+
+    // Cancelar alteração de senha
+    if (cancelarAlterarSenhaBtn && formAlterarSenha && btnAlterarSenha) {
+        cancelarAlterarSenhaBtn.addEventListener('click', function () {
+            console.log('Cancelar alteração de senha clicado');
+            formAlterarSenha.style.display = 'none';
+            btnAlterarSenha.style.display = 'block';
+            if (formNovaSenha) {
+                formNovaSenha.reset();
+            }
+            limparMensagensErro();
+        });
+    }
+
+    // Formulário de nova senha
+    if (formNovaSenha) {
+        formNovaSenha.addEventListener('submit', function (e) {
+            e.preventDefault();
+            console.log('Formulário de senha submetido');
+
+            const senhaAtual = document.getElementById('senha-atual').value;
+            const novaSenha = document.getElementById('nova-senha').value;
+            const confirmarSenha = document.getElementById('confirmar-senha').value;
+
+            // Validações
+            if (!validarSenha(senhaAtual, novaSenha, confirmarSenha)) {
+                return;
+            }
+
+            // Simular envio para o servidor
+            alterarSenhaNoServidor(senhaAtual, novaSenha);
+        });
+    }
+
+    // Confirmação de Senha
+    if (formConfirmarSenha) {
+        formConfirmarSenha.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const senhaConfirmacao = document.getElementById('senha-confirmacao').value;
+
+            if (!senhaConfirmacao) {
+                mostrarMensagemTemporaria('Por favor, digite sua senha.', 'error');
+                return;
+            }
+
+            // Verificar senha no servidor (simulação)
+            verificarSenhaNoServidor(senhaConfirmacao, function (sucesso) {
+                if (sucesso) {
+                    modalConfirmarSenha.style.display = 'none';
+                    formConfirmarSenha.reset();
+
+                    // Executar a ação pendente
+                    if (acaoPendente === 'editar-perfil') {
+                        liberarEdicaoPerfil();
+                    } else if (acaoPendente === 'editar-endereco') {
+                        liberarEdicaoEndereco();
+                    }
+
+                    acaoPendente = null;
+                } else {
+                    mostrarMensagemTemporaria('Senha incorreta. Tente novamente.', 'error');
+                }
+            });
+        });
+    }
+
+    if (cancelarConfirmacaoBtn) {
+        cancelarConfirmacaoBtn.addEventListener('click', function () {
+            modalConfirmarSenha.style.display = 'none';
+            formConfirmarSenha.reset();
+            acaoPendente = null;
+        });
+    }
+
+    // Toggle para mostrar/ocultar senha
+    const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+    togglePasswordButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            const passwordInput = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+
+            if (passwordInput && passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else if (passwordInput) {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        });
+    });
+
     // Exclusão de conta
     const excluirContaBtn = document.getElementById('excluir-conta');
     const modalExcluir = document.getElementById('modal-excluir');
     const modalClose = document.querySelector('.modal-close');
     const cancelarExclusaoBtn = document.getElementById('cancelar-exclusao');
     const confirmarExclusaoBtn = document.getElementById('confirmar-exclusao');
-    
+
     if (excluirContaBtn) {
-        excluirContaBtn.addEventListener('click', function() {
-            modalExcluir.style.display = 'block';
+        excluirContaBtn.addEventListener('click', function () {
+            if (modalExcluir) modalExcluir.style.display = 'block';
         });
     }
-    
+
     if (modalClose) {
-        modalClose.addEventListener('click', function() {
-            modalExcluir.style.display = 'none';
+        modalClose.addEventListener('click', function () {
+            if (modalExcluir) modalExcluir.style.display = 'none';
         });
     }
-    
+
     if (cancelarExclusaoBtn) {
-        cancelarExclusaoBtn.addEventListener('click', function() {
-            modalExcluir.style.display = 'none';
+        cancelarExclusaoBtn.addEventListener('click', function () {
+            if (modalExcluir) modalExcluir.style.display = 'none';
         });
     }
-    
+
     if (confirmarExclusaoBtn) {
-        confirmarExclusaoBtn.addEventListener('click', function() {
-            modalExcluir.style.display = 'none';
+        confirmarExclusaoBtn.addEventListener('click', function () {
+            if (modalExcluir) modalExcluir.style.display = 'none';
             mostrarMensagemTemporaria('Conta excluída com sucesso!', 'success');
-            
+
             setTimeout(() => {
                 window.location.href = '/';
             }, 2000);
         });
     }
-    
-    window.addEventListener('click', function(e) {
+
+    window.addEventListener('click', function (e) {
         if (e.target === modalExcluir) {
             modalExcluir.style.display = 'none';
         }
+        if (e.target === modalConfirmarSenha) {
+            modalConfirmarSenha.style.display = 'none';
+            formConfirmarSenha.reset();
+            acaoPendente = null;
+        }
     });
-    
+
     // Filtros de reservas e pagamentos
     const filtroStatus = document.getElementById('filtro-status');
     const filtroPagamento = document.getElementById('filtro-pagamento');
-    
+
     if (filtroStatus) {
-        filtroStatus.addEventListener('change', function() {
+        filtroStatus.addEventListener('change', function () {
             mostrarMensagemTemporaria(`Filtrando por: ${this.options[this.selectedIndex].text}`, 'info');
         });
     }
-    
+
     if (filtroPagamento) {
-        filtroPagamento.addEventListener('change', function() {
+        filtroPagamento.addEventListener('change', function () {
             mostrarMensagemTemporaria(`Filtrando por: ${this.options[this.selectedIndex].text}`, 'info');
         });
     }
-    
+
     // Ações de reservas
     const botoesReserva = document.querySelectorAll('.reserva-actions .btn-action');
-    
+
     botoesReserva.forEach(botao => {
-        botao.addEventListener('click', function() {
+        botao.addEventListener('click', function () {
             const acao = this.textContent.trim();
-            
-            switch(acao) {
+
+            switch (acao) {
                 case 'Detalhes':
                     mostrarMensagemTemporaria('Abrindo detalhes da reserva...', 'info');
                     break;
@@ -155,15 +298,15 @@ function initPortalCliente() {
             }
         });
     });
-    
+
     // Ações de pagamentos
     const botoesPagamento = document.querySelectorAll('.pagamento-actions .btn-action');
-    
+
     botoesPagamento.forEach(botao => {
-        botao.addEventListener('click', function() {
+        botao.addEventListener('click', function () {
             const acao = this.textContent.trim();
-            
-            switch(acao) {
+
+            switch (acao) {
                 case 'Pagar':
                     mostrarMensagemTemporaria('Abrindo página de pagamento...', 'info');
                     break;
@@ -176,48 +319,249 @@ function initPortalCliente() {
             }
         });
     });
-    
-    function mostrarMensagemTemporaria(mensagem, tipo = 'info') {
-        const mensagemEl = document.createElement('div');
-        mensagemEl.className = `mensagem-temporaria mensagem-${tipo}`;
-        mensagemEl.textContent = mensagem;
+}
 
-        Object.assign(mensagemEl.style, {
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            padding: '15px 20px',
-            borderRadius: '6px',
-            color: 'white',
-            fontWeight: '600',
-            zIndex: '10000',
-            boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
-            transform: 'translateX(100%)',
-            transition: 'transform 0.3s ease'
+// ===== FUNÇÕES AUXILIARES PARA SENHA =====
+
+function liberarEdicaoPerfil() {
+    const formPerfil = document.getElementById('form-perfil');
+    const editarPerfilBtn = document.getElementById('editar-perfil');
+
+    // Determina se é PJ ou PF
+    const isPJ = document.getElementById('CNPJ') !== null;
+    const camposEditaveisPF = ['email', 'telefone', 'celular', 'cnh'];
+    const camposEditaveisPJ = ['email', 'telefone', 'celular', 'ramo', 'tamanho', 'representante', 'cargo_representante'];
+    const camposLiberar = isPJ ? camposEditaveisPJ : camposEditaveisPF;
+
+    // Libera apenas os campos permitidos
+    formPerfil.querySelectorAll('input, select').forEach(input => {
+        const fieldName = input.name || input.id;
+        if (camposLiberar.includes(fieldName)) {
+            if (input.tagName === 'SELECT') {
+                input.disabled = false;
+            } else {
+                input.removeAttribute('readonly');
+            }
+            input.style.backgroundColor = '#fff';
+            input.style.borderColor = '#3669a4';
+        }
+    });
+
+    document.getElementById('form-actions-perfil').style.display = 'flex';
+    editarPerfilBtn.style.display = 'none';
+
+    mostrarMensagemTemporaria('Dados liberados para edição', 'success');
+}
+
+function liberarEdicaoEndereco() {
+    const formEndereco = document.getElementById('form-endereco');
+    const editarEnderecoBtn = document.getElementById('editar-endereco');
+
+    // Libera todos os campos de endereço (incluindo o select de estado)
+    formEndereco.querySelectorAll('input, select').forEach(input => {
+        if (input.tagName === 'SELECT') {
+            input.disabled = false;
+        } else {
+            input.removeAttribute('readonly');
+        }
+        input.style.backgroundColor = '#fff';
+        input.style.borderColor = '#3669a4';
+    });
+
+    document.getElementById('form-actions-endereco').style.display = 'flex';
+    editarEnderecoBtn.style.display = 'none';
+
+    mostrarMensagemTemporaria('Endereço liberado para edição', 'success');
+}
+
+function validarSenha(senhaAtual, novaSenha, confirmarSenha) {
+    let valido = true;
+    limparMensagensErro();
+
+    console.log('Validando senhas...');
+
+    // Validar senha atual
+    if (!senhaAtual || senhaAtual.length === 0) {
+        mostrarErroCampo('senha-atual', 'Digite sua senha atual');
+        valido = false;
+    }
+
+    // Validar nova senha
+    if (!novaSenha || novaSenha.length < 6) {
+        mostrarErroCampo('nova-senha', 'A senha deve ter pelo menos 6 caracteres');
+        valido = false;
+    }
+
+    // Validar confirmação
+    if (!confirmarSenha || novaSenha !== confirmarSenha) {
+        mostrarErroCampo('confirmar-senha', 'As senhas não coincidem');
+        valido = false;
+    }
+
+    // Validar se nova senha é diferente da atual
+    if (novaSenha && senhaAtual && novaSenha === senhaAtual) {
+        mostrarErroCampo('nova-senha', 'A nova senha deve ser diferente da atual');
+        valido = false;
+    }
+
+    console.log('Validação resultado:', valido);
+    return valido;
+}
+
+function mostrarErroCampo(campoId, mensagem) {
+    const campo = document.getElementById(campoId);
+    if (!campo) {
+        console.error('Campo não encontrado:', campoId);
+        return;
+    }
+    
+    campo.classList.add('campo-erro');
+
+    // Remove mensagem de erro anterior se existir
+    const erroAnterior = campo.parentNode.querySelector('.mensagem-erro');
+    if (erroAnterior) {
+        erroAnterior.remove();
+    }
+
+    // Adiciona nova mensagem de erro
+    const mensagemErro = document.createElement('span');
+    mensagemErro.className = 'mensagem-erro';
+    mensagemErro.textContent = mensagem;
+    campo.parentNode.appendChild(mensagemErro);
+}
+
+function limparMensagensErro() {
+    document.querySelectorAll('.mensagem-erro').forEach(erro => erro.remove());
+    document.querySelectorAll('.campo-erro').forEach(campo => campo.classList.remove('campo-erro'));
+}
+
+// ===== SIMULAÇÃO DE CHAMADAS AO SERVIDOR =====
+
+function alterarSenhaNoServidor(senhaAtual, novaSenha) {
+    console.log('Enviando senha para o servidor...');
+
+    // Simular requisição AJAX
+    mostrarMensagemTemporaria('Alterando senha...', 'info');
+
+    setTimeout(() => {
+        // Simular sucesso (na prática, você faria uma requisição real)
+        const sucesso = true; // Simular sucesso
+
+        if (sucesso) {
+            mostrarMensagemTemporaria('Senha alterada com sucesso!', 'success');
+            const formAlterarSenha = document.getElementById('form-alterar-senha');
+            const btnAlterarSenha = document.getElementById('btn-alterar-senha');
+            const formNovaSenha = document.getElementById('form-nova-senha');
+            
+            if (formAlterarSenha) formAlterarSenha.style.display = 'none';
+            if (btnAlterarSenha) btnAlterarSenha.style.display = 'block';
+            if (formNovaSenha) {
+                formNovaSenha.reset();
+                limparMensagensErro();
+            }
+        } else {
+            mostrarMensagemTemporaria('Erro ao alterar senha. Verifique a senha atual.', 'error');
+        }
+    }, 1500);
+}
+
+function verificarSenhaNoServidor(senha, callback) {
+    // Simular verificação no servidor
+    setTimeout(() => {
+        // Na prática, você faria uma requisição real para verificar a senha
+        const senhaCorreta = true; // Simular senha correta
+
+        callback(senhaCorreta);
+    }, 1000);
+}
+
+// ===== FUNÇÃO DE UPLOAD DE IMAGEM =====
+function initImageUpload() {
+    const fileInput = document.getElementById('file-input');
+    const avatarImage = document.getElementById('avatar-image');
+    const alterarFotoBtn = document.getElementById('alterar-foto');
+
+    if (alterarFotoBtn && fileInput && avatarImage) {
+        alterarFotoBtn.addEventListener('click', function () {
+            fileInput.click();
         });
 
-        const cores = {
-            success: '#28a745',
-            error: '#dc3545',
-            warning: '#ffc107',
-            info: '#17a2b8'
-        };
-
-        mensagemEl.style.backgroundColor = cores[tipo] || cores.info;
-
-        document.body.appendChild(mensagemEl);
-
-        setTimeout(() => {
-            mensagemEl.style.transform = 'translateX(0)';
-        }, 100);
-
-        setTimeout(() => {
-            mensagemEl.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (mensagemEl.parentNode) {
-                    mensagemEl.parentNode.removeChild(mensagemEl);
+        fileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Verifica se é uma imagem
+                if (!file.type.startsWith('image/')) {
+                    mostrarMensagemTemporaria('Por favor, selecione uma imagem válida.', 'error');
+                    return;
                 }
-            }, 300);
-        }, 3000);
+
+                // Verifica o tamanho do arquivo (máximo 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    mostrarMensagemTemporaria('A imagem deve ter no máximo 5MB.', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    avatarImage.src = e.target.result;
+                    mostrarMensagemTemporaria('Foto atualizada com sucesso!', 'success');
+
+                    // Aqui você pode adicionar código para salvar a imagem no servidor
+                    // salvarImagemNoServidor(e.target.result);
+                };
+
+                reader.onerror = function () {
+                    mostrarMensagemTemporaria('Erro ao carregar a imagem.', 'error');
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
     }
+}
+
+// ===== FUNÇÃO AUXILIAR PARA MENSAGENS TEMPORÁRIAS =====
+function mostrarMensagemTemporaria(mensagem, tipo = 'info') {
+    const mensagemEl = document.createElement('div');
+    mensagemEl.className = `mensagem-temporaria mensagem-${tipo}`;
+    mensagemEl.textContent = mensagem;
+
+    Object.assign(mensagemEl.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        padding: '15px 20px',
+        borderRadius: '6px',
+        color: 'white',
+        fontWeight: '600',
+        zIndex: '10000',
+        boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
+        transform: 'translateX(100%)',
+        transition: 'transform 0.3s ease'
+    });
+
+    const cores = {
+        success: '#28a745',
+        error: '#dc3545',
+        warning: '#ffc107',
+        info: '#17a2b8'
+    };
+
+    mensagemEl.style.backgroundColor = cores[tipo] || cores.info;
+
+    document.body.appendChild(mensagemEl);
+
+    setTimeout(() => {
+        mensagemEl.style.transform = 'translateX(0)';
+    }, 100);
+
+    setTimeout(() => {
+        mensagemEl.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (mensagemEl.parentNode) {
+                mensagemEl.parentNode.removeChild(mensagemEl);
+            }
+        }, 300);
+    }, 3000);
 }

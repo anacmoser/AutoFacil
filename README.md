@@ -26,7 +26,7 @@ O trabalho será desenvolvido ao longo de 4 meses por um grupo de 4 integrantes,
 ## 🛠️ Tecnologias Utilizadas
 - **Front-end:** HTML, CSS, JavaScript  
 - **Back-end:** Python + Flask  
-- **Banco de Dados:** SGDB  
+- **Banco de Dados:** SQL - MySQL  
 - **Design:** Wireframes, UX/UI, paleta de cores baseada em psicologia das cores  
 - **Acessibilidade:** eMag – navegação sem mouse/teclado, alto contraste, suporte a cromodeficiências  
 

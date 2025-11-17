@@ -5,6 +5,7 @@ from controllers.user_controller import getUser
 from models.Veiculo import Veiculos
 from models.Reservas import Reservas
 from models.Locais import Locais
+from models.UserPf import UserPfDB
 from sqlalchemy import and_
 from models import db
 
@@ -59,22 +60,27 @@ def reserva(veiculo_id):
                 else:
                     raise ValueError('Algo deu errado')
 
-@reserva_bp.route('/confirmarReserva/<int:id_reserva>', methods=['POST'])
+@reserva_bp.route('/confirmarReserva/<int:id_reserva>', methods=['POST'])  #Essa rota não está sendo chamada, provavelmente o js não está permitindo o acesso à rota
 def confirmarReserva(id_reserva):
     user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
     reserva = Reservas.query.get(id_reserva)
     veiculo = Veiculos.query.get(reserva.Id_Veiculo)
-    if not user.CNH:
-        cnh = request.form.get('cnh', '')
-        if not validarCNH(cnh):          
-            return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva, erro = 'CNH inválida')
-        
-        user.CNH = cnh
-        db.session.commit()  
 
-    reserva = Reservas.query.get(id_reserva)
-    reserva.Status = 'confirmada'
-    db.session.commit()  
+    if session.get('usuario_perfil') == 'pf':
+        if not user.CNH:
+            cnh = request.form.get('cnh', '')
+            if not validarCNH(cnh):          
+                return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva, erro = 'CNH inválida')
+            
+            UserPfDB.query.filter_by(Id_Cliente=session.get('usuario_logado')).update({ #A cnh não está atualizando, pode ser conflito com o js ou o problema é o comando no bd
+                "CNH": cnh
+            })
+            db.session.commit() 
+
+    Reservas.query.filter_by(Id_Reserva=id_reserva).update({
+        "Status": 'confirmada'  #O status também não está atualizando
+    })
+    db.session.commit() 
     return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva)
     
 

@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 mostrarModalReserva();
                 
                 // Para enviar de verdade, descomente:
-                // formPagamento.submit();
+                formPagamento.submit();
             }, 2000);
         });
     }

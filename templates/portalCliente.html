@@ -542,11 +542,21 @@
                                 <button class="btn-admin">
                                     <i class="fas fa-shield-alt"></i> Verificar Dispositivos
                                 </button>
-                            </div>
+                            </div> 
 
                             <!-- Formulário de Alteração de Senha (inicialmente oculto) -->
                             <div class="form-alterar-senha" id="form-alterar-senha" style="display: none;">
-                                <form id="form-nova-senha">
+                                {% if erros %}
+                                    <div class="alert alert-danger">
+                                        <strong>Por favor, corrija os seguintes erros:</strong>
+                                        <ul>
+                                            {% for erro in erros %}
+                                            <li>{{ erro }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                    <form id="form-nova-senha" action="{{ url_for('user_bp.atualizarSenha') }}">
                                     <div class="form-group">
                                         <label for="senha-atual">Senha Atual</label>
                                         <div class="password-wrapper">

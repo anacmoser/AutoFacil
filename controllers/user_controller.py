@@ -1,7 +1,9 @@
 from flask import Flask, Blueprint, session, render_template, make_response, redirect, url_for, request, abort
 from models.UserPj import USERSpj
 from models.UserPf import UserPfDB
+from controllers.validacoes import validarSenha
 from re import sub
+from models import db
 from sqlalchemy import or_
 
 user_bp = Blueprint('user_bp', __name__)
@@ -35,6 +37,39 @@ def pgLogin():
 @user_bp.route('/cadastro', methods=['GET'])
 def pgCadastro():
     return render_template('cadastro.html')
+
+@user_bp.route('/atualizarSenha', methods=['POST'])
+def atualizarSenha():
+    senha_atual = request.form.get('senha_atual')
+    nova_senha = request.form.get('nova_senha')
+    confirmar = request.form.get('confirmar_senha')
+
+    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+    erros = []
+    if user.Senha != senha_atual:
+        erros.append('Senha atual incorreta')
+    if not validarSenha(nova_senha):
+        erros.append('A nova senha deve conter letras maiúsculas e minúsculas e pelo menos 8 caracteres')
+    if nova_senha != confirmar:
+        erros.append('As senhas não coincidem')
+
+    if erros:
+        return render_template('portalCliente', erros = erros)
+    
+    if session.get('usuario_perfil') == 'pf':
+        UserPfDB.query.filter_by(Id_Cliente=session.get('usuario_logado')).update({  #A senha não está atualizando, pode ser conflito com o js ou o problema é o comando no bd
+            "Senha": nova_senha
+        })
+        db.session.commit() 
+
+        return render_template('portalCliente.html')
+
+@user_bp.route('/excluirConta', methods=['POST'])
+def excluir():
+    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado')) #Mesmo problema das outras rotas, pd ser js ou comando sql
+    db.session.delete(user) 
+    db.session.commit()
+    return redirect(url_for('logout'))
 
 @user_bp.route('/logout', methods=['GET']) 
 def logout():

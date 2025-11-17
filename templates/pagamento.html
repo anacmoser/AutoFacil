@@ -80,7 +80,7 @@
                                 <label>Nome Completo</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-user"></i>
-                                    <input type="text" value="{{ user.nome if user else 'Ana Julia Cardoso Moser' }}"
+                                    <input type="text" value="{{ user.Nome }}"
                                         readonly>
                                 </div>
                             </div>
@@ -88,14 +88,14 @@
                                 <label>CPF</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-id-card"></i>
-                                    <input type="text" value="{{ user.cpf if user else '608.387.428-90' }}" readonly>
+                                    <input type="text" value="{{ user.CPF }}" readonly>
                                 </div>
                             </div>
                             <div class="info-item">
                                 <label>E-mail</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-envelope"></i>
-                                    <input type="email" value="{{ user.email if user else 'anajcmoser@gmail.com' }}"
+                                    <input type="email" value="{{ user.Email }}"
                                         readonly>
                                 </div>
                             </div>
@@ -103,10 +103,19 @@
                                 <label>Telefone</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-phone"></i>
-                                    <input type="tel" value="{{ user.telefone if user else '(11) 95383-3219' }}"
+                                    <input type="tel" value="{{ user.Telefone }}"
                                         readonly>
                                 </div>
                             </div>
+                            <div class="form-group">
+                            <label for="cnh">Número da CNH *</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-id-card"></i>
+                                <input type="text" id="cnh" name="cnh" placeholder="{{ user.CNH if user.CNH else 'Digite o número da sua CNH' }}"
+                                    maxlength="11">
+                            </div>
+                            <small class="form-text">Informe sua Carteira Nacional de Habilitação</small>
+                        </div>
                         </div>
                         {% elif session.get('usuario_perfil') == 'pj' %}
                         <!-- Pessoa Jurídica -->
@@ -146,15 +155,7 @@
                         {% endif %}
 
                         <!-- CNH -->
-                        <div class="form-group">
-                            <label for="cnh">Número da CNH *</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-id-card"></i>
-                                <input type="text" id="cnh" name="cnh" placeholder="Digite o número da sua CNH"
-                                    maxlength="11">
-                            </div>
-                            <small class="form-text">Informe sua Carteira Nacional de Habilitação</small>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -387,7 +388,7 @@
                     </div>
 
                     <!-- Botão de Confirmação -->
-                    <form action="{{ url_for('veiculo_bp.reserva', veiculo_id=veiculo.id) }}" method="POST"
+                    <form action="{{ url_for('reserva_bp.reserva', veiculo_id=veiculo.id) }}" method="POST"
                         id="form-pagamento">
                         <input type="hidden" name="metodo_pagamento" id="metodo-pagamento-hidden">
                         <input type="hidden" name="cnh" id="cnh-hidden">

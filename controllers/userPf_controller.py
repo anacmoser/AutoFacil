@@ -115,7 +115,8 @@ def login():
             return render_template('login.html', erro='Senha incorreta')
 
         # Login bem-sucedido
-        session['usuario_logado'] = user_input  #Salvar por id!!
+
+        session['usuario_logado'] = user.Id_Cliente 
         session['usuario_perfil'] = 'pf'
 
         if remember:

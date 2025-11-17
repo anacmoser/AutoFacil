@@ -102,27 +102,7 @@ def detalheVeiculo(veiculo_id):
         
     return render_template('detalhe_veiculo.html', veiculo=veiculo, veiculos_similares = similares, locais = locais)
 
-@veiculo_bp.route('/reserva/<int:veiculo_id>', methods=['POST'])
-def reserva(veiculo_id):
-    formato='%Y-%m-%d'
-    data_ret = datetime.strptime(request.form.get('dataRetirada'), formato).date()
-    data_dev = datetime.strptime(request.form.get('dataDev'), formato).date()
 
-    dias = (data_dev - data_ret).days
-
-    local = request.form.get('localRetirada')
-
-    for veiculo in Veiculos.query:
-        if veiculo.id == veiculo_id:
-            if veiculo.status == 'disponível':
-                #Verifica se há este carro nesse local
-                #Verifica se esse carro deste local está reservado entre as data_ret e data_dev
-                #Se sim, veiculo.status = 'indiponível'
-                #return redirect(url_for('pgPagamento', veiculo=veiculo))
-                #valorTotal = veiculo.precoDiario * dias * local.porcentagem
-                valorTotal = veiculo.precoDiario * dias
-                return render_template('pagamento.html', veiculo = veiculo, valorTotal = valorTotal)
-        #return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo)
     
 @veiculo_bp.route('/upload/<int:veiculo_id>', methods=['POST'])
 def upload_imagem(veiculo_id):

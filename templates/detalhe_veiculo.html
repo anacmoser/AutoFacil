@@ -81,14 +81,14 @@
                             <select id="localRetirada" name="localRetirada" required>
                                 <option value="">Selecione uma agência</option>
                                 {% for local in locais %}
-                                <option value="{{ local.Id_Local }}">{{ local.Nome }}</option>
+                                <option value="{{ local.Id_Local }}" >{{ local.Nome }}</option>
                                 {% endfor %}
                             </select>
                             <label for="localDevolucao">Local de devolução</label>
                             <select id="localDevolucao" name="localDevolucao" required>
                                 <option value="">Selecione uma agência</option>
                                 {% for local in locais %}
-                                <option value="{{ local.Id_Local }}">{{ local.Nome }}</option>
+                                <option value="{{ local.Id_Local }}" >{{ local.Nome }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -98,7 +98,7 @@
                             <div class="form-group">
                                 <label for="dataRetirada">Data de retirada</label>
                                 <div class="input-data-container">
-                                    <input type="date" id="dataRetirada" min="{{ data_hoje }}" name="dataRetirada"
+                                    <input type="date" id="dataRetirada" min="{{ data_hoje }}" name="dataRetirada" value="{{ request.form.dataRetirada if request.form }}"
                                         required>
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
@@ -107,7 +107,7 @@
                             <div class="form-group">
                                 <label for="dataDevolucao">Data de devolução</label>
                                 <div class="input-data-container">
-                                    <input type="date" id="dataDevolucao" min="{{ data_hoje }}" name="dataDev" required>
+                                    <input type="date" id="dataDevolucao" min="{{ data_hoje }}" name="dataDev" value="{{ request.form.dataDev if request.form }}" required>
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </div>

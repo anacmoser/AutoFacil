@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import and_
 from models import db
 
 class Reservas(db.Model):

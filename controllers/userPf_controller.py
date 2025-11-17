@@ -121,7 +121,7 @@ def login():
 
         if remember:
             response = make_response(redirect(url_for('index')))
-            response.set_cookie('user', str(user_input), max_age=60*60*72)  #Coloque somente o email no cookie
+            response.set_cookie('user', user.Id_Cliente, max_age=60*60*72)  #Coloque somente o email no cookie
             response.set_cookie('perfil', 'pf', max_age=60*60*72)
             return response
 

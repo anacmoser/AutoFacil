@@ -75,6 +75,14 @@
 
                         {% if session.get('usuario_perfil') == 'pf' %}
                         <!-- Pessoa Física -->
+                         {% if erro %}
+                            <div class="alert alert-danger">
+                                <strong>Por favor, corrija os seguintes erros:</strong>
+                                <ul>
+                                    <li>{{ erro }}</li>
+                                </ul>
+                            </div>
+                        {% endif %}
                         <div class="cliente-info2">
                             <div class="info-item">
                                 <label>Nome Completo</label>
@@ -112,7 +120,7 @@
                             <div class="input-with-icon">
                                 <i class="fas fa-id-card"></i>
                                 <input type="text" id="cnh" name="cnh" placeholder="{{ user.CNH if user.CNH else 'Digite o número da sua CNH' }}"
-                                    maxlength="11">
+                                    maxlength="11" required>
                             </div>
                             <small class="form-text">Informe sua Carteira Nacional de Habilitação</small>
                         </div>
@@ -332,9 +340,8 @@
                             </div>
                             <div class="detalhe-info">
                                 <strong>Retirada</strong>
-                                <span id="local-retirada-resumo">{{ session.get('local_retirada', 'Aeroporto de
-                                    Guarulhos (GRU)') }}</span>
-                                <span id="data-retirada-resumo">{{ session.get('data_retirada', '15/03/2025') }} às
+                                <span id="local-retirada-resumo">{{ reserva.local_retirada }}</span>
+                                <span id="data-retirada-resumo">{{ reserva.Data_Retirada }} às
                                     10:00</span>
                             </div>
                         </div>
@@ -345,9 +352,8 @@
                             </div>
                             <div class="detalhe-info">
                                 <strong>Devolução</strong>
-                                <span id="local-devolucao-resumo">{{ session.get('local_devolucao', 'Aeroporto de
-                                    Guarulhos (GRU)') }}</span>
-                                <span id="data-devolucao-resumo">{{ session.get('data_devolucao', '20/03/2025') }} às
+                                <span id="local-devolucao-resumo">{{ reserva.local_devolucao }}</span>
+                                <span id="data-devolucao-resumo">{{ reserva.Data_Devolucao }} às
                                     10:00</span>
                             </div>
                         </div>
@@ -356,8 +362,8 @@
                     <!-- Custos -->
                     <div class="resumo-custos">
                         <div class="custo-item">
-                            <span>Diárias (5 dias)</span>
-                            <span>R$ {{ "%.2f"|format(veiculo.precoDiario * 5) }}</span>
+                            <span>Diárias</span>
+                            <span>R$ {{ "%.2f"|format(reserva.Valor_Total - 45) }}</span>
                         </div>
                         <div class="custo-item">
                             <span>Proteção Total</span>
@@ -373,7 +379,7 @@
                         </div>
                         <div class="custo-total">
                             <strong>Total</strong>
-                            <strong id="total-reserva">R$ {{ "%.2f"|format(veiculo.precoDiario * 5 + 45) }}</strong>
+                            <strong id="total-reserva">R$ {{ "%.2f"|format(reserva.Valor_Total) }}</strong>
                         </div>
                     </div>
 
@@ -388,7 +394,7 @@
                     </div>
 
                     <!-- Botão de Confirmação -->
-                    <form action="{{ url_for('reserva_bp.reserva', veiculo_id=veiculo.id) }}" method="POST"
+                    <form action="{{ url_for('reserva_bp.confirmarReserva', id_reserva = reserva.Id_Reserva) }}" method="POST"
                         id="form-pagamento">
                         <input type="hidden" name="metodo_pagamento" id="metodo-pagamento-hidden">
                         <input type="hidden" name="cnh" id="cnh-hidden">

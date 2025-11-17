@@ -89,7 +89,7 @@ def login():
                         session['usuario_perfil'] = 'pj'
                         if remember:
                             response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', str(usuario.email), max_age=60*60*72)
+                            response.set_cookie('user', usuario.id, max_age=60*60*72)
                             response.set_cookie('perfil', 'pj', max_age=60*60*72)
                             return response
                         return redirect(url_for('index'))
@@ -106,7 +106,7 @@ def login():
                         session['usuario_perfil'] = 'pj'
                         if remember:
                             response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', str(usuario.email), max_age=60*60*72)
+                            response.set_cookie('user', usuario.id, max_age=60*60*72)
                             response.set_cookie('perfil', 'pj', max_age=60*60*72)
                             return response
                         return redirect(url_for('index'))
@@ -115,17 +115,6 @@ def login():
     
     return render_template('login.html')
 
-@user_pj_bp.route('/portalCliente', methods=['GET'])
-def portalCliente():
-    user_id = session.get('usuario_logado')
-    user_perfil = session.get('usuario_perfil')
-    if user_perfil == 'pj':
-        for user in USERSpj:
-            if user.id == user_id:
-                return render_template('portalCliente.html', user = user)
-    #if user_perfil == 'pf':
-        #Lógica com o banco de dados
-    return render_template('index.html')
 
 @user_pj_bp.route('/updatePj')  #Colocar validação para cada alteração, adicionar outras alterações
 def updatePj():

@@ -47,9 +47,11 @@ def logout():
         resposta.set_cookie('cargo', '', expires=0)
     return resposta
 
-"""def getUser(perfil, id):
+def getUser(perfil, id):
     if perfil == 'pf':
         user = UserPfDB.query.get(id)
         return user
     if perfil == 'pj':
-        user = """
+        for user in USERSpj:
+            if user.id == id:
+                return user

@@ -1,5 +1,7 @@
 from flask import Flask, Blueprint, request, render_template, session
 from datetime import datetime
+from controllers.validacoes import validarCNH
+from controllers.user_controller import getUser
 from models.Veiculo import Veiculos
 from models.Reservas import Reservas
 from models.Locais import Locais
@@ -24,10 +26,10 @@ def reserva(veiculo_id):
         if veiculo.id == veiculo_id:
             if veiculo.status == 'disponível':
                 similares = Veiculos.query.filter_by(categoria=veiculo.categoria).all()
-
+                locais = Locais.query.all()
                 disponibilidade = verificar_disponibilidade(veiculo_id, data_ret, data_dev)
                 if disponibilidade == True:
-                    valorTotal = veiculo.precoDiario * dias * (1 + localDev.Porcentagem)
+                    valorTotal = veiculo.precoDiario * dias * (1 + localDev.Porcentagem) + 45
                     try:
                         nova_reserva = Reservas(
                             Id_Cliente = session.get('usuario_logado'),  #Arrumar o login de userPf para passar seu login
@@ -46,20 +48,40 @@ def reserva(veiculo_id):
 
                     except Exception as e:
                         db.session.rollback()
-                        return render_template('detalhe_veiculo.html', status=f'Erro ao reservar: {e}', veiculo=veiculo, veiculos_similares = similares)
+                        return render_template('detalhe_veiculo.html', status=f'Erro ao reservar: {e}', veiculo=veiculo, veiculos_similares = similares, locais = locais)
                     
-                    
-                    return render_template('pagamento.html', veiculo = veiculo, valorTotal = valorTotal)
+                    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+                    reserva = getReserva(session.get('usuario_logado'), veiculo_id, data_ret, data_dev)
+    
+                    return render_template('pagamento.html', veiculo = veiculo, valorTotal = valorTotal, user = user, reserva = reserva)
                 elif disponibilidade == False:
-                    return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo, veiculos_similares = similares)
+                    return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo, veiculos_similares = similares, locais = locais)
                 else:
                     raise ValueError('Algo deu errado')
 
+@reserva_bp.route('/confirmarReserva/<int:id_reserva>', methods=['POST'])
+def confirmarReserva(id_reserva):
+    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+    reserva = Reservas.query.get(id_reserva)
+    veiculo = Veiculos.query.get(reserva.Id_Veiculo)
+    if not user.CNH:
+        cnh = request.form.get('cnh', '')
+        if not validarCNH(cnh):          
+            return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva, erro = 'CNH inválida')
+        
+        user.CNH = cnh
+        db.session.commit()  
+
+    reserva = Reservas.query.get(id_reserva)
+    reserva.Status = 'confirmada'
+    db.session.commit()  
+    return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva)
+    
 
 def verificar_disponibilidade(veiculo_id, inicio, fim):
     conflito = (db.session.query(Reservas)
         .filter(
-            Reservas.Id_Reserva == veiculo_id,
+            Reservas.Id_Veiculo == veiculo_id,
             Reservas.Data_Retirada <= fim,
             Reservas.Data_Devolucao >= inicio
         )
@@ -69,3 +91,15 @@ def verificar_disponibilidade(veiculo_id, inicio, fim):
         return False
     
     return True
+
+def getReserva(id_cliente, id_carro, data_ret, data_dev):
+    reserva = Reservas.query.filter(
+        and_(
+            Reservas.Id_Cliente == id_cliente,
+            Reservas.Id_Veiculo == id_carro,
+            Reservas.Data_Retirada == data_ret,
+            Reservas.Data_Devolucao == data_dev
+        )
+    ).first()
+
+    return reserva

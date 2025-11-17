@@ -129,6 +129,38 @@ def validarComplemento(complemento):
     pattern = r'^[a-zA-ZÀ-ÿ\s\d\-]+$'
     return bool(re.match(pattern, complemento.strip()))    
 
+def validarCNH(cnh):
+    if not cnh:
+        return False
+
+    cnh_numeros = re.sub(r'\D', '', cnh)
+
+    if len(cnh_numeros) != 11:
+        return False
+
+    if cnh_numeros == cnh_numeros[0] * 11:
+        return False
+
+    soma = 0
+    for i in range(9):
+        soma += int(cnh_numeros[i]) * (9 - i)
+    dv1 = 0 if soma % 11 < 10 else 0
+    dv1 = 11 - (soma % 11)
+    if dv1 >= 10:
+        dv1 = 0
+
+    soma = 0
+    for i in range(9):
+        soma += int(cnh_numeros[i]) * (i + 1)
+    dv2 = 0 if soma % 11 < 10 else 0
+    dv2 = 11 - (soma % 11)
+    if dv2 >= 10:
+        dv2 = 0
+    if int(cnh_numeros[9]) == dv1 and int(cnh_numeros[10]) == dv2:
+        return True
+
+    return False
+
 def validacaoGeralPf(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
         validacoes = [
             (validarNome(nome), 'Nome inválido'), 

@@ -187,7 +187,7 @@ def validacaoGeralPf(nome, nascimento, cpf, celular, email, cep, bairro, estado,
         return erros
 
 def validacaoGeralPj(RS, NF, cnpj, nome, cpf, cargo, phone, email, cep, logra, num, bairro, estado, cidade, senha, verificador, ie='', cell='', complemento=''):
-            
+             
             validacoes = [
                 (validarNome(RS), 'Razão social inválida'), 
                 (validarNome(NF), 'Nome fantasia inválido'),
@@ -215,13 +215,10 @@ def validacaoGeralPj(RS, NF, cnpj, nome, cpf, cargo, phone, email, cep, logra, n
                 validacoes.append((validarComplemento(complemento), 'Complemento inválido'))
 
             erros = []
-            for validade, mensagem in validacoes:
-                if not validade:
-                    erros.append(mensagem)
+            erros = [msg for valido, msg in validacoes if not valido]
 
-            if erros:
-                raise ValueError(erros)
-            return True
+            return erros
+           
 
 def validacaoGeralColab(nome, senha, verificador, cpf, email):
     erros = []

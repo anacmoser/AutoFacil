@@ -50,6 +50,7 @@ def cadastroEmpresa():
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
     if not autorizacao:
         return render_template('cadastro.html', erros='Você deve aceitar a Autorização.')
+     
     erros = validacaoGeralPj(rs, nf, cnpj, nomeRep, cpfRep, cargoRep, phone, email, cep, logra, num, bairro, estado, cidade, senha, confirmar, ie ,cell, complemento)
     if erros:
         return render_template('cadastro.html', erros = erros)

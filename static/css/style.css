@@ -417,6 +417,37 @@ body.alto-contraste {
     background-color: #333 !important;
 }
 
+/*pesquisa*/
+.resultado-busca {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: between;
+    align-items: center;
+}
+
+.resultado-busca p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.btn-limpar-busca {
+    background: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-limpar-busca:hover {
+    background: #5a6268;
+    color: white;
+}
+
 /* ======= CARROSSEL ======= */
 .carousel {
     position: relative;

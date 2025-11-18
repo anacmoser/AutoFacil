@@ -66,35 +66,35 @@
                         title="Dúvidas" class="icon-btn">
                 </a>
                 <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-          <a href="#">
-            <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-              title="Acessibilidade" class="icon-btn">
-          </a>
-          <div class="menu-panel">
-            <ul class="panel-acessibilidade">
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
-                  <span>A+</span> Aumentar fonte
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
-                  <span>A-</span> Diminuir fonte
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
-                  <span>▣</span> Alto contraste
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="resetar">
-                  <span>↺</span> Resetar
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}"
+                            alt="Botão de acessibilidade" title="Acessibilidade" class="icon-btn">
+                    </a>
+                    <div class="menu-panel">
+                        <ul class="panel-acessibilidade">
+                            <li>
+                                <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
+                                    <span>A+</span> Aumentar fonte
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
+                                    <span>A-</span> Diminuir fonte
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
+                                    <span>▣</span> Alto contraste
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="acessibilidade-btn" data-action="resetar">
+                                    <span>↺</span> Resetar
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
 
                 {% if session.get('usuario_logado') %}
@@ -273,7 +273,18 @@
     <!--  Frota de Veículos -->
     <section class="frota-container">
         <div class="veiculos-header">
+            {% if termo_busca %}
+            <div class="resultado-busca">
+                <p>Resultados para: <strong>"{{ termo_busca }}"</strong></p>
+                <a href="/frota" class="btn-limpar-busca">Limpar busca</a>
+            </div>
+            {% endif %}
             <h2 class="veiculos-titulo">Carros disponíveis</h2>
+            {% if termo_busca %}
+            <div class="resultado-busca">
+                <p>Resultados para: <strong>"{{ termo_busca }}"</strong></p>
+            </div>
+            {% endif %}
             <div class="ordenacao">
                 <select id="ordenacao">
                     <option value="preco_asc">Ordenar por: Menor preço</option>
@@ -289,7 +300,7 @@
                 <div class="veiculo-imagem">
                     <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=veiculo.id) }}">
                         <img src="{{ veiculo.imagem }}" alt="{{ veiculo.nome }}">
-                    </a> 
+                    </a>
                 </div>
                 <div class="veiculo-info">
                     <div class="veiculo-categoria">{{ veiculo.categoria }}</div>
@@ -312,7 +323,8 @@
                     <div class="veiculo-preco">
                         R$ {{ veiculo.precoDiario }} <span>/dia</span>
                     </div>
-                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=veiculo.id) }}"><button class="btn-alugar">Alugar agora</button> </a>
+                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=veiculo.id) }}"><button
+                            class="btn-alugar">Alugar agora</button> </a>
                 </div>
             </div>
             {% else %}
@@ -384,5 +396,5 @@
     <script src="../static/js/base.js"></script>
     <script src="../static/js/frota.js"></script>
 </body>
-</html>
 
+</html>

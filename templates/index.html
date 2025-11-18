@@ -18,23 +18,25 @@
 {% endblock %}
 
   {% block content %}
-  <!-- Barra de pesquisa -->
-  <div class="searchbar">
-    <form>
-      <div class="search-item">
-        <span class="icon"><img src="../static/img/desconto.png" alt=""></span>
-        <input type="text" placeholder="Digite a marca ou modelo" class="marca">
-      </div>
-      <div class="search-item">
-        <span class="icon"><img src="../static/img/localizacao.png" alt=""></span>
-        <input type="text" placeholder="Local" class="local">
-      </div>
-      <div class="search-item">
-        <span class="icon"><img src="../static/img/calendario.png" alt=""></span>
-        <input type="text" placeholder="Data" onfocus="(this.type='date')" onblur="(this.type='text')" class="date">
-      </div>
+
+<!-- Barra de pesquisa -->
+<div class="searchbar">
+    <form action="/buscar" method="GET">
+        <div class="search-item">
+            <span class="icon"><img src="../static/img/desconto.png" alt=""></span>
+            <input type="text" name="q" placeholder="Digite a marca ou modelo" class="marca">
+        </div>
+        <div class="search-item">
+            <span class="icon"><img src="../static/img/localizacao.png" alt=""></span>
+            <input type="text" name="local" placeholder="Local" class="local">
+        </div>
+        <div class="search-item">
+            <span class="icon"><img src="../static/img/calendario.png" alt=""></span>
+            <input type="text" name="data" placeholder="Data" onfocus="(this.type='date')" onblur="(this.type='text')" class="date">
+        </div>
+        <button type="submit" style="display: none;">Buscar</button>
     </form>
-  </div>
+</div>
 
 
   <!-- ======= CARROSSEL ======= -->

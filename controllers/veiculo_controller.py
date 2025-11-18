@@ -32,6 +32,38 @@ def pgFrota():  #adicionar o filtro de preço menor para maior
                            total_pages=total_pages,
                            filtros_limpos = True)
 
+@veiculo_bp.route('/frota/buscar')
+def pgFrotaFiltrada():
+    # Receber os parâmetros diretamente da query string
+    termo = request.args.get('termo', '')
+    local = request.args.get('local', '')
+    data = request.args.get('data', '')
+    
+    print(f"Termo de busca: {termo}")  # Para debug
+    
+    veiculos_filtrados = Veiculos.query
+    
+    if termo:
+        veiculos_filtrados = veiculos_filtrados.filter(
+            (Veiculos.marca.ilike(f'%{termo}%')) | 
+            (Veiculos.modelo.ilike(f'%{termo}%')) |
+            (Veiculos.nome.ilike(f'%{termo}%'))
+        )
+    
+    page = request.args.get('page', 1, type=int)
+    per_page = 12
+
+    paginacao = veiculos_filtrados.paginate(page=page, per_page=per_page)
+    veiculos_da_pagina = paginacao.items
+    total_pages = paginacao.pages
+
+    return render_template('frota.html', 
+                          veiculos=veiculos_da_pagina, 
+                          page=page, 
+                          total_pages=total_pages,
+                          filtros_limpos=False,
+                          termo_busca=termo)
+
 @veiculo_bp.route('/filtrar', methods=['POST'])
 def filtrar():
     modelo = request.form.get('modelo', '')

@@ -83,7 +83,6 @@ def reserva(veiculo_id):
         print(f"Erro na reserva: {str(e)}")
         return redirect(url_for('reserva_bp.pgReserva', id_veiculo=veiculo_id))
     
-
 @reserva_bp.route('/confirmarReserva/<int:id_reserva>', methods=['POST'])  #Essa rota não está sendo chamada, provavelmente o js não está permitindo o acesso à rota
 def confirmarReserva(id_reserva):
     user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
@@ -106,8 +105,7 @@ def confirmarReserva(id_reserva):
     })
     db.session.commit() 
     return redirect(url_for('user_bp.portaldoCliente'))
-  
-    
+      
 @reserva_bp.route('/pgPagamento/<int:id_reserva>')
 def pgPagamento(id_reserva):
     reserva = Reservas.query.get(id_reserva)
@@ -122,6 +120,14 @@ def pgReserva(id_veiculo):
     similares = Veiculos.query.filter_by(categoria=veiculo.categoria).all()
     
     return render_template('detalhe_veiculo.html', status='Veículo indisponível nessa data', veiculo=veiculo, veiculos_similares = similares, locais = locais)
+
+@reserva_bp.route('/excluirReserva/<int:id_reserva>')
+def excluirReserva(id_reserva):
+    Reservas.query.get(id_reserva).update({ 
+                "Status": 'cancelada'
+            })
+    db.session.commit() 
+    return redirect(url_for('user_bp.portaldoCliente'))
 
 def verificar_disponibilidade(veiculo_id, inicio, fim):
     conflito = (db.session.query(Reservas)

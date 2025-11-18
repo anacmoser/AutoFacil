@@ -431,7 +431,7 @@
                                     </div>
                                     <div class="reserva-actions">
                                         <button class="btn-action">Detalhes</button>
-                                        <button class="btn-action btn-danger">Cancelar</button>
+                                        <button class="btn-action btn-danger" href="{{ url_for('reserva_bp.excluirReserva', id_reserva = reserva.Id_Reserva) }}">Cancelar</button>
                                     </div>
                                 </div>
                             </div>

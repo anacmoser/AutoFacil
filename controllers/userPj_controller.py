@@ -6,7 +6,7 @@
 #função de login
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, make_response
-from controllers.validacoes import validarEmail, validarCNPJ
+from controllers.validacoes import validarEmail, validarCNPJ, validacaoGeralPj
 from models.UserPj import UserPjDB, USERSpj, addUserPj, buscarUser, db
 import re
 
@@ -50,6 +50,9 @@ def cadastroEmpresa():
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
     if not autorizacao:
         return render_template('cadastro.html', erros='Você deve aceitar a Autorização.')
+    erros = validacaoGeralPj(rs, nf, cnpj, ie, ramo, tamanho, nomeRep, cpfRep, cargoRep, phone, cell, email, cep, logra, num, complemento, bairro, estado, cidade, senha)
+    if erros:
+        return render_template('cadastro.html', erros = erros)
     try:
         novo_usuario = UserPjDB(
             Razao_Social=rs,

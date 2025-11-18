@@ -1,6 +1,16 @@
 from controllers.validacoes import validacaoGeralColab
 from controllers.validacoes import validarNome, validarEmail, validarSenha, validarCpf
+from models import db
+class ColaboradorDB(db.Model):
+    __tablename__ = 'Colaborador'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(100), nullable=False)
+    perfil = db.Column(db.String(20), default='colab')
+    cargo = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    senha = db.Column(db.String(255), nullable=False)
+    cpf = db.Column(db.String(11), unique=True, nullable=False)
 class Colaborador:
     def __init__(self, id, nome, cargo, email, senha, verificador, cpf):
         if validacaoGeralColab(nome, senha, verificador, cpf, email):
@@ -47,9 +57,6 @@ admin = Colaborador(1, 'Enzooo', 'admin', 'admin@gmail.com', 'Senha123', 'Senha1
 gerente = Colaborador(2, 'Melissa', 'gerente', 'gerente@gmail.com', 'Senha123', 'Senha123', '52998224725')
 atendente = Colaborador(3, 'Ryukiii', 'atendente', 'atendente@gmail.com', 'Senha123', 'Senha123', '98765432100')
 suporte = Colaborador(4, 'Nathalia', 'suporte', 'suporte@gmail.com', 'Senha123', 'Senha123', '12345678909')
-
-
-
 
 Lista_Colaboradores = [admin, gerente, atendente, suporte]
 

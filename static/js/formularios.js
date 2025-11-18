@@ -32,6 +32,89 @@ function initFormularios() {
             if (this.form) this.form.submit();
         });
     });
+
+    // Adicionar evento para buscar CEP quando o campo perder o foco
+    const cepInputs = document.querySelectorAll('#cep, #cep_empresa');
+    cepInputs.forEach(cepInput => {
+        cepInput.addEventListener('blur', function() {
+            buscarEnderecoPorCEP(this);
+        });
+    });
+}
+
+// ====== API DE CEP ======
+async function buscarEnderecoPorCEP(cepInput) {
+    const cep = cepInput.value.replace(/\D/g, '');
+    
+    // Verifica se CEP tem 8 dígitos
+    if (cep.length !== 8) {
+        return;
+    }
+
+    try {
+        // Mostrar loading
+        cepInput.classList.add('carregando');
+        
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const dados = await response.json();
+
+        // Remover loading
+        cepInput.classList.remove('carregando');
+
+        if (dados.erro) {
+            mostrarMensagemErro(cepInput, 'CEP não encontrado.');
+            return;
+        }
+
+        // Preencher campos de endereço automaticamente
+        preencherEndereco(dados, cepInput.id);
+
+    } catch (error) {
+        console.error('Erro ao buscar CEP:', error);
+        cepInput.classList.remove('carregando');
+        mostrarMensagemErro(cepInput, 'Erro ao buscar CEP. Tente novamente.');
+    }
+}
+
+// ====== PREENCHER ENDEREÇO ======
+function preencherEndereco(dados, cepFieldId) {
+    // Determinar os IDs dos campos baseado no campo de CEP usado
+    const isEmpresa = cepFieldId === 'cep_empresa';
+    const prefix = isEmpresa ? 'empresa_' : '';
+    
+    const campos = {
+        logradouro: `${prefix}logradouro`,
+        bairro: `${prefix}bairro`,
+        cidade: `${prefix}cidade`,
+        estado: `${prefix}estado`
+    };
+
+    // Preencher cada campo se existir
+    Object.keys(campos).forEach(chave => {
+        const campoId = campos[chave];
+        const campo = document.getElementById(campoId);
+        
+        if (campo && dados[chave]) {
+            campo.value = dados[chave];
+            
+            // Disparar evento de blur para validar o campo preenchido
+            setTimeout(() => {
+                campo.dispatchEvent(new Event('blur'));
+            }, 100);
+        }
+    });
+
+    // Preencher número e complemento se estiverem vazios (opcional)
+    const numeroField = document.getElementById(`${prefix}numero`);
+    const complementoField = document.getElementById(`${prefix}complemento`);
+    
+    if (numeroField && !numeroField.value) {
+        numeroField.focus(); // Foca no campo número para usuário preencher
+    }
+    
+    if (complementoField && dados.complemento && !complementoField.value) {
+        complementoField.value = dados.complemento;
+    }
 }
 
 // ==== TOGGLE PASSWORD ======
@@ -218,6 +301,65 @@ function validarCampo(campo) {
             if (valor.length < 2) return 'Cargo muito curto.';
             return '';
         },
+
+        // Novas validações para campos de endereço
+        'logradouro': () => {
+            if (!valor) return 'Logradouro é obrigatório.';
+            if (valor.length < 3) return 'Logradouro muito curto.';
+            return '';
+        },
+
+        'empresa_logradouro': () => {
+            if (!valor) return 'Logradouro é obrigatório.';
+            if (valor.length < 3) return 'Logradouro muito curto.';
+            return '';
+        },
+
+        'bairro': () => {
+            if (!valor) return 'Bairro é obrigatório.';
+            if (valor.length < 2) return 'Bairro muito curto.';
+            return '';
+        },
+
+        'empresa_bairro': () => {
+            if (!valor) return 'Bairro é obrigatório.';
+            if (valor.length < 2) return 'Bairro muito curto.';
+            return '';
+        },
+
+        'cidade': () => {
+            if (!valor) return 'Cidade é obrigatória.';
+            if (valor.length < 2) return 'Cidade muito curta.';
+            return '';
+        },
+
+        'empresa_cidade': () => {
+            if (!valor) return 'Cidade é obrigatória.';
+            if (valor.length < 2) return 'Cidade muito curta.';
+            return '';
+        },
+
+        'estado': () => {
+            if (!valor) return 'Estado é obrigatório.';
+            if (valor.length !== 2) return 'Estado deve ter 2 caracteres.';
+            return '';
+        },
+
+        'empresa_estado': () => {
+            if (!valor) return 'Estado é obrigatório.';
+            if (valor.length !== 2) return 'Estado deve ter 2 caracteres.';
+            return '';
+        },
+
+        'numero': () => {
+            if (!valor) return 'Número é obrigatório.';
+            return '';
+        },
+
+        'empresa_numero': () => {
+            if (!valor) return 'Número é obrigatório.';
+            return '';
+        }
     };
 
     if (validacoes[campo.id]) {

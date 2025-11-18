@@ -89,12 +89,8 @@ function initAcessibilidade() {
         console.log('Classes no HTML:', html.className);
     }
 
-<<<<<<< HEAD
-    let configAtual = carregarConfiguracoes(); 
-=======
     // Carregar e aplicar configurações
     let configAtual = carregarConfiguracoes();
->>>>>>> b181c7abd96cb8426b643565f7bf56a7742a887a
     aplicarConfiguracoes(configAtual);
 
     // Adicionar event listeners aos botões

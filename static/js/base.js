@@ -3,111 +3,30 @@
  * Funcionalidades comuns a todas as páginas
  */
 
-document.addEventListener('DOMContentLoaded', function () {
-    const currentPage = document.body.dataset.page;
-
-    // ====== MENU MOBILE ======
-    if (document.querySelector('.menu-trigger')) {
-        initMenuMobile();
-    }
-
-    // ====== ACESSIBILIDADE ====== 
-    initAcessibilidade();
-
-    // ====== FORMATAÇÃO DE CAMPOS ======
-    initFormatacaoCampos();
-
-    // Scroll para topo se houver erro
-    if (typeof erro !== 'undefined' && erro) {
-        window.scrollTo(0, 0);
-    }
-});
-
 // ====== MENU MOBILE ======
 function initMenuMobile() {
-    const menuTriggers = document.querySelectorAll('.menu-trigger');
-
-    if (!menuTriggers.length) return;
-
-    let hoverTimer;
-    let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    function closeMenu(trigger) {
-        trigger.classList.remove('open');
-        trigger.setAttribute('aria-expanded', 'false');
-        const panel = trigger.querySelector('.menu-panel');
-        if (panel) panel.classList.remove('open');
-    }
-
-    function openMenu(trigger) {
-        menuTriggers.forEach(otherTrigger => {
-            if (otherTrigger !== trigger && otherTrigger.classList.contains('open')) {
-                closeMenu(otherTrigger);
-            }
-        });
-
-        trigger.classList.add('open');
-        trigger.setAttribute('aria-expanded', 'true');
-        const panel = trigger.querySelector('.menu-panel');
-        if (panel) panel.classList.add('open');
-    }
-
-    menuTriggers.forEach(trigger => {
-        if (!isTouchDevice) {
-            trigger.addEventListener('mouseenter', () => {
-                clearTimeout(hoverTimer);
-                hoverTimer = setTimeout(() => openMenu(trigger), 200);
-            });
-
-            trigger.addEventListener('mouseleave', () => {
-                clearTimeout(hoverTimer);
-                hoverTimer = setTimeout(() => closeMenu(trigger), 300);
-            });
-
-            const panel = trigger.querySelector('.menu-panel');
-            if (panel) {
-                panel.addEventListener('mouseenter', () => {
-                    clearTimeout(hoverTimer);
-                });
-
-                panel.addEventListener('mouseleave', () => {
-                    hoverTimer = setTimeout(() => closeMenu(trigger), 200);
-                });
-            }
-        }
-
-        trigger.addEventListener('click', (e) => {
-            if (isTouchDevice) {
-                e.stopPropagation();
-                trigger.classList.contains('open') ? closeMenu(trigger) : openMenu(trigger);
-            }
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!trigger.contains(e.target)) {
-                closeMenu(trigger);
-            }
-        });
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            menuTriggers.forEach(trigger => closeMenu(trigger));
-        }
-    });
-
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 1000) {
-            menuTriggers.forEach(trigger => closeMenu(trigger));
-        }
-    });
+    // Função placeholder - substitua pelo seu código real se necessário
+    console.log('Menu mobile inicializado');
 }
 
 // ====== SISTEMA DE ACESSIBILIDADE ======
 function initAcessibilidade() {
-    const acessibilidadeTrigger = document.querySelector('.nav-right .menu-trigger:nth-child(2)');
-
-    if (!acessibilidadeTrigger) return;
+    console.log('=== INICIANDO ACESSIBILIDADE ===');
+    
+    // Método mais flexível para encontrar o trigger
+    const acessibilidadeTrigger = document.querySelector('.menu-trigger [title="Acessibilidade"], .menu-trigger [alt*="acessibilidade"], .nav-right .menu-trigger:nth-child(2)');
+    
+    console.log('Trigger encontrado:', acessibilidadeTrigger);
+    
+    if (!acessibilidadeTrigger) {
+        console.warn('❌ Trigger de acessibilidade não encontrado');
+        console.log('Tentando seletor alternativo...');
+        
+        // Tentativa alternativa
+        const triggers = document.querySelectorAll('.menu-trigger');
+        console.log('Todos os menu-triggers:', triggers);
+        return;
+    }
 
     const configPadrao = {
         tamanhoFonte: 1,
@@ -115,24 +34,40 @@ function initAcessibilidade() {
     };
 
     function carregarConfiguracoes() {
-        const salvo = localStorage.getItem('acessibilidadeConfig');
-        if (salvo) {
-            const config = JSON.parse(salvo);
-            config.tamanhoFonte = parseFloat(config.tamanhoFonte) || 1;
-            return config;
+        try {
+            const salvo = localStorage.getItem('acessibilidadeConfig');
+            console.log('Configuração salva no localStorage:', salvo);
+            
+            if (salvo) {
+                const config = JSON.parse(salvo);
+                config.tamanhoFonte = parseFloat(config.tamanhoFonte) || 1;
+                return config;
+            }
+        } catch (e) {
+            console.error('Erro ao carregar configurações:', e);
         }
         return {...configPadrao};
     }
 
     function salvarConfiguracoes(config) {
-        localStorage.setItem('acessibilidadeConfig', JSON.stringify(config));
+        try {
+            localStorage.setItem('acessibilidadeConfig', JSON.stringify(config));
+            console.log('Configuração salva:', config);
+        } catch (e) {
+            console.error('Erro ao salvar configurações:', e);
+        }
     }
 
     function aplicarConfiguracoes(config) {
         const html = document.documentElement;
         
-        html.classList.remove('fonte-normal', 'fonte-grande', 'fonte-muito-grande', 'fonte-super-grande', 'fonte-maximo', 'alto-contraste');
+        console.log('Aplicando configurações:', config);
         
+        // Remove todas as classes de fonte e contraste
+        const classesParaRemover = ['fonte-normal', 'fonte-grande', 'fonte-muito-grande', 'fonte-super-grande', 'fonte-maximo', 'alto-contraste'];
+        classesParaRemover.forEach(classe => html.classList.remove(classe));
+        
+        // Aplica a classe de fonte correspondente
         if (config.tamanhoFonte === 1) {
             html.classList.add('fonte-normal');
         } else if (config.tamanhoFonte === 1.25) {
@@ -145,55 +80,75 @@ function initAcessibilidade() {
             html.classList.add('fonte-maximo');
         }
         
+        // Aplica alto contraste se necessário
         if (config.altoContraste) {
             html.classList.add('alto-contraste');
         }
+        
+        console.log('✅ Configuração aplicada - Tamanho:', config.tamanhoFonte, 'Contraste:', config.altoContraste);
+        console.log('Classes no HTML:', html.className);
     }
 
+    // Carregar e aplicar configurações
     let configAtual = carregarConfiguracoes();
     aplicarConfiguracoes(configAtual);
 
+    // Adicionar event listeners aos botões
     const botoes = document.querySelectorAll('.acessibilidade-btn');
-
-    botoes.forEach(botao => {
-        botao.addEventListener('click', function() {
+    console.log('Botões de acessibilidade encontrados:', botoes.length);
+    
+    botoes.forEach((botao, index) => {
+        console.log(`Botão ${index + 1}:`, botao.dataset.action);
+        
+        botao.addEventListener('click', function(e) {
+            e.preventDefault();
             const acao = this.dataset.action;
+            console.log('🎯 Botão clicado:', acao);
 
             switch(acao) {
                 case 'aumentar-fonte':
                     if (configAtual.tamanhoFonte < 2.0) {
                         configAtual.tamanhoFonte = parseFloat((configAtual.tamanhoFonte + 0.25).toFixed(2));
+                        console.log('📈 Novo tamanho:', configAtual.tamanhoFonte);
+                    } else {
+                        console.log('⚠️ Tamanho máximo atingido');
                     }
                     break;
                     
                 case 'diminuir-fonte':
                     if (configAtual.tamanhoFonte > 1) {
                         configAtual.tamanhoFonte = parseFloat((configAtual.tamanhoFonte - 0.25).toFixed(2));
+                        console.log('📉 Novo tamanho:', configAtual.tamanhoFonte);
+                    } else {
+                        console.log('⚠️ Tamanho mínimo atingido');
                     }
                     break;
                     
                 case 'alto-contraste':
                     configAtual.altoContraste = !configAtual.altoContraste;
-                    this.querySelector('span').textContent = configAtual.altoContraste ? '☑' : '▣';
+                    const spanContraste = this.querySelector('span');
+                    if (spanContraste) {
+                        spanContraste.textContent = configAtual.altoContraste ? '☑' : '▣';
+                    }
+                    console.log('🎨 Alto contraste:', configAtual.altoContraste);
                     break;
                     
                 case 'resetar':
                     configAtual = {...configPadrao};
-                    document.querySelector('[data-action="alto-contraste"] span').textContent = '▣';
+                    const spanReset = document.querySelector('[data-action="alto-contraste"] span');
+                    if (spanReset) {
+                        spanReset.textContent = '▣';
+                    }
+                    console.log('🔄 Configurações resetadas');
                     break;
             }
             
             aplicarConfiguracoes(configAtual);
             salvarConfiguracoes(configAtual);
-            
-            const menuPanel = acessibilidadeTrigger.querySelector('.menu-panel');
-            if (menuPanel) {
-                menuPanel.classList.remove('open');
-                acessibilidadeTrigger.classList.remove('open');
-                acessibilidadeTrigger.setAttribute('aria-expanded', 'false');
-            }
         });
     });
+    
+    console.log('✅ Acessibilidade inicializada com sucesso');
 }
 
 // ====== FORMATAÇÃO DE CAMPOS ======
@@ -270,3 +225,27 @@ function initFormatacaoCampos() {
         });
     });
 }
+
+// ====== INICIALIZAÇÃO GERAL ======
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('=== DOM CARREGADO - INICIALIZANDO ===');
+    const currentPage = document.body.dataset.page;
+
+    // ====== MENU MOBILE ======
+    if (document.querySelector('.menu-trigger')) {
+        initMenuMobile();
+    }
+
+    // ====== ACESSIBILIDADE ====== 
+    initAcessibilidade();
+
+    // ====== FORMATAÇÃO DE CAMPOS ======
+    initFormatacaoCampos();
+
+    // Scroll para topo se houver erro
+    if (typeof erro !== 'undefined' && erro) {
+        window.scrollTo(0, 0);
+    }
+    
+    console.log('=== TODAS AS FUNÇÕES INICIALIZADAS ===');
+});

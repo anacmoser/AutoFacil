@@ -249,7 +249,112 @@ header {
     min-width: 0;
 }
 
-/* ======= ACESSIBILIDADE ======= */
+/* ======= ACESSIBILIDADE - TAMANHO DE FONTE ======= */
+
+/* Nível 1 - Normal */
+html.fonte-normal {
+    font-size: 16px;
+}
+
+/* Nível 2 - Grande (+25%) */
+html.fonte-grande {
+    font-size: 20px;
+}
+
+/* Nível 3 - Muito Grande (+50%) */
+html.fonte-muito-grande {
+    font-size: 24px;
+}
+
+/* Nível 4 - Super Grande (+75%) */
+html.fonte-super-grande {
+    font-size: 28px;
+}
+
+/* Nível 5 - Máximo (+100%) */
+html.fonte-maximo {
+    font-size: 32px;
+}
+
+/* IMPORTANTE: Força todos os elementos a herdarem o tamanho de fonte */
+html.fonte-normal *,
+html.fonte-grande *,
+html.fonte-muito-grande *,
+html.fonte-super-grande *,
+html.fonte-maximo * {
+    font-size: inherit !important;
+}
+
+/* Garante que elementos específicos respeitem o tamanho */
+html.fonte-normal body,
+html.fonte-grande body,
+html.fonte-muito-grande body,
+html.fonte-super-grande body,
+html.fonte-maximo body,
+html.fonte-normal p,
+html.fonte-grande p,
+html.fonte-muito-grande p,
+html.fonte-super-grande p,
+html.fonte-maximo p,
+html.fonte-normal h1,
+html.fonte-grande h1,
+html.fonte-muito-grande h1,
+html.fonte-super-grande h1,
+html.fonte-maximo h1,
+html.fonte-normal h2,
+html.fonte-grande h2,
+html.fonte-muito-grande h2,
+html.fonte-super-grande h2,
+html.fonte-maximo h2,
+html.fonte-normal h3,
+html.fonte-grande h3,
+html.fonte-muito-grande h3,
+html.fonte-super-grande h3,
+html.fonte-maximo h3,
+html.fonte-normal span,
+html.fonte-grande span,
+html.fonte-muito-grande span,
+html.fonte-super-grande span,
+html.fonte-maximo span,
+html.fonte-normal div,
+html.fonte-grande div,
+html.fonte-muito-grande div,
+html.fonte-super-grande div,
+html.fonte-maximo div,
+html.fonte-normal a,
+html.fonte-grande a,
+html.fonte-muito-grande a,
+html.fonte-super-grande a,
+html.fonte-maximo a,
+html.fonte-normal button,
+html.fonte-grande button,
+html.fonte-muito-grande button,
+html.fonte-super-grande button,
+html.fonte-maximo button,
+html.fonte-normal input,
+html.fonte-grande input,
+html.fonte-muito-grande input,
+html.fonte-super-grande input,
+html.fonte-maximo input,
+html.fonte-normal textarea,
+html.fonte-grande textarea,
+html.fonte-muito-grande textarea,
+html.fonte-super-grande textarea,
+html.fonte-maximo textarea,
+html.fonte-normal select,
+html.fonte-grande select,
+html.fonte-muito-grande select,
+html.fonte-super-grande select,
+html.fonte-maximo select,
+html.fonte-normal li,
+html.fonte-grande li,
+html.fonte-muito-grande li,
+html.fonte-super-grande li,
+html.fonte-maximo li {
+    font-size: inherit !important;
+}
+
+/* ======= ACESSIBILIDADE - BOTÕES ======= */
 .panel-acessibilidade {
     min-width: 200px;
 }
@@ -274,47 +379,11 @@ header {
     background-color: #e3e3e3;
 }
 
-.acessibilidade-btn span {
+.acessibilidade-btn span{
     font-weight: bold;
     min-width: 20px;
+    
 }
-
-
-
-/* Nível 1 - Normal */
-html.fonte-normal {
-    font-size: 16px !important;
-}
-
-/* Nível 2 - Grande (+25%) */
-html.fonte-grande {
-    font-size: 20px !important;
-}
-
-/* Nível 3 - Muito Grande (+50%) */
-html.fonte-muito-grande {
-    font-size: 24px !important;
-}
-
-/* Nível 4 - Super Grande (+75%) */
-html.fonte-super-grande {
-    font-size: 28px !important;
-}
-
-/* Nível 5 - Máximo (+100%) */
-html.fonte-maximo {
-    font-size: 32px !important;
-}
-
-/* Garante que todos os elementos herdem o tamanho */
-.fonte-normal,
-.fonte-grande,
-.fonte-muito-grande,
-.fonte-super-grande,
-.fonte-maximo {
-    font-size: inherit !important;
-}
-
 
 /* Estilos para alto contraste (mantém igual) */
 html.alto-contraste,

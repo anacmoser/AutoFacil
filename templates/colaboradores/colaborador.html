@@ -79,7 +79,7 @@
   </section>
 
   <!-- ======= SELEÇÃO DE PERFIL ======= -->
-  <section class="perfis-colaborador">
+  <!--<section class="perfis-colaborador">
     <div class="container">
       <h2 class="section-title">Selecione o perfil para visualização</h2>
       <p class="section-subtitle">Escolha um perfil para visualizar as funcionalidades disponíveis</p>
@@ -118,12 +118,13 @@
         </button>
       </div>
     </div>
-  </section>
+  </section>-->
 
   <!-- ======= DASHBOARD COLABORADOR ======= -->
   <section class="dashboard-colaborador">
     <div class="container">
       <!-- ATENDENTE -->
+       {% if cargo == 'atendente' %}
       <div class="perfil-content" id="atendente-content">
         <div class="perfil-header">
           <h2>Painel do Atendente</h2>
@@ -221,6 +222,8 @@
           </div>
         </div>
       </div>
+
+      {% elif cargo == 'gerente' %}
       
       <!-- GERENTE -->
       <div class="perfil-content" id="gerente-content">
@@ -303,6 +306,8 @@
           </div>
         </div>
       </div>
+
+      {% elif cargo == 'admin' %}
       
       <!-- ADMINISTRADOR -->
       <div class="perfil-content" id="administrador-content">
@@ -383,7 +388,7 @@
           </div>
         </div>
       </div>
-      
+      {% elif cargo == 'suporte' %}
       <!-- SUPORTE -->
       <div class="perfil-content" id="suporte-content">
         <div class="perfil-header">
@@ -478,6 +483,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
   </section>
 
   <!-- ======= FOOTER ======= -->

@@ -78,11 +78,6 @@ def pgAluguelMensal():
 def pgEmpresas():
     return render_template('empresas.html')
 
-@app.route('/minhasReservas', methods=['GET'])
-def pgMinhasReservas():
-    if session.get('usuario_logado') == None:
-        abort(401)
-    return render_template('minhas_reservas.html')
 
 @app.route('/pagamento/<veiculo>', methods=['GET'])
 def pgPagamento(veiculo):

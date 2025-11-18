@@ -448,16 +448,32 @@
                         <div class="card-content">
                             <div class="stats-grid">
                                 <div class="stat-item">
-                                    <span class="stat-number">3</span>
+                                    <span class="stat-number">{{ reservas|length }}</span>
                                     <span class="stat-label">Total de Reservas</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-number">1</span>
-                                    <span class="stat-label">Reservas Ativas</span>
+                                    <span class="stat-number">{% set contador = namespace(total=0) %}
+
+                                {% for reserva in reservas %}
+                                    {% if reserva.Status == "pendente" %}
+                                        {% set contador.total = contador.total + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ contador.total }}</span>
+                                    <span class="stat-label">Reservas Pendentes</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-number">2</span>
-                                    <span class="stat-label">Reservas Concluídas</span>
+                                    <span class="stat-number">
+                                {% set contador = namespace(total=0) %}
+
+                                {% for reserva in reservas %}
+                                    {% if reserva.Status == "confirmada" %}
+                                        {% set contador.total = contador.total + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ contador.total }}
+                        </span>
+                                    <span class="stat-label">Reservas Confirmadas</span>
                                 </div>
                             </div>
                         </div>

@@ -91,6 +91,7 @@ def cadastroEmpresa():
         return redirect(url_for('user_bp.pgLogin'))
     
     except ValueError as e:
+        db.session.rollback()
         if isinstance(e.args[0], list):
             erros = e.args[0]
         else:

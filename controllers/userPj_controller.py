@@ -7,7 +7,7 @@
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, make_response
 from controllers.validacoes import validarEmail, validarCNPJ, validacaoGeralPj
-from models.UserPj import UserPjDB, USERSpj, addUserPj, buscarUser, db
+from models.UserPj import UserPjDB, db
 import re
 
 user_pj_bp = Blueprint('user_pj_bp', __name__)
@@ -125,13 +125,13 @@ def login():
             return render_template('login.html', erro='Usuário não encontrado')
 
         # Verificar senha
-        if user.verificar_senha(senha):
+        if not user.verificar_senha(senha):
             return render_template('login.html', erro='Senha incorreta') 
 
         # Login bem-sucedido
 
         session['usuario_logado'] = user.Id_Cliente 
-        session['usuario_perfil'] = 'pf'
+        session['usuario_perfil'] = 'pj'
         if remember:
             response = make_response(redirect(url_for('index')))
             response.set_cookie('user', user.Id_Cliente, max_age=60*60*72)

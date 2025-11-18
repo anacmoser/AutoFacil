@@ -119,7 +119,7 @@ def login():
             return render_template('login.html', erro='Usuário não encontrado')
 
         # Verificar senha
-        if user.verificar_senha(senha):
+        if not user.verificar_senha(senha):
             return render_template('login.html', erro='Senha incorreta')
 
         # Login bem-sucedido

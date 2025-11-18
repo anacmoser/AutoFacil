@@ -46,8 +46,8 @@
                     </div>
                     {% else %}
                     <div class="cliente-dados">
-                        <h2>{{ user.nome if user else 'Nome do Cliente' }}</h2>
-                        <span class="cliente-id">ID: {{ user.id if user else '0001' }}</span>
+                        <h2>{{ user.Nome_Fantasia if user else 'Nome do Cliente' }}</h2>
+                        <span class="cliente-id">ID: {{ user.Id_Cliente if user else '0001' }}</span>
                     </div>
                     {% endif %}
                 </div>
@@ -165,87 +165,87 @@
                         <div class="card-content">
                             <form id="form-perfil">
                                 <div class="form-grid">
-                                    <div class="form-group">
+                                    <div class="form-group"> 
                                         <label for="razao-social">Razão Social</label>
-                                        <input type="text" id="razao-social" name="razao_social" value="{{ user.rs }}"
+                                        <input type="text" id="razao-social" name="razao_social" value="{{ user.Razao_Social }}"
                                             readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="nomeFantasia">Nome Fantasia</label>
                                         <input type="text" id="nomeFantasia" name="nome_fantasia"
-                                            value="{{ user.nome }}" readonly>
+                                            value="{{ user.Nome_Fantasia }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="CNPJ">CNPJ</label>
-                                        <input type="text" id="CNPJ" name="cnpj" value="{{ user.cnpj }}" readonly>
+                                        <input type="text" id="CNPJ" name="cnpj" value="{{ user.CNPJ }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="inscricao_estadual">Inscrição Estadual</label>
                                         <input type="text" id="inscricao_estadual" name="inscricao_estadual"
-                                            value="{{ user.inscricao_estadual }}" readonly>
+                                            value="{{ user.Inscricao_Estadual }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="ramo">Ramo de Atividade</label>
                                         <select id="ramo" name="ramo" disabled>
-                                            <option value="comercio" {% if user.ramo=='comercio' %}selected{% endif %}>
+                                            <option value="comercio" {% if user.Ramo=='comercio' %}selected{% endif %}>
                                                 Comércio</option>
-                                            <option value="industria" {% if user.ramo=='industria' %}selected{% endif
+                                            <option value="industria" {% if user.Ramo=='industria' %}selected{% endif
                                                 %}>Indústria</option>
-                                            <option value="servicos" {% if user.ramo=='servicos' %}selected{% endif %}>
+                                            <option value="servicos" {% if user.Ramo=='servicos' %}selected{% endif %}>
                                                 Serviços</option>
-                                            <option value="construcao" {% if user.ramo=='construcao' %}selected{% endif
+                                            <option value="construcao" {% if user.Ramo=='construcao' %}selected{% endif
                                                 %}>Construção Civil</option>
-                                            <option value="tecnologia" {% if user.ramo=='tecnologia' %}selected{% endif
+                                            <option value="tecnologia" {% if user.Ramo=='tecnologia' %}selected{% endif
                                                 %}>Tecnologia</option>
-                                            <option value="saude" {% if user.ramo=='saude' %}selected{% endif %}>Saúde
+                                            <option value="saude" {% if user.Ramo=='saude' %}selected{% endif %}>Saúde
                                             </option>
-                                            <option value="educacao" {% if user.ramo=='educacao' %}selected{% endif %}>
+                                            <option value="educacao" {% if user.Ramo=='educacao' %}selected{% endif %}>
                                                 Educação</option>
-                                            <option value="outro" {% if user.ramo=='outro' %}selected{% endif %}>Outro
+                                            <option value="outro" {% if user.Ramo=='outro' %}selected{% endif %}>Outro
                                             </option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="email">E-mail Corporativo</label>
-                                        <input type="email" id="email" name="email" value="{{ user.email }}" readonly>
+                                        <input type="email" id="email" name="email" value="{{ user.Email }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="telefone">Telefone Comercial</label>
-                                        <input type="tel" id="telefone" name="telefone" value="{{ user.telefone }}"
+                                        <input type="tel" id="telefone" name="telefone" value="{{ user.Telefone_Comercial }}"
                                             readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="celular">Celular</label>
-                                        <input type="tel" id="celular" name="celular" value="{{ user.celular }}"
+                                        <input type="tel" id="celular" name="celular" value="{{ user.Celular }}"
                                             readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="tamanho">Tamanho da Empresa</label>
                                         <select id="tamanho" name="tamanho" disabled>
-                                            <option value="micro" {% if user.tamanho=='micro' %}selected{% endif %}>
+                                            <option value="micro" {% if user.Tamanho_da_Empresa=='micro' %}selected{% endif %}>
                                                 Microempresa</option>
-                                            <option value="pequena" {% if user.tamanho=='pequena' %}selected{% endif %}>
+                                            <option value="pequena" {% if user.Tamanho_da_Empresa=='pequena' %}selected{% endif %}>
                                                 Pequena Empresa</option>
-                                            <option value="media" {% if user.tamanho=='media' %}selected{% endif %}>
+                                            <option value="media" {% if user.Tamanho_da_Empresa=='media' %}selected{% endif %}>
                                                 Média Empresa</option>
-                                            <option value="grande" {% if user.tamanho=='grande' %}selected{% endif %}>
+                                            <option value="grande" {% if user.Tamanho_da_Empresa=='grande' %}selected{% endif %}>
                                                 Grande Empresa</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="rep">Representante Legal</label>
                                         <input type="text" id="rep" name="representante"
-                                            value="{{ user.representante }}" readonly>
+                                            value="{{ user.Nome }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="cpf_representante">CPF do Representante</label>
                                         <input type="text" id="cpf_representante" name="cpf_representante"
-                                            value="{{ user.cpf_representante }}" readonly>
+                                            value="{{ user.CPF }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="cargo_representante">Cargo do Representante</label>
                                         <input type="text" id="cargo_representante" name="cargo_representante"
-                                            value="{{ user.cargo_representante }}" readonly>
+                                            value="{{ user.Cargo }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-actions" id="form-actions-perfil" style="display: none;">

@@ -9,8 +9,99 @@ document.addEventListener('DOMContentLoaded', function () {
     if (currentPage === 'portal-cliente') {
         initPortalCliente();
         initImageUpload(); // Adiciona a função de upload de imagem
+        initCEP(); // Inicializa a funcionalidade de CEP
     }
 });
+
+// ===== INICIALIZAÇÃO DA API DE CEP =====
+function initCEP() {
+    // Adicionar evento para buscar CEP quando o campo perder o foco
+    const cepInputs = document.querySelectorAll('#cep, #cep_empresa');
+    cepInputs.forEach(cepInput => {
+        cepInput.addEventListener('blur', function() {
+            buscarEnderecoPorCEP(this);
+        });
+    });
+}
+
+// ===== API DE CEP =====
+async function buscarEnderecoPorCEP(cepInput) {
+    const cep = cepInput.value.replace(/\D/g, '');
+    
+    // Verifica se CEP tem 8 dígitos
+    if (cep.length !== 8) {
+        return;
+    }
+
+    try {
+        // Mostrar loading
+        cepInput.classList.add('carregando');
+        
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const dados = await response.json();
+
+        // Remover loading
+        cepInput.classList.remove('carregando');
+
+        if (dados.erro) {
+            mostrarMensagemTemporaria('CEP não encontrado.', 'error');
+            return;
+        }
+
+        // Preencher campos de endereço automaticamente
+        preencherEnderecoPortal(dados, cepInput.id);
+
+    } catch (error) {
+        console.error('Erro ao buscar CEP:', error);
+        cepInput.classList.remove('carregando');
+        mostrarMensagemTemporaria('Erro ao buscar CEP. Tente novamente.', 'error');
+    }
+}
+
+// ===== PREENCHER ENDEREÇO NO PORTAL =====
+function preencherEnderecoPortal(dados, cepFieldId) {
+    // Determinar os IDs dos campos baseado no campo de CEP usado
+    const isEmpresa = cepFieldId === 'cep_empresa';
+    const prefix = isEmpresa ? 'empresa_' : '';
+    
+    const campos = {
+        logradouro: `${prefix}logradouro`,
+        bairro: `${prefix}bairro`,
+        cidade: `${prefix}cidade`,
+        estado: `${prefix}estado`
+    };
+
+    // Preencher cada campo se existir
+    Object.keys(campos).forEach(chave => {
+        const campoId = campos[chave];
+        const campo = document.getElementById(campoId);
+        
+        if (campo && dados[chave]) {
+            campo.value = dados[chave];
+            
+            // Disparar evento de change para atualizar o estado do campo
+            setTimeout(() => {
+                campo.dispatchEvent(new Event('change', { bubbles: true }));
+            }, 100);
+        }
+    });
+
+    // Preencher complemento se estiver vazio
+    const complementoField = document.getElementById(`${prefix}complemento`);
+    if (complementoField && dados.complemento && !complementoField.value) {
+        complementoField.value = dados.complemento;
+    }
+
+    // Focar no campo número para facilitar o preenchimento
+    const numeroField = document.getElementById(`${prefix}numero`);
+    if (numeroField) {
+        setTimeout(() => {
+            numeroField.focus();
+        }, 200);
+    }
+
+    mostrarMensagemTemporaria('Endereço preenchido automaticamente!', 'success');
+}
 
 // ===== PAGINA PORTAL DO CLIENTE ======
 function initPortalCliente() {
@@ -330,6 +421,86 @@ function initPortalCliente() {
             }
         });
     });
+
+    // Validação de campos de endereço quando editados
+    const camposEndereco = document.querySelectorAll('#form-endereco input, #form-endereco select');
+    camposEndereco.forEach(campo => {
+        campo.addEventListener('blur', function() {
+            if (!this.hasAttribute('readonly') && !this.disabled) {
+                validarCampoEndereco(this);
+            }
+        });
+    });
+}
+
+// ===== VALIDAÇÃO DE CAMPOS DE ENDEREÇO =====
+function validarCampoEnderepo(campo) {
+    const valor = campo.value.trim();
+    let erro = '';
+
+    const validacoes = {
+        'cep': () => {
+            const cepNumeros = valor.replace(/\D/g, '');
+            if (cepNumeros.length !== 8) return 'CEP deve conter 8 dígitos.';
+            if (!/^[0-9]{8}$/.test(cepNumeros)) return 'CEP inválido.';
+            return '';
+        },
+        'logradouro': () => {
+            if (!valor) return 'Logradouro é obrigatório.';
+            if (valor.length < 3) return 'Logradouro muito curto.';
+            return '';
+        },
+        'numero': () => {
+            if (!valor) return 'Número é obrigatório.';
+            return '';
+        },
+        'bairro': () => {
+            if (!valor) return 'Bairro é obrigatório.';
+            if (valor.length < 2) return 'Bairro muito curto.';
+            return '';
+        },
+        'cidade': () => {
+            if (!valor) return 'Cidade é obrigatória.';
+            if (valor.length < 2) return 'Cidade muito curta.';
+            return '';
+        },
+        'estado': () => {
+            if (!valor) return 'Estado é obrigatório.';
+            if (valor.length !== 2) return 'Estado deve ter 2 caracteres.';
+            return '';
+        },
+        'complemento': () => {
+            // Complemento é opcional, sem validação específica
+            return '';
+        }
+    };
+
+    // Para campos de empresa (com prefixo empresa_)
+    const campoId = campo.id.replace('empresa_', '');
+    if (validacoes[campoId]) {
+        erro = validacoes[campoId]();
+    }
+
+    mostrarMensagemErroEndereco(campo, erro);
+}
+
+function mostrarMensagemErroEndereco(campo, erro) {
+    let mensagemErro = campo.parentNode.querySelector('.mensagem-erro');
+
+    if (erro) {
+        if (!mensagemErro) {
+            mensagemErro = document.createElement('div');
+            mensagemErro.className = 'mensagem-erro';
+            campo.parentNode.appendChild(mensagemErro);
+        }
+        mensagemErro.textContent = erro;
+        campo.classList.add('erro');
+    } else {
+        if (mensagemErro) {
+            mensagemErro.remove();
+        }
+        campo.classList.remove('erro');
+    }
 }
 
 // ===== FUNÇÕES AUXILIARES PARA SENHA =====

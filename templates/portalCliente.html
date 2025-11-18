@@ -542,7 +542,7 @@
                         </div>
                         <div class="card-content">
                             <div class="seguranca-list">
-                                <button class="btn-admin" id="btn-alterar-senha">
+                                <button class="btn-admin" id="btn-alterar-senha" href="{{ 'user_bp.atualizarSenha' }}">
                                     <i class="fas fa-key"></i> Alterar Senha
                                 </button>
                                 <button class="btn-admin">
@@ -593,7 +593,7 @@
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <a class="btn-action btn-danger" href="{{ url_for('reserva_bp.excluirReserva', id_reserva = reserva.Id_Reserva) }}">Cancelar</a>
+                                        <a class="btn-action btn-danger" href="">Cancelar</a>
                                         <button type="submit" class="btn-primary">Alterar Senha</button>
                                     </div>
                                 </form>

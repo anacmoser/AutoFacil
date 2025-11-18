@@ -396,7 +396,7 @@
                     <form action="{{ url_for('reserva_bp.confirmarReserva', id_reserva = reserva.Id_Reserva) }}" method="POST"
                         id="form-pagamento">
                         <input type="hidden" name="metodo_pagamento" id="metodo-pagamento-hidden">
-                        <input type="hidden" name="cnh" id="cnh-hidden" value="{{ user.CNH }}">
+                        <input type="hidden" name="cnh" id="cnh-hidden" value="{{ user.CNH if user.CNH }}">
                         <button type="submit" class="btn-confirmar-pagamento" id="btn-confirmar" disabled>
                             <i class="fas fa-lock"></i>
                             Confirmar e Pagar

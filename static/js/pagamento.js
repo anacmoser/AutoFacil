@@ -89,42 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
             cartaoForm.style.display = 'none';
             parcelamentoGroup.style.display = 'none';
         }
-
-        atualizarTotalReserva(metodo);
-    }
-
-    function atualizarTotalReserva(metodo) {
-        const totalElement = document.getElementById('total-reserva');
-        if (!totalElement) return;
-
-        // Extrair valor atual do total (sem desconto)
-        const totalTexto = totalElement.textContent.replace('R$', '').replace(',', '.').trim();
-        let totalBase = parseFloat(totalTexto);
-
-        // Se já tem desconto aplicado, remover para recalcular
-        if (descontoPix && descontoPix.style.display !== 'none') {
-            const descontoTexto = valorDesconto.textContent.replace('-', '').replace('R$', '').replace(',', '.').trim();
-            const descontoValor = parseFloat(descontoTexto);
-            totalBase += descontoValor;
-        }
-
-        let total = totalBase;
-
-        if (metodo === 'pix') {
-            const desconto = totalBase * 0.05;
-            total = totalBase - desconto;
-
-            if (descontoPix) {
-                descontoPix.style.display = 'flex';
-                valorDesconto.textContent = '- R$ ' + desconto.toFixed(2).replace('.', ',');
-            }
-        } else {
-            if (descontoPix) {
-                descontoPix.style.display = 'none';
-            }
-        }
-
-        totalElement.textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
     }
 
     // ====== VALIDAÇÃO DO FORMULÁRIO ======
@@ -135,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let formularioValido = metodoSelecionado && termosAceitos;
 
         if (cnhInput && cnhInput.offsetParent !== null) {
-            const cnhValida = cnhInput.value.length === 11;
+            const cnhValida = validarCNHCompleta(cnhInput.value);
             formularioValido = formularioValido && cnhValida;
         }
 
@@ -146,6 +110,77 @@ document.addEventListener('DOMContentLoaded', function () {
 
         btnConfirmar.disabled = !formularioValido;
         return formularioValido;
+    }
+
+    // ====== VALIDAÇÃO DA CNH ======
+    function validarCNHCompleta(cnh) {
+        // Remove caracteres não numéricos
+        cnh = cnh.replace(/\D/g, '');
+        
+        // Verifica se tem 11 dígitos
+        if (cnh.length !== 11) {
+            return false;
+        }
+
+        // Verifica se não é uma sequência de números iguais
+        if (/^(\d)\1+$/.test(cnh)) {
+            return false;
+        }
+
+        // Algoritmo de validação da CNH
+        let soma = 0;
+        let multiplicador = 9;
+        
+        // Primeira verificação
+        for (let i = 0; i < 9; i++) {
+            soma += parseInt(cnh.charAt(i)) * multiplicador;
+            multiplicador--;
+        }
+        
+        let digito1 = soma % 11;
+        if (digito1 === 10) {
+            digito1 = 0;
+        }
+        
+        // Segunda verificação
+        soma = 0;
+        multiplicador = 1;
+        
+        for (let i = 0; i < 9; i++) {
+            soma += parseInt(cnh.charAt(i)) * multiplicador;
+            multiplicador++;
+        }
+        
+        let resto = soma % 11;
+        let digito2 = resto === 10 ? 0 : resto;
+        
+        // Verifica se os dígitos calculados batem com os dígitos informados
+        return parseInt(cnh.charAt(9)) === digito1 && parseInt(cnh.charAt(10)) === digito2;
+    }
+
+    function validarCNH(input) {
+        const value = input.value.replace(/\D/g, '');
+        let valido = true;
+        let mensagem = '';
+
+        if (value.length === 0) {
+            mensagem = 'CNH é obrigatória';
+            valido = false;
+        } else if (value.length !== 11) {
+            mensagem = 'CNH deve ter 11 dígitos';
+            valido = false;
+        } else if (!validarCNHCompleta(value)) {
+            mensagem = 'CNH inválida';
+            valido = false;
+        }
+
+        if (!valido) {
+            mostrarErroCampo(input, mensagem);
+        } else {
+            limparErroCampo(input);
+        }
+
+        return valido;
     }
 
     // ====== CAMPOS DO CARTÃO ======
@@ -230,15 +265,6 @@ document.addEventListener('DOMContentLoaded', function () {
         input.value = value;
     }
 
-    function validarCNH(input) {
-        const value = input.value.replace(/\D/g, '');
-        if (value.length !== 11 && value.length > 0) {
-            mostrarErroCampo(input, 'CNH deve ter 11 dígitos');
-        } else {
-            limparErroCampo(input);
-        }
-    }
-
     function validarFormatoValidade(validade) {
         const regex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
         if (!regex.test(validade)) return false;
@@ -286,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Redireciona para minhas reservas
         setTimeout(() => {
-            window.location.href = '/minhasReservas';
+            window.location.href = '/portaldoCliente';
         }, 500);
     }
 
@@ -308,11 +334,20 @@ document.addEventListener('DOMContentLoaded', function () {
     // ====== SUBMISSÃO DO FORMULÁRIO ======
     if (formPagamento) {
         formPagamento.addEventListener('submit', function (e) {
-            e.preventDefault(); // Previne envio para testar
+            e.preventDefault();
 
             if (!validarFormulario()) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
+                alert('Por favor, preencha todos os campos obrigatórios corretamente.');
                 return;
+            }
+
+            // Validação específica da CNH
+            if (cnhInput && cnhInput.offsetParent !== null) {
+                if (!validarCNHCompleta(cnhInput.value)) {
+                    alert('Por favor, insira uma CNH válida.');
+                    cnhInput.focus();
+                    return;
+                }
             }
 
             btnConfirmar.disabled = true;
@@ -322,8 +357,10 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 mostrarModalReserva();
                 
-                // Para enviar de verdade, descomente:
-                formPagamento.submit();
+                // Submeter o formulário após mostrar o modal
+                setTimeout(() => {
+                    formPagamento.submit();
+                }, 3000);
             }, 2000);
         });
     }

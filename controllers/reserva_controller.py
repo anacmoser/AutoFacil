@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, render_template, session
+from flask import Flask, Blueprint, request, render_template, session, redirect, url_for
 from datetime import datetime
 from controllers.validacoes import validarCNH
 from controllers.user_controller import getUser
@@ -26,11 +26,16 @@ def reserva(veiculo_id):
     for veiculo in Veiculos.query.all():
         if veiculo.id == veiculo_id:
             if veiculo.status == 'disponível':
-                similares = Veiculos.query.filter_by(categoria=veiculo.categoria).all()
-                locais = Locais.query.all()
                 disponibilidade = verificar_disponibilidade(veiculo_id, data_ret, data_dev)
                 if disponibilidade == True:
-                    valorTotal = veiculo.precoDiario * dias * (1 + localDev.Porcentagem) + 45
+                    if dias >= 30 and dias < 90:
+                        valorTotal = (veiculo.precoDiario * dias * (1 + localDev.Porcentagem) + 45) * 0.90
+                    elif dias >= 90 and dias < 180:
+                        valorTotal = (veiculo.precoDiario * dias * (1 + localDev.Porcentagem) + 45) * 0.70
+                    elif dias >= 180:
+                        valorTotal = (veiculo.precoDiario * dias * (1 + localDev.Porcentagem) + 45) * 0.55
+                    else:
+                        valorTotal = veiculo.precoDiario * dias * (1 + localDev.Porcentagem) + 45
                     try:
                         nova_reserva = Reservas(
                             Id_Cliente = session.get('usuario_logado'),  #Arrumar o login de userPf para passar seu login
@@ -49,14 +54,13 @@ def reserva(veiculo_id):
 
                     except Exception as e:
                         db.session.rollback()
-                        return render_template('detalhe_veiculo.html', status=f'Erro ao reservar: {e}', veiculo=veiculo, veiculos_similares = similares, locais = locais)
-                    
-                    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+                        return redirect(url_for('reserva_bp.pgReserva', id_veiculo = veiculo.id))
+                
                     reserva = getReserva(session.get('usuario_logado'), veiculo_id, data_ret, data_dev)
     
-                    return render_template('pagamento.html', veiculo = veiculo, valorTotal = valorTotal, user = user, reserva = reserva)
+                    return redirect(url_for('reserva_bp.pgPagamento', id_reserva = reserva.Id_Reserva))
                 elif disponibilidade == False:
-                    return render_template('detalhe_veiculo.html', status = 'Veículo indiponível nesta data', veiculo=veiculo, veiculos_similares = similares, locais = locais)
+                    return redirect(url_for('reserva_bp.pgReserva', id_veiculo = veiculo.id))
                 else:
                     raise ValueError('Algo deu errado')
 
@@ -83,6 +87,20 @@ def confirmarReserva(id_reserva):
     db.session.commit() 
     return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva)
     
+@reserva_bp.route('/pgPagamento/<int:id_reserva>')
+def pgPagamento(id_reserva):
+    reserva = Reservas.query.get(id_reserva)
+    veiculo = Veiculos.query.get(reserva.Id_Veiculo)
+    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+    return render_template('pagamento.html', veiculo = veiculo, valorTotal = reserva.Valor_Total, user = user, reserva = reserva)
+
+@reserva_bp.route('/pgReserva/<int:id_veiculo>')
+def pgReserva(id_veiculo):
+    veiculo = Veiculos.query.get(id_veiculo)
+    locais = Locais.query.all()
+    similares = Veiculos.query.filter_by(categoria=veiculo.categoria).all()
+    
+    return render_template('detalhe_veiculo.html', status='Veículo indisponível nessa data', veiculo=veiculo, veiculos_similares = similares, locais = locais)
 
 def verificar_disponibilidade(veiculo_id, inicio, fim):
     conflito = (db.session.query(Reservas)

@@ -9,7 +9,7 @@ TAREFAS:
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, abort
 import math
 from models.Veiculo import Veiculos
-from models.UserPj import USERSpj
+from models.UserPj import UserPjDB
 from controllers.veiculo_controller import veiculo_bp
 from controllers.userPf_controller import user_pf_bp
 from controllers.userPj_controller import user_pj_bp

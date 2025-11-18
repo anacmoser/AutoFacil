@@ -74,8 +74,7 @@ Implementações previstas:
 - Navegação **sem mouse** (via teclado).  
 - Navegação **sem teclado** (via mouse).   
 - **Alto contraste** e combinações de cores acessíveis.  
-- Evitar elementos piscantes/cintilantes.  
-- Descrições alternativas para imagens e botões.  
+- Evitar elementos piscantes/cintilantes.   
 
 O sistema contará ainda com uma **barra de acessibilidade** para facilitar ajustes pelo usuário.  
 

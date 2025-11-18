@@ -53,7 +53,7 @@ function initPortalCliente() {
     const cancelarConfirmacaoBtn = document.getElementById('cancelar-confirmacao');
     let acaoPendente = null; // Para armazenar qual ação será executada após confirmação
 
-    // ===== EVENTO DO BOTÃO ALTERAR SENHA - ADICIONADO =====
+    // ===== EVENTO DO BOTÃO ALTERAR SENHA - CORRIGIDO =====
     if (btnAlterarSenha && formAlterarSenha) {
         btnAlterarSenha.addEventListener('click', function() {
             console.log('Botão alterar senha clicado');
@@ -118,7 +118,7 @@ function initPortalCliente() {
         });
     }
 
-    // Cancelar alteração de senha
+    // Cancelar alteração de senha - CORRIGIDO
     if (cancelarAlterarSenhaBtn && formAlterarSenha && btnAlterarSenha) {
         cancelarAlterarSenhaBtn.addEventListener('click', function () {
             console.log('Cancelar alteração de senha clicado');
@@ -131,10 +131,12 @@ function initPortalCliente() {
         });
     }
 
-    // Formulário de nova senha
+    // Formulário de nova senha - CORRIGIDO (REMOVER preventDefault)
     if (formNovaSenha) {
         formNovaSenha.addEventListener('submit', function (e) {
-            e.preventDefault();
+            // REMOVER e.preventDefault() - DEIXAR O FORMULÁRIO SER ENVIADO
+            // e.preventDefault();
+            
             console.log('Formulário de senha submetido');
 
             const senhaAtual = document.getElementById('senha-atual').value;
@@ -143,11 +145,19 @@ function initPortalCliente() {
 
             // Validações
             if (!validarSenha(senhaAtual, novaSenha, confirmarSenha)) {
+                e.preventDefault(); // Só prevenir se houver erro de validação
                 return;
             }
 
-            // Simular envio para o servidor
-            alterarSenhaNoServidor(senhaAtual, novaSenha);
+            // Mostrar loading
+            const btnSubmit = this.querySelector('button[type="submit"]');
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Alterando...';
+            }
+
+            // O formulário será enviado normalmente para o Flask
+            // Não precisa fazer nada aqui, o formulário segue o fluxo normal
         });
     }
 
@@ -210,7 +220,7 @@ function initPortalCliente() {
         });
     });
 
-    // Exclusão de conta
+    // Exclusão de conta - CORRIGIDO (enviar formulário em vez de simular)
     const excluirContaBtn = document.getElementById('excluir-conta');
     const modalExcluir = document.getElementById('modal-excluir');
     const modalClose = document.querySelector('.modal-close');
@@ -237,12 +247,13 @@ function initPortalCliente() {
 
     if (confirmarExclusaoBtn) {
         confirmarExclusaoBtn.addEventListener('click', function () {
-            if (modalExcluir) modalExcluir.style.display = 'none';
-            mostrarMensagemTemporaria('Conta excluída com sucesso!', 'success');
-
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 2000);
+            // Criar um formulário dinâmico para exclusão
+            const formExcluir = document.createElement('form');
+            formExcluir.method = 'POST';
+            formExcluir.action = '/excluirConta';
+            
+            document.body.appendChild(formExcluir);
+            formExcluir.submit();
         });
     }
 

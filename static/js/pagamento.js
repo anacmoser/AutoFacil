@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (validade) {
-            valide.addEventListener('input', function (e) {
+            validade.addEventListener('input', function (e) {
                 formatarValidade(e.target);
                 validarFormulario();
             });
@@ -334,11 +334,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // ====== SUBMISSÃO DO FORMULÁRIO ======
     if (formPagamento) {
         formPagamento.addEventListener('submit', function (e) {
-            // REMOVER O preventDefault() - DEIXAR O FORMULÁRIO SER ENVIADO NORMALMENTE
-            // e.preventDefault();
+            e.preventDefault();
 
             if (!validarFormulario()) {
-                e.preventDefault(); // Só prevenir se o formulário for inválido
                 alert('Por favor, preencha todos os campos obrigatórios corretamente.');
                 return;
             }
@@ -346,19 +344,24 @@ document.addEventListener('DOMContentLoaded', function () {
             // Validação específica da CNH
             if (cnhInput && cnhInput.offsetParent !== null) {
                 if (!validarCNHCompleta(cnhInput.value)) {
-                    e.preventDefault(); // Só prevenir se a CNH for inválida
                     alert('Por favor, insira uma CNH válida.');
                     cnhInput.focus();
                     return;
                 }
             }
 
-            // Apenas mostrar loading, mas deixar o formulário ser enviado
             btnConfirmar.disabled = true;
             btnConfirmar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
 
-            // O formulário será enviado normalmente para o Flask
-            // Remover a simulação de processamento que impedia o envio
+            // Simular processamento
+            setTimeout(() => {
+                mostrarModalReserva();
+                
+                // Submeter o formulário após mostrar o modal
+                setTimeout(() => {
+                    formPagamento.submit();
+                }, 3000);
+            }, 2000);
         });
     }
 });

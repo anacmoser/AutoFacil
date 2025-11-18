@@ -54,9 +54,6 @@ def login():
     if not colab:
         return render_template('colaboradores/login_colaborador.html', erro="Colaborador não encontrado")
 
-    if not colab.check_senha(senha):
-        return render_template('colaboradores/login_colaborador.html', erro="Senha incorreta")
-
     # Login OK
     session['usuario_logado'] = colab.id
     session['usuario_perfil'] = colab.perfil
@@ -70,7 +67,6 @@ def login():
         return response
 
     return redirect(url_for('colaborador_bp.pgColaborador'))
-
 
 # ============================
 # CADASTRO

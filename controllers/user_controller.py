@@ -1,6 +1,8 @@
 from flask import Flask, Blueprint, session, render_template, make_response, redirect, url_for, request, abort
 from models.UserPj import USERSpj
 from models.UserPf import UserPfDB
+from models.Reservas import Reservas
+from models.Veiculo import Veiculos
 from controllers.validacoes import validarSenha
 from re import sub
 from models import db
@@ -10,25 +12,28 @@ user_bp = Blueprint('user_bp', __name__)
 
 @user_bp.route('/portaldoCliente')
 def portaldoCliente():
-    user = session.get('usuario_logado')
-    perfil = session.get('usuario_perfil')
 
-    if perfil == 'pj':
-        for userpj in USERSpj:
-            if userpj.id == user:
-                return render_template('portalCliente.html', user = userpj)
-    elif perfil == 'pf':
-        userpf = UserPfDB.query.get(session.get('usuario_logado'))
-        if userpf:
-            return render_template('portalCliente.html', user = userpf)
+    if session.get('usuario_logado') == None:
+        abort(401)
+    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+    reservas = Reservas.query.filter_by(Id_Cliente = user.Id_Cliente).all()
+    veiculos = Veiculos.query.all()
+
+    veiculos_dict = {veiculo.id: veiculo for veiculo in veiculos}
+    if user:
+        return render_template('portalCliente.html', user = user, reservas = reservas, veiculos = veiculos_dict)
+  
     else:
         return render_template('index.html')
+    
 
 @user_bp.route('/minhasReservas', methods=['GET'])
 def pgMinhasReservas():
     if session.get('usuario_logado') == None:
         abort(401)
-    return render_template('minhas_reservas.html')
+    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+    reservas = Reservas.query.filter_by(Id_Cliente = user.Id_Cliente).all()
+    return render_template('portalCliente.html', reservas)
 
 @user_bp.route('/login', methods=['GET'])
 def pgLogin():

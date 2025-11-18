@@ -417,13 +417,16 @@
                                 </select>
                             </div>
                         </div>
+                        {% if reservas %}
+                        {% for reserva in reservas %}
                         <div class="card-content">
                             <div class="reservas-list">
                                 <div class="reserva-item">
                                     <div class="reserva-info">
-                                        <h4>#RES001 - Hyundai HB20</h4>
-                                        <p>Período: 15/03/2025 a 20/03/2025</p>
-                                        <p>Agência: São Paulo - Centro</p>
+                                        <h4>#{{ reserva.Id_Reserva }} {{ veiculos[reserva.Id_Veiculo].nome }}</h4>
+                                        <p>Período: {{ reserva.Data_Retirada }} a {{ reserva.Data_Devolucao }}</p>
+                                        <p>Agência: {{ reserva.local_retirada }}</p>
+                                        <p>Devolução em : {{ reserva.local_retirada }}</p>
                                         <span class="reserva-status ativa">Ativa</span>
                                     </div>
                                     <div class="reserva-actions">
@@ -433,6 +436,8 @@
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
+                        {% endif %}
                     </div>
 
                     <div class="dashboard-card">

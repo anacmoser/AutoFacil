@@ -17,20 +17,68 @@ document.addEventListener('DOMContentLoaded', function () {
     const valorTotal = document.getElementById('valorTotal');
 
     // Preço diário do veículo (extraído do HTML)
-    const precoDiario = parseFloat('{{ veiculo.precoDiario }}');
+    let precoDiario = 0;
+    
+    // Controlar se o modal já foi mostrado
+    let modalMostrado = false;
 
     // Inicialização
-    inicializarDatas();
+    inicializarPagina();
+
+    function inicializarPagina() {
+        inicializarPrecoDiario();
+        inicializarDatas();
+        inicializarModal();
+    }
+
+    function inicializarPrecoDiario() {
+        try {
+            // Método 1: Do elemento HTML
+            const precoElement = document.querySelector('.preco-diario .valor');
+            if (precoElement) {
+                const precoTexto = precoElement.textContent.replace('R$', '').replace(',', '.').trim();
+                precoDiario = parseFloat(precoTexto);
+            }
+            
+            // Método 2: Se ainda for NaN, tentar do template
+            if (isNaN(precoDiario)) {
+                // Buscar o preço no template Flask
+                const precoTemplate = '{{ veiculo.precoDiario }}';
+                if (precoTemplate && precoTemplate !== '{{ veiculo.precoDiario }}') {
+                    precoDiario = parseFloat(precoTemplate);
+                }
+            }
+            
+            // Método 3: Valor padrão se ainda for NaN
+            if (isNaN(precoDiario)) {
+                precoDiario = 100; // Valor padrão
+                console.warn('Preço diário não encontrado, usando valor padrão:', precoDiario);
+            }
+
+            console.log('Preço diário carregado:', precoDiario);
+        } catch (error) {
+            console.error('Erro ao extrair preço diário:', error);
+            precoDiario = 100; // Valor padrão em caso de erro
+        }
+    }
 
     function inicializarDatas() {
         // Configurar data mínima para hoje
         const hoje = new Date().toISOString().split('T')[0];
-        dataRetirada.min = hoje;
-        dataDevolucao.min = hoje;
+        if (dataRetirada) dataRetirada.min = hoje;
+        if (dataDevolucao) dataDevolucao.min = hoje;
 
         // Event listeners para validação de datas
-        dataRetirada.addEventListener('change', validarDatas);
-        dataDevolucao.addEventListener('change', validarDatas);
+        if (dataRetirada) {
+            dataRetirada.addEventListener('change', function() {
+                validarDatas();
+                atualizarDataDevolucaoMinima();
+            });
+        }
+
+        if (dataDevolucao) {
+            dataDevolucao.addEventListener('change', validarDatas);
+        }
 
         // Event listeners para locais
         if (localRetirada) {
@@ -44,14 +92,57 @@ document.addEventListener('DOMContentLoaded', function () {
         validarFormulario();
     }
 
+    function inicializarModal() {
+        // Event listener para fechar modal
+        const btnFecharModal = document.getElementById('btnFecharModal');
+        if (btnFecharModal) {
+            btnFecharModal.addEventListener('click', fecharModalDesconto);
+        }
+
+        // Fechar modal clicando fora
+        const modalDesconto = document.getElementById('modalDesconto');
+        if (modalDesconto) {
+            modalDesconto.addEventListener('click', function(e) {
+                if (e.target === modalDesconto) {
+                    fecharModalDesconto();
+                }
+            });
+        }
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalDesconto();
+            }
+        });
+    }
+
+    function atualizarDataDevolucaoMinima() {
+        if (dataRetirada.value && dataDevolucao) {
+            dataDevolucao.min = dataRetirada.value;
+            
+            // Se a data de devolução for anterior à nova data mínima, limpar
+            if (dataDevolucao.value && dataDevolucao.value < dataRetirada.value) {
+                dataDevolucao.value = '';
+                ocultarInformacoesReserva();
+            }
+        }
+    }
+
     function validarDatas() {
+        if (!dataRetirada.value || !dataDevolucao.value) {
+            ocultarInformacoesReserva();
+            return true; // Retorna true para não bloquear o formulário
+        }
+
         const dataRet = new Date(dataRetirada.value);
         const dataDev = new Date(dataDevolucao.value);
         const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
 
         // Reset do estilo
-        dataRetirada.style.borderColor = '';
-        dataDevolucao.style.borderColor = '';
+        if (dataRetirada) dataRetirada.style.borderColor = '';
+        if (dataDevolucao) dataDevolucao.style.borderColor = '';
 
         // Validar data de retirada
         if (dataRetirada.value && dataRet < hoje) {
@@ -84,6 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function mostrarErroData(campo, mensagem) {
+        if (!campo) return;
+        
         campo.style.borderColor = '#dc3545';
         
         // Remover mensagens anteriores
@@ -110,29 +203,111 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function atualizarInformacoesReserva(dias) {
+        // Validar dias
+        if (isNaN(dias) || dias < 1) {
+            console.error('Número de dias inválido:', dias);
+            return;
+        }
+
         // Atualizar texto de dias
-        textoDias.textContent = `${dias} ${dias === 1 ? 'dia' : 'dias'} de aluguel`;
+        if (textoDias) {
+            textoDias.textContent = `${dias} ${dias === 1 ? 'dia' : 'dias'} de aluguel`;
+        }
         
         // Calcular e atualizar valor total
         const total = precoDiario * dias;
-        valorTotal.textContent = total.toFixed(2).replace('.', ',');
-
+        
+        // Validar cálculo
+        if (isNaN(total)) {
+            console.error('Erro no cálculo do total. Preço:', precoDiario, 'Dias:', dias);
+            if (valorTotal) valorTotal.textContent = '0,00';
+        } else {
+            if (valorTotal) {
+                valorTotal.textContent = total.toFixed(2).replace('.', ',');
+            }
+        }
+        
         // Mostrar informações
-        diasReserva.style.display = 'block';
-        statusDisponibilidade.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> Veículo disponível para estas datas';
-
+        if (diasReserva) diasReserva.style.display = 'block';
+        if (statusDisponibilidade) {
+            statusDisponibilidade.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> Veículo disponível para estas datas';
+        }
+        
+        // Verificar e mostrar desconto se aplicável - APENAS NA PRIMEIRA VEZ
+        if (!modalMostrado) {
+            verificarDesconto(dias);
+            modalMostrado = true;
+        }
+        
         validarFormulario();
     }
 
     function ocultarInformacoesReserva() {
-        diasReserva.style.display = 'none';
-        statusDisponibilidade.innerHTML = '<i class="fas fa-info-circle"></i> Selecione as datas para verificar disponibilidade';
-        valorTotal.textContent = '0,00';
+        if (diasReserva) diasReserva.style.display = 'none';
+        if (statusDisponibilidade) {
+            statusDisponibilidade.innerHTML = '<i class="fas fa-info-circle"></i> Selecione as datas para verificar disponibilidade';
+        }
+        if (valorTotal) valorTotal.textContent = '0,00';
+    }
+
+    function verificarDesconto(dias) {
+        const modalDesconto = document.getElementById('modalDesconto');
+        const mensagemDesconto = document.getElementById('mensagemDesconto');
+        const periodoModal = document.getElementById('periodoModal');
+        const descontoModal = document.getElementById('descontoModal');
+        const economiaModal = document.getElementById('economiaModal');
+        const totalModal = document.getElementById('totalModal');
+        
+        if (!modalDesconto || !mensagemDesconto) return;
+        
+        let desconto = 0;
+        let mensagem = '';
+        
+        // MOSTRAR MODAL PARA QUALQUER DATA - APENAS NA PRIMEIRA VEZ
+        if (dias >= 1) {
+            if (dias >= 30 && dias < 90) {
+                desconto = 10;
+                mensagem = 'Desconto especial para aluguel de 30 a 89 dias!';
+            } else if (dias >= 90 && dias < 180) {
+                desconto = 30;
+                mensagem = 'Excelente desconto para aluguel de 90 a 179 dias!';
+            } else if (dias >= 180) {
+                desconto = 45;
+                mensagem = 'Super desconto para aluguel acima de 180 dias!';
+            } else {
+                desconto = 0;
+                mensagem = 'Confira nossos descontos para períodos mais longos!';
+            }
+            
+            const totalSemDesconto = precoDiario * dias;
+            const valorDesconto = totalSemDesconto * (desconto / 100);
+            const totalComDesconto = totalSemDesconto - valorDesconto;
+            
+            mensagemDesconto.textContent = mensagem;
+            if (periodoModal) periodoModal.textContent = `${dias} dias`;
+            if (descontoModal) descontoModal.textContent = desconto > 0 ? `${desconto}%` : '0%';
+            if (economiaModal) economiaModal.textContent = desconto > 0 ? `R$ ${valorDesconto.toFixed(2).replace('.', ',')}` : 'R$ 0,00';
+            if (totalModal) totalModal.textContent = `R$ ${totalComDesconto.toFixed(2).replace('.', ',')}`;
+            
+            // Mostrar o modal
+            modalDesconto.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            console.log('Modal de desconto exibido para', dias, 'dias');
+        }
+    }
+
+    function fecharModalDesconto() {
+        const modalDesconto = document.getElementById('modalDesconto');
+        if (modalDesconto) {
+            modalDesconto.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
     }
 
     function validarFormulario() {
-        const dataRet = dataRetirada.value;
-        const dataDev = dataDevolucao.value;
+        const dataRet = dataRetirada ? dataRetirada.value : '';
+        const dataDev = dataDevolucao ? dataDevolucao.value : '';
         const localRet = localRetirada ? localRetirada.value : '';
         const localDev = localDevolucao ? localDevolucao.value : '';
 
@@ -148,26 +323,47 @@ document.addEventListener('DOMContentLoaded', function () {
         // Habilitar/desabilitar botão
         if (btnReservar) {
             btnReservar.disabled = !formularioValido;
+            
+            // Atualizar estilo do botão
+            if (formularioValido) {
+                btnReservar.style.backgroundColor = '#ff8c14';
+                btnReservar.style.cursor = 'pointer';
+            } else {
+                btnReservar.style.backgroundColor = '#ccc';
+                btnReservar.style.cursor = 'not-allowed';
+            }
         }
 
         return formularioValido;
     }
 
-    // Prevenir envio se formulário inválido
-    const formReserva = document.querySelector('.form-reserva form');
-    if (formReserva) {
-        formReserva.addEventListener('submit', function (e) {
-            if (!validarFormulario()) {
-                e.preventDefault();
-                alert('Por favor, preencha todas as datas e locais corretamente antes de reservar.');
-                return;
-            }
+    // REMOVER A VALIDAÇÃO QUE IMPEDE O ENVIO DO FORMULÁRIO
+    // O formulário deve ser enviado normalmente, a validação do servidor vai tratar os erros
 
-            if (!validarDatas()) {
-                e.preventDefault();
-                alert('Por favor, corrija as datas antes de reservar.');
-                return;
-            }
+    // Miniaturas da galeria
+    const miniaturas = document.querySelectorAll('.miniatura');
+    const imagemPrincipal = document.getElementById('imagemPrincipal');
+
+    if (miniaturas.length > 0 && imagemPrincipal) {
+        miniaturas.forEach(miniatura => {
+            miniatura.addEventListener('click', function() {
+                // Remover classe active de todas as miniaturas
+                miniaturas.forEach(m => m.classList.remove('active'));
+                
+                // Adicionar classe active na miniatura clicada
+                this.classList.add('active');
+                
+                // Atualizar imagem principal
+                const novaImagem = this.getAttribute('data-imagem');
+                if (novaImagem) {
+                    imagemPrincipal.src = novaImagem;
+                    imagemPrincipal.alt = this.querySelector('img').alt;
+                }
+            });
         });
     }
+
+    // Debug: Log para verificar se o script carregou corretamente
+    console.log('Script de detalhes do veículo carregado com sucesso');
+    console.log('Preço diário:', precoDiario);
 });

@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from models import db
+import bcrypt
 
 class UserPfDB(db.Model):
     __tablename__ = 'UserPf'
@@ -20,3 +21,15 @@ class UserPfDB(db.Model):
     Cidade = db.Column(db.String(50))
     Senha = db.Column(db.String(255), nullable=False)
     img_perfil = db.Column(db.String(2048))
+
+    def set_senha(self, senha_plana):
+        self.Senha = bcrypt.hashpw(
+            senha_plana.encode('utf-8'),
+            bcrypt.gensalt()
+        ).decode('utf-8')
+
+    def verificar_senha(self, senha_plana):
+        return bcrypt.checkpw(
+            senha_plana.encode('utf-8'),
+            self.Senha.encode('utf-8')
+        )

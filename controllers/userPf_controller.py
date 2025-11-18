@@ -13,6 +13,10 @@ from controllers.validacoes import validacaoGeralPf
 import re
 from models.UserPf import db, UserPfDB
 from models import db
+import bcrypt
+from flask_sqlalchemy import SQLAlchemy
+
+
 user_pf_bp = Blueprint('user_pf_bp', __name__)
 
 
@@ -44,9 +48,14 @@ def cadastro():
 
     erros = validacaoGeralPf(Nome, Data_Nascimento, CPF, Telefone, Email, cep, bairro, estado, cidade, senha, confirmar_senha, logradouro, numero, complemento)
     
-    
     if erros:
         return render_template('cadastro.html', erros = erros)
+    
+    if UserPfDB.query.filter_by(Email=Email).first():
+        return render_template('cadastro.html', erros = ['Email já cadastrado'])
+
+    if UserPfDB.query.filter_by(CPF=CPF).first():
+        return render_template('cadastro.html', erros = ['CPF já cadastrado'])
 
     try:
         # Criar novo usuário e salvar no MySQL
@@ -65,6 +74,8 @@ def cadastro():
             Cidade=cidade,
             Senha=senha
         )
+
+        novo_usuario.set_senha(senha)
 
         db.session.add(novo_usuario)
         db.session.commit()
@@ -111,7 +122,7 @@ def login():
             return render_template('login.html', erro='Usuário não encontrado')
 
         # Verificar senha
-        if user.Senha != senha:
+        if user.verificar_senha(senha):
             return render_template('login.html', erro='Senha incorreta')
 
         # Login bem-sucedido

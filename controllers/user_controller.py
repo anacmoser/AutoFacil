@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint, session, render_template, make_response, redirect, url_for, request, abort
-from models.UserPj import USERSpj
+from models.UserPj import UserPjDB
 from models.UserPf import UserPfDB
 from models.Reservas import Reservas
 from models.Veiculo import Veiculos
@@ -15,7 +15,8 @@ def portaldoCliente():
 
     if session.get('usuario_logado') == None:
         abort(401)
-    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado')) 
+
     reservas = Reservas.query.filter_by(Id_Cliente = user.Id_Cliente).all()
     veiculos = Veiculos.query.all()
 
@@ -92,6 +93,5 @@ def getUser(perfil, id):
         user = UserPfDB.query.get(id)
         return user
     if perfil == 'pj':
-        for user in USERSpj:
-            if user.id == id:
-                return user
+        user = UserPjDB.query.get(id)
+        return user

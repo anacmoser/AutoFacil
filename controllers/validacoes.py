@@ -141,25 +141,22 @@ def validarCNH(cnh):
     if cnh_numeros == cnh_numeros[0] * 11:
         return False
 
+    # Calcula o primeiro dígito verificador
     soma = 0
     for i in range(9):
         soma += int(cnh_numeros[i]) * (9 - i)
-    dv1 = 0 if soma % 11 < 10 else 0
-    dv1 = 11 - (soma % 11)
-    if dv1 >= 10:
-        dv1 = 0
+    resto = soma % 11
+    dv1 = 0 if resto >= 10 else resto
 
+    # Calcula o segundo dígito verificador
     soma = 0
     for i in range(9):
         soma += int(cnh_numeros[i]) * (i + 1)
-    dv2 = 0 if soma % 11 < 10 else 0
-    dv2 = 11 - (soma % 11)
-    if dv2 >= 10:
-        dv2 = 0
-    if int(cnh_numeros[9]) == dv1 and int(cnh_numeros[10]) == dv2:
-        return True
+    soma += dv1 * 9
+    resto = soma % 11
+    dv2 = 0 if resto >= 10 else resto
 
-    return False
+    return int(cnh_numeros[9]) == dv1 and int(cnh_numeros[10]) == dv2
 
 def validacaoGeralPf(nome, nascimento, cpf, celular, email, cep, bairro, estado, cidade, senha, verificador, logradouro='', numero='', complemento=''):
         validacoes = [

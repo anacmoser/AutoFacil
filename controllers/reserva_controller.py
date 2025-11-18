@@ -105,7 +105,8 @@ def confirmarReserva(id_reserva):
         "Status": 'confirmada'  #O status também não está atualizando
     })
     db.session.commit() 
-    return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva)
+    return redirect(url_for('user_bp.portaldoCliente'))
+  
     
 @reserva_bp.route('/pgPagamento/<int:id_reserva>')
 def pgPagamento(id_reserva):

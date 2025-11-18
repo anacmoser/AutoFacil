@@ -18,7 +18,7 @@ function initCEP() {
     // Adicionar evento para buscar CEP quando o campo perder o foco
     const cepInputs = document.querySelectorAll('#cep, #cep_empresa');
     cepInputs.forEach(cepInput => {
-        cepInput.addEventListener('blur', function() {
+        cepInput.addEventListener('blur', function () {
             buscarEnderecoPorCEP(this);
         });
     });
@@ -27,7 +27,7 @@ function initCEP() {
 // ===== API DE CEP =====
 async function buscarEnderecoPorCEP(cepInput) {
     const cep = cepInput.value.replace(/\D/g, '');
-    
+
     // Verifica se CEP tem 8 dígitos
     if (cep.length !== 8) {
         return;
@@ -36,7 +36,7 @@ async function buscarEnderecoPorCEP(cepInput) {
     try {
         // Mostrar loading
         cepInput.classList.add('carregando');
-        
+
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const dados = await response.json();
 
@@ -63,7 +63,7 @@ function preencherEnderecoPortal(dados, cepFieldId) {
     // Determinar os IDs dos campos baseado no campo de CEP usado
     const isEmpresa = cepFieldId === 'cep_empresa';
     const prefix = isEmpresa ? 'empresa_' : '';
-    
+
     const campos = {
         logradouro: `${prefix}logradouro`,
         bairro: `${prefix}bairro`,
@@ -75,10 +75,10 @@ function preencherEnderecoPortal(dados, cepFieldId) {
     Object.keys(campos).forEach(chave => {
         const campoId = campos[chave];
         const campo = document.getElementById(campoId);
-        
+
         if (campo && dados[chave]) {
             campo.value = dados[chave];
-            
+
             // Disparar evento de change para atualizar o estado do campo
             setTimeout(() => {
                 campo.dispatchEvent(new Event('change', { bubbles: true }));
@@ -146,7 +146,7 @@ function initPortalCliente() {
 
     // ===== EVENTO DO BOTÃO ALTERAR SENHA - CORRIGIDO =====
     if (btnAlterarSenha && formAlterarSenha) {
-        btnAlterarSenha.addEventListener('click', function() {
+        btnAlterarSenha.addEventListener('click', function () {
             console.log('Botão alterar senha clicado');
             formAlterarSenha.style.display = 'block';
             this.style.display = 'none';
@@ -227,7 +227,7 @@ function initPortalCliente() {
         formNovaSenha.addEventListener('submit', function (e) {
             // REMOVER e.preventDefault() - DEIXAR O FORMULÁRIO SER ENVIADO
             // e.preventDefault();
-            
+
             console.log('Formulário de senha submetido');
 
             const senhaAtual = document.getElementById('senha-atual').value;
@@ -342,7 +342,7 @@ function initPortalCliente() {
             const formExcluir = document.createElement('form');
             formExcluir.method = 'POST';
             formExcluir.action = '/excluirConta';
-            
+
             document.body.appendChild(formExcluir);
             formExcluir.submit();
         });
@@ -386,14 +386,6 @@ function initPortalCliente() {
                 case 'Detalhes':
                     mostrarMensagemTemporaria('Abrindo detalhes da reserva...', 'info');
                     break;
-                case 'Cancelar':
-                    if (confirm('Tem certeza que deseja cancelar esta reserva?')) {
-                        mostrarMensagemTemporaria('Reserva cancelada com sucesso!', 'success');
-                        this.closest('.reserva-item').querySelector('.reserva-status').textContent = 'Cancelada';
-                        this.closest('.reserva-item').querySelector('.reserva-status').className = 'reserva-status cancelada';
-                        this.remove();
-                    }
-                    break;
                 case 'Avaliar':
                     mostrarMensagemTemporaria('Abrindo formulário de avaliação...', 'info');
                     break;
@@ -425,7 +417,7 @@ function initPortalCliente() {
     // Validação de campos de endereço quando editados
     const camposEndereco = document.querySelectorAll('#form-endereco input, #form-endereco select');
     camposEndereco.forEach(campo => {
-        campo.addEventListener('blur', function() {
+        campo.addEventListener('blur', function () {
             if (!this.hasAttribute('readonly') && !this.disabled) {
                 validarCampoEndereco(this);
             }
@@ -596,7 +588,7 @@ function mostrarErroCampo(campoId, mensagem) {
         console.error('Campo não encontrado:', campoId);
         return;
     }
-    
+
     campo.classList.add('campo-erro');
 
     // Remove mensagem de erro anterior se existir
@@ -634,7 +626,7 @@ function alterarSenhaNoServidor(senhaAtual, novaSenha) {
             const formAlterarSenha = document.getElementById('form-alterar-senha');
             const btnAlterarSenha = document.getElementById('btn-alterar-senha');
             const formNovaSenha = document.getElementById('form-nova-senha');
-            
+
             if (formAlterarSenha) formAlterarSenha.style.display = 'none';
             if (btnAlterarSenha) btnAlterarSenha.style.display = 'block';
             if (formNovaSenha) {

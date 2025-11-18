@@ -150,7 +150,7 @@ function initAcessibilidade() {
         }
     }
 
-    let configAtual = carregarConfiguracoes();
+    let configAtual = carregarConfiguracoes(); 
     aplicarConfiguracoes(configAtual);
 
     const botoes = document.querySelectorAll('.acessibilidade-btn');

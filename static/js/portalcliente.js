@@ -560,10 +560,17 @@ function validarSenha(senhaAtual, novaSenha, confirmarSenha) {
         valido = false;
     }
 
-    // Validar nova senha
-    if (!novaSenha || novaSenha.length < 6) {
-        mostrarErroCampo('nova-senha', 'A senha deve ter pelo menos 6 caracteres');
+    // Validar nova senha - CRITÉRIOS FORTES
+    if (!novaSenha || novaSenha.length < 8) {
+        mostrarErroCampo('nova-senha', 'A senha deve ter pelo menos 8 caracteres');
         valido = false;
+    } else {
+        // Verificar critérios de senha forte
+        const criterios = validarForcaSenha(novaSenha);
+        if (!criterios.valida) {
+            mostrarErroCampo('nova-senha', criterios.mensagem);
+            valido = false;
+        }
     }
 
     // Validar confirmação
@@ -580,6 +587,38 @@ function validarSenha(senhaAtual, novaSenha, confirmarSenha) {
 
     console.log('Validação resultado:', valido);
     return valido;
+}
+
+// ===== FUNÇÃO PARA VALIDAR FORÇA DA SENHA =====
+function validarForcaSenha(senha) {
+    const criterios = {
+        tamanho: senha.length >= 8,
+        maiuscula: /[A-Z]/.test(senha),
+        minuscula: /[a-z]/.test(senha),
+        numero: /[0-9]/.test(senha)
+    };
+
+    const mensagens = [];
+    
+    if (!criterios.tamanho) {
+        mensagens.push('mínimo 8 caracteres');
+    }
+    if (!criterios.maiuscula) {
+        mensagens.push('pelo menos uma letra maiúscula');
+    }
+    if (!criterios.minuscula) {
+        mensagens.push('pelo menos uma letra minúscula');
+    }
+    if (!criterios.numero) {
+        mensagens.push('pelo menos um número');
+    }
+
+    const valida = criterios.tamanho && criterios.maiuscula && criterios.minuscula && criterios.numero;
+    
+    return {
+        valida: valida,
+        mensagem: valida ? '' : `Senha fraca. Requisitos: ${mensagens.join(', ')}.`
+    };
 }
 
 function mostrarErroCampo(campoId, mensagem) {

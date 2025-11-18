@@ -1,6 +1,8 @@
 from controllers.validacoes import validacaoGeralPj
 from models.User import User
 from models import db
+import bcrypt
+
 class UserPjDB(db.Model):
     __tablename__ = 'UserPj'
 
@@ -16,15 +18,28 @@ class UserPjDB(db.Model):
     Cargo = db.Column(db.String(50))
     Telefone_Comercial = db.Column(db.String(15))
     Celular = db.Column(db.String(15))
-    Email_Corporativo = db.Column(db.String(100))
+    #Email_Corporativo = db.Column(db.String(100))
+    Email = db.Column(db.String(100))
     CEP = db.Column(db.String(20))
-    Logradouro = db.Column(db.String(100))
+    Logradouro = db.Column(db.String(100)) 
     Numero = db.Column(db.String(10))
     Complemento = db.Column(db.String(50))
     Bairro = db.Column(db.String(50))
     Estado = db.Column(db.String(50))
     Cidade = db.Column(db.String(50))
     Senha = db.Column(db.String(255))
+
+    def set_senha(self, senha_plana):
+        self.Senha = bcrypt.hashpw(
+            senha_plana.encode('utf-8'),
+            bcrypt.gensalt()
+        ).decode('utf-8')
+
+    def verificar_senha(self, senha_plana):
+        return bcrypt.checkpw(
+            senha_plana.encode('utf-8'),
+            self.Senha.encode('utf-8')
+        )
 
 class UserPj(User):
     def __init__(self, id, perfil, razaoSocial, nomeFantasia, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, telefone, email, cep, logradouro, numero, bairro, estado, cidade, senha, confirmar, inscricaoEstadual='' ,cell='', complemento=''):

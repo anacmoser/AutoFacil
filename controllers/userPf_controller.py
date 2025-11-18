@@ -10,8 +10,8 @@ from flask import Flask, Blueprint, app, render_template, request, session, make
 from controllers.validacoes import validarEmail, validarCpf, validacaoGeralPf
 from models.UserPf import db, UserPfDB
 from models import db
-import bcrypt
 from flask_sqlalchemy import SQLAlchemy
+import re
 
 
 user_pf_bp = Blueprint('user_pf_bp', __name__)

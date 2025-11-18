@@ -7,7 +7,7 @@
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, make_response
 from controllers.validacoes import validarEmail, validarCNPJ
-from models.UserPj import UserPjDB, USERSpj, addUserPj, buscarUser, db
+from models.UserPj import UserPjDB, db
 import re
 
 user_pj_bp = Blueprint('user_pj_bp', __name__)
@@ -15,7 +15,7 @@ user_pj_bp = Blueprint('user_pj_bp', __name__)
 @user_pj_bp.route('/cadastrarPj', methods=['POST'])
 def cadastroEmpresa():
     global id_counter_pj
-    tipo_conta = request.args.get('tipo_conta')
+    tipo_conta = 'pj'
 
     rs = request.form.get('razao_social', '').strip()
     nf = request.form.get('nome_fantasia', '').strip()
@@ -50,6 +50,13 @@ def cadastroEmpresa():
         return render_template('cadastro.html', erros='Você deve aceitar os Termos de Uso.')
     if not autorizacao:
         return render_template('cadastro.html', erros='Você deve aceitar a Autorização.')
+    
+    if UserPjDB.query.filter_by(Email=email).first():
+        return render_template('cadastro.html', erros = ['Email já cadastrado'])
+
+    if UserPjDB.query.filter_by(CNPJ=cnpj).first():
+        return render_template('cadastro.html', erros = ['CNPJ já cadastrado'])
+
     try:
         novo_usuario = UserPjDB(
             Razao_Social=rs,
@@ -63,7 +70,7 @@ def cadastroEmpresa():
             Cargo=cargoRep,
             Telefone_Comercial=phone,
             Celular=cell,
-            Email_Corporativo=email,
+            Email=email,
             CEP=cep,
             Logradouro=logra,
             Numero=num,
@@ -73,6 +80,8 @@ def cadastroEmpresa():
             Cidade=cidade,
             Senha=senha
 )
+        novo_usuario.set_senha(senha)
+
         db.session.add(novo_usuario)
         db.session.commit()
         
@@ -101,7 +110,7 @@ def login():
         if '@' in user:
             if not validarEmail(user):
                 return render_template('login.html', erro = 'E-mail inválido')
-            user = UserPjDB.query.filter_by(Email_Corporativo=user).first()
+            user = UserPjDB.query.filter_by(Email=user).first()
         else:
             cnpj = re.sub(r'[^0-9]', '', user)
             if not validarCNPJ(cnpj):
@@ -112,7 +121,7 @@ def login():
             return render_template('login.html', erro='Usuário não encontrado')
 
         # Verificar senha
-        if user.Senha != senha:
+        if user.verificar_senha(senha):
             return render_template('login.html', erro='Senha incorreta')
 
         # Login bem-sucedido

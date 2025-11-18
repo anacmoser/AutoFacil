@@ -17,7 +17,6 @@ class Colaborador:
         if validacaoGeralColab(nome, perfil, senha, verificador, cpf, email):
             self._id = id
             self._nome = nome
-            self.perfil = perfil
             self._perfil = 'colab'
             self._cargo = cargo
             self._email = email

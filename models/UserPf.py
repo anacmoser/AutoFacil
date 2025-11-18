@@ -31,5 +31,5 @@ class UserPfDB(db.Model):
     def verificar_senha(self, senha_plana):
         return bcrypt.checkpw(
             senha_plana.encode('utf-8'),
-            self.Senha.encode('utf-8')
+            self.Senha.encode('utf-8') 
         )

@@ -51,31 +51,36 @@ def atualizarSenha():
     confirmar = request.form.get('confirmar_senha')
 
     user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+    reservas = Reservas.query.filter_by(Id_Cliente = user.Id_Cliente).all()
+    veiculos = Veiculos.query.all()
+
+    veiculos_dict = {veiculo.id: veiculo for veiculo in veiculos}
     erros = []
-    if user.Senha != senha_atual:
+
+    if not user.verificar_senha(senha_atual):
         erros.append('Senha atual incorreta')
+        
     if not validarSenha(nova_senha):
         erros.append('A nova senha deve conter letras maiúsculas e minúsculas e pelo menos 8 caracteres')
     if nova_senha != confirmar:
         erros.append('As senhas não coincidem')
 
     if erros:
-        return render_template('portalCliente', erros = erros)
+        return render_template('portalCliente.html', erros = erros,  user = user, reservas = reservas, veiculos = veiculos_dict)
     
     if session.get('usuario_perfil') == 'pf':
-        UserPfDB.query.filter_by(Id_Cliente=session.get('usuario_logado')).update({  #A senha não está atualizando, pode ser conflito com o js ou o problema é o comando no bd
-            "Senha": nova_senha
-        })
+        user = UserPfDB.query.get(session.get('usuario_logado'))
+        user.set_senha(nova_senha)
         db.session.commit() 
 
-        return render_template('portalCliente.html')
+        return redirect(url_for('user_bp.portaldoCliente'))
 
 @user_bp.route('/excluirConta', methods=['POST'])
 def excluir():
     user = getUser(session.get('usuario_perfil'), session.get('usuario_logado')) #Mesmo problema das outras rotas, pd ser js ou comando sql
     db.session.delete(user) 
     db.session.commit()
-    return redirect(url_for('logout'))
+    return redirect(url_for('user_bp.logout'))
 
 @user_bp.route('/logout', methods=['GET']) 
 def logout():

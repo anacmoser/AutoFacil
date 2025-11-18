@@ -427,6 +427,7 @@
                                         <p>Período: {{ reserva.Data_Retirada }} a {{ reserva.Data_Devolucao }}</p>
                                         <p>Agência: {{ reserva.local_retirada }}</p>
                                         <p>Devolução em : {{ reserva.local_devolucao }}</p>
+                                        <p>Status: : {{ reserva.Status }}</p>
                                         <span class="reserva-status ativa">Ativa</span>
                                     </div>
                                     <div class="reserva-actions">
@@ -561,7 +562,7 @@
                                         </ul>
                                     </div>
                                     {% endif %}
-                                    <form id="form-nova-senha" action="{{ url_for('user_bp.atualizarSenha') }}">
+                                    <form id="form-nova-senha" action="{{ url_for('user_bp.atualizarSenha') }}" method="POST">
                                     <div class="form-group">
                                         <label for="senha-atual">Senha Atual</label>
                                         <div class="password-wrapper">
@@ -634,7 +635,7 @@
                     removidos do sistema.</p>
                 <div class="modal-actions">
                     <button class="btn-secondary" id="cancelar-exclusao">Cancelar</button>
-                    <button class="btn-primary" style="background: #dc3545;" id="confirmar-exclusao">Confirmar
+                    <button class="btn-primary" style="background: #dc3545;" id="confirmar-exclusao" href="{{ url_for('user_bp.excluir') }}">Confirmar
                         Exclusão</button>
                 </div>
             </div>

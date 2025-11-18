@@ -84,28 +84,42 @@ def reserva(veiculo_id):
         return redirect(url_for('reserva_bp.pgReserva', id_veiculo=veiculo_id))
     
 
-@reserva_bp.route('/confirmarReserva/<int:id_reserva>', methods=['POST'])  #Essa rota não está sendo chamada, provavelmente o js não está permitindo o acesso à rota
+@reserva_bp.route('/confirmarReserva/<int:id_reserva>', methods=['POST'])
 def confirmarReserva(id_reserva):
-    user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
-    reserva = Reservas.query.get(id_reserva)
-    veiculo = Veiculos.query.get(reserva.Id_Veiculo)
+    try:
+        user = getUser(session.get('usuario_perfil'), session.get('usuario_logado'))
+        reserva = Reservas.query.get(id_reserva)
+        
+        if not reserva:
+            return redirect(url_for('user_bp.portaldoCliente'))
 
-    if session.get('usuario_perfil') == 'pf':
-        if not user.CNH:
-            cnh = request.form.get('cnh', '')
-            if not validarCNH(cnh):          
-                return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva, erro = 'CNH inválida')
-            
-            UserPfDB.query.filter_by(Id_Cliente=session.get('usuario_logado')).update({ #A cnh não está atualizando, pode ser conflito com o js ou o problema é o comando no bd
-                "CNH": cnh
-            })
-            db.session.commit() 
+        veiculo = Veiculos.query.get(reserva.Id_Veiculo)
 
-    Reservas.query.filter_by(Id_Reserva=id_reserva).update({
-        "Status": 'confirmada'  #O status também não está atualizando
-    })
-    db.session.commit() 
-    return render_template('pagamento.html', veiculo = veiculo, user = user, reserva = reserva)
+        if session.get('usuario_perfil') == 'pf':
+            if not user.CNH:
+                cnh = request.form.get('cnh', '')
+                if not validarCNH(cnh):          
+                    return render_template('pagamento.html', 
+                                         veiculo=veiculo, 
+                                         user=user, 
+                                         reserva=reserva, 
+                                         erro='CNH inválida')
+                
+                # Atualizar CNH do usuário
+                user.CNH = cnh
+                db.session.commit()
+
+        # Atualizar status da reserva para confirmada
+        reserva.Status = 'confirmada'
+        db.session.commit()
+
+        # Redirecionar para página de confirmação ou portal do cliente
+        return redirect(url_for('user_bp.portaldoCliente'))
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Erro ao confirmar reserva: {str(e)}")
+        return redirect(url_for('user_bp.portaldoCliente'))
     
 @reserva_bp.route('/pgPagamento/<int:id_reserva>')
 def pgPagamento(id_reserva):

@@ -10,7 +10,7 @@
 
   <!-- csss link -->
   <link rel="stylesheet" href="../static/css/style.css">
-
+  <script src=".../static/js/colaboradores.js"></script>
   <!-- Favicons links -->
   <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
@@ -318,28 +318,71 @@
         
         <div class="dashboard-grid">
           <!-- Gestão Completa -->
-          <div class="dashboard-card large">
-            <div class="card-header">
-              <h3>Gestão do Sistema</h3>
-            </div>
-            <div class="card-content">
-              <div class="admin-actions">
-                <div class="admin-action-group">
-                  <h4>Usuários</h4>
-                  <button class="btn-admin">Adicionar Usuário</button>
-                  <button class="btn-admin">Gerenciar Permissões</button>
-                  <button class="btn-admin">Relatório de Acesso</button>
-                </div>
-                <div class="admin-action-group">
-                  <h4>Sistema</h4>
-                  <button class="btn-admin">Backup do Sistema</button>
-                  <button class="btn-admin">Logs do Sistema</button>
-                  <button class="btn-admin">Configurações</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          
+<div class="dashboard-card large">
+  <div class="card-header">
+    <h3>Gestão do Sistema</h3>
+  </div>
+
+  <div class="card-content">
+    <div class="admin-actions">
+
+      <!-- Usuários -->
+      <div class="admin-action-group">
+        <h4>Usuários</h4>
+        <button class="btn-admin" onclick="toggleForm()">Adicionar Usuário</button>
+        <button class="btn-admin">Gerenciar Permissões</button>
+        <button class="btn-admin">Relatório de Acesso</button>
+      </div>
+
+      <!-- Sistema -->
+      <div class="admin-action-group">
+        <h4>Sistema</h4>
+        <button class="btn-admin">Backup do Sistema</button>
+        <button class="btn-admin">Logs do Sistema</button>
+        <button class="btn-admin">Configurações</button>
+      </div>
+
+    </div>
+
+    <!-- Formulário de Cadastro -->
+    <form id="form-add-user" style="display:none; margin-top:20px;" action="{{ url_for('colaborador_bp'.cadastro) }}" method="POST" class="admin-form">
+      <h4>Cadastrar Usuário</h4>
+
+      <div class="form-row">
+        <label>Nome</label>
+        <input type="text" name="nome" required>
+      </div>
+
+      <div class="form-row">
+        <label>Cargo</label>
+        <input type="text" name="cargo" required>
+      </div>
+
+      <div class="form-row">
+        <label>Perfil</label>
+        <input type="text" name="cargo" required>
+      </div>
+
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+
+      <div class="form-row">
+        <label>CPF</label>
+        <input type="text" name="cpf" maxlength="11" required>
+      </div>
+
+      <div class="form-row">
+        <label>Senha</label>
+        <input type="password" name="senha" required>
+      </div>
+
+      <button type="submit" class="btn-admin">Salvar Usuário</button>
+    </form>
+
+  </div>
+</div>
           <!-- Frota -->
           <div class="dashboard-card">
             <div class="card-header">

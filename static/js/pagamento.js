@@ -47,15 +47,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (cnhInput) {
             cnhInput.addEventListener('input', function () {
-                formatarCNH(this);
+                // Só formata se não for readonly
+                if (!this.readOnly) {
+                    formatarCNH(this);
+                }
                 validarFormulario();
             });
 
             cnhInput.addEventListener('blur', function () {
-                validarCNH(this);
+                // Só valida se não for readonly
+                if (!this.readOnly) {
+                    validarCNH(this);
+                }
             });
         }
-
         inicializarCamposCartao();
         validarFormulario();
     }
@@ -98,9 +103,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let formularioValido = metodoSelecionado && termosAceitos;
 
-        if (cnhInput && cnhInput.offsetParent !== null) {
-            const cnhValida = validarCNHCompleta(cnhInput.value);
-            formularioValido = formularioValido && cnhValida;
+        // Verifica se o campo CNH está visível E não é readonly (ou seja, precisa ser validado)
+        if (cnhInput && cnhInput.offsetParent !== null && !cnhInput.readOnly) {
+            if (!validarCNHCompleta(cnhInput.value)) {
+                alert('Por favor, insira uma CNH válida.');
+                cnhInput.focus();
+                return;
+            }
         }
 
         if (metodoSelecionado && (metodoSelecionado.value === 'credito' || metodoSelecionado.value === 'debito')) {
@@ -116,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function validarCNHCompleta(cnh) {
         // Remove caracteres não numéricos
         cnh = cnh.replace(/\D/g, '');
-        
+
         // Verifica se tem 11 dígitos
         if (cnh.length !== 11) {
             return false;
@@ -130,30 +139,30 @@ document.addEventListener('DOMContentLoaded', function () {
         // Algoritmo de validação da CNH
         let soma = 0;
         let multiplicador = 9;
-        
+
         // Primeira verificação
         for (let i = 0; i < 9; i++) {
             soma += parseInt(cnh.charAt(i)) * multiplicador;
             multiplicador--;
         }
-        
+
         let digito1 = soma % 11;
         if (digito1 === 10) {
             digito1 = 0;
         }
-        
+
         // Segunda verificação
         soma = 0;
         multiplicador = 1;
-        
+
         for (let i = 0; i < 9; i++) {
             soma += parseInt(cnh.charAt(i)) * multiplicador;
             multiplicador++;
         }
-        
+
         let resto = soma % 11;
         let digito2 = resto === 10 ? 0 : resto;
-        
+
         // Verifica se os dígitos calculados batem com os dígitos informados
         return parseInt(cnh.charAt(9)) === digito1 && parseInt(cnh.charAt(10)) === digito2;
     }
@@ -234,6 +243,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ====== FORMATAÇÃO DE CAMPOS ======
     function formatarCNH(input) {
+        // Se o campo for readonly, não faz nada
+        if (input.readOnly) return;
+
         let value = input.value.replace(/\D/g, '');
         if (value.length > 11) value = value.substring(0, 11);
         input.value = value;
@@ -299,17 +311,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ====== MODAL DE SUCESSO ======
-    window.mostrarModalReserva = function() {
+    window.mostrarModalReserva = function () {
         const modal = document.getElementById('modalReservaSucesso');
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
 
-    window.fecharModalReserva = function() {
+    window.fecharModalReserva = function () {
         const modal = document.getElementById('modalReservaSucesso');
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
-        
+
         // Redireciona para minhas reservas
         setTimeout(() => {
             window.location.href = '/portaldoCliente';
@@ -356,7 +368,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Simular processamento
             setTimeout(() => {
                 mostrarModalReserva();
-                
+
                 // Submeter o formulário após mostrar o modal
                 setTimeout(() => {
                     formPagamento.submit();

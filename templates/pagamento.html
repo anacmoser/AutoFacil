@@ -75,21 +75,20 @@
 
                         {% if session.get('usuario_perfil') == 'pf' %}
                         <!-- Pessoa Física -->
-                         {% if erro %}
-                            <div class="alert alert-danger">
-                                <strong>Por favor, corrija os seguintes erros:</strong>
-                                <ul>
-                                    <li>{{ erro }}</li>
-                                </ul>
-                            </div>
+                        {% if erro %}
+                        <div class="alert alert-danger">
+                            <strong>Por favor, corrija os seguintes erros:</strong>
+                            <ul>
+                                <li>{{ erro }}</li>
+                            </ul>
+                        </div>
                         {% endif %}
                         <div class="cliente-info2">
                             <div class="info-item">
                                 <label>Nome Completo</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-user"></i>
-                                    <input type="text" value="{{ user.Nome }}"
-                                        readonly>
+                                    <input type="text" value="{{ user.Nome }}" readonly>
                                 </div>
                             </div>
                             <div class="info-item">
@@ -103,27 +102,29 @@
                                 <label>E-mail</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-envelope"></i>
-                                    <input type="email" value="{{ user.Email }}"
-                                        readonly>
+                                    <input type="email" value="{{ user.Email }}" readonly>
                                 </div>
                             </div>
                             <div class="info-item">
                                 <label>Telefone</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-phone"></i>
-                                    <input type="tel" value="{{ user.Telefone }}"
-                                        readonly>
+                                    <input type="tel" value="{{ user.Telefone }}" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                            <label for="cnh">Número da CNH *</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-id-card"></i>
-                                <input type="text" id="cnh" name="cnh" placeholder="{{ user.CNH if user.CNH else 'Digite o número da sua CNH' }}"
-                                    maxlength="11" required>
+                                <label for="cnh">Número da CNH *</label>
+                                <div class="input-with-icon">
+                                    <i class="fas fa-id-card"></i>
+                                    {% if user.CNH %}
+                                    <input type="text" id="cnh" name="cnh" value="{{ user.CNH }}" readonly>
+                                    {% else %}
+                                    <input type="text" id="cnh" name="cnh" placeholder="Digite o número da sua CNH"
+                                        maxlength="11" required>
+                                    {% endif %}
+                                </div>
+                                <small class="form-text">Informe sua Carteira Nacional de Habilitação</small>
                             </div>
-                            <small class="form-text">Informe sua Carteira Nacional de Habilitação</small>
-                        </div>
                         </div>
                         {% elif session.get('usuario_perfil') == 'pj' %}
                         <!-- Pessoa Jurídica -->
@@ -132,7 +133,8 @@
                                 <label>Razão Social</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-building"></i>
-                                    <input type="text" value="{{ user.Razao_Social if user else 'Nome da Empresa' }}" readonly>
+                                    <input type="text" value="{{ user.Razao_Social if user else 'Nome da Empresa' }}"
+                                        readonly>
                                 </div>
                             </div>
                             <div class="info-item">
@@ -155,14 +157,14 @@
                                 <label>Representante</label>
                                 <div class="input-with-icon">
                                     <i class="fas fa-user-tie"></i>
-                                    <input type="text"
-                                        value="{{ user.Nome if user else 'Nome do Representante' }}" readonly>
+                                    <input type="text" value="{{ user.Nome if user else 'Nome do Representante' }}"
+                                        readonly>
                                 </div>
                             </div>
                         </div>
                         {% endif %}
 
-                        
+
                     </div>
                 </div>
 
@@ -393,8 +395,8 @@
                     </div>
 
                     <!-- Botão de Confirmação -->
-                    <form action="{{ url_for('reserva_bp.confirmarReserva', id_reserva = reserva.Id_Reserva) }}" method="POST"
-                        id="form-pagamento">
+                    <form action="{{ url_for('reserva_bp.confirmarReserva', id_reserva = reserva.Id_Reserva) }}"
+                        method="POST" id="form-pagamento">
                         <input type="hidden" name="metodo_pagamento" id="metodo-pagamento-hidden">
                         <input type="hidden" name="cnh" id="cnh-hidden" value="{{ user.CNH if user.CNH }}">
                         <button type="submit" class="btn-confirmar-pagamento" id="btn-confirmar" disabled>
@@ -420,7 +422,7 @@
                 <p>Sua reserva foi confirmada e os detalhes foram enviados para seu e-mail.</p>
                 <button class="btn-modal-confirmar" onclick="fecharModalReserva()">Continuar</button>
             </div>
-        </div>  
+        </div>
     </main>
 
     <script src="../static/js/pagamento.js"></script>

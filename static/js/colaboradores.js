@@ -18,31 +18,31 @@ function initColaborador() {
 
     function determinarPerfilPadrao() {
         const cargo = document.body.dataset.colabCargo;
-        
+
         const mapeamento = {
             'admin': 'administrador',
             'gerente': 'gerente', 
             'atendente': 'atendente',
             'suporte': 'suporte'
         };
-        
+
         return mapeamento[cargo] || 'atendente';
     }
-    
+
     let perfilAtivo = determinarPerfilPadrao();
-    
+
     function ocultarPerfisNaoPermitidos() {
         const cargoUsuario = document.body.dataset.colabCargo;
-        
+
         const permissoes = {
             'admin': ['atendente', 'gerente', 'administrador', 'suporte'],
             'gerente': ['gerente'], 
             'atendente': ['atendente'], 
             'suporte': ['suporte'] 
         };
-        
+
         const perfisPermitidos = permissoes[cargoUsuario] || ['atendente'];
-        
+
         perfilCards.forEach(card => {
             const perfilCard = card.dataset.perfil;
             if (!perfisPermitidos.includes(perfilCard)) {
@@ -50,35 +50,35 @@ function initColaborador() {
             }
         });
     }
-    
+
     ocultarPerfisNaoPermitidos();
-    
+
     function ativarPerfil(perfil) {
         perfilAtivo = perfil;
-        
+
         perfilCards.forEach(card => {
             if (card.style.display !== 'none') {
                 card.classList.remove('active');
                 card.setAttribute('aria-pressed', 'false');
             }
         });
-        
+
         const cardAtivo = document.querySelector(`.perfil-card[data-perfil="${perfil}"]`);
         if (cardAtivo && cardAtivo.style.display !== 'none') {
             cardAtivo.classList.add('active');
             cardAtivo.setAttribute('aria-pressed', 'true');
         }
-        
+
         perfilContents.forEach(content => {
             content.classList.remove('active');
             content.setAttribute('aria-hidden', 'true');
         });
-        
+
         const conteudoAtivo = document.getElementById(`${perfil}-content`);
         if (conteudoAtivo) {
             conteudoAtivo.classList.add('active');
             conteudoAtivo.setAttribute('aria-hidden', 'false');
-            
+
             setTimeout(() => {
                 conteudoAtivo.scrollIntoView({ 
                     behavior: 'smooth', 
@@ -94,7 +94,7 @@ function initColaborador() {
                 const perfil = this.dataset.perfil;
                 ativarPerfil(perfil);
             });
-            
+
             card.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -102,7 +102,7 @@ function initColaborador() {
                     ativarPerfil(perfil);
                 }
             });
-            
+
             card.setAttribute('tabindex', '0');
             card.setAttribute('role', 'button');
             card.setAttribute('aria-pressed', 'false');
@@ -122,22 +122,7 @@ function initColaborador() {
 
     const botoesAcao = document.querySelectorAll('.btn-action, .btn-card-action, .btn-relatorio, .btn-admin');
 
-    botoesAcao.forEach(botao => {
-        botao.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            const originalText = this.textContent;
-            this.textContent = 'Processando...';
-            this.disabled = true;
-
-            setTimeout(() => {
-                this.textContent = originalText;
-                this.disabled = false;
-
-                mostrarMensagemTemporaria('Ação simulada com sucesso!', 'success');
-            }, 1000);
-        });
-    });
+   
 
     function mostrarMensagemTemporaria(mensagem, tipo = 'info') {
         const mensagemEl = document.createElement('div');
@@ -216,7 +201,3 @@ function initColaborador() {
 
     ativarPerfil(perfilAtivo);
 }
-function toggleForm() {
-    const f = document.getElementById('form-add-user');
-    f.style.display = f.style.display === 'none' ? 'block' : 'none';
-  }

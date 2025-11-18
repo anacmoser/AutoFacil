@@ -11,7 +11,7 @@ class Reservas(db.Model):
     Data_Retirada = db.Column(db.Date, nullable=False)
     Data_Devolucao = db.Column(db.Date, nullable=False)
     Valor_Total = db.Column(db.DECIMAL(10, 2), nullable=False)
-    Status = db.Column(db.Enum('pendente', 'confirmada', 'cancelada', name='status_reserva'), nullable=False)
+    Status = db.Column(db.Enum('pendente', 'confirmada', 'cancelada', 'concluída', name='status_reserva'), nullable=False)
     local_retirada = db.Column(db.String(255), nullable=False)
     local_devolucao = db.Column(db.String(255), nullable = False)
     perfil = db.Column(db.String(2), nullable = False)

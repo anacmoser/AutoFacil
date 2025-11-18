@@ -9,6 +9,7 @@
 from flask import Flask, Blueprint, app, render_template, request, session, make_response, redirect, url_for
 from controllers.validacoes import validarEmail, validarCpf, validacaoGeralPf
 from models.UserPf import db, UserPfDB
+from models.Colaboradores import ColaboradorDB
 from models import db
 from flask_sqlalchemy import SQLAlchemy
 import re
@@ -138,4 +139,22 @@ def login():
     # Se o método for GET (abrir a página de login)
     return render_template('login.html')
 
-# ajustar a logica para aceitas heranca da tabela Cliente -> UserPf/UserPJ
+@user_pf_bp.route('/buscarUserPf', methods=['POST'])
+def buscarUserPf():
+    cpf = re.sub(r'[^0-9]', '', request.form.get('cpf', ''))
+    user = UserPfDB.query.filter(UserPfDB.CPF == cpf).first()
+    colab = ColaboradorDB.query.get(session.get('usuario_logado'))
+    if user:
+        return render_template('colaboradores/colaborador.html', user = user, colab = colab)
+    else:
+        return render_template('colaboradores/colaborador.html', erro = 'Usuário não encontrado', colab = colab)
+
+@user_pf_bp.route('/excluirClientePf/<int:id_cliente>')
+def excluirClientePf(id_cliente):
+    user = UserPfDB.query.get(id_cliente)
+    db.session.delete(user) 
+    db.session.commit()
+    return redirect(url_for('colaborador_bp.pgColaborador'))
+
+
+

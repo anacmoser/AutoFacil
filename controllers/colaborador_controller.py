@@ -11,7 +11,7 @@ colaborador_bp = Blueprint('colaborador_bp', __name__)
 # ============================
 @colaborador_bp.route('/colaborador', methods=['GET'])
 def pgColaborador():
-    if not session.get('usuario_logado'):
+    if not session.get('colab_cargo'):
         return render_template('colaboradores/login_colaborador.html')
 
     colab = ColaboradorDB.query.get(session.get('usuario_logado'))
@@ -20,9 +20,7 @@ def pgColaborador():
 
     return render_template(
         'colaboradores/colaborador.html',
-        id=colab.id,
-        cargo=colab.cargo,
-        nome=colab.nome
+        colab = colab
     )
 
 

@@ -10,6 +10,7 @@
 
   <!-- csss link -->
   <link rel="stylesheet" href="../static/css/style.css">
+
   <script src=".../static/js/colaboradores.js"></script>
   <!-- Favicons links -->
   <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
@@ -25,7 +26,7 @@
 
 </head>
 
-<body data-page='colaborador' data-colab-cargo="{{ cargo }}">
+<body data-page='colaborador' data-colab-cargo="{{ colab.cargo }}">
   <!-- ======= NAVBAR ======= -->
   <header class="topbar">
     <nav class="nav">
@@ -52,7 +53,7 @@
             </ul>
           </div>
         </div>
-    
+
       </div>
     </nav>
   </header>
@@ -63,15 +64,15 @@
       <div class="hero-colaborador-content">
         <h1 class="hero-colaborador-title">Portal do Colaborador {{ session.get('colab_cargo') }}</h1>
         <p class="hero-colaborador-subtitle">Área exclusiva para gerenciamento interno da AutoFácil</p>
-        
+
         <div class="colaborador-info">
           <div class="colaborador-avatar">
             <img src="../static/img/avatar-colaborador.png" alt="Avatar do colaborador">
           </div>
           <div class="colaborador-dados">
-            <h2>{{ nome }}</h2>
-            <p>{{ cargo }}</p>
-            <span class="colaborador-id">ID: {{ id }}</span>
+            <h2>{{ colab.nome }}</h2>
+            <p>{{ colab.cargo }}</p>
+            <span class="colaborador-id">ID: {{ colab.id }}</span>
           </div>
         </div>
       </div>
@@ -124,48 +125,209 @@
   <section class="dashboard-colaborador">
     <div class="container">
       <!-- ATENDENTE -->
-       {% if cargo == 'atendente' %}
+       {% if colab.cargo == 'atendente' %}
       <div class="perfil-content" id="atendente-content">
         <div class="perfil-header">
           <h2>Painel do Atendente</h2>
           <p>Gestão de clientes e reservas</p>
+
+          {% if erro %}
+          <br>
+          <p style="color: red;">{{ erro }}</p>
+          {% endif %}
+
         </div>
-        
+
         <div class="dashboard-grid">
           <!-- Clientes -->
+           
           <div class="dashboard-card large">
             <div class="card-header">
-              <h3>Gestão de Clientes</h3>
-              <button class="btn-card-action">Adicionar Cliente</button>
+              <h3>Gestão de Reservas</h3>
+              <form action="{{ url_for('reserva_bp.buscarReserva') }}" method="POST">
+                <input type="number" name="id_reserva" value="id da reserva" value=" {{ request.form.id_reserva if request.form }}">
+                <button class="btn-card-action" type="submit">Pesquisar</button>
+              </form>
+              
             </div>
+            {% if reserva %}
             <div class="card-content">
               <div class="clientes-list">
                 <div class="cliente-item">
                   <div class="cliente-info">
-                    <h4>João Silva</h4>
-                    <p>CPF: 123.456.789-00</p>
-                    <span class="cliente-status ativo">Ativo</span>
+                    <h4>ID: {{ reserva.Id_Reserva }}</h4>
+                    <p>Local de devolução: {{ reserva.local_devolucao }}</p>
+                    <p>Data de devolução: {{ reserva.Data_Devolucao }}</p><br>
+                    <span class="cliente-status ativo">{{ reserva.Status }}</span>
                   </div>
                   <div class="cliente-actions">
-                    <button class="btn-action">Editar</button>
-                    <button class="btn-action btn-danger">Desativar</button>
+                    <a class="btn-action" href="{{ url_for('reserva_bp.concluirReservaColab', id_reserva = reserva.Id_Reserva) }}">Concluir</a>
+                    <a class="btn-action btn-danger" href="{{ url_for('reserva_bp.cancelarReserva', id_reserva = reserva.Id_Reserva) }}">Cancelar</a>
                   </div>
                 </div>
-                <div class="cliente-item">
-                  <div class="cliente-info">
-                    <h4>Maria Santos</h4>
-                    <p>CPF: 987.654.321-00</p>
-                    <span class="cliente-status ativo">Ativo</span>
-                  </div>
-                  <div class="cliente-actions">
-                    <button class="btn-action">Editar</button>
-                    <button class="btn-action btn-danger">Desativar</button>
-                  </div>
-                </div>
+      
               </div>
             </div>
+            {% endif %}
+          </div>
+
+          <div class="dashboard-card large">
+            <div class="card-header">
+              <h3>Gestão de Cliente PF</h3>
+              <form action="{{ url_for('user_pf_bp.buscarUserPf') }}" method="POST">
+                <input type="number" name="cpf" value="CPF do cliente" value=" {{ request.form.cpf if request.form }}">
+                <button class="btn-card-action" type="submit">Pesquisar</button>
+              </form>
+              
+            </div>
+            {% if user %}
+            <div class="card-content">
+              <div class="clientes-list">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="nome-completo">Nome Completo</label>
+                                        <input type="text" id="nome-completo" name="nome" value="{{ user.Nome }}"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cpf">CPF</label>
+                                        <input type="text" id="cpf" name="cpf" value="{{ user.CPF }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nascimento">Data de Nascimento</label>
+                                        <input type="date" id="nascimento" name="nascimento"
+                                            value="{{ user.Data_Nascimento }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cnh">CNH</label>
+                                        <input type="text" id="cnh" name="cnh" value="{{ user.CNH }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">E-mail</label>
+                                        <input type="email" id="email" name="email" value="{{ user.Email }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="telefone">Telefone</label>
+                                        <input type="tel" id="telefone" name="telefone" value="{{ user.Telefone }}"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="celular">Celular</label>
+                                        <input type="tel" id="celular" name="celular" value="{{ user.Telefone }}"
+                                            readonly>
+                                    </div>
+                                </div>
+                            
+                        </div> <br>
+                  <div class="cliente-actions">
+                    <a class="btn-action" href="">Editar</a>
+                    {% if user %}
+                    <a class="btn-action btn-danger" href="{{ url_for('user_pf_bp.excluirClientePf', id_cliente = user.Id_Cliente) }}">Desativar</a>
+                    {% endif %}
+                  </div>
+                </div>
+      
+              </div>
+            </div>
+            {% endif %}
+            </div>
+          <div class="dashboard-card large">
+            <div class="card-header">
+              <h3>Gestão de Cliente PJ</h3>
+              <form action="{{ url_for('user_pj_bp.buscarUserPj') }}" method="POST">
+                <input type="number" name="cnpj" value="CNPJ do cliente" value=" {{ request.form.cnpj if request.form }}">
+                <button class="btn-card-action" type="submit">Pesquisar</button>
+              </form>
+              
+            </div>
+            {% if userpj %}
+            <div class="card-content">
+              <div class="clientes-list">
+                
+                  
+                      
+                        
+                                <div class="form-grid">
+                                    <div class="form-group"> 
+                                        <label for="razao-social">Razão Social</label>
+                                        <input type="text" id="razao-social" name="razao_social" value="{{ userpj.Razao_Social }}"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nomeFantasia">Nome Fantasia</label>
+                                        <input type="text" id="nomeFantasia" name="nome_fantasia"
+                                            value="{{ userpj.Nome_Fantasia }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="CNPJ">CNPJ</label>
+                                        <input type="text" id="CNPJ" name="cnpj" value="{{ userpj.CNPJ }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inscricao_estadual">Inscrição Estadual</label>
+                                        <input type="text" id="inscricao_estadual" name="inscricao_estadual"
+                                            value="{{ userpj.Inscricao_Estadual }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ramo">Ramo de Atividade</label>
+                                        <input type="text" id="ramo" name="ramo"
+                                            value="{{ userpj.Ramo }}" readonly>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">E-mail Corporativo</label>
+                                        <input type="email" id="email" name="email" value="{{ userpj.Email }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="telefone">Telefone Comercial</label>
+                                        <input type="tel" id="telefone" name="telefone" value="{{ userpj.Telefone_Comercial }}"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="celular">Celular</label>
+                                        <input type="tel" id="celular" name="celular" value="{{ userpj.Celular }}"
+                                            readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tamanho">Tamanho da Empresa</label>
+                                        <input id="tamanho" name="tamanho" value="{{ userpj.Tamanho_da_Empresa }}"
+                                            readonly>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rep">Representante Legal</label>
+                                        <input type="text" id="rep" name="representante"
+                                            value="{{ userpj.Nome }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cpf_representante">CPF do Representante</label>
+                                        <input type="text" id="cpf_representante" name="cpf_representante"
+                                            value="{{ userpj.CPF }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cargo_representante">Cargo do Representante</label>
+                                        <input type="text" id="cargo_representante" name="cargo_representante"
+                                            value="{{ userpj.Cargo }}" readonly>
+                                    </div>
+                                </div>
+                                
+                          
+                        </div>
+                        <div class="cliente-actions">
+                                  <a class="btn-action" href="">Editar</a>
+                                  {% if userpj %}
+                                  <a class="btn-action btn-danger" href="{{ url_for('user_pj_bp.excluirClientePj', id_cliente = userpj.Id_Cliente) }}">Desativar</a>
+                                  {% endif %}
+                                </div>
+                    
+                
+             
+            </div>
+            {% endif %}
           </div>
           
+        </div><br>
+          
+
           <!-- Reservas -->
           <div class="dashboard-card">
             <div class="card-header">
@@ -197,7 +359,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Estatísticas -->
           <div class="dashboard-card">
             <div class="card-header">
@@ -223,15 +385,15 @@
         </div>
       </div>
 
-      {% elif cargo == 'gerente' %}
-      
+      {% elif colab.cargo == 'gerente' %}
+
       <!-- GERENTE -->
       <div class="perfil-content" id="gerente-content">
         <div class="perfil-header">
           <h2>Painel do Gerente</h2>
           <p>Gestão de equipe e relatórios</p>
         </div>
-        
+
         <div class="dashboard-grid">
           <!-- Equipe -->
           <div class="dashboard-card large">
@@ -266,7 +428,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Relatórios -->
           <div class="dashboard-card">
             <div class="card-header">
@@ -281,7 +443,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Métricas -->
           <div class="dashboard-card">
             <div class="card-header">
@@ -307,84 +469,39 @@
         </div>
       </div>
 
-      {% elif cargo == 'Admin' %}
-      
+      {% elif colab.cargo == 'admin' %}
+
       <!-- ADMINISTRADOR -->
       <div class="perfil-content" id="administrador-content">
         <div class="perfil-header">
           <h2>Painel do Administrador</h2>
           <p>Controle total do sistema</p>
         </div>
-        
+
         <div class="dashboard-grid">
           <!-- Gestão Completa -->
-<div class="dashboard-card large">
-  <div class="card-header">
-    <h3>Gestão do Sistema</h3>
-  </div>
-
-  <div class="card-content">
-    <div class="admin-actions">
-
-      <!-- Usuários -->
-      <div class="admin-action-group">
-        <h4>Usuários</h4>
-        <button class="btn-admin" onclick="toggleForm()">Adicionar Usuário</button>
-        <button class="btn-admin">Gerenciar Permissões</button>
-        <button class="btn-admin">Relatório de Acesso</button>
-      </div>
-
-      <!-- Sistema -->
-      <div class="admin-action-group">
-        <h4>Sistema</h4>
-        <button class="btn-admin">Backup do Sistema</button>
-        <button class="btn-admin">Logs do Sistema</button>
-        <button class="btn-admin">Configurações</button>
-      </div>
-
-    </div>
-
-    <!-- Formulário de Cadastro -->
-    <form id="form-add-user" style="display:none; margin-top:20px;" action="{{ url_for('colaborador_bp.cadastrar') }}" method="POST" class="admin-form">
-      <h4>Cadastrar Usuário</h4>
-
-      <div class="form-row">
-        <label>Nome</label>
-        <input type="text" name="nome" required>
-      </div>
-
-      <div class="form-row">
-        <label>Cargo</label>
-        <input type="text" name="cargo" required>
-      </div>
-
-      <div class="form-row">
-        <label>Perfil</label>
-        <input type="text" name="cargo" required>
-      </div>
-
-      <div class="form-row">
-        <label>Email</label>
-        <input type="email" name="email" required>
-      </div>
-
-      <div class="form-row">
-        <label>CPF</label>
-        <input type="text" name="cpf" maxlength="11" required>
-      </div>
-
-      <div class="form-row">
-        <label>Senha</label>
-        <input type="password" name="senha" required>
-      </div>
-
-      <button type="submit" class="btn-admin">Salvar Usuário</button>
-    </form>
-
-  </div>
-</div>
-          <!-- Frota -->
-          <div class="dashboard-card">
+          <div class="dashboard-card large">
+            <div class="card-header">
+              <h3>Gestão do Sistema</h3>
+            </div>
+            <div class="card-content">
+              <div class="admin-actions">
+                <div class="admin-action-group">
+                  <h4>Usuários</h4>
+                  <button class="btn-admin">Adicionar Usuário</button>
+                  <button class="btn-admin">Gerenciar Permissões</button>
+                  <button class="btn-admin">Relatório de Acesso</button>
+                </div>
+                <div class="admin-action-group">
+                  <h4>Sistema</h4>
+                  <button class="btn-admin">Backup do Sistema</button>
+                  <button class="btn-admin">Logs do Sistema</button>
+                  <button class="btn-admin">Configurações</button>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="dashboard-card">
             <div class="card-header">
               <h3>Gestão da Frota</h3>
               <button class="btn-card-action">Adicionar Veículo</button>
@@ -406,7 +523,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Status Sistema -->
           <div class="dashboard-card">
             <div class="card-header">
@@ -431,14 +548,14 @@
           </div>
         </div>
       </div>
-      {% elif cargo == 'suporte' %}
+      {% elif colab.cargo == 'suporte' %}
       <!-- SUPORTE -->
       <div class="perfil-content" id="suporte-content">
         <div class="perfil-header">
           <h2>Painel do Suporte Técnico</h2>
           <p>Manutenção e gestão da frota</p>
         </div>
-        
+
         <div class="dashboard-grid">
           <!-- Manutenção -->
           <div class="dashboard-card large">
@@ -473,7 +590,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Frota -->
           <div class="dashboard-card">
             <div class="card-header">
@@ -499,7 +616,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Alertas -->
           <div class="dashboard-card">
             <div class="card-header">
@@ -547,5 +664,3 @@
 </body>
 
 </html>
-
-<!-- NESSA PAGINA TUDO É VISUAL, DEPOIS QUE A LOGICA DE LOGIN DE COLABORADOR E O BD FOREM IMPLEMENTADOS, NAO HAVERA MASI A OPCAO DE BOTOES, POIS IRÁ CARREGAR APENAS O PERFIL DO CARGO DAQUELE COLABORADOR-->

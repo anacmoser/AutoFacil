@@ -6,6 +6,7 @@ from models.Veiculo import Veiculos
 from models.Reservas import Reservas
 from models.Locais import Locais
 from models.UserPf import UserPfDB
+from models.Colaboradores import ColaboradorDB
 from sqlalchemy import and_
 from models import db
 
@@ -123,11 +124,32 @@ def pgReserva(id_veiculo):
 
 @reserva_bp.route('/excluirReserva/<int:id_reserva>')
 def excluirReserva(id_reserva):
-    Reservas.query.get(id_reserva).update({ 
-                "Status": 'cancelada'
-            })
+    reserva = Reservas.query.get(id_reserva)
+    reserva.Status = 'cancelada'
     db.session.commit() 
     return redirect(url_for('user_bp.portaldoCliente'))
+
+@reserva_bp.route('/cancelarReserva/<int:id_reserva>')
+def cancelarReserva(id_reserva):
+    reserva = Reservas.query.get(id_reserva)
+    reserva.Status = 'cancelada'
+    db.session.commit() 
+    return redirect(url_for('colaborador_bp.pgColaborador'))
+
+@reserva_bp.route('/concluirReservaColab/<int:id_reserva>')
+def concluirReservaColab(id_reserva):
+    reserva = Reservas.query.get(id_reserva)
+    reserva.Status = 'concluída'
+    db.session.commit() 
+    return redirect(url_for('colaborador_bp.pgColaborador'))
+
+
+@reserva_bp.route('/buscarReserva', methods=['POST'])
+def buscarReserva():
+    id = request.form.get('id_reserva')
+    colab = ColaboradorDB.query.get(session.get('usuario_logado'))
+    reserva = Reservas.query.get(id)
+    return render_template('/colaboradores/colaborador.html', colab = colab, reserva = reserva)
 
 def verificar_disponibilidade(veiculo_id, inicio, fim):
     conflito = (db.session.query(Reservas)

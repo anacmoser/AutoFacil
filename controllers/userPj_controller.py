@@ -9,6 +9,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, sessio
 from controllers.validacoes import validarEmail, validarCNPJ, validacaoGeralPj
 from models.UserPj import UserPjDB, db
 import re
+from models.Colaboradores import ColaboradorDB
 
 user_pj_bp = Blueprint('user_pj_bp', __name__)
 
@@ -54,6 +55,13 @@ def cadastroEmpresa():
     erros = validacaoGeralPj(rs, nf, cnpj, nomeRep, cpfRep, cargoRep, phone, email, cep, logra, num, bairro, estado, cidade, senha, confirmar, ie ,cell, complemento)
     if erros:
         return render_template('cadastro.html', erros = erros)
+    
+    if UserPjDB.query.filter_by(Email=email).first():
+        return render_template('cadastro.html', erros = ['Email já cadastrado'])
+
+    if UserPjDB.query.filter_by(CNPJ=cnpj).first():
+        return render_template('cadastro.html', erros = ['CNPJ já cadastrado'])
+    
     try:
         novo_usuario = UserPjDB(
             Razao_Social=rs,
@@ -67,7 +75,7 @@ def cadastroEmpresa():
             Cargo=cargoRep,
             Telefone_Comercial=phone,
             Celular=cell,
-            Email_Corporativo=email,
+            Email=email,
             CEP=cep,
             Logradouro=logra,
             Numero=num,
@@ -78,6 +86,7 @@ def cadastroEmpresa():
             Senha=senha
 )
         db.session.add(novo_usuario)
+        novo_usuario.set_senha(senha)
         db.session.commit()
         
         return redirect(url_for('user_bp.pgLogin'))
@@ -105,7 +114,7 @@ def login():
         if '@' in user:
             if not validarEmail(user):
                 return render_template('login.html', erro = 'E-mail inválido')
-            user = UserPjDB.query.filter_by(Email_Corporativo=user).first()
+            user = UserPjDB.query.filter_by(Email=user).first()
         else:
             cnpj = re.sub(r'[^0-9]', '', user)
             if not validarCNPJ(cnpj):
@@ -116,13 +125,13 @@ def login():
             return render_template('login.html', erro='Usuário não encontrado')
 
         # Verificar senha
-        if user.Senha != senha:
+        if not user.verificar_senha(senha):
             return render_template('login.html', erro='Senha incorreta')
 
         # Login bem-sucedido
 
         session['usuario_logado'] = user.Id_Cliente 
-        session['usuario_perfil'] = 'pf'
+        session['usuario_perfil'] = 'pj'
         if remember:
             response = make_response(redirect(url_for('index')))
             response.set_cookie('user', user.Id_Cliente, max_age=60*60*72)
@@ -170,3 +179,19 @@ def updatePj():
 
     return render_template('portalCliente.html', user=user)
     
+@user_pj_bp.route('/excluirClientePj/<int:id_cliente>')
+def excluirClientePj(id_cliente):
+    user = UserPjDB.query.get(id_cliente)
+    db.session.delete(user) 
+    db.session.commit()
+    return redirect(url_for('colaborador_bp.pgColaborador'))
+
+@user_pj_bp.route('/buscarUserPj', methods=['POST'])
+def buscarUserPj():
+    cnpj = re.sub(r'[^0-9]', '', request.form.get('cnpj', ''))
+    user = UserPjDB.query.filter(UserPjDB.CNPJ == cnpj).first()
+    colab = ColaboradorDB.query.get(session.get('usuario_logado'))
+    if user:
+        return render_template('colaboradores/colaborador.html', userpj = user, colab = colab)
+    else:
+        return render_template('colaboradores/colaborador.html', erro = 'Usuario não encontrado', colab = colab)

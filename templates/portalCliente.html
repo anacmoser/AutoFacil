@@ -427,12 +427,15 @@
                                         <p>Período: {{ reserva.Data_Retirada }} a {{ reserva.Data_Devolucao }}</p>
                                         <p>Agência: {{ reserva.local_retirada }}</p>
                                         <p>Devolução em : {{ reserva.local_devolucao }}</p>
-                                        <p>Status: : {{ reserva.Status }}</p>
-                                        <span class="reserva-status ativa">Ativa</span>
+                                        <p>Total : {{ reserva.Valor_Total }}</p>
+         
+                                        <span class="reserva-status ativa">{{ reserva.Status }}</span>
                                     </div>
                                     <div class="reserva-actions">
                                         <button class="btn-action">Detalhes</button>
+                                        {% if reserva.Status != 'cancelada' %}
                                         <a class="btn-action btn-danger" href="{{ url_for('reserva_bp.excluirReserva', id_reserva = reserva.Id_Reserva) }}">Cancelar</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -447,10 +450,7 @@
                         </div>
                         <div class="card-content">
                             <div class="stats-grid">
-                                <div class="stat-item">
-                                    <span class="stat-number">{{ reservas|length }}</span>
-                                    <span class="stat-label">Total de Reservas</span>
-                                </div>
+                                
                                 <div class="stat-item">
                                     <span class="stat-number">{% set contador = namespace(total=0) %}
 
@@ -474,6 +474,17 @@
                                 {{ contador.total }}
                         </span>
                                     <span class="stat-label">Reservas Confirmadas</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">{% set contador = namespace(total=0) %}
+
+                                {% for reserva in reservas %}
+                                    {% if reserva.Status == "cancelada" %}
+                                        {% set contador.total = contador.total + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ contador.total }}</span>
+                                    <span class="stat-label">Reservas Canceladas</span>
                                 </div>
                             </div>
                         </div>

@@ -74,6 +74,13 @@ def atualizarSenha():
         db.session.commit() 
 
         return redirect(url_for('user_bp.portaldoCliente'))
+    
+    elif session.get('usuario_perfil') == 'pj':
+        user = UserPjDB.query.get(session.get('usuario_logado'))
+        user.set_senha(nova_senha)
+        db.session.commit() 
+
+        return redirect(url_for('user_bp.portaldoCliente'))
 
 @user_bp.route('/excluirConta', methods=['POST'])
 def excluir():

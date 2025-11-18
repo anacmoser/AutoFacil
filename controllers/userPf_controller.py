@@ -7,10 +7,7 @@
 #função de login
 
 from flask import Flask, Blueprint, app, render_template, request, session, make_response, redirect, url_for
-from controllers.validacoes import validarEmail, validarCpf
-from models.UserPf import UserPfDB
-from controllers.validacoes import validacaoGeralPf
-import re
+from controllers.validacoes import validarEmail, validarCpf, validacaoGeralPf
 from models.UserPf import db, UserPfDB
 from models import db
 import bcrypt

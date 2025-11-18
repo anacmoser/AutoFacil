@@ -7,11 +7,10 @@
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, make_response
 from controllers.validacoes import validarEmail, validarCNPJ
-from models.UserPj import UserPj, USERSpj, addUserPj, buscarUser
+from models.UserPj import UserPjDB, USERSpj, addUserPj, buscarUser, db
 import re
 
 user_pj_bp = Blueprint('user_pj_bp', __name__)
-id_counter_pj = 2  
 
 @user_pj_bp.route('/cadastrarPj', methods=['POST'])
 def cadastroEmpresa():
@@ -52,19 +51,39 @@ def cadastroEmpresa():
     if not autorizacao:
         return render_template('cadastro.html', erros='Você deve aceitar a Autorização.')
     try:
-        novoUser = UserPj(id_counter_pj, 'pj', rs, nf, cnpj, ramo, tamanho, nomeRep, cpfRep, cargoRep, phone, email, cep, logra, num, bairro, estado, cidade, senha, confirmar, ie ,cell, complemento)
-        adicao = addUserPj(novoUser) #Verificar por nome também (já existe por email e cpf)
-        if adicao == True: #Se não for true será a lista de erros
-            id_counter_pj += 1
-            return redirect(url_for('user_bp.pgLogin'))
-        else:
-            return render_template('cadastro.html', erros=adicao)
+        novo_usuario = UserPjDB(
+            Razao_Social=rs,
+            Nome_Fantasia=nf,
+            CNPJ=cnpj,
+            Inscricao_Estadual=ie,
+            Ramo=ramo,
+            Tamanho_da_Empresa=tamanho,
+            Nome=nomeRep,
+            CPF=cpfRep,
+            Cargo=cargoRep,
+            Telefone_Comercial=phone,
+            Celular=cell,
+            Email_Corporativo=email,
+            CEP=cep,
+            Logradouro=logra,
+            Numero=num,
+            Complemento=complemento,
+            Bairro=bairro,
+            Estado=estado,
+            Cidade=cidade,
+            Senha=senha
+)
+        db.session.add(novo_usuario)
+        db.session.commit()
+        
+        return redirect(url_for('user_bp.pgLogin'))
+    
     except ValueError as e:
         if isinstance(e.args[0], list):
             erros = e.args[0]
         else:
             erros = [str(e)]
-        
+ 
         return render_template('cadastro.html', erros=erros, tipo_conta=tipo_conta, tipo_conta_juridica=(tipo_conta == 'juridica'))
 
 @user_pj_bp.route('/logarPJ', methods=['POST'])
@@ -82,39 +101,34 @@ def login():
         if '@' in user:
             if not validarEmail(user):
                 return render_template('login.html', erro = 'E-mail inválido')
-            for usuario in USERSpj:
-                if usuario.email == user :
-                    if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.id
-                        session['usuario_perfil'] = 'pj'
-                        if remember:
-                            response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', usuario.id, max_age=60*60*72)
-                            response.set_cookie('perfil', 'pj', max_age=60*60*72)
-                            return response
-                        return redirect(url_for('index'))
-                    return render_template('login.html', erro = 'Senha incorreta')
-            return render_template('login.html', erro = 'Usuário não encontrado')
-        else: 
+            user = UserPjDB.query.filter_by(Email_Corporativo=user).first()
+        else:
             cnpj = re.sub(r'[^0-9]', '', user)
             if not validarCNPJ(cnpj):
-                return render_template('login.html', erro = 'Digite e-mail ou CNPJ válidos')
-            for usuario in USERSpj:
-                if usuario.cnpj == cnpj:
-                    if usuario.senha == senha:
-                        session['usuario_logado'] = usuario.id 
-                        session['usuario_perfil'] = 'pj'
-                        if remember:
-                            response = make_response(redirect(url_for('index')))
-                            response.set_cookie('user', usuario.id, max_age=60*60*72)
-                            response.set_cookie('perfil', 'pj', max_age=60*60*72)
-                            return response
-                        return redirect(url_for('index'))
-                    return render_template('login.html', erro = 'Senha incorreta')
-            return render_template('login.html', erro = 'Usuário não encontrado')        
-    
-    return render_template('login.html')
+                return render_template('login.html', erro='CPF inválido')
+            user = UserPjDB.query.filter_by(CNPJ=cnpj).first()
+        # Se o usuário não foi encontrado
+        if not user:
+            return render_template('login.html', erro='Usuário não encontrado')
 
+        # Verificar senha
+        if user.Senha != senha:
+            return render_template('login.html', erro='Senha incorreta')
+
+        # Login bem-sucedido
+
+        session['usuario_logado'] = user.Id_Cliente 
+        session['usuario_perfil'] = 'pf'
+        if remember:
+            response = make_response(redirect(url_for('index')))
+            response.set_cookie('user', user.Id_Cliente, max_age=60*60*72)
+            response.set_cookie('perfil', 'pf', max_age=60*60*72)
+            return response
+
+        return redirect(url_for('index'))
+
+    # Se o método for GET (abrir a página de login)
+    return render_template('login.html')
 
 @user_pj_bp.route('/updatePj')  #Colocar validação para cada alteração, adicionar outras alterações
 def updatePj():

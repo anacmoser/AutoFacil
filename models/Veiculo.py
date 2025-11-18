@@ -20,4 +20,3 @@ class Veiculos(db.Model):
     
 def getVeiById(id):
     return Veiculos.query.get(id)
-

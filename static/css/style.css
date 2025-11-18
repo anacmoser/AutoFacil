@@ -347,6 +347,7 @@ body.alto-contraste {
 .alto-contraste .acessibilidade-btn:hover {
     background-color: #333 !important;
 }
+
 /* ======= CARROSSEL ======= */
 .carousel {
     position: relative;
@@ -2665,6 +2666,79 @@ body.alto-contraste {
     pointer-events: none;
 }
 
+/* Modal de Desconto */
+.modal-desconto {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-conteudo-desconto {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header i {
+    font-size: 3rem;
+    color: #28a745;
+    margin-bottom: 2rem;
+}
+
+.modal-header h2 {
+    color: #28a745;
+    margin: 10px;
+}
+
+.info-desconto {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.info-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+}
+
+.info-extra {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.btn-fechar-modal {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-fechar-modal:hover {
+    background: #0056b3;
+}
 /* ======= VEÍCULOS SIMILARES ======= */
 .veiculos-similares {
     margin-top: 50px;
@@ -2835,35 +2909,35 @@ body.alto-contraste {
     color: #666;
 }
 
+/* Estilos do botão de reserva */
 .btn-reservar {
-    background: #ff8c14;
+    background-color: #ccc; /* Cinza inicial */
     color: white;
     border: none;
-    padding: 15px;
-    border-radius: 6px;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
     font-weight: 600;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-}
-
-.btn-reservar:hover:not(:disabled) {
-    background: #e67e0f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 140, 20, 0.3);
-}
-
-.btn-reservar:disabled {
-    background: #ccc;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.btn-reservar:not(:disabled) {
+    background-color: #ff7b00; /* Laranja quando ativo */
+    cursor: pointer;
+}
+
+.btn-reservar:not(:disabled):hover {
+    background-color: #e66a00; /* Laranja mais escuro no hover */
+}
+
+/* Mensagens de erro */
+.mensagem-erro-data {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
 }
 
 .info-adicional {

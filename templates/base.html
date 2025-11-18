@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
- 
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../static/css/style.css">
 
   {% block styles %}{% endblock %}
-  
+
   <!-- Favicons links -->
   <link rel="icon" type="image/png" sizes="16x16" href="../static/img/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../static/img/favicon-32x32.png">
@@ -30,129 +30,128 @@
 
 {% block body %} {% endblock %}
 
-  <!-- ======= NAVBAR ======= -->
+<!-- ======= NAVBAR ======= -->
 {% block menu_principal %}
-  <header class="topbar">
-    <nav class="nav">
-      <div class="nav-left">
-        <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
-          <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
-          <div class="menu-panel" id="menuPanel">
-            <ul class="panel-main">
-              <li><a href="#">Promoções</a></li>
-              <li><a href="#">Atendimento</a></li>
-              <li><a href="#">Agências</a></li>
-              <li><a href="#">FAQ</a></li>
-            </ul>
-            <ul class="panel-nav">
-              <li><a href="/frota">Alugar agora</a></li>
-              <li><a href="/aluguelMensal">Aluguel mensal</a></li>
-              <li><a href="/empresas">Para empresas</a></li>
-              <li><a href="{{ url_for('user_bp.pgMinhasReservas') }}">Minhas reservas</a></li>
-            </ul>
-          </div>
-
+<header class="topbar">
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="menu-trigger" id="menuTrigger" aria-haspopup="true" aria-expanded="false">
+        <img src="../static/img/menu-aberto.png" alt="Menu" id="menu">
+        <div class="menu-panel" id="menuPanel">
+          <ul class="panel-main">
+            <li><a href="#">Promoções</a></li>
+            <li><a href="#">Atendimento</a></li>
+            <li><a href="#">Agências</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+          <ul class="panel-nav">
+            <li><a href="/frota">Alugar agora</a></li>
+            <li><a href="/aluguelMensal">Aluguel mensal</a></li>
+            <li><a href="/empresas">Para empresas</a></li>
+            <li><a href="{{ url_for('user_bp.pgMinhasReservas') }}">Minhas reservas</a></li>
+          </ul>
         </div>
 
-        <a class="logo" href="/" aria-label="AutoFácil - Início">
-          <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos"
-            class="logo-img">
-        </a>
       </div>
 
-      {% endblock %}
-      {% block menu_central %} {% endblock %}
-
-      <div class="nav-right">
-        <a href="#">
-            <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
-                class="icon-btn">
-        </a>
-        
- <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-        <a href="#">
-            <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
-              title="Acessibilidade" class="icon-btn">
-          </a>
-          <div class="menu-panel">
-            <ul class="panel-acessibilidade">
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
-                  <span>A+</span> Aumentar fonte
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
-                  <span>A-</span> Diminuir fonte
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
-                  <span>▣</span> Alto contraste
-                </button>
-              </li>
-              <li>
-                <button type="button" class="acessibilidade-btn" data-action="resetar">
-                  <span>↺</span> Resetar
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-    
-        {% if session.get('usuario_logado') %}
-        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-            <a href="#">
-                <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
-                    class="icon-btn">
-            </a>
-            <div class="menu-panel">
-                <ul class="panel-logout">
-                    <li><a href="{{ url_for('user_bp.portaldoCliente') }}">Portal do cliente</a></li>
-                    <li><a href="{{ url_for('user_bp.logout') }}">Encerrar sessão</a></li>
-                </ul>
-
-      
-            </div>
-        </div>
-        {% else %}
-        {% block menu %}
-        <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
-          <a href="#">
-            <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
-                class="icon-btn">
-          </a>
-            <div class="menu-panel">
-                <ul class="panel-login">
-                    <li><a href="{{ url_for('user_bp.pgLogin') }}">Login</a></li>
-                    <li><a href="{{ url_for('user_bp.pgCadastro') }}">Cadastro</a></li>
-                    <li><a href="{{ url_for('colaborador_bp.loginColaborador') }}">Colaborador</a></li>
-                </ul>
-            </div>
-        </div>
-        {% endblock %}
-        {% endif %}
+      <a class="logo" href="/" aria-label="AutoFácil - Início">
+        <img src="../static/img/logo.png" alt="Logo AutoFácil" title="AutoFácil, aluguel de veículos" class="logo-img">
+      </a>
     </div>
-  </header>
+
+    {% endblock %}
+    {% block menu_central %} {% endblock %}
+
+    <div class="nav-right">
+      <a href="#">
+        <img src="{{ url_for('static', filename='img/pergunta.png') }}" alt="Botão de dúvidas" title="Dúvidas"
+          class="icon-btn">
+      </a>
+
+      <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/acessibilidade2.png') }}" alt="Botão de acessibilidade"
+            title="Acessibilidade" class="icon-btn">
+        </a>
+        <div class="menu-panel">
+          <ul class="panel-acessibilidade">
+            <li>
+              <button type="button" class="acessibilidade-btn" data-action="aumentar-fonte">
+                <span>A+</span> Aumentar fonte
+              </button>
+            </li>
+            <li>
+              <button type="button" class="acessibilidade-btn" data-action="diminuir-fonte">
+                <span>A-</span> Diminuir fonte
+              </button>
+            </li>
+            <li>
+              <button type="button" class="acessibilidade-btn" data-action="alto-contraste">
+                <span>▣</span> Alto contraste
+              </button>
+            </li>
+            <li>
+              <button type="button" class="acessibilidade-btn" data-action="resetar">
+                <span>↺</span> Resetar
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {% if session.get('usuario_logado') %}
+      <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/sair.png') }}" alt="Menu do usuário" title="Minha conta"
+            class="icon-btn">
+        </a>
+        <div class="menu-panel">
+          <ul class="panel-logout">
+            <li><a href="{{ url_for('user_bp.portaldoCliente') }}">Portal do cliente</a></li>
+            <li><a href="{{ url_for('user_bp.logout') }}">Encerrar sessão</a></li>
+          </ul>
+
+
+        </div>
+      </div>
+      {% else %}
+      {% block menu %}
+      <div class="menu-trigger" aria-haspopup="true" aria-expanded="false">
+        <a href="#">
+          <img src="{{ url_for('static', filename='img/login2.png') }}" alt="Botão de login" title="Login"
+            class="icon-btn">
+        </a>
+        <div class="menu-panel">
+          <ul class="panel-login">
+            <li><a href="{{ url_for('user_bp.pgLogin') }}">Login</a></li>
+            <li><a href="{{ url_for('user_bp.pgCadastro') }}">Cadastro</a></li>
+            <li><a href="{{ url_for('colaborador_bp.loginColaborador') }}">Colaborador</a></li>
+          </ul>
+        </div>
+      </div>
+      {% endblock %}
+      {% endif %}
+    </div>
+</header>
 
 {% block content %} {% endblock %}
 
 
-  <!-- ======= FOOTER ======= -->
-  <footer>
-    <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
-    <div class="footer-social">
-      <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp"
-          title="Whatsapp"></a>
-      <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
-          title="Facebook"></a>
-      <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
-          title="Instagram"></a>
-      <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
-    </div>
-  </footer>
+<!-- ======= FOOTER ======= -->
+<footer>
+  <p>© 2025 AutoFácil. Todos os direitos reservados.</p>
+  <div class="footer-social">
+    <a href="#" target="_blank"><img src="../static/img/wpp2.png" alt="WhatsApp" title="Whatsapp"></a>
+    <a href="https://facebook.com" target="_blank"><img src="../static/img/facebook2.png" alt="Facebook"
+        title="Facebook"></a>
+    <a href="https://instagram.com" target="_blank"><img src="../static/img/instagram2.png" alt="Instagram"
+        title="Instagram"></a>
+    <a href="#"><img src="../static/img/email2.png" alt="Email" title="Email"></a>
+  </div>
+</footer>
 
-  <script src="../static/js/base.js"></script>
+<script src="../static/js/base.js"></script>
+
 </body>
 
 </html>

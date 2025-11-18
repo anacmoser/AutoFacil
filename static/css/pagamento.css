@@ -127,7 +127,53 @@
     color: #6c757d;
     font-size: 0.9rem;
 }
+/* Estilos para mensagens de erro */
+.mensagem-erro {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
 
+.mensagem-erro-data {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Estilo para campos com erro */
+input.error, select.error {
+    border-color: #dc3545 !important;
+}
+
+/* Estilos para informações de disponibilidade */
+.disponibilidade-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+#statusDisponibilidade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.dias-reserva {
+    margin-top: 8px;
+    padding: 8px;
+    background: #e9f7ef;
+    border-radius: 4px;
+    border-left: 4px solid #28a745;
+}
+
+.dias-reserva span {
+    font-weight: 600;
+    color: #155724;
+}
 /* Seções */
 .dados-cliente-section,
 .metodo-pagamento-section {

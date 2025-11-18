@@ -81,14 +81,14 @@
                             <select id="localRetirada" name="localRetirada" required>
                                 <option value="">Selecione uma agência</option>
                                 {% for local in locais %}
-                                <option value="{{ local.Id_Local }}" >{{ local.Nome }}</option>
+                                <option value="{{ local.Id_Local }}">{{ local.Nome }}</option>
                                 {% endfor %}
                             </select>
                             <label for="localDevolucao">Local de devolução</label>
                             <select id="localDevolucao" name="localDevolucao" required>
                                 <option value="">Selecione uma agência</option>
                                 {% for local in locais %}
-                                <option value="{{ local.Id_Local }}" >{{ local.Nome }}</option>
+                                <option value="{{ local.Id_Local }}">{{ local.Nome }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -98,8 +98,8 @@
                             <div class="form-group">
                                 <label for="dataRetirada">Data de retirada</label>
                                 <div class="input-data-container">
-                                    <input type="date" id="dataRetirada" min="{{ data_hoje }}" name="dataRetirada" value="{{ request.form.dataRetirada if request.form }}"
-                                        required>
+                                    <input type="date" id="dataRetirada" min="{{ data_hoje }}" name="dataRetirada"
+                                        value="{{ request.form.dataRetirada if request.form }}" required>
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </div>
@@ -107,7 +107,8 @@
                             <div class="form-group">
                                 <label for="dataDevolucao">Data de devolução</label>
                                 <div class="input-data-container">
-                                    <input type="date" id="dataDevolucao" min="{{ data_hoje }}" name="dataDev" value="{{ request.form.dataDev if request.form }}" required>
+                                    <input type="date" id="dataDevolucao" min="{{ data_hoje }}" name="dataDev"
+                                        value="{{ request.form.dataDev if request.form }}" required>
                                     <i class="fas fa-calendar-alt"></i>
                                 </div>
                             </div>
@@ -262,37 +263,37 @@
         <section class="veiculos-similares">
             <h2>Veículos similares</h2>
             <div class="veiculos-grid">
-            {% for similar in veiculos_similares[:3] %}
-            <div class="veiculo-similar-card">
-                <div class="veiculo-similar-imagem">
-                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}">
-                        <img src="{{ similar.imagem }}" alt="{{ similar.nome }}">
-                    </a>
-                </div>
-                <div class="veiculo-similar-info">
-                    <div class="veiculo-similar-categoria">{{ similar.categoria }}</div>
-                    <h3 class="veiculo-similar-nome">{{ similar.nome }}</h3>
-                    <div class="veiculo-similar-detalhes">
-                        <div class="veiculo-similar-detalhe">
-                            <i class="fas fa-user"></i> {{ similar.nPassageiros }} passageiros
-                        </div>
-                        <div class="veiculo-similar-detalhe">
-                            <i class="fas fa-suitcase"></i> {{ similar.nMalas }} malas
-                        </div>
-                        <div class="veiculo-similar-detalhe">
-                            <i class="fas fa-cog"></i>
-                            {% if similar.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
-                        </div>
+                {% for similar in veiculos_similares[:3] %}
+                <div class="veiculo-similar-card">
+                    <div class="veiculo-similar-imagem">
+                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}">
+                            <img src="{{ similar.imagem }}" alt="{{ similar.nome }}">
+                        </a>
                     </div>
-                    <div class="veiculo-similar-preco">
-                        R$ {{ "%.2f"|format(similar.precoDiario) }} <span>/dia</span>
+                    <div class="veiculo-similar-info">
+                        <div class="veiculo-similar-categoria">{{ similar.categoria }}</div>
+                        <h3 class="veiculo-similar-nome">{{ similar.nome }}</h3>
+                        <div class="veiculo-similar-detalhes">
+                            <div class="veiculo-similar-detalhe">
+                                <i class="fas fa-user"></i> {{ similar.nPassageiros }} passageiros
+                            </div>
+                            <div class="veiculo-similar-detalhe">
+                                <i class="fas fa-suitcase"></i> {{ similar.nMalas }} malas
+                            </div>
+                            <div class="veiculo-similar-detalhe">
+                                <i class="fas fa-cog"></i>
+                                {% if similar.transmissao == 'automatico' %}Automático{% else %}Manual{% endif %}
+                            </div>
+                        </div>
+                        <div class="veiculo-similar-preco">
+                            R$ {{ "%.2f"|format(similar.precoDiario) }} <span>/dia</span>
+                        </div>
+                        <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}"
+                            class="btn-similar-alugar">Ver detalhes</a>
                     </div>
-                    <a href="{{ url_for('veiculo_bp.detalheVeiculo', veiculo_id=similar.id) }}"
-                        class="btn-similar-alugar">Ver detalhes</a>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
         </section>
     </main>
 
@@ -332,4 +333,49 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal de Desconto para Aluguel Mensal -->
+    <div class="modal-desconto" id="modalDesconto" style="display: none;">
+        <div class="modal-conteudo-desconto">
+            <div class="modal-header">
+                <i class="fas fa-tag"></i>
+                <h2>Desconto Especial!</h2>
+            </div>
+
+            <div class="modal-body">
+                <p id="mensagemDesconto"></p>
+
+                <div class="info-desconto">
+                    <div class="info-item">
+                        <span>Período:</span>
+                        <strong id="periodoModal">0 dias</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Desconto:</span>
+                        <strong id="descontoModal">0%</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Economia:</span>
+                        <strong id="economiaModal">R$ 0,00</strong>
+                    </div>
+                    <hr>
+                    <div class="info-total">
+                        <span><strong>Total:</strong></span>
+                        <strong id="totalModal">R$ 0,00</strong>
+                    </div>
+                </div>
+
+                <p class="info-extra">
+                    <i class="fas fa-info-circle"></i>
+                    Quanto mais tempo de aluguel, maior o desconto!
+                </p>
+            </div>
+
+            <button class="btn-fechar-modal" id="btnFecharModal">
+                <i class="fas fa-check"></i>
+                Entendi
+            </button>
+        </div>
+    </div>
+    <script src="../static/js/detalhes.js"></script>
     {% endblock %}

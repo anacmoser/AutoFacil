@@ -307,7 +307,7 @@
         </div>
       </div>
 
-      {% elif cargo == 'admin' %}
+      {% elif cargo == 'Admin' %}
       
       <!-- ADMINISTRADOR -->
       <div class="perfil-content" id="administrador-content">
@@ -345,7 +345,7 @@
     </div>
 
     <!-- Formulário de Cadastro -->
-    <form id="form-add-user" style="display:none; margin-top:20px;" action="{{ url_for('colaborador_bp'.cadastro) }}" method="POST" class="admin-form">
+    <form id="form-add-user" style="display:none; margin-top:20px;" action="{{ url_for('colaborador_bp.cadastrar') }}" method="POST" class="admin-form">
       <h4>Cadastrar Usuário</h4>
 
       <div class="form-row">

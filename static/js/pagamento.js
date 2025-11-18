@@ -106,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Verifica se o campo CNH está visível E não é readonly (ou seja, precisa ser validado)
         if (cnhInput && cnhInput.offsetParent !== null && !cnhInput.readOnly) {
             if (!validarCNHCompleta(cnhInput.value)) {
-                alert('Por favor, insira uma CNH válida.');
                 cnhInput.focus();
                 return;
             }
@@ -121,51 +120,63 @@ document.addEventListener('DOMContentLoaded', function () {
         return formularioValido;
     }
 
-    // ====== VALIDAÇÃO DA CNH ======
-    function validarCNHCompleta(cnh) {
-        // Remove caracteres não numéricos
-        cnh = cnh.replace(/\D/g, '');
+  // ====== VALIDAÇÃO DA CNH - VERSÃO CORRIGIDA ======
+function validarCNHCompleta(cnh) {
+    // Remove caracteres não numéricos
+    cnh = cnh.replace(/\D/g, '');
 
-        // Verifica se tem 11 dígitos
-        if (cnh.length !== 11) {
-            return false;
-        }
-
-        // Verifica se não é uma sequência de números iguais
-        if (/^(\d)\1+$/.test(cnh)) {
-            return false;
-        }
-
-        // Algoritmo de validação da CNH
-        let soma = 0;
-        let multiplicador = 9;
-
-        // Primeira verificação
-        for (let i = 0; i < 9; i++) {
-            soma += parseInt(cnh.charAt(i)) * multiplicador;
-            multiplicador--;
-        }
-
-        let digito1 = soma % 11;
-        if (digito1 === 10) {
-            digito1 = 0;
-        }
-
-        // Segunda verificação
-        soma = 0;
-        multiplicador = 1;
-
-        for (let i = 0; i < 9; i++) {
-            soma += parseInt(cnh.charAt(i)) * multiplicador;
-            multiplicador++;
-        }
-
-        let resto = soma % 11;
-        let digito2 = resto === 10 ? 0 : resto;
-
-        // Verifica se os dígitos calculados batem com os dígitos informados
-        return parseInt(cnh.charAt(9)) === digito1 && parseInt(cnh.charAt(10)) === digito2;
+    // Verifica se tem 11 dígitos
+    if (cnh.length !== 11) {
+        return false;
     }
+
+    // Verifica se não é uma sequência de números iguais
+    if (/^(\d)\1+$/.test(cnh)) {
+        return false;
+    }
+
+    // Algoritmo CORRETO de validação da CNH
+    let soma = 0;
+    let multiplicador = 9;
+
+    // Calcula primeiro dígito verificador
+    for (let i = 0; i < 9; i++) {
+        soma += parseInt(cnh.charAt(i)) * multiplicador;
+        multiplicador--;
+    }
+
+    let digito1 = soma % 11;
+    if (digito1 === 10) {
+        digito1 = 0;
+    }
+
+    // Calcula segundo dígito verificador
+    soma = 0;
+    multiplicador = 1;
+    
+    for (let i = 0; i < 9; i++) {
+        soma += parseInt(cnh.charAt(i)) * multiplicador;
+        multiplicador++;
+    }
+
+    let digito2 = soma % 11;
+    
+    // Ajuste especial para o segundo dígito
+    if (digito2 >= 10) {
+        digito2 -= 2;
+    }
+    if (digito2 < 0) {
+        digito2 += 11;
+    }
+
+    // Verifica os dígitos
+    return parseInt(cnh.charAt(9)) === digito1 && parseInt(cnh.charAt(10)) === digito2;
+}
+
+// CNHs válidas para teste
+console.log('02650306461:', validarCNHCompleta("02650306461")); // true
+console.log('12345678909:', validarCNHCompleta("12345678909")); // false (esta realmente é inválida)
+
 
     function validarCNH(input) {
         const value = input.value.replace(/\D/g, '');

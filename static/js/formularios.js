@@ -20,6 +20,24 @@ function initFormularios() {
     const inputs = document.querySelectorAll('input');
 
     inputs.forEach(input => {
+        // Adicionar validação em tempo real para campos específicos
+        if (input.id === 'numero' || input.id === 'numero_empresa') {
+            input.addEventListener('input', function() {
+                validarApenasNumeros(this);
+            });
+        }
+
+        // Validar campos de texto para não aceitar números e {{ }}
+        if (input.id === 'logradouro' || input.id === 'logradouro_empresa' || 
+            input.id === 'complemento' || input.id === 'complemento_empresa' ||
+            input.id === 'bairro' || input.id === 'bairro_empresa' ||
+            input.id === 'cidade' || input.id === 'cidade_empresa') {
+            input.addEventListener('input', function() {
+                validarApenasLetras(this);
+                validarInjecaoTemplate(this);
+            });
+        }
+
         input.addEventListener('blur', function () {
             validarCampo(this);
         });
@@ -42,12 +60,60 @@ function initFormularios() {
     });
 }
 
+// ====== VALIDAÇÃO DE CAMPOS NUMÉRICOS ======
+function validarApenasNumeros(campo) {
+    const valor = campo.value;
+    // Remove qualquer caractere que não seja número
+    const apenasNumeros = valor.replace(/\D/g, '');
+    
+    if (valor !== apenasNumeros) {
+        campo.value = apenasNumeros;
+        // Dispara o evento blur para mostrar mensagem de erro se necessário
+        setTimeout(() => {
+            campo.dispatchEvent(new Event('blur'));
+        }, 10);
+    }
+}
+
+// ====== VALIDAÇÃO DE CAMPOS APENAS LETRAS ======
+function validarApenasLetras(campo) {
+    const valor = campo.value;
+    // Permite letras, espaços, acentos e alguns caracteres especiais comuns em endereços
+    const apenasLetras = valor.replace(/[^A-Za-zÀ-ÿ\s\-\.,]/g, '');
+    
+    if (valor !== apenasLetras) {
+        campo.value = apenasLetras;
+        setTimeout(() => {
+            campo.dispatchEvent(new Event('blur'));
+        }, 10);
+    }
+}
+
+// ====== VALIDAÇÃO CONTRA INJEÇÃO DE TEMPLATE ======
+function validarInjecaoTemplate(campo) {
+    const valor = campo.value;
+    if (valor.includes('{{') || valor.includes('}}')) {
+        // Remove os caracteres de template
+        campo.value = valor.replace(/\{\{|\}\}/g, '');
+        mostrarMensagemErro(campo, 'Caracteres {{ }} não são permitidos.');
+        
+        setTimeout(() => {
+            campo.classList.add('erro-temporario');
+        }, 100);
+        
+        setTimeout(() => {
+            campo.classList.remove('erro-temporario');
+        }, 2000);
+    }
+}
+
 // ====== API DE CEP ======
 async function buscarEnderecoPorCEP(cepInput) {
     const cep = cepInput.value.replace(/\D/g, '');
     
     // Verifica se CEP tem 8 dígitos
     if (cep.length !== 8) {
+        mostrarMensagemErro(cepInput, 'CEP deve conter 8 dígitos.');
         return;
     }
 
@@ -78,24 +144,33 @@ async function buscarEnderecoPorCEP(cepInput) {
 
 // ====== PREENCHER ENDEREÇO ======
 function preencherEndereco(dados, cepFieldId) {
+    console.log('Preenchendo endereço para:', cepFieldId, dados);
+    
     // Determinar os IDs dos campos baseado no campo de CEP usado
     const isEmpresa = cepFieldId === 'cep_empresa';
-    const prefix = isEmpresa ? 'empresa_' : '';
     
+    console.log('isEmpresa:', isEmpresa);
+    
+    // Mapeamento CORRETO baseado nos IDs reais do HTML
     const campos = {
-        logradouro: `${prefix}logradouro`,
-        bairro: `${prefix}bairro`,
-        cidade: `${prefix}cidade`,
-        estado: `${prefix}estado`
+        logradouro: isEmpresa ? 'logradouro_empresa' : 'logradouro',
+        bairro: isEmpresa ? 'bairro_empresa' : 'bairro',
+        localidade: isEmpresa ? 'cidade_empresa' : 'cidade', // A API retorna "localidade" para cidade
+        uf: isEmpresa ? 'estado_empresa' : 'estado' // A API retorna "uf" para estado
     };
 
+    console.log('Campos mapeados:', campos);
+
     // Preencher cada campo se existir
-    Object.keys(campos).forEach(chave => {
-        const campoId = campos[chave];
+    Object.keys(campos).forEach(chaveApi => {
+        const campoId = campos[chaveApi];
         const campo = document.getElementById(campoId);
         
-        if (campo && dados[chave]) {
-            campo.value = dados[chave];
+        console.log(`Buscando campo: ${campoId}, encontrado:`, !!campo, 'dado:', dados[chaveApi]);
+        
+        if (campo && dados[chaveApi]) {
+            campo.value = dados[chaveApi];
+            console.log(`Preenchendo ${campoId} com:`, dados[chaveApi]);
             
             // Disparar evento de blur para validar o campo preenchido
             setTimeout(() => {
@@ -105,8 +180,11 @@ function preencherEndereco(dados, cepFieldId) {
     });
 
     // Preencher número e complemento se estiverem vazios (opcional)
-    const numeroField = document.getElementById(`${prefix}numero`);
-    const complementoField = document.getElementById(`${prefix}complemento`);
+    const numeroField = document.getElementById(isEmpresa ? 'numero_empresa' : 'numero');
+    const complementoField = document.getElementById(isEmpresa ? 'complemento_empresa' : 'complemento');
+    
+    console.log('Número field:', isEmpresa ? 'numero_empresa' : 'numero', 'encontrado:', !!numeroField);
+    console.log('Complemento field:', isEmpresa ? 'complemento_empresa' : 'complemento', 'encontrado:', !!complementoField);
     
     if (numeroField && !numeroField.value) {
         numeroField.focus(); // Foca no campo número para usuário preencher
@@ -114,6 +192,11 @@ function preencherEndereco(dados, cepFieldId) {
     
     if (complementoField && dados.complemento && !complementoField.value) {
         complementoField.value = dados.complemento;
+        console.log('Preenchendo complemento com:', dados.complemento);
+        // Validar o complemento preenchido automaticamente
+        setTimeout(() => {
+            complementoField.dispatchEvent(new Event('blur'));
+        }, 100);
     }
 }
 
@@ -145,6 +228,7 @@ function validarCampo(campo) {
             if (!valor) return 'Nome completo é obrigatório.';
             if (valor.length < 6) return 'Nome deve ter pelo menos 6 caracteres.';
             if (!/^[A-Za-zÀ-ÿ\s]{6,}$/.test(valor)) return 'Nome deve conter apenas letras e espaços.';
+            if (/(\d|{{|}})/.test(valor)) return 'Nome não pode conter números ou {{ }}.';
             return '';
         },
 
@@ -152,6 +236,7 @@ function validarCampo(campo) {
             if (!valor) return 'Nome completo é obrigatório.';
             if (valor.length < 6) return 'Nome deve ter pelo menos 6 caracteres.';
             if (!/^[A-Za-zÀ-ÿ\s]{6,}$/.test(valor)) return 'Nome deve conter apenas letras e espaços.';
+            if (/(\d|{{|}})/.test(valor)) return 'Nome não pode conter números ou {{ }}.';
             return '';
         },
 
@@ -227,6 +312,7 @@ function validarCampo(campo) {
             if (!valor) return 'E-mail é obrigatório.';
             if (!emailRegex.test(valor)) return 'E-mail inválido.';
             if (valor.length > 100) return 'E-mail muito longo.';
+            if (/({{|}})/.test(valor)) return 'E-mail não pode conter {{ }}.';
             return '';
         },
 
@@ -235,6 +321,7 @@ function validarCampo(campo) {
             if (!valor) return 'E-mail é obrigatório.';
             if (!emailRegex.test(valor)) return 'E-mail inválido.';
             if (valor.length > 100) return 'E-mail muito longo.';
+            if (/({{|}})/.test(valor)) return 'E-mail não pode conter {{ }}.';
             return '';
         },
 
@@ -258,6 +345,7 @@ function validarCampo(campo) {
             if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(valor)) {
                 return 'Senha deve conter letras maiúsculas, minúsculas e números.';
             }
+            if (/({{|}})/.test(valor)) return 'Senha não pode conter {{ }}.';
             return '';
         },
 
@@ -267,6 +355,7 @@ function validarCampo(campo) {
             if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(valor)) {
                 return 'Senha deve conter letras maiúsculas, minúsculas e números.';
             }
+            if (/({{|}})/.test(valor)) return 'Senha não pode conter {{ }}.';
             return '';
         },
 
@@ -286,6 +375,7 @@ function validarCampo(campo) {
             if (!valor) return 'Razão social é obrigatória.';
             if (valor.length < 3) return 'Razão social muito curta.';
             if (valor.length > 100) return 'Razão social muito longa.';
+            if (/({{|}})/.test(valor)) return 'Razão social não pode conter {{ }}.';
             return '';
         },
 
@@ -293,71 +383,94 @@ function validarCampo(campo) {
             if (!valor) return 'Nome fantasia é obrigatório.';
             if (valor.length < 3) return 'Nome fantasia muito curto.';
             if (valor.length > 100) return 'Nome fantasia muito longo.';
+            if (/({{|}})/.test(valor)) return 'Nome fantasia não pode conter {{ }}.';
             return '';
         },
 
         'cargo_representante': () => {
             if (!valor) return 'Cargo é obrigatório.';
             if (valor.length < 2) return 'Cargo muito curto.';
+            if (/(\d|{{|}})/.test(valor)) return 'Cargo não pode conter números ou {{ }}.';
             return '';
         },
 
-        // Novas validações para campos de endereço
+        // Validações para campos de endereço PESSOA FÍSICA
         'logradouro': () => {
             if (!valor) return 'Logradouro é obrigatório.';
             if (valor.length < 3) return 'Logradouro muito curto.';
-            return '';
-        },
-
-        'empresa_logradouro': () => {
-            if (!valor) return 'Logradouro é obrigatório.';
-            if (valor.length < 3) return 'Logradouro muito curto.';
+            if (/(\d|{{|}})/.test(valor)) return 'Logradouro não pode conter números ou {{ }}.';
             return '';
         },
 
         'bairro': () => {
             if (!valor) return 'Bairro é obrigatório.';
             if (valor.length < 2) return 'Bairro muito curto.';
-            return '';
-        },
-
-        'empresa_bairro': () => {
-            if (!valor) return 'Bairro é obrigatório.';
-            if (valor.length < 2) return 'Bairro muito curto.';
+            if (/(\d|{{|}})/.test(valor)) return 'Bairro não pode conter números ou {{ }}.';
             return '';
         },
 
         'cidade': () => {
             if (!valor) return 'Cidade é obrigatória.';
             if (valor.length < 2) return 'Cidade muito curta.';
-            return '';
-        },
-
-        'empresa_cidade': () => {
-            if (!valor) return 'Cidade é obrigatória.';
-            if (valor.length < 2) return 'Cidade muito curta.';
+            if (/(\d|{{|}})/.test(valor)) return 'Cidade não pode conter números ou {{ }}.';
             return '';
         },
 
         'estado': () => {
             if (!valor) return 'Estado é obrigatório.';
             if (valor.length !== 2) return 'Estado deve ter 2 caracteres.';
-            return '';
-        },
-
-        'empresa_estado': () => {
-            if (!valor) return 'Estado é obrigatório.';
-            if (valor.length !== 2) return 'Estado deve ter 2 caracteres.';
+            if (/(\d|{{|}})/.test(valor)) return 'Estado não pode conter números ou {{ }}.';
             return '';
         },
 
         'numero': () => {
             if (!valor) return 'Número é obrigatório.';
+            if (/\D/.test(valor)) return 'Número deve conter apenas dígitos.';
             return '';
         },
 
-        'empresa_numero': () => {
+        'complemento': () => {
+            if (/(\d|{{|}})/.test(valor)) return 'Complemento não pode conter números ou {{ }}.';
+            return '';
+        },
+
+        // Validações para campos de endereço EMPRESA
+        'logradouro_empresa': () => {
+            if (!valor) return 'Logradouro é obrigatório.';
+            if (valor.length < 3) return 'Logradouro muito curto.';
+            if (/(\d|{{|}})/.test(valor)) return 'Logradouro não pode conter números ou {{ }}.';
+            return '';
+        },
+
+        'bairro_empresa': () => {
+            if (!valor) return 'Bairro é obrigatório.';
+            if (valor.length < 2) return 'Bairro muito curto.';
+            if (/(\d|{{|}})/.test(valor)) return 'Bairro não pode conter números ou {{ }}.';
+            return '';
+        },
+
+        'cidade_empresa': () => {
+            if (!valor) return 'Cidade é obrigatória.';
+            if (valor.length < 2) return 'Cidade muito curta.';
+            if (/(\d|{{|}})/.test(valor)) return 'Cidade não pode conter números ou {{ }}.';
+            return '';
+        },
+
+        'estado_empresa': () => {
+            if (!valor) return 'Estado é obrigatório.';
+            if (valor.length !== 2) return 'Estado deve ter 2 caracteres.';
+            if (/(\d|{{|}})/.test(valor)) return 'Estado não pode conter números ou {{ }}.';
+            return '';
+        },
+
+        'numero_empresa': () => {
             if (!valor) return 'Número é obrigatório.';
+            if (/\D/.test(valor)) return 'Número deve conter apenas dígitos.';
+            return '';
+        },
+
+        'complemento_empresa': () => {
+            if (/(\d|{{|}})/.test(valor)) return 'Complemento não pode conter números ou {{ }}.';
             return '';
         }
     };

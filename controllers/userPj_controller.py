@@ -122,7 +122,7 @@ def login():
 
         # Verificar senha
         if user.verificar_senha(senha):
-            return render_template('login.html', erro='Senha incorreta')
+            return render_template('login.html', erro='Senha incorreta') 
 
         # Login bem-sucedido
 

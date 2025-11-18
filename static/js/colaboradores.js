@@ -216,3 +216,7 @@ function initColaborador() {
 
     ativarPerfil(perfilAtivo);
 }
+function toggleForm() {
+    const f = document.getElementById('form-add-user');
+    f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  }

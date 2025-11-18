@@ -593,8 +593,7 @@
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <button type="button" class="btn-secondary"
-                                            id="cancelar-alterar-senha">Cancelar</button>
+                                        <a class="btn-action btn-danger" href="{{ url_for('reserva_bp.excluirReserva', id_reserva = reserva.Id_Reserva) }}">Cancelar</a>
                                         <button type="submit" class="btn-primary">Alterar Senha</button>
                                     </div>
                                 </form>

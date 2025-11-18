@@ -6,7 +6,7 @@ TAREFAS:
     * Para guardar os dados no BD, deve formatar num padrão
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session, make_response, abort
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, abort, jsonify 
 import math
 from models.Veiculo import Veiculos
 from models.UserPj import UserPjDB
@@ -18,6 +18,7 @@ from controllers.user_controller import user_bp
 from controllers.reserva_controller import reserva_bp
 from flask import Flask, render_template, request
 from models import db
+from models.Locais import Locais 
 from dotenv import load_dotenv
 import os
 from models.UserPf import UserPfDB
@@ -69,6 +70,36 @@ def index():
             return redirect(url_for('colaborador_bp.pgColaborador'))
 
     return render_template('index.html')
+
+@app.route('/buscar')
+def buscar():
+    termo = request.args.get('q', '')
+    local = request.args.get('local', '')
+    data = request.args.get('data', '')
+    
+    # Redireciona para a frota com os parâmetros de busca
+    return redirect(url_for('veiculo_bp.pgFrotaFiltrada', 
+                          termo=termo, 
+                          local=local, 
+                          data=data))
+
+@app.route('/api/locais')
+def api_locais():
+    try:
+        locais = Locais.query.all()
+        locais_data = []
+        for local in locais:
+            locais_data.append({
+                'Id_Local': local.Id_Local,
+                'Nome': local.Nome,
+                'Endereco': local.Endereco,
+                'Porcentagem': local.Porcentagem
+            })
+        return jsonify(locais_data)
+    except Exception as e:
+        print(f"Erro ao buscar locais: {e}")
+        return jsonify([])
+    
 
 @app.route('/aluguelMensal', methods=['GET'])
 def pgAluguelMensal():

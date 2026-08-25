@@ -97,7 +97,6 @@ O sistema contará ainda com uma **barra de acessibilidade** para facilitar ajus
 
 ---
 
-## 📌 Status do Projeto
-🚧 Em desenvolvimento 🚧  
+  
 
 ---
